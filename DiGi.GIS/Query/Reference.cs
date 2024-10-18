@@ -19,46 +19,44 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<string> identyfikatoryEGiB = oT_BUBD_A.identyfikatorEGiB;
-            if (identyfikatoryEGiB == null || identyfikatoryEGiB.Count == 0)
-            {
-                return Create.Reference(oT_BUBD_A.lokalnyId);
-            }
-
             string result = null;
-
-            foreach (string identyfikatorEGiB in identyfikatoryEGiB)
-            {
-                if (string.IsNullOrWhiteSpace(identyfikatorEGiB))
-                {
-                    continue;
-                }
-
-                result = Create.Reference(identyfikatorEGiB);
-                if (result == identyfikatorEGiB)
-                {
-                    return result;
-                }
-            }
-
-            foreach (string identyfikatorEGiB in identyfikatoryEGiB)
-            {
-                if (string.IsNullOrWhiteSpace(identyfikatorEGiB))
-                {
-                    continue;
-                }
-
-                result = Create.Reference(identyfikatorEGiB);
-                if (string.IsNullOrWhiteSpace(result))
-                {
-                    return result;
-                }
-            }
 
             result = Create.Reference(oT_BUBD_A.lokalnyId);
             if (!string.IsNullOrWhiteSpace(result))
             {
                 return result;
+            }
+
+            List<string> identyfikatoryEGiB = oT_BUBD_A.identyfikatorEGiB;
+            if (identyfikatoryEGiB != null && identyfikatoryEGiB.Count != 0)
+            {
+                foreach (string identyfikatorEGiB in identyfikatoryEGiB)
+                {
+                    if (string.IsNullOrWhiteSpace(identyfikatorEGiB))
+                    {
+                        continue;
+                    }
+
+                    result = Create.Reference(identyfikatorEGiB);
+                    if (result == identyfikatorEGiB)
+                    {
+                        return result;
+                    }
+                }
+
+                foreach (string identyfikatorEGiB in identyfikatoryEGiB)
+                {
+                    if (string.IsNullOrWhiteSpace(identyfikatorEGiB))
+                    {
+                        continue;
+                    }
+
+                    result = Create.Reference(identyfikatorEGiB);
+                    if (string.IsNullOrWhiteSpace(result))
+                    {
+                        return result;
+                    }
+                }
             }
 
             result = Create.Reference(oT_BUBD_A.id);
