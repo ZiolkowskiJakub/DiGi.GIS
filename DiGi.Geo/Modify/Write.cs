@@ -1,10 +1,7 @@
-﻿using DiGi.BDOT10k.UI;
-using DiGi.BDOT10k.UI.Classes;
+﻿using DiGi.BDOT10k.UI.Classes;
 using DiGi.Core.Classes;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,101 +9,6 @@ namespace DiGi.Geo
 {
     public static partial class Modify
     {
-        public static async Task<bool> Write(this string path, Range<int> range = null)
-        {
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
-            {
-                return false;
-            }
-
-            string directory = System.IO.Path.GetDirectoryName(path);
-            directory = System.IO.Path.Combine(directory, "Results");
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            string fileName = "progressReport.txt";
-
-            File.AppendAllText(System.IO.Path.Combine(directory, fileName), string.Format("[{0}] {1}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "START"));
-
-            using (ZipArchive zipArchive = ZipFile.OpenRead(path))
-            {
-                foreach (ZipArchiveEntry zipArchiveEntry in zipArchive.Entries)
-                {
-                    DeflateStream deflateStream = zipArchiveEntry.Open() as DeflateStream;
-                    if (deflateStream == null)
-                    {
-                        continue;
-                    }
-
-                    using (ZipArchive zipArchive_ZipArchieve = new ZipArchive(deflateStream))
-                    {
-                        foreach (ZipArchiveEntry zipArchiveEntry_Zip in zipArchive_ZipArchieve.Entries)
-                        {
-                            File.AppendAllText(System.IO.Path.Combine(directory, fileName), string.Format("[{0}] {1} -> {2}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), zipArchiveEntry.Name, zipArchiveEntry_Zip.Name));
-
-                            string path_Data = System.IO.Path.Combine(directory, System.IO.Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name) + ".txt");
-
-                            DeflateStream deflateStream_Zip = zipArchiveEntry_Zip.Open() as DeflateStream;
-                            if (deflateStream_Zip == null)
-                            {
-                                continue;
-                            }
-
-                            ZipArchive zipArchive_Files = new ZipArchive(deflateStream_Zip);
-
-                            SlownikObiektowGeometrycznych slownikObiektowGeometrycznych = new SlownikObiektowGeometrycznych();
-
-                            foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
-                            {
-                                if (zipArchiveEntry_File.Name.EndsWith("__OT_ADMS_A.xml") || zipArchiveEntry_File.Name.EndsWith("__OT_BUBD_A.xml"))
-                                {
-                                    slownikObiektowGeometrycznych.Load(zipArchiveEntry_File.Open());
-                                }
-                            }
-
-                            string path_Report = System.IO.Path.Combine(directory, string.Format("{0}_{1}", System.IO.Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), "Report") + ".txt");
-
-                            if (slownikObiektowGeometrycznych.GetObiektGeometryczny<BUBD_A>() == null || slownikObiektowGeometrycznych.GetObiektGeometryczny<ADMS_A>() == null)
-                            {
-                                File.WriteAllText(path, string.Empty);
-                            }
-                            else
-                            {
-                                Report report = new Report();
-
-                                if (!File.Exists(path_Data))
-                                {
-                                    ValuesCollection valuesCollection = slownikObiektowGeometrycznych.ToDiGi(report);
-                                    valuesCollection?.Write(path_Data);
-                                }
-
-                                if (range != null)
-                                {
-                                    string directory_Orto = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path_Data), System.IO.Path.GetFileNameWithoutExtension(path_Data));
-                                    if (!Directory.Exists(directory_Orto))
-                                    {
-                                        Directory.CreateDirectory(directory_Orto);
-                                    }
-
-                                    await Write(slownikObiektowGeometrycznych, directory_Orto, range);
-                                }
-
-                                if (!report.IsEmpty())
-                                {
-                                    report.Write(path_Report);
-                                }
-                            }
-                        };
-                    }
-                }
-            }
-
-            File.AppendAllText(System.IO.Path.Combine(directory, fileName), string.Format("[{0}] {1}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "END"));
-            return true;
-        }
-
         public static async Task<bool> Write(this SlownikObiektowGeometrycznych slownikObiektowGeometrycznych, string directory, Range<int> range)
         {
             if (slownikObiektowGeometrycznych == null || string.IsNullOrWhiteSpace(directory) || range == null)
