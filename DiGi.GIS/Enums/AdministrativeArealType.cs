@@ -2,7 +2,7 @@
 
 namespace DiGi.GIS.Enums
 {
-    public enum LocationType
+    public enum AdministrativeArealType
     {
         [Description("city")] city,
         [Description("part of a city")] part_of_city,
@@ -15,6 +15,6 @@ namespace DiGi.GIS.Enums
         [Description("housing estate")] housing_estate,
         [Description("hamlet")] hamlet,
         [Description("forest settlement")] forest_settlement,
-        [Description("other object")] other_object,
+        [Description("other")] other,
     }
 }

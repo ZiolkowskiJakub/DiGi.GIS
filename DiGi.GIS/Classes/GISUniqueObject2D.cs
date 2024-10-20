@@ -2,21 +2,22 @@
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class Object2D : UniqueObject
+    public abstract class GISUniqueObject2D : UniqueObject, IGISUniqueObject2D
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private string reference = null;
 
-        public Object2D(Guid guid, string reference)
+        public GISUniqueObject2D(Guid guid, string reference)
             : base(guid)
         {
             this.reference = reference;
         }
 
-        public Object2D(Object2D object2D)
+        public GISUniqueObject2D(GISUniqueObject2D object2D)
             : base(object2D == null ? Guid.Empty : object2D.Guid)
         {
             if(object2D != null)
@@ -25,7 +26,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public Object2D(JsonObject jsonObject)
+        public GISUniqueObject2D(JsonObject jsonObject)
             :base(jsonObject)
         {
 

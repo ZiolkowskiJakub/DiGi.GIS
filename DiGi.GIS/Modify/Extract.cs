@@ -48,12 +48,6 @@ namespace DiGi.GIS
                             {
                                 Directory.CreateDirectory(directory_Region);
                             }
-
-                            string directory_Buildings = Path.Combine(directory_Region, extractOptions.DirectoryName);
-                            if (!Directory.Exists(directory_Buildings))
-                            {
-                                Directory.CreateDirectory(directory_Buildings);
-                            }
                             else if (!extractOptions.UpdateExisting)
                             {
                                 continue;
@@ -71,7 +65,7 @@ namespace DiGi.GIS
 
                             foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                             {
-                                if (zipArchiveEntry_File.Name.EndsWith("__OT_ADMS_A.xml") || zipArchiveEntry_File.Name.EndsWith("__OT_BUBD_A.xml"))
+                                if (zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_BUBD_A))
                                 {
                                     slownikObiektowGeometrycznych.Load(zipArchiveEntry_File.Open());
                                 }
@@ -82,31 +76,72 @@ namespace DiGi.GIS
                                 continue;
                             }
 
-                            List<Building2D> building2Ds = slownikObiektowGeometrycznych.Building2Ds();
-                            if (building2Ds == null)
+                            GISModel gISModel = Convert.ToDiGi(slownikObiektowGeometrycznych);
+                            if(gISModel == null)
                             {
                                 continue;
                             }
 
-                            foreach (Building2D building2D in building2Ds)
+                            List<AdministrativeAreal2D> administrativeAreal2Ds = gISModel.GetObjects<AdministrativeAreal2D>();
+                            if(administrativeAreal2Ds != null)
                             {
-                                string reference = building2D?.Reference;
-                                if (string.IsNullOrWhiteSpace(reference))
+                                string directory_AdministrativeAreals = Path.Combine(directory_Region, extractOptions.AdministrativeArealsDirectoryName);
+                                if (!Directory.Exists(directory_AdministrativeAreals))
                                 {
-                                    continue;
+                                    Directory.CreateDirectory(directory_AdministrativeAreals);
                                 }
 
-                                string directory_Building = Path.Combine(directory_Buildings, reference);
-                                if (!Directory.Exists(directory_Building))
+                                foreach (AdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
                                 {
-                                    Directory.CreateDirectory(directory_Building);
+                                    string reference = administrativeAreal2D?.Reference;
+                                    if (string.IsNullOrWhiteSpace(reference))
+                                    {
+                                        continue;
+                                    }
+
+                                    string directory_AdministrativeAreal = Path.Combine(directory_AdministrativeAreals, reference);
+                                    if (!Directory.Exists(directory_AdministrativeAreal))
+                                    {
+                                        Directory.CreateDirectory(directory_AdministrativeAreal);
+                                    }
+                                    else if (!extractOptions.UpdateExisting)
+                                    {
+                                        continue;
+                                    }
+
+                                    Core.Convert.ToFile(administrativeAreal2D, Path.Combine(directory_AdministrativeAreal, extractOptions.AdministrativeAreal2DFileName));
                                 }
-                                else if (!extractOptions.UpdateExisting)
+                            }
+
+                            List<Building2D> building2Ds = gISModel.GetObjects<Building2D>();
+                            if (building2Ds != null)
+                            {
+                                string directory_Buildings = Path.Combine(directory_Region, extractOptions.BuildingsDirectoryName);
+                                if (!Directory.Exists(directory_Buildings))
                                 {
-                                    continue;
+                                    Directory.CreateDirectory(directory_Buildings);
                                 }
 
-                                Core.Convert.ToFile(building2D, Path.Combine(directory_Building, extractOptions.FileName));
+                                foreach (Building2D building2D in building2Ds)
+                                {
+                                    string reference = building2D?.Reference;
+                                    if (string.IsNullOrWhiteSpace(reference))
+                                    {
+                                        continue;
+                                    }
+
+                                    string directory_Building = Path.Combine(directory_Buildings, reference);
+                                    if (!Directory.Exists(directory_Building))
+                                    {
+                                        Directory.CreateDirectory(directory_Building);
+                                    }
+                                    else if (!extractOptions.UpdateExisting)
+                                    {
+                                        continue;
+                                    }
+
+                                    Core.Convert.ToFile(building2D, Path.Combine(directory_Building, extractOptions.Building2DFileName));
+                                }
                             }
                         };
                     }

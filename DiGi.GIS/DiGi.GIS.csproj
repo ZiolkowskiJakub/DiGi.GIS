@@ -23,6 +23,9 @@
     <Reference Include="DiGi.Core">
       <HintPath>..\references\DiGi.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DiGi.Core.Relation">
+      <HintPath>..\references\DiGi.Core.Relation.dll</HintPath>
+    </Reference>
     <Reference Include="DiGi.Geometry">
       <HintPath>..\references\DiGi.Geometry.dll</HintPath>
     </Reference>

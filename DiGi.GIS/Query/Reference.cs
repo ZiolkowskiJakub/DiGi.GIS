@@ -7,9 +7,49 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string Reference(BUBD_A bUBD_A)
+        public static string Reference(this ADMS_A aDMS_A)
+        {
+            if(aDMS_A == null)
+            {
+                return null;
+            }
+
+            return Reference(aDMS_A?.OT_PowierzchniowyObiektGeometryczny);
+        }
+
+        public static string Reference(this BUBD_A bUBD_A)
         {
             return Reference(bUBD_A?.OT_PowierzchniowyObiektGeometryczny);
+        }
+
+        public static string Reference(this OT_ADMS_A oT_ADMS_A)
+        {
+            if (oT_ADMS_A == null)
+            {
+                return null;
+            }
+
+            string result = null;
+
+            result = Create.Reference(oT_ADMS_A.lokalnyId);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            result = Create.Reference(oT_ADMS_A.id);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            result = Reference(oT_ADMS_A.geometria);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            return null;
         }
 
         public static string Reference(this OT_BUBD_A oT_BUBD_A)
@@ -72,7 +112,6 @@ namespace DiGi.GIS
             }
 
             return null;
-
         }
 
         public static string Reference(this GML.Classes.Geometry geometry)

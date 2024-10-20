@@ -7,14 +7,14 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "DiGi.Core.File/1.0.0": {
+      "DiGi.Core.Relation/1.0.0": {
         "dependencies": {
           "DiGi.Core": "1.0.0",
-          "DiGi.Core.Parameter": "1.0.0",
-          "NETStandard.Library": "2.0.3"
+          "NETStandard.Library": "2.0.3",
+          "System.Text.Json": "8.0.5"
         },
         "runtime": {
-          "DiGi.Core.File.dll": {}
+          "DiGi.Core.Relation.dll": {}
         }
       },
       "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
@@ -130,24 +130,11 @@
             "fileVersion": "1.0.0.0"
           }
         }
-      },
-      "DiGi.Core.Parameter/1.0.0": {
-        "dependencies": {
-          "DiGi.Core": "1.0.0",
-          "Microsoft.CSharp": "4.7.0",
-          "System.Text.Json": "8.0.5"
-        },
-        "runtime": {
-          "DiGi.Core.Parameter.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
   "libraries": {
-    "DiGi.Core.File/1.0.0": {
+    "DiGi.Core.Relation/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -230,11 +217,6 @@
       "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
     },
     "DiGi.Core/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "DiGi.Core.Parameter/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

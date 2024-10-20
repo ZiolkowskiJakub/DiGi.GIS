@@ -180,10 +180,10 @@ namespace DiGi.GIS
                         }
                     }
 
-                    Location location = new Location(oT_ADMS_A_BUBD_A.nazwa, Convert.ToDiGi(oT_ADMS_A_BUBD_A.rodzaj), dwellings, dwellingDensity);
+                    //Location location = new Location(oT_ADMS_A_BUBD_A.nazwa, Convert.ToDiGi(oT_ADMS_A_BUBD_A.rodzaj), dwellings, dwellingDensity);
 
-                    Building2D building2D = new Building2D(guid, reference, polygonalFace2D, storeys, occupancy, buildingPhase, buildingGeneralFunction, buildingSpecificFunctions, location);
-                    result.Add(building2D);
+                    //Building2D building2D = new Building2D(guid, reference, polygonalFace2D, storeys, occupancy, buildingPhase, buildingGeneralFunction, buildingSpecificFunctions, location);
+                    //result.Add(building2D);
                 }
             }
 
