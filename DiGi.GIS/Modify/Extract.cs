@@ -9,21 +9,21 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static bool Extract(this ExtractOptions extractOptions)
+        public static bool Extract(this DirectoryExtractOptions directoryExtractOptions)
         {
-            if(extractOptions == null)
+            if(directoryExtractOptions == null)
             {
                 return false;
             }
 
-            string path = extractOptions.SourcePath;
+            string path = directoryExtractOptions.SourcePath;
 
             if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
             {
                 return false;
             }
 
-            string directory = extractOptions.DestionationDirectory;
+            string directory = directoryExtractOptions.DestionationDirectory;
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -48,7 +48,7 @@ namespace DiGi.GIS
                             {
                                 Directory.CreateDirectory(directory_Region);
                             }
-                            else if (!extractOptions.UpdateExisting)
+                            else if (!directoryExtractOptions.UpdateExisting)
                             {
                                 continue;
                             }
@@ -76,7 +76,9 @@ namespace DiGi.GIS
                                 continue;
                             }
 
-                            GISModel gISModel = Convert.ToDiGi(slownikObiektowGeometrycznych);
+                            DirectorySource directorySource = new DirectorySource(zipArchiveEntry_Zip.FullName);
+
+                            GISModel gISModel = Convert.ToDiGi(slownikObiektowGeometrycznych, directorySource);
                             if(gISModel == null)
                             {
                                 continue;
@@ -85,7 +87,7 @@ namespace DiGi.GIS
                             List<AdministrativeAreal2D> administrativeAreal2Ds = gISModel.GetObjects<AdministrativeAreal2D>();
                             if(administrativeAreal2Ds != null)
                             {
-                                string directory_AdministrativeAreals = Path.Combine(directory_Region, extractOptions.AdministrativeArealsDirectoryName);
+                                string directory_AdministrativeAreals = Path.Combine(directory_Region, directoryExtractOptions.AdministrativeArealsDirectoryName);
                                 if (!Directory.Exists(directory_AdministrativeAreals))
                                 {
                                     Directory.CreateDirectory(directory_AdministrativeAreals);
@@ -104,19 +106,19 @@ namespace DiGi.GIS
                                     {
                                         Directory.CreateDirectory(directory_AdministrativeAreal);
                                     }
-                                    else if (!extractOptions.UpdateExisting)
+                                    else if (!directoryExtractOptions.UpdateExisting)
                                     {
                                         continue;
                                     }
 
-                                    Core.Convert.ToFile(administrativeAreal2D, Path.Combine(directory_AdministrativeAreal, extractOptions.AdministrativeAreal2DFileName));
+                                    Core.Convert.ToFile(administrativeAreal2D, Path.Combine(directory_AdministrativeAreal, directoryExtractOptions.AdministrativeAreal2DFileName));
                                 }
                             }
 
                             List<Building2D> building2Ds = gISModel.GetObjects<Building2D>();
                             if (building2Ds != null)
                             {
-                                string directory_Buildings = Path.Combine(directory_Region, extractOptions.BuildingsDirectoryName);
+                                string directory_Buildings = Path.Combine(directory_Region, directoryExtractOptions.BuildingsDirectoryName);
                                 if (!Directory.Exists(directory_Buildings))
                                 {
                                     Directory.CreateDirectory(directory_Buildings);
@@ -135,12 +137,12 @@ namespace DiGi.GIS
                                     {
                                         Directory.CreateDirectory(directory_Building);
                                     }
-                                    else if (!extractOptions.UpdateExisting)
+                                    else if (!directoryExtractOptions.UpdateExisting)
                                     {
                                         continue;
                                     }
 
-                                    Core.Convert.ToFile(building2D, Path.Combine(directory_Building, extractOptions.Building2DFileName));
+                                    Core.Convert.ToFile(building2D, Path.Combine(directory_Building, directoryExtractOptions.Building2DFileName));
                                 }
                             }
                         };

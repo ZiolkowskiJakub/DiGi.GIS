@@ -17,6 +17,11 @@ namespace DiGi.GIS.Classes
 
         }
 
+        public GISModel(ISource source)
+        {
+            this.source = source?.Clone<ISource>();
+        }
+
         public GISModel(GISModel gISModel)
             :base(gISModel)
         {

@@ -4,7 +4,7 @@ using DiGi.BDOT10k.UI.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using DiGi.GIS.Enums;
-using DiGi.GML;
+using DiGi.GIS.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -13,14 +13,14 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
-        public static GISModel ToDiGi(this SlownikObiektowGeometrycznych slownikObiektowGeometrycznych)
+        public static GISModel ToDiGi(this SlownikObiektowGeometrycznych slownikObiektowGeometrycznych, ISource source = null)
         {
             if(slownikObiektowGeometrycznych == null)
             {
                 return null;
             }
 
-            GISModel result = new GISModel();
+            GISModel result = new GISModel(source);
 
             List<ADMS_A> aDMS_As = slownikObiektowGeometrycznych.GetObiektyGeometryczne<ADMS_A>();
             if(aDMS_As != null)
