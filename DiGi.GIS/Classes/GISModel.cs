@@ -49,7 +49,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            return uniqueObjectRelationCluster.Update(building2D?.Clone<Building2D>());
+            return uniqueObjectRelationCluster.Add(building2D?.Clone<Building2D>());
         }
 
         public bool Update(AdministrativeAreal2D administrativeAreal2D)
@@ -59,7 +59,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            return uniqueObjectRelationCluster.Update(administrativeAreal2D?.Clone<AdministrativeAreal2D>());
+            return uniqueObjectRelationCluster.Add(administrativeAreal2D?.Clone<AdministrativeAreal2D>());
         }
 
         public bool Contains(Building2D building2D)
@@ -69,7 +69,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            return uniqueObjectRelationCluster.Contains(new UniqueReference(building2D));
+            return uniqueObjectRelationCluster.Contains(new GuidReference(building2D));
         }
 
         public bool Contains(AdministrativeAreal2D administrativeAreal2D)
@@ -79,7 +79,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            return uniqueObjectRelationCluster.Contains(new UniqueReference(administrativeAreal2D));
+            return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
         }
     }
 }
