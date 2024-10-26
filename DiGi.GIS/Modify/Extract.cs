@@ -145,7 +145,7 @@ namespace DiGi.GIS
                                     Core.Convert.ToFile(building2D, Path.Combine(directory_Building, directoryExtractOptions.Building2DFileName));
                                 }
                             }
-                        };
+                        }
                     }
                 }
             }

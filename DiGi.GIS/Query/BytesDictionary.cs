@@ -1,6 +1,7 @@
 ﻿using DiGi.BDOT10k.UI.Classes;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
+using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,17 +26,32 @@ namespace DiGi.GIS
                 years_Temp.Add(i);
             }
 
-            return await BytesDictionary(bUBD_A, years_Temp, offset, width);
+            return await BytesDictionary(bUBD_A.BoundingBox2D, years_Temp, offset, width);
         }
 
-        public static async Task<Dictionary<int, byte[]>> BytesDictionary(this BUBD_A bUBD_A, IEnumerable<int> years, double offset = 5, double width = 300)
+        public static async Task<Dictionary<int, byte[]>> BytesDictionary(this Building2D building2D, Range<int> years, double offset = 5, double width = 300)
+        {
+            if (building2D == null || years == null)
+            {
+                return null;
+            }
+
+            List<int> years_Temp = new List<int>();
+            for (int i = years.Min; i <= years.Max; i++)
+            {
+                years_Temp.Add(i);
+            }
+
+            return await BytesDictionary(building2D.PolygonalFace2D?.GetBoundingBox(), years_Temp, offset, width);
+        }
+
+        public static async Task<Dictionary<int, byte[]>> BytesDictionary(this BoundingBox2D boundingBox2D, IEnumerable<int> years, double offset = 5, double width = 300)
         {
             if (years == null)
             {
                 return null;
             }
 
-            BoundingBox2D boundingBox2D = bUBD_A?.BoundingBox2D;
             if (boundingBox2D == null || boundingBox2D.GetArea() < 1)
             {
                 return null;

@@ -53,5 +53,41 @@ namespace DiGi.GIS.Classes
         {
             return new Building2D(this);
         }
+
+        [JsonIgnore]
+        public BuildingPhase? BuildingPhase
+        {
+            get
+            {
+                return buildingPhase;
+            }
+        }
+
+        [JsonIgnore]
+        public HashSet<BuildingSpecificFunction> BuildingSpecificFunctions
+        {
+            get
+            {
+                return buildingSpecificFunctions == null ? null : new HashSet<BuildingSpecificFunction>(buildingSpecificFunctions);
+            }
+        }
+
+        [JsonIgnore]
+        public BuildingGeneralFunction? BuildingGeneralFunction
+        {
+            get
+            {
+                return buildingGeneralFunction;
+            }
+        }
+
+        [JsonIgnore]
+        public ushort Storeys
+        {
+            get
+            {
+                return storeys;
+            }
+        }
     }
 }

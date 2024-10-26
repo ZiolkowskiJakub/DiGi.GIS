@@ -2,16 +2,13 @@
 using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using DiGi.Core.Relation.Classes;
+using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {
     public class GISModel : UniqueObjectRelationClusterModel<IGISUniqueObject, IGISRelation>, IGISUniqueObject
     {
-        [JsonInclude, JsonPropertyName("Source")]
-        private ISource source;
-
         public GISModel()
         {
 
@@ -19,7 +16,7 @@ namespace DiGi.GIS.Classes
 
         public GISModel(ISource source)
         {
-            this.source = source?.Clone<ISource>();
+            Update(source);
         }
 
         public GISModel(GISModel gISModel)
@@ -34,12 +31,20 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public ISource Source
+        public bool Update(ISource source)
         {
-            get
+            if (source == null)
             {
-                return source.Clone<ISource>();
+                return false;
             }
+
+            List<ISource> sources = uniqueObjectRelationCluster.GetValues<ISource>();
+            if(sources != null && sources.Count != 0)
+            {
+                uniqueObjectRelationCluster.Remove(source);
+            }
+
+            return uniqueObjectRelationCluster.Add(source?.Clone<ISource>());
         }
 
         public bool Update(Building2D building2D)

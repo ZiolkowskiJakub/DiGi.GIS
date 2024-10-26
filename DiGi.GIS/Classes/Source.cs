@@ -1,13 +1,10 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class Source : SerializableObject, ISource
+    public abstract class Source : UniqueObject, ISource
     {
         public Source()
             : base()
@@ -16,7 +13,7 @@ namespace DiGi.GIS.Classes
         }
 
         public Source(Source source)
-            : base()
+            : base(source)
         {
 
         }
