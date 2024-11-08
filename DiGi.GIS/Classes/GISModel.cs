@@ -98,13 +98,10 @@ namespace DiGi.GIS.Classes
             Update(building2D);
             Update(building2DGeometryCalculationResult);
 
-            List<Building2DGeometryCalculationResult> building2DGeometryCalculationResults_Old = GetRelatedObjects<Building2DGeometryCalculationResult>(building2D);
-            if(building2DGeometryCalculationResults_Old != null)
+            Building2DGeometryCalculationResult building2DGeometryCalculationResult_Old = GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
+            if(building2DGeometryCalculationResult_Old != null)
             {
-                foreach(Building2DGeometryCalculationResult building2DGeometryCalculationResult_Old in building2DGeometryCalculationResults_Old)
-                {
-                    uniqueObjectRelationCluster.Remove(building2DGeometryCalculationResult_Old);
-                }
+                uniqueObjectRelationCluster.Remove(building2DGeometryCalculationResult_Old);
             }
 
             uniqueObjectRelationCluster.AddRelation(new Building2DGeometryCalculationResultRelation(building2D, building2DGeometryCalculationResult));
@@ -121,13 +118,10 @@ namespace DiGi.GIS.Classes
             Update(administrativeAreal2D);
             Update(administrativeAreal2DGeometryCalculationResult);
 
-            List<AdministrativeAreal2DGeometryCalculationResult> administrativeAreal2DGeometryCalculationResults_Old = GetRelatedObjects<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
-            if (administrativeAreal2DGeometryCalculationResults_Old != null)
+            AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult_Old = GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
+            if (administrativeAreal2DGeometryCalculationResult_Old != null)
             {
-                foreach (AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult_Old in administrativeAreal2DGeometryCalculationResults_Old)
-                {
-                    uniqueObjectRelationCluster.Remove(administrativeAreal2DGeometryCalculationResult_Old);
-                }
+                uniqueObjectRelationCluster.Remove(administrativeAreal2DGeometryCalculationResult_Old);
             }
 
             uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DGeometryCalculationResultRelation(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult));
@@ -141,13 +135,10 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            List<AdministrativeAreal2DBuilding2DsRelation> administrativeAreal2DBuilding2DsRelations_Old = uniqueObjectRelationCluster.GetRelations<AdministrativeAreal2DBuilding2DsRelation>(administrativeAreal2D);
-            if (administrativeAreal2DBuilding2DsRelations_Old != null)
+            AdministrativeAreal2DBuilding2DsRelation administrativeAreal2DBuilding2DsRelation_Old = uniqueObjectRelationCluster.GetRelation<AdministrativeAreal2DBuilding2DsRelation>(new GuidReference(administrativeAreal2D));
+            if (administrativeAreal2DBuilding2DsRelation_Old != null)
             {
-                foreach (AdministrativeAreal2DBuilding2DsRelation administrativeAreal2DBuilding2DsRelation_Old in administrativeAreal2DBuilding2DsRelations_Old)
-                {
-                    uniqueObjectRelationCluster.Remove(administrativeAreal2DBuilding2DsRelation_Old);
-                }
+                uniqueObjectRelationCluster.Remove(administrativeAreal2DBuilding2DsRelation_Old);
             }
 
             if(building2Ds == null || building2Ds.Count() == 0)
