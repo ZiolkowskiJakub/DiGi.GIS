@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class OccupancyCalculationResult : Result<Areal2D>, IGISResult
+    public class OccupancyCalculationResult : UniqueResult<Areal2D>, IGISUniqueResult
     {
         [JsonInclude, JsonPropertyName("Occupancy")]
         private int? occupancy = null;

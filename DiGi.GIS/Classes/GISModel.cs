@@ -4,6 +4,7 @@ using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 using DiGi.Core.Relation.Classes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.GIS.Classes
 {
@@ -49,22 +50,22 @@ namespace DiGi.GIS.Classes
 
         public bool Update(Building2D building2D)
         {
-            if(building2D == null)
-            {
-                return false;
-            }
-
-            return uniqueObjectRelationCluster.Add(building2D?.Clone<Building2D>());
+            return Update((IGISUniqueObject)building2D);
         }
 
         public bool Update(AdministrativeAreal2D administrativeAreal2D)
         {
-            if (administrativeAreal2D == null)
+            return Update((IGISUniqueObject)administrativeAreal2D);
+        }
+
+        private bool Update(IGISUniqueObject gISUniqueObject)
+        {
+            if (gISUniqueObject == null)
             {
                 return false;
             }
 
-            return uniqueObjectRelationCluster.Add(administrativeAreal2D?.Clone<AdministrativeAreal2D>());
+            return uniqueObjectRelationCluster.Add(gISUniqueObject?.Clone<IGISUniqueObject>());
         }
 
         public bool Contains(Building2D building2D)
@@ -85,6 +86,77 @@ namespace DiGi.GIS.Classes
             }
 
             return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
+        }
+
+        public bool Update(Building2D building2D, Building2DGeometryCalculationResult building2DGeometryCalculationResult)
+        {
+            if(building2D == null || building2DGeometryCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(building2D);
+            Update(building2DGeometryCalculationResult);
+
+            List<Building2DGeometryCalculationResult> building2DGeometryCalculationResults_Old = GetRelatedObjects<Building2DGeometryCalculationResult>(building2D);
+            if(building2DGeometryCalculationResults_Old != null)
+            {
+                foreach(Building2DGeometryCalculationResult building2DGeometryCalculationResult_Old in building2DGeometryCalculationResults_Old)
+                {
+                    uniqueObjectRelationCluster.Remove(building2DGeometryCalculationResult_Old);
+                }
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new Building2DGeometryCalculationResultRelation(building2D, building2DGeometryCalculationResult));
+            return true;
+        }
+
+        public bool Update(AdministrativeAreal2D administrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult)
+        {
+            if (administrativeAreal2D == null || administrativeAreal2DGeometryCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(administrativeAreal2D);
+            Update(administrativeAreal2DGeometryCalculationResult);
+
+            List<AdministrativeAreal2DGeometryCalculationResult> administrativeAreal2DGeometryCalculationResults_Old = GetRelatedObjects<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
+            if (administrativeAreal2DGeometryCalculationResults_Old != null)
+            {
+                foreach (AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult_Old in administrativeAreal2DGeometryCalculationResults_Old)
+                {
+                    uniqueObjectRelationCluster.Remove(administrativeAreal2DGeometryCalculationResult_Old);
+                }
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DGeometryCalculationResultRelation(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult));
+            return true;
+        }
+
+        public bool Update(AdministrativeAreal2D administrativeAreal2D, IEnumerable<Building2D> building2Ds)
+        {
+            if (administrativeAreal2D == null || building2Ds == null)
+            {
+                return false;
+            }
+
+            List<AdministrativeAreal2DBuilding2DsRelation> administrativeAreal2DBuilding2DsRelations_Old = uniqueObjectRelationCluster.GetRelations<AdministrativeAreal2DBuilding2DsRelation>(administrativeAreal2D);
+            if (administrativeAreal2DBuilding2DsRelations_Old != null)
+            {
+                foreach (AdministrativeAreal2DBuilding2DsRelation administrativeAreal2DBuilding2DsRelation_Old in administrativeAreal2DBuilding2DsRelations_Old)
+                {
+                    uniqueObjectRelationCluster.Remove(administrativeAreal2DBuilding2DsRelation_Old);
+                }
+            }
+
+            if(building2Ds == null || building2Ds.Count() == 0)
+            {
+                return true;
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DBuilding2DsRelation(administrativeAreal2D, building2Ds));
+            return true;
         }
     }
 }

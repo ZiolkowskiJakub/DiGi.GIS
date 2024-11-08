@@ -2,7 +2,7 @@
 
 namespace DiGi.GIS.Interfaces
 {
-    public interface IGISResult : IResult
+    public interface IGISUniqueResult : IUniqueResult, IGISUniqueObject
     {
     }
 }
