@@ -1,9 +1,7 @@
-﻿using DiGi.Core;
-using DiGi.Geometry.Planar.Classes;
+﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.GIS
 {
@@ -20,7 +18,7 @@ namespace DiGi.GIS
             List<Tuple<Building2D, Building2DGeometryCalculationResult>> tuples_Building2D = new List<Tuple<Building2D, Building2DGeometryCalculationResult>>();
             foreach(Building2D building2D in building2Ds)
             {
-                Building2DGeometryCalculationResult building2DGeometryCalculationResult = gISModel.GetRelatedObjects<Building2DGeometryCalculationResult>(building2D)?.FirstOrDefault();
+                Building2DGeometryCalculationResult building2DGeometryCalculationResult = gISModel.GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
                 if(building2DGeometryCalculationResult == null)
                 {
                     building2DGeometryCalculationResult = Create.Building2DGeometryCalculationResult(building2D);
@@ -39,7 +37,7 @@ namespace DiGi.GIS
             List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeAreal2D = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>();
             foreach (AdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
             {
-                AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObjects<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D)?.FirstOrDefault();
+                AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
                 if (administrativeAreal2DGeometryCalculationResult == null)
                 {
                     administrativeAreal2DGeometryCalculationResult = Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);

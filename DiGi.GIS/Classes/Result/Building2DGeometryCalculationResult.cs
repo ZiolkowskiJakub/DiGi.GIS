@@ -30,8 +30,16 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Area")]
         private double area = double.NaN;
 
+        [JsonInclude, JsonPropertyName("Perimeter")]
+        private double perimeter = double.NaN;
 
-        public Building2DGeometryCalculationResult(BoundingBox2D boundingBox, Rectangle2D rectangle, Point2D centroid, Point2D internalPoint, double thinnessRatio, double rectangularity, double area)
+        [JsonInclude, JsonPropertyName("RectangularThinnessRatio")]
+        private double rectangularThinnessRatio = double.NaN;
+
+        [JsonInclude, JsonPropertyName("IsoperimetricRatio")]
+        private double isoperimetricRatio = double.NaN;
+
+        public Building2DGeometryCalculationResult(BoundingBox2D boundingBox, Rectangle2D rectangle, Point2D centroid, Point2D internalPoint, double thinnessRatio, double rectangularity, double area, double perimeter, double rectangularThinnessRatio, double isoperimetricRatio)
             : base()
         {
             this.boundingBox = boundingBox?.Clone<BoundingBox2D>();
@@ -41,6 +49,9 @@ namespace DiGi.GIS.Classes
             this.thinnessRatio = thinnessRatio;
             this.rectangularity = rectangularity;
             this.area = area;
+            this.perimeter = perimeter;
+            this.rectangularThinnessRatio = rectangularThinnessRatio;
+            this.isoperimetricRatio = isoperimetricRatio;
         }
 
         public Building2DGeometryCalculationResult(Building2DGeometryCalculationResult building2DGeometryCalculationResult)
@@ -55,6 +66,9 @@ namespace DiGi.GIS.Classes
                 thinnessRatio = building2DGeometryCalculationResult.thinnessRatio;
                 rectangularity = building2DGeometryCalculationResult.rectangularity;
                 area = building2DGeometryCalculationResult.area;
+                perimeter = building2DGeometryCalculationResult.perimeter;
+                rectangularThinnessRatio = building2DGeometryCalculationResult.rectangularThinnessRatio;
+                isoperimetricRatio = building2DGeometryCalculationResult.isoperimetricRatio;
             }
         }
 
@@ -124,6 +138,33 @@ namespace DiGi.GIS.Classes
             get
             {
                 return area;
+            }
+        }
+
+        [JsonIgnore]
+        public double Perimeter
+        {
+            get
+            {
+                return perimeter;
+            }
+        }
+
+        [JsonIgnore]
+        public double RectangularThinnessRatio
+        {
+            get
+            {
+                return rectangularThinnessRatio;
+            }
+        }
+
+        [JsonIgnore]
+        public double IsoperimetricRatio
+        {
+            get
+            {
+                return isoperimetricRatio;
             }
         }
     }

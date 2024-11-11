@@ -26,11 +26,14 @@ namespace DiGi.GIS
             Point2D internalPoint = polygonalFace2D.GetInternalPoint(tolerance);
             
             double thinnessRatio = Geometry.Planar.Query.ThinnessRatio(polygonal2D);
+            double rectangularThinnessRatio = Geometry.Planar.Query.RectangularThinnessRatio(polygonal2D);
             double rectangularity = Geometry.Planar.Query.Rectangularity(polygonal2D);
+            double isoperimetricRatio = Geometry.Planar.Query.IsoperimetricRatio(polygonal2D);
 
             double area = polygonalFace2D.GetArea();
+            double perimeter = polygonal2D.GetPerimeter();
 
-            return new Building2DGeometryCalculationResult(boundingBox, rectangle, centroid, internalPoint, thinnessRatio, rectangularity, area);
+            return new Building2DGeometryCalculationResult(boundingBox, rectangle, centroid, internalPoint, thinnessRatio, rectangularity, area, perimeter, rectangularThinnessRatio, isoperimetricRatio);
         }
     }
 }
