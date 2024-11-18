@@ -1,45 +1,36 @@
-﻿using System.Text.Json.Nodes;
+﻿using DiGi.Core.Classes;
+using System;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class DirectoryExtractOptions : ExtractOptions
+    public class OrtoDataOptions : ExtractOptions
     {
-        [JsonInclude, JsonPropertyName("SourcePath")]
-        public string SourcePath { get; set; } = null;
+        [JsonInclude, JsonPropertyName("Offset")]
+        public double Offset { get; set; } = 5;
 
-        [JsonInclude, JsonPropertyName("DestionationDirectory")]
-        public string DestionationDirectory { get; set; } = null;
+        [JsonInclude, JsonPropertyName("Width")]
+        public double Width { get; set; } = 300;
 
-        [JsonInclude, JsonPropertyName("UpdateExisting")]
-        public bool UpdateExisting { get; set; } = true;
+        [JsonInclude, JsonPropertyName("Years")]
+        public Range<int> Years { get; set; } = new Range<int>(2008, DateTime.Now.Year);
 
-        [JsonInclude, JsonPropertyName("Building2DFileName")]
-        public string Building2DFileName { get; set; } = Constans.FileName.Building2D;
-
-        [JsonInclude, JsonPropertyName("BuildingsDirectoryName")]
-        public string BuildingsDirectoryName { get; set; } = Constans.DirectoryName.Buildings;
-
-        [JsonInclude, JsonPropertyName("AdministrativeAreal2DFileName")]
-        public string AdministrativeAreal2DFileName { get; set; } = Constans.FileName.AdministrativeAreal2D;
-
-        [JsonInclude, JsonPropertyName("AdministrativeArealsDirectoryName")]
-        public string AdministrativeArealsDirectoryName { get; set; } = Constans.DirectoryName.AdministrativeAreals;
-
-        public DirectoryExtractOptions(string sourcePath, string destionationDirectory)
+        public OrtoDataOptions(Range<int> years, double offset, double width)
             : base()
         {
-            SourcePath = sourcePath;
-            DestionationDirectory = destionationDirectory;
+            Years = years;
+            Width = width;
+            Offset = offset;
         }
 
-        public DirectoryExtractOptions()
+        public OrtoDataOptions()
             : base()
         {
 
         }
 
-        public DirectoryExtractOptions(JsonObject jsonObject)
+        public OrtoDataOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
 

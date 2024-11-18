@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {
-    public class GISModelFile : Core.IO.File.Classes.File<GISModel>, IGISObject
+    public class GISModelFile : Core.IO.File.Classes.ValueFile<GISModel>, IGISObject
     {
         public GISModelFile(GISModelFile gISModelFile)
             : base(gISModelFile)

@@ -12,8 +12,14 @@ namespace DiGi.GIS
             }
 
             CalculateBuilding2DGeometries(gISModel, tolerance);
+            
             CalculateAdministrativeAreal2DGeometries(gISModel, tolerance);
+            
+            CalculateAdministrativeAreal2DAdministrativeAreal2Ds(gISModel, tolerance);
+            
             CalculateAdministrativeAreal2DBuilding2Ds(gISModel, tolerance);
+
+            CalculateOccupancy(gISModel, tolerance);
         }
     }
 }

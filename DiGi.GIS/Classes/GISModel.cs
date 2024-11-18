@@ -128,6 +128,70 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        public bool Update(AdministrativeAreal2D administrativeAreal2D, OccupancyCalculationResult occupancyCalculationResult)
+        {
+            if (administrativeAreal2D == null || occupancyCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(administrativeAreal2D);
+            Update(occupancyCalculationResult);
+
+            OccupancyCalculationResult occupancyCalculationResult_Old = GetRelatedObject<OccupancyCalculationResult>(administrativeAreal2D);
+            if (occupancyCalculationResult_Old != null)
+            {
+                uniqueObjectRelationCluster.Remove(occupancyCalculationResult_Old);
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DOccupancyCalculationResultRelation(administrativeAreal2D, occupancyCalculationResult));
+            return true;
+        }
+
+        public bool Update(Building2D building2D, OccupancyCalculationResult occupancyCalculationResult)
+        {
+            if (building2D == null || occupancyCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(building2D);
+            Update(occupancyCalculationResult);
+
+            OccupancyCalculationResult occupancyCalculationResult_Old = GetRelatedObject<OccupancyCalculationResult>(building2D);
+            if (occupancyCalculationResult_Old != null)
+            {
+                uniqueObjectRelationCluster.Remove(occupancyCalculationResult_Old);
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new Building2DOccupancyCalculationResultRelation(building2D, occupancyCalculationResult));
+            return true;
+        }
+
+        public bool Update(AdministrativeAreal2D administrativeAreal2D, IEnumerable<AdministrativeAreal2D> administrativeAreal2Ds)
+        {
+            if (administrativeAreal2D == null || administrativeAreal2Ds == null)
+            {
+                return false;
+            }
+
+            GuidReference guidReference = new GuidReference(administrativeAreal2D);
+
+            AdministrativeAreal2DAdministrativeAreal2DsRelation administrativeAreal2DAdministrativeAreal2DsRelation_Old = uniqueObjectRelationCluster.GetRelation<AdministrativeAreal2DAdministrativeAreal2DsRelation>(guidReference, x => x.UniqueReference_From == guidReference);
+            if (administrativeAreal2DAdministrativeAreal2DsRelation_Old != null)
+            {
+                uniqueObjectRelationCluster.Remove(administrativeAreal2DAdministrativeAreal2DsRelation_Old);
+            }
+
+            if (administrativeAreal2Ds == null || administrativeAreal2Ds.Count() == 0)
+            {
+                return true;
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DAdministrativeAreal2DsRelation(administrativeAreal2D, administrativeAreal2Ds));
+            return true;
+        }
+
         public bool Update(AdministrativeAreal2D administrativeAreal2D, IEnumerable<Building2D> building2Ds)
         {
             if (administrativeAreal2D == null || building2Ds == null)
@@ -147,6 +211,26 @@ namespace DiGi.GIS.Classes
             }
 
             uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DBuilding2DsRelation(administrativeAreal2D, building2Ds));
+            return true;
+        }
+
+        public bool Update(Building2D building2D, OrtoDatasCalculationResult ortoDatasCalculationResult)
+        {
+            if (building2D == null || ortoDatasCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(building2D);
+            Update(ortoDatasCalculationResult);
+
+            OrtoDatasCalculationResult ortoDatasCalculationResult_Old = GetRelatedObject<OrtoDatasCalculationResult>(building2D);
+            if (ortoDatasCalculationResult_Old != null)
+            {
+                uniqueObjectRelationCluster.Remove(ortoDatasCalculationResult_Old);
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new OrtoDatasCalculationResultRelation(building2D, ortoDatasCalculationResult));
             return true;
         }
     }

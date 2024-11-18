@@ -1,26 +1,56 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
     public class OccupancyCalculationResult : UniqueResult<Areal2D>, IGISUniqueResult
     {
-        [JsonInclude, JsonPropertyName("Occupancy")]
-        private int? occupancy = null;
+        [JsonInclude, JsonPropertyName("OccupancyArea")]
+        private double? occupancyArea = null;
 
-        public OccupancyCalculationResult(int? occupancy)
+        [JsonInclude, JsonPropertyName("Occupancy")]
+        private uint? occupancy = null;
+
+        public OccupancyCalculationResult(double? occupancyArea, uint? occupancy)
             :base()
         {
+            this.occupancyArea = occupancyArea;
             this.occupancy = occupancy;
         }
 
+        public OccupancyCalculationResult(OccupancyCalculationResult occupancyCalculationResult)
+            : base(occupancyCalculationResult)
+        {
+            if(occupancyCalculationResult != null)
+            {
+                occupancyArea = occupancyCalculationResult.occupancyArea;
+                occupancy = occupancyCalculationResult.occupancy;
+            }
+        }
+
+        public OccupancyCalculationResult(JsonObject jsonObject)
+        : base(jsonObject)
+        {
+
+        }
+
         [JsonIgnore]
-        public int? Occupancy
+        public uint? Occupancy
         {
             get
             {
                 return occupancy;
+            }
+        }
+
+        [JsonIgnore]
+        public double? OccupancyArea
+        {
+            get
+            {
+                return occupancyArea;
             }
         }
     }

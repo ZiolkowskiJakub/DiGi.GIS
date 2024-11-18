@@ -59,7 +59,19 @@ namespace DiGi.GIS
                 if(tuples_AdministrativeAreal2D_Temp.Count == 0)
                 {
                     tuples_AdministrativeAreal2D_Temp = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>(tuples_AdministrativeAreal2D);
-                    tuples_AdministrativeAreal2D_Temp.Sort((x, y) => x.Item1.PolygonalFace2D.ExternalEdge.Distance(internalPoint).CompareTo(y.Item1.PolygonalFace2D.ExternalEdge.Distance(internalPoint)));
+
+                    List<Tuple<AdministrativeAreal2D, double>> tuple_Distances = new List<Tuple<AdministrativeAreal2D, double>>();
+                    foreach(Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeAreal2D in tuples_AdministrativeAreal2D)
+                    {
+                        tuple_Distances.Add(new Tuple<AdministrativeAreal2D, double>(tuple_AdministrativeAreal2D.Item1, tuple_AdministrativeAreal2D.Item1.PolygonalFace2D.ExternalEdge.Distance(internalPoint)));
+                    }
+
+                    tuple_Distances.Sort((x, y) => x.Item2.CompareTo(y.Item2));
+
+                    tuple_Distances = tuple_Distances.FindAll(x => Core.Query.AlmostEquals(tuple_Distances[0].Item2, x.Item2, tolerance));
+                    tuples_AdministrativeAreal2D_Temp = tuple_Distances.ConvertAll(x => tuples_AdministrativeAreal2D_Temp.Find(y => x.Item1 == y.Item1));
+                    tuples_AdministrativeAreal2D_Temp.Sort((x, y) => x.Item2.Area.CompareTo(y.Item2.Area));
+
                     tuples_AdministrativeAreal2D_Temp = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>() { tuples_AdministrativeAreal2D_Temp[0] };
                 }
 
