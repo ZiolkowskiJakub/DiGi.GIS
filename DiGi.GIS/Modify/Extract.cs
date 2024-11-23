@@ -1,6 +1,4 @@
-﻿using DiGi.BDOT10k.UI;
-using DiGi.BDOT10k.UI.Classes;
-using DiGi.GIS.Classes;
+﻿using DiGi.GIS.Classes;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -61,27 +59,14 @@ namespace DiGi.GIS
 
                             ZipArchive zipArchive_Files = new ZipArchive(deflateStream_Zip);
 
-                            SlownikObiektowGeometrycznych slownikObiektowGeometrycznych = new SlownikObiektowGeometrycznych();
+                            GISModel gISModel = new GISModel(new DirectorySource(zipArchiveEntry_Zip.FullName));
 
                             foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                             {
                                 if (zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_BUBD_A))
                                 {
-                                    slownikObiektowGeometrycznych.Load(zipArchiveEntry_File.Open());
+                                    gISModel.AddRange(zipArchiveEntry_File.Open());
                                 }
-                            }
-
-                            if (slownikObiektowGeometrycznych.GetObiektGeometryczny<BUBD_A>() == null || slownikObiektowGeometrycznych.GetObiektGeometryczny<ADMS_A>() == null)
-                            {
-                                continue;
-                            }
-
-                            DirectorySource directorySource = new DirectorySource(zipArchiveEntry_Zip.FullName);
-
-                            GISModel gISModel = Convert.ToDiGi(slownikObiektowGeometrycznych, directorySource);
-                            if(gISModel == null)
-                            {
-                                continue;
                             }
 
                             List<AdministrativeAreal2D> administrativeAreal2Ds = gISModel.GetObjects<AdministrativeAreal2D>();

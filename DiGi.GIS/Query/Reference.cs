@@ -1,5 +1,4 @@
 ﻿using DiGi.BDOT10k.Classes;
-using DiGi.BDOT10k.UI.Classes;
 using DiGi.GML.Classes;
 using System.Collections.Generic;
 
@@ -7,21 +6,6 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string Reference(this ADMS_A aDMS_A)
-        {
-            if(aDMS_A == null)
-            {
-                return null;
-            }
-
-            return Reference(aDMS_A?.OT_PowierzchniowyObiektGeometryczny);
-        }
-
-        public static string Reference(this BUBD_A bUBD_A)
-        {
-            return Reference(bUBD_A?.OT_PowierzchniowyObiektGeometryczny);
-        }
-
         public static string Reference(this OT_ADMS_A oT_ADMS_A)
         {
             if (oT_ADMS_A == null)

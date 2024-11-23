@@ -1,9 +1,5 @@
-﻿using DiGi.BDOT10k.UI.Classes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiGi.GIS

@@ -1,5 +1,4 @@
-﻿using DiGi.BDOT10k.UI.Classes;
-using DiGi.Core;
+﻿using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
