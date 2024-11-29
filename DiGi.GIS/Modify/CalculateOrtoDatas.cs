@@ -1,34 +1,37 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static async void CalculateOrtoDatas(this GISModelFile gISModelFile, IEnumerable<Building2D> building2Ds, OrtoDataOptions ortoDataOptions, bool overrideExisting = false)
+        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this GISModelFile gISModelFile, IEnumerable<Building2D> building2Ds, OrtoDataOptions ortoDataOptions, bool overrideExisting = false)
         {
             if (gISModelFile == null || building2Ds == null)
             {
-                return;
+                return null;
             }
 
             GISModel gISModel = gISModelFile.Value;
             if (gISModel == null)
             {
-                return;
+                return null;
             }
 
             string path_Model = gISModelFile.Path;
             if (string.IsNullOrWhiteSpace(path_Model))
             {
-                return;
+                return null;
             }
+
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(path_Model);
 
             string directory = System.IO.Path.GetDirectoryName(path_Model);
             if (!System.IO.Directory.Exists(directory))
             {
-                return;
+                return null;
             }
 
             HashSet<System.Guid> guids = new HashSet<System.Guid>();
@@ -45,18 +48,18 @@ namespace DiGi.GIS
             List<Building2D> building2Ds_All = gISModel.GetObjects<Building2D>(x => guids.Contains(x.Guid));
             if (building2Ds_All == null || building2Ds_All.Count == 0)
             {
-                return;
+                return null;
             }
 
-            string path_OrtoDatas = System.IO.Path.Combine(directory, "ortoData.dgz");
+            string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}.{1}", fileName, Constans.FileExtension.OrtoDatasFile));
 
 
-
+            HashSet<GuidReference> result = new HashSet<GuidReference>();
             using (OrtoDatasFile ortoDataFile = new OrtoDatasFile(path_OrtoDatas))
             {
                 ortoDataFile.Open();
 
-                string path_Relative = Core.Query.RelativePath(path_Model, path_OrtoDatas);
+                string path_Relative = Core.IO.Query.RelativePath(path_Model, path_OrtoDatas);
 
                 foreach (Building2D building2D in building2Ds_All)
                 {
@@ -71,13 +74,25 @@ namespace DiGi.GIS
                         continue;
                     }
 
+                    result.Add(new GuidReference(building2D));
+
                     ortoDatasCalculationResult = new OrtoDatasCalculationResult(new InstanceRelatedExternalReference(path_Relative, uniqueReference));
 
                     gISModel.Update(building2D, ortoDatasCalculationResult);
                 }
 
+
+
                 ortoDataFile.Save();
             }
+
+            if(result != null && result.Count != 0)
+            {
+                gISModelFile.Value = gISModel;
+                gISModelFile.Save();
+            }
+
+            return result;
         }
     }
 }

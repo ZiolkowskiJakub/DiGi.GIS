@@ -1,9 +1,7 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using ProjNet.CoordinateSystems;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using System.Linq;
 
 namespace DiGi.GIS

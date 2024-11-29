@@ -18,7 +18,7 @@ namespace DiGi.GIS
                 ortoDataOptions = new OrtoDataOptions();
             }
 
-            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDataOptions.Years, ortoDataOptions.Offset, ortoDataOptions.Width);
+            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDataOptions.Years, ortoDataOptions.Offset, ortoDataOptions.Width, ortoDataOptions.Reduce);
             if(ortoDatas == null)
             {
                 return null;

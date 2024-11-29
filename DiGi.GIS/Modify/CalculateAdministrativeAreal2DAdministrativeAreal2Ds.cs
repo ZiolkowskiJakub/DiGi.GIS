@@ -1,5 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
-using DiGi.GIS.Classes;
+﻿using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
 

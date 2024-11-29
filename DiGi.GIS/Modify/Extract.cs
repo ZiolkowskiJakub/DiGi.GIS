@@ -96,7 +96,7 @@ namespace DiGi.GIS
                                         continue;
                                     }
 
-                                    Core.Convert.ToFileInfo(administrativeAreal2D, Path.Combine(directory_AdministrativeAreal, directoryExtractOptions.AdministrativeAreal2DFileName));
+                                    Core.Convert.ToSystem_FileInfo(administrativeAreal2D, Path.Combine(directory_AdministrativeAreal, directoryExtractOptions.AdministrativeAreal2DFileName));
                                 }
                             }
 
@@ -127,7 +127,7 @@ namespace DiGi.GIS
                                         continue;
                                     }
 
-                                    Core.Convert.ToFileInfo(building2D, Path.Combine(directory_Building, directoryExtractOptions.Building2DFileName));
+                                    Core.Convert.ToSystem_FileInfo(building2D, Path.Combine(directory_Building, directoryExtractOptions.Building2DFileName));
                                 }
                             }
                         }

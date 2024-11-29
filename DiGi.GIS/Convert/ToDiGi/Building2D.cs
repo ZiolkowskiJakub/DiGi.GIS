@@ -1,7 +1,5 @@
 ﻿using DiGi.BDOT10k.Classes;
 using DiGi.BDOT10k.Enums;
-using DiGi.BDOT10k.Interfaces;
-using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using DiGi.GIS.Enums;

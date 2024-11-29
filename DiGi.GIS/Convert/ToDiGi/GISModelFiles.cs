@@ -54,7 +54,7 @@ namespace DiGi.GIS
                                 }
                             }
 
-                            string path_Output = Path.Combine(directory_Region, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), Core.IO.File.Constans.FileExtension.Zip));
+                            string path_Output = Path.Combine(directory_Region, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), Constans.FileExtension.GISModelFile));
                             using (GISModelFile gISModelFile = new GISModelFile(path_Output))
                             {
                                 gISModelFile.Value = gISModel;
