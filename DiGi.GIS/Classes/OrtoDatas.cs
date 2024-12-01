@@ -99,14 +99,21 @@ namespace DiGi.GIS.Classes
             while (ortoDatas.Count > 0)
             {
                 OrtoData ortoData = ortoDatas[0];
-                sortedDictionary[ortoData.DateTime] = ortoData;
                 ortoDatas.RemoveAt(0);
+
+                byte[] bytes = ortoData?.Bytes;
+                if(bytes == null || bytes.Length == 0)
+                {
+                    continue;
+                }
+
+                sortedDictionary[ortoData.DateTime] = ortoData;
 
                 int index = 0;
 
                 for (int i = 0; i < ortoDatas.Count; i++)
                 {
-                    if(!Core.Query.Equals(ortoData.Bytes, ortoDatas[i].Bytes))
+                    if(!Core.Query.Equals(bytes, ortoDatas[i].Bytes))
                     {
                         break;
                     }

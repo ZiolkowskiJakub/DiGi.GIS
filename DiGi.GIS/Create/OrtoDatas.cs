@@ -33,7 +33,7 @@ namespace DiGi.GIS
                     double scale = boundingBox2D.Width / width;
                     foreach(KeyValuePair<int, byte[]> keyValuePair in dictionary)
                     {
-                        OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.GetCentroid());
+                        OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.TopLeft);
                         values.Add(value);
                     }
                 }

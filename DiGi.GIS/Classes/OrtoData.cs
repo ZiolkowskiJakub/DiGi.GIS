@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using DiGi.Core;
@@ -92,9 +93,9 @@ namespace DiGi.GIS.Classes
 
             Vector2D vector2D = new Vector2D(location, point2D);
 
-            vector2D.Scale(scale);
+            vector2D.Scale(1 / scale);
 
-            return new Point2D(vector2D.X, vector2D.Y);
+            return new Point2D(vector2D.X, - vector2D.Y);
         }
 
         public Point2D FromOrto(Point2D point2D)
@@ -104,8 +105,8 @@ namespace DiGi.GIS.Classes
                 return null;
             }
 
-            Vector2D vector2D = new Vector2D(point2D.X, point2D.Y);
-            vector2D.Scale(1 / scale);
+            Vector2D vector2D = new Vector2D(point2D.X, - point2D.Y);
+            vector2D.Scale(scale);
 
             return point2D.GetMoved(vector2D);
         }
