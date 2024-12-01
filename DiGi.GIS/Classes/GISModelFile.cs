@@ -1,8 +1,5 @@
-﻿using DiGi.Core;
-using DiGi.Core.Classes;
-using DiGi.GIS.Interfaces;
+﻿using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
-using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {

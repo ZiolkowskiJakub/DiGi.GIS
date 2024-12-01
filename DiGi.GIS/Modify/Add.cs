@@ -1,9 +1,5 @@
-﻿using DiGi.BDOT10k.UI.Classes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiGi.GIS
@@ -22,7 +18,7 @@ namespace DiGi.GIS
                 ortoDataOptions = new OrtoDataOptions();
             }
 
-            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDataOptions.Years, ortoDataOptions.Offset, ortoDataOptions.Width);
+            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDataOptions.Years, ortoDataOptions.Offset, ortoDataOptions.Width, ortoDataOptions.Reduce);
             if(ortoDatas == null)
             {
                 return null;

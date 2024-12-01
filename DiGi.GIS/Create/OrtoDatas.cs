@@ -1,5 +1,4 @@
-﻿using DiGi.BDOT10k.UI.Classes;
-using DiGi.Core;
+﻿using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
@@ -10,7 +9,7 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static async Task<OrtoDatas> OrtoDatas(this Building2D building2D, Range<int> years, double offset = 5, double width = 300)
+        public static async Task<OrtoDatas> OrtoDatas(this Building2D building2D, Range<int> years, double offset = 5, double width = 300, bool reduce = true)
         {
             if(building2D == null || years == null)
             {
@@ -25,21 +24,28 @@ namespace DiGi.GIS
 
             List<OrtoData> values = new List<OrtoData>();
 
-            List<int> yearsList = years.ToList(1);
+            List<int> yearsList = years.ToSystem(1);
             if(yearsList.Count != 0)
             {
                 Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(boundingBox2D, yearsList, offset, width);
                 if(dictionary != null && dictionary.Count != 0)
                 {
+                    double scale = boundingBox2D.Width / width;
                     foreach(KeyValuePair<int, byte[]> keyValuePair in dictionary)
                     {
-                        OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value);
+                        OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.TopLeft);
                         values.Add(value);
                     }
                 }
             }
 
-            return new OrtoDatas(building2D.Reference, values);
+            OrtoDatas result = new OrtoDatas(building2D.Reference, values);
+            if(reduce)
+            {
+                result.Reduce();
+            }
+
+            return result;
         }
     }
 }
