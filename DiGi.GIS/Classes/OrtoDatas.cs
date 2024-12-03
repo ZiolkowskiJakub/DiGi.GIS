@@ -130,6 +130,37 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        public bool TryGetYears(out HashSet<int> years)
+        {
+            years = null;
+            if (!TryGetDateTime(out DateTime dateTime_Min, out DateTime dateTime_Max))
+            {
+                return false;
+            }
+
+            years = new HashSet<int>();
+            for (int i = dateTime_Min.Year; i <= dateTime_Max.Year; i++)
+            {
+                years.Add(i);
+            }
+
+            return true;
+        }
+
+        public bool TryGetDateTime(out DateTime dateTime_Min, out DateTime dateTime_Max)
+        {
+            dateTime_Min = default;
+            dateTime_Max = default;
+            if(sortedDictionary == null || sortedDictionary.Count == 0)
+            {
+                return false;
+            }
+
+            dateTime_Min = sortedDictionary.Keys.First();
+            dateTime_Max = sortedDictionary.Keys.Last();
+            return true;
+        }
+
         public byte[] GetBytes(DateTime dateTime)
         {
             if(sortedDictionary == null || sortedDictionary.Count == 0)
