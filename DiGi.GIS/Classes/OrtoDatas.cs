@@ -163,7 +163,18 @@ namespace DiGi.GIS.Classes
 
         public byte[] GetBytes(DateTime dateTime)
         {
-            if(sortedDictionary == null || sortedDictionary.Count == 0)
+            OrtoData ortoData = GetOrtoData(dateTime);
+            if(ortoData == null)
+            {
+                return null;
+            }
+
+            return ortoData.Bytes;
+        }
+
+        public OrtoData GetOrtoData(DateTime dateTime)
+        {
+            if (sortedDictionary == null || sortedDictionary.Count == 0)
             {
                 return null;
             }
@@ -178,19 +189,24 @@ namespace DiGi.GIS.Classes
                 return null;
             }
 
-            if(dateTime >= max)
+            if (dateTime >= max)
             {
-                return sortedDictionary[max]?.Bytes;
+                return sortedDictionary[max];
+            }
+
+            if (sortedDictionary.TryGetValue(dateTime, out OrtoData ortoData))
+            {
+                return ortoData;
             }
 
             List<DateTime> dateTimes_Temp = new List<DateTime>(dateTimes);
             dateTimes_Temp.Reverse();
 
-            foreach (DateTime dateTime_Temp in dateTimes)
+            foreach (DateTime dateTime_Temp in dateTimes_Temp)
             {
-                if(dateTime_Temp < dateTime)
+                if (dateTime_Temp < dateTime)
                 {
-                    return sortedDictionary[dateTime_Temp]?.Bytes;
+                    return sortedDictionary[dateTime_Temp];
                 }
             }
 
