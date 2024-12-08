@@ -233,5 +233,31 @@ namespace DiGi.GIS.Classes
             uniqueObjectRelationCluster.AddRelation(new OrtoDatasCalculationResultRelation(building2D, ortoDatasCalculationResult));
             return true;
         }
+
+        public bool Update(Building2D building2D, ConstructionDateCalculationResult constructionDateCalculationResult)
+        {
+            if (building2D == null || constructionDateCalculationResult == null)
+            {
+                return false;
+            }
+
+            Update(building2D);
+            Update(constructionDateCalculationResult);
+
+            ConstructionDateCalculationResultRelation constructionDateCalculationResultRelation = GetRelation<ConstructionDateCalculationResultRelation>(building2D);
+            if(constructionDateCalculationResultRelation == null)
+            {
+                constructionDateCalculationResultRelation = new ConstructionDateCalculationResultRelation(building2D, new ConstructionDateCalculationResult[] { constructionDateCalculationResult });
+                uniqueObjectRelationCluster.AddRelation(constructionDateCalculationResultRelation);
+                return true;
+            }
+            else
+            {
+                List<ConstructionDateCalculationResult> constructionDateCalculationResults =  GetObjects<ConstructionDateCalculationResult>( );
+            }
+            sss
+            
+            return true;
+        }
     }
 }
