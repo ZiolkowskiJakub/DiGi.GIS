@@ -255,7 +255,9 @@ namespace DiGi.GIS.Classes
             {
                 List<ConstructionDateCalculationResult> constructionDateCalculationResults =  GetObjects<ConstructionDateCalculationResult>( );
             }
-            sss
+
+            //TODO: Finish Implementation
+            throw new System.NotImplementedException();
             
             return true;
         }
