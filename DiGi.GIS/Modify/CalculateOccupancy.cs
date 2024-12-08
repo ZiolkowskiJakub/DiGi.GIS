@@ -108,7 +108,7 @@ namespace DiGi.GIS
 
                     UniqueReference uniqueReference = Core.Create.UniqueReference(administrativeAreal2D);
 
-                    List<AdministrativeAreal2DAdministrativeAreal2DsRelation> administrativeAreal2DAdministrativeAreal2DsRelations = gISModel.GetRelations<AdministrativeAreal2DAdministrativeAreal2DsRelation>(x => x.Contains_To(uniqueReference));
+                    List<AdministrativeAreal2DAdministrativeAreal2DsRelation> administrativeAreal2DAdministrativeAreal2DsRelations = gISModel.GetRelations<AdministrativeAreal2DAdministrativeAreal2DsRelation>(x => x.Contains(Core.Relation.Enums.RelationSide.To, uniqueReference));
                     if (administrativeAreal2DAdministrativeAreal2DsRelations == null || administrativeAreal2DAdministrativeAreal2DsRelations.Count == 0)
                     {
                         continue;
