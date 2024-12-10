@@ -7,7 +7,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this GISModelFile gISModelFile, IEnumerable<Building2D> building2Ds, OrtoDataOptions ortoDataOptions, bool overrideExisting = false)
+        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this GISModelFile gISModelFile, IEnumerable<Building2D> building2Ds, OrtoDatasOptions ortoDatasOptions, bool overrideExisting = false)
         {
             if (gISModelFile == null || building2Ds == null)
             {
@@ -68,7 +68,7 @@ namespace DiGi.GIS
                         continue;
                     }
 
-                    UniqueReference uniqueReference = await ortoDataFile.AddValue(building2D, ortoDataOptions);
+                    UniqueReference uniqueReference = await ortoDataFile.AddValue(building2D, ortoDatasOptions);
                     if (uniqueReference == null)
                     {
                         continue;

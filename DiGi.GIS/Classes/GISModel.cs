@@ -32,6 +32,26 @@ namespace DiGi.GIS.Classes
 
         }
 
+        public bool Contains(Building2D building2D)
+        {
+            if (building2D != null)
+            {
+                return false;
+            }
+
+            return uniqueObjectRelationCluster.Contains(new GuidReference(building2D));
+        }
+
+        public bool Contains(AdministrativeAreal2D administrativeAreal2D)
+        {
+            if (administrativeAreal2D != null)
+            {
+                return false;
+            }
+
+            return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
+        }
+
         public bool Update(ISource source)
         {
             if (source == null)
@@ -58,39 +78,9 @@ namespace DiGi.GIS.Classes
             return Update((IGISUniqueObject)administrativeAreal2D);
         }
 
-        private bool Update(IGISUniqueObject gISUniqueObject)
-        {
-            if (gISUniqueObject == null)
-            {
-                return false;
-            }
-
-            return uniqueObjectRelationCluster.Add(gISUniqueObject?.Clone<IGISUniqueObject>());
-        }
-
-        public bool Contains(Building2D building2D)
-        {
-            if (building2D != null)
-            {
-                return false;
-            }
-
-            return uniqueObjectRelationCluster.Contains(new GuidReference(building2D));
-        }
-
-        public bool Contains(AdministrativeAreal2D administrativeAreal2D)
-        {
-            if (administrativeAreal2D != null)
-            {
-                return false;
-            }
-
-            return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
-        }
-
         public bool Update(Building2D building2D, Building2DGeometryCalculationResult building2DGeometryCalculationResult)
         {
-            if(building2D == null || building2DGeometryCalculationResult == null)
+            if (building2D == null || building2DGeometryCalculationResult == null)
             {
                 return false;
             }
@@ -99,7 +89,7 @@ namespace DiGi.GIS.Classes
             Update(building2DGeometryCalculationResult);
 
             Building2DGeometryCalculationResult building2DGeometryCalculationResult_Old = GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
-            if(building2DGeometryCalculationResult_Old != null)
+            if (building2DGeometryCalculationResult_Old != null)
             {
                 uniqueObjectRelationCluster.Remove(building2DGeometryCalculationResult_Old);
             }
@@ -205,7 +195,7 @@ namespace DiGi.GIS.Classes
                 uniqueObjectRelationCluster.Remove(administrativeAreal2DBuilding2DsRelation_Old);
             }
 
-            if(building2Ds == null || building2Ds.Count() == 0)
+            if (building2Ds == null || building2Ds.Count() == 0)
             {
                 return true;
             }
@@ -214,52 +204,80 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        public bool Update(Building2D building2D, OrtoDatasCalculationResult ortoDatasCalculationResult)
+        public bool Update(Building2D building2D, Building2DExternalReferenceUniqueResult building2DExternalReferenceUniqueResult)
         {
-            if (building2D == null || ortoDatasCalculationResult == null)
+            if (building2D == null || building2DExternalReferenceUniqueResult == null)
             {
                 return false;
             }
 
             Update(building2D);
-            Update(ortoDatasCalculationResult);
+            Update(building2DExternalReferenceUniqueResult);
 
-            OrtoDatasCalculationResult ortoDatasCalculationResult_Old = GetRelatedObject<OrtoDatasCalculationResult>(building2D);
-            if (ortoDatasCalculationResult_Old != null)
+            Building2DExternalReferenceUniqueResultRelation building2DExternalReferenceUniqueResultRelation = uniqueObjectRelationCluster.GetRelation<Building2DExternalReferenceUniqueResultRelation>(new GuidReference(building2D));
+            if (building2DExternalReferenceUniqueResultRelation == null)
             {
-                uniqueObjectRelationCluster.Remove(ortoDatasCalculationResult_Old);
+                building2DExternalReferenceUniqueResultRelation = new Building2DExternalReferenceUniqueResultRelation(building2D, new Building2DExternalReferenceUniqueResult[] { building2DExternalReferenceUniqueResult });
+                uniqueObjectRelationCluster.AddRelation(building2DExternalReferenceUniqueResultRelation);
+                return true;
             }
 
-            uniqueObjectRelationCluster.AddRelation(new OrtoDatasCalculationResultRelation(building2D, ortoDatasCalculationResult));
+            if (TryGetObjects(building2DExternalReferenceUniqueResultRelation, Core.Relation.Enums.RelationSide.To, out List<Building2DExternalReferenceUniqueResult> building2DExternalReferenceUniqueResults_Relation) && building2DExternalReferenceUniqueResults_Relation != null)
+            {
+                foreach (Building2DExternalReferenceUniqueResult building2DExternalReferenceUniqueResult_Relation in building2DExternalReferenceUniqueResults_Relation)
+                {
+                    if (building2DExternalReferenceUniqueResult.GetType() == building2DExternalReferenceUniqueResult_Relation.GetType())
+                    {
+                        uniqueObjectRelationCluster.Remove(building2DExternalReferenceUniqueResult_Relation);
+                    }
+                }
+            }
+
+            building2DExternalReferenceUniqueResultRelation.Add(Core.Relation.Enums.RelationSide.To, Core.Create.UniqueReference(building2DExternalReferenceUniqueResult));
             return true;
         }
 
-        public bool Update(Building2D building2D, ConstructionDateCalculationResult constructionDateCalculationResult)
+        public bool Update(Building2D building2D, Building2DConstructionDateCalculationResult building2DConstructionDateCalculationResult)
         {
-            if (building2D == null || constructionDateCalculationResult == null)
+            if (building2D == null || building2DConstructionDateCalculationResult == null)
             {
                 return false;
             }
 
             Update(building2D);
-            Update(constructionDateCalculationResult);
+            Update(building2DConstructionDateCalculationResult);
 
-            ConstructionDateCalculationResultRelation constructionDateCalculationResultRelation = GetRelation<ConstructionDateCalculationResultRelation>(building2D);
-            if(constructionDateCalculationResultRelation == null)
+            Building2DConstructionDateCalculationResultRelation constructionDateCalculationResultRelation = uniqueObjectRelationCluster.GetRelation<Building2DConstructionDateCalculationResultRelation>(new GuidReference(building2D));
+            if (constructionDateCalculationResultRelation == null)
             {
-                constructionDateCalculationResultRelation = new ConstructionDateCalculationResultRelation(building2D, new ConstructionDateCalculationResult[] { constructionDateCalculationResult });
+                constructionDateCalculationResultRelation = new Building2DConstructionDateCalculationResultRelation(building2D, new Building2DConstructionDateCalculationResult[] { building2DConstructionDateCalculationResult });
                 uniqueObjectRelationCluster.AddRelation(constructionDateCalculationResultRelation);
                 return true;
             }
-            else
+
+            if (TryGetObjects(constructionDateCalculationResultRelation, Core.Relation.Enums.RelationSide.To, out List<Building2DConstructionDateCalculationResult> constructionDateCalculationResults_Relation) && constructionDateCalculationResults_Relation != null)
             {
-                List<ConstructionDateCalculationResult> constructionDateCalculationResults =  GetObjects<ConstructionDateCalculationResult>( );
+                foreach (Building2DConstructionDateCalculationResult constructionDateCalculationResult_Relation in constructionDateCalculationResults_Relation)
+                {
+                    if (building2DConstructionDateCalculationResult.GetType() == constructionDateCalculationResult_Relation.GetType())
+                    {
+                        uniqueObjectRelationCluster.Remove(constructionDateCalculationResult_Relation);
+                    }
+                }
             }
 
-            //TODO: Finish Implementation
-            throw new System.NotImplementedException();
-            
+            constructionDateCalculationResultRelation.Add(Core.Relation.Enums.RelationSide.To, Core.Create.UniqueReference(building2DConstructionDateCalculationResult));
             return true;
+        }
+
+        private bool Update(IGISUniqueObject gISUniqueObject)
+        {
+            if (gISUniqueObject == null)
+            {
+                return false;
+            }
+
+            return uniqueObjectRelationCluster.Add(gISUniqueObject?.Clone<IGISUniqueObject>());
         }
     }
 }

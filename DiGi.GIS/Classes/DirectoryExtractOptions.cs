@@ -1,52 +1,45 @@
-﻿using DiGi.Core.Classes;
-using System;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class OrtoDataOptions : ExtractOptions
+    public class DirectoryExtractOptions : ExtractOptions
     {
-        [JsonInclude, JsonPropertyName("Offset")]
-        public double Offset { get; set; } = 5;
+        [JsonInclude, JsonPropertyName("SourcePath")]
+        public string SourcePath { get; set; } = null;
 
-        [JsonInclude, JsonPropertyName("Width")]
-        public double Width { get; set; } = 300;
+        [JsonInclude, JsonPropertyName("DestionationDirectory")]
+        public string DestionationDirectory { get; set; } = null;
 
-        [JsonInclude, JsonPropertyName("Years")]
-        public Range<int> Years { get; set; } = new Range<int>(2008, DateTime.Now.Year);
+        [JsonInclude, JsonPropertyName("UpdateExisting")]
+        public bool UpdateExisting { get; set; } = true;
 
-        [JsonInclude, JsonPropertyName("Reduce")]
-        public bool Reduce { get; set; } = true;
+        [JsonInclude, JsonPropertyName("Building2DFileName")]
+        public string Building2DFileName { get; set; } = Constans.FileName.Building2D;
 
-        public OrtoDataOptions(Range<int> years, double offset, double width, bool reduce)
+        [JsonInclude, JsonPropertyName("BuildingsDirectoryName")]
+        public string BuildingsDirectoryName { get; set; } = Constans.DirectoryName.Buildings;
+
+        [JsonInclude, JsonPropertyName("AdministrativeAreal2DFileName")]
+        public string AdministrativeAreal2DFileName { get; set; } = Constans.FileName.AdministrativeAreal2D;
+
+        [JsonInclude, JsonPropertyName("AdministrativeArealsDirectoryName")]
+        public string AdministrativeArealsDirectoryName { get; set; } = Constans.DirectoryName.AdministrativeAreals;
+
+        public DirectoryExtractOptions(string sourcePath, string destionationDirectory)
             : base()
         {
-            Years = years;
-            Width = width;
-            Offset = offset;
-            Reduce = reduce;
+            SourcePath = sourcePath;
+            DestionationDirectory = destionationDirectory;
         }
 
-        public OrtoDataOptions()
+        public DirectoryExtractOptions()
             : base()
         {
 
         }
 
-        public OrtoDataOptions(OrtoDataOptions ortoDataOptions)
-            : base(ortoDataOptions)
-        {
-            if(ortoDataOptions != null)
-            {
-                Years = ortoDataOptions.Years;
-                Width = ortoDataOptions.Width;
-                Offset = ortoDataOptions.Offset;
-                Reduce = ortoDataOptions.Reduce;
-            }
-        }
-
-        public OrtoDataOptions(JsonObject jsonObject)
+        public DirectoryExtractOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
 

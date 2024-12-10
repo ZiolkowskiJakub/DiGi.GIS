@@ -29,7 +29,7 @@ namespace DiGi.GIS
             Dictionary<string, Dictionary<GuidReference, InstanceRelatedExternalReference>> dictionary = new Dictionary<string, Dictionary<GuidReference, InstanceRelatedExternalReference>>();
             foreach(Building2D building2D in building2Ds)
             {
-                if(!gISModel.TryGetRelatedObject<OrtoDatasCalculationResult, OrtoDatasCalculationResultRelation>(building2D, out OrtoDatasCalculationResult ortoDatasCalculationResult))
+                if(!gISModel.TryGetRelatedObject<OrtoDatasCalculationResult, Building2DExternalReferenceUniqueResultRelation>(building2D, out OrtoDatasCalculationResult ortoDatasCalculationResult))
                 {
                     continue;
                 }

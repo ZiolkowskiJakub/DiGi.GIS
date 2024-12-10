@@ -6,19 +6,19 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static async Task<UniqueReference> AddValue(this OrtoDatasFile ortoDatasFile, Building2D builidng2D, OrtoDataOptions ortoDataOptions = null)
+        public static async Task<UniqueReference> AddValue(this OrtoDatasFile ortoDatasFile, Building2D builidng2D, OrtoDatasOptions ortoDatasOptions = null)
         {
             if (ortoDatasFile == null || builidng2D == null)
             {
                 return null;
             }
 
-            if(ortoDataOptions == null)
+            if(ortoDatasOptions == null)
             {
-                ortoDataOptions = new OrtoDataOptions();
+                ortoDatasOptions = new OrtoDatasOptions();
             }
 
-            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDataOptions.Years, ortoDataOptions.Offset, ortoDataOptions.Width, ortoDataOptions.Reduce);
+            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDatasOptions.Years, ortoDatasOptions.Offset, ortoDatasOptions.Width, ortoDatasOptions.Reduce);
             if(ortoDatas == null)
             {
                 return null;
