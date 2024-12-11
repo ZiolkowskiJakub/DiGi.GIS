@@ -174,43 +174,12 @@ namespace DiGi.GIS.Classes
 
         public OrtoData GetOrtoData(DateTime dateTime)
         {
-            if (sortedDictionary == null || sortedDictionary.Count == 0)
+            if(!Core.Query.TryGetLowerValue(sortedDictionary, dateTime, out OrtoData result))
             {
                 return null;
             }
 
-            IEnumerable<DateTime> dateTimes = sortedDictionary.Keys;
-
-            DateTime min = dateTimes.First();
-            DateTime max = dateTimes.Last();
-
-            if (dateTime < min)
-            {
-                return null;
-            }
-
-            if (dateTime >= max)
-            {
-                return sortedDictionary[max];
-            }
-
-            if (sortedDictionary.TryGetValue(dateTime, out OrtoData ortoData))
-            {
-                return ortoData;
-            }
-
-            List<DateTime> dateTimes_Temp = new List<DateTime>(dateTimes);
-            dateTimes_Temp.Reverse();
-
-            foreach (DateTime dateTime_Temp in dateTimes_Temp)
-            {
-                if (dateTime_Temp < dateTime)
-                {
-                    return sortedDictionary[dateTime_Temp];
-                }
-            }
-
-            return null;
+            return result;
         }
     }
 }
