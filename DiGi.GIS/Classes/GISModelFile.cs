@@ -1,4 +1,5 @@
-﻿using DiGi.GIS.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
@@ -21,6 +22,14 @@ namespace DiGi.GIS.Classes
             : base(path) 
         {
             
+        }
+
+        public GuidExternalReference GuidExternalReference
+        {
+            get
+            {
+                return new GuidExternalReference(Path, Value);
+            }
         }
     }
 }
