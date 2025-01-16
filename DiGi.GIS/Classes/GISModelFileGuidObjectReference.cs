@@ -3,12 +3,12 @@ using DiGi.Core.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public class GISModelFileUniqueObjectReference : SerializableReference, IComplexReference
+    public class GISModelFileGuidObjectReference : SerializableReference, IComplexReference
     {
         private GuidExternalReference guidExternalReference;
         private GuidReference guidReference;
 
-        public GISModelFileUniqueObjectReference(GuidExternalReference guidExternalReference, GuidReference guidReference)
+        public GISModelFileGuidObjectReference(GuidExternalReference guidExternalReference, GuidReference guidReference)
         {
             this.guidExternalReference = guidExternalReference;
             this.guidReference = guidReference;

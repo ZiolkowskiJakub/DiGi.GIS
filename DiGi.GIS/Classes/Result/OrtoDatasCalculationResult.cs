@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
-    public class OrtoDatasCalculationResult : Building2DExternalReferenceUniqueResult
+    public class OrtoDatasCalculationResult : Building2DExternalReferenceGuidResult
     {
         public OrtoDatasCalculationResult(InstanceRelatedExternalReference reference)
             :base(reference)

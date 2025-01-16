@@ -204,7 +204,7 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        public bool Update(Building2D building2D, Building2DExternalReferenceUniqueResult building2DExternalReferenceUniqueResult)
+        public bool Update(Building2D building2D, Building2DExternalReferenceGuidResult building2DExternalReferenceUniqueResult)
         {
             if (building2D == null || building2DExternalReferenceUniqueResult == null)
             {
@@ -217,14 +217,14 @@ namespace DiGi.GIS.Classes
             Building2DExternalReferenceUniqueResultRelation building2DExternalReferenceUniqueResultRelation = uniqueObjectRelationCluster.GetRelation<Building2DExternalReferenceUniqueResultRelation>(new GuidReference(building2D));
             if (building2DExternalReferenceUniqueResultRelation == null)
             {
-                building2DExternalReferenceUniqueResultRelation = new Building2DExternalReferenceUniqueResultRelation(building2D, new Building2DExternalReferenceUniqueResult[] { building2DExternalReferenceUniqueResult });
+                building2DExternalReferenceUniqueResultRelation = new Building2DExternalReferenceUniqueResultRelation(building2D, new Building2DExternalReferenceGuidResult[] { building2DExternalReferenceUniqueResult });
                 uniqueObjectRelationCluster.AddRelation(building2DExternalReferenceUniqueResultRelation);
                 return true;
             }
 
-            if (TryGetObjects(building2DExternalReferenceUniqueResultRelation, Core.Relation.Enums.RelationSide.To, out List<Building2DExternalReferenceUniqueResult> building2DExternalReferenceUniqueResults_Relation) && building2DExternalReferenceUniqueResults_Relation != null)
+            if (TryGetObjects(building2DExternalReferenceUniqueResultRelation, Core.Relation.Enums.RelationSide.To, out List<Building2DExternalReferenceGuidResult> building2DExternalReferenceUniqueResults_Relation) && building2DExternalReferenceUniqueResults_Relation != null)
             {
-                foreach (Building2DExternalReferenceUniqueResult building2DExternalReferenceUniqueResult_Relation in building2DExternalReferenceUniqueResults_Relation)
+                foreach (Building2DExternalReferenceGuidResult building2DExternalReferenceUniqueResult_Relation in building2DExternalReferenceUniqueResults_Relation)
                 {
                     if (building2DExternalReferenceUniqueResult.GetType() == building2DExternalReferenceUniqueResult_Relation.GetType())
                     {

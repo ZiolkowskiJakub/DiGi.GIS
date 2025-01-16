@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class Source : UniqueObject, ISource
+    public abstract class Source : GuidObject, ISource
     {
         public Source()
             : base()

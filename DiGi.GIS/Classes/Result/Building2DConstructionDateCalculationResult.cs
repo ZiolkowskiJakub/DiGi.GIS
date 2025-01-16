@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class Building2DConstructionDateCalculationResult : UniqueResult<Building2D>, IConstructionDateCalculationResult
+    public abstract class Building2DConstructionDateCalculationResult : GuidResult<Building2D>, IConstructionDateCalculationResult
     {
         [JsonInclude, JsonPropertyName("DateTime")]
         private DateTime dateTime;

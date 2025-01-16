@@ -6,27 +6,27 @@ using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class GISUniqueObject2D : UniqueObject, IGISUniqueObject2D
+    public abstract class GISGuidObject2D : GuidObject, IGISGuidObject2D
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private string reference = null;
 
-        public GISUniqueObject2D(Guid guid, string reference)
+        public GISGuidObject2D(Guid guid, string reference)
             : base(guid)
         {
             this.reference = reference;
         }
 
-        public GISUniqueObject2D(GISUniqueObject2D object2D)
-            : base(object2D == null ? Guid.Empty : object2D.Guid)
+        public GISGuidObject2D(GISGuidObject2D gISGuidObject2D)
+            : base(gISGuidObject2D == null ? Guid.Empty : gISGuidObject2D.Guid)
         {
-            if(object2D != null)
+            if(gISGuidObject2D != null)
             {
-                reference = object2D.reference;
+                reference = gISGuidObject2D.reference;
             }
         }
 
-        public GISUniqueObject2D(JsonObject jsonObject)
+        public GISGuidObject2D(JsonObject jsonObject)
             :base(jsonObject)
         {
 

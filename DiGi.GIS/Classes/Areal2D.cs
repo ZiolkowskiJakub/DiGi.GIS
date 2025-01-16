@@ -6,7 +6,7 @@ using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class Areal2D : GISUniqueObject2D
+    public abstract class Areal2D : GISGuidObject2D
     {
         [JsonInclude, JsonPropertyName("PolygonalFace2D")]
         private PolygonalFace2D polygonalFace2D = null;

@@ -6,9 +6,9 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static GISModelFileUniqueObjectReference GISModelFileUniqueObjectReference(this GISModelFile gISModelFile, IGISUniqueObject gISUniqueObject)
+        public static GISModelFileGuidObjectReference GISModelFileUniqueObjectReference(this GISModelFile gISModelFile, IGISGuidObject gISGuidObject)
         {
-            if(gISModelFile == null || gISUniqueObject == null)
+            if(gISModelFile == null || gISGuidObject == null)
             {
                 return null;
             }
@@ -19,7 +19,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            return new GISModelFileUniqueObjectReference(guidExternalReference, new GuidReference(gISUniqueObject));
+            return new GISModelFileGuidObjectReference(guidExternalReference, new GuidReference(gISGuidObject));
         }
     }
 }

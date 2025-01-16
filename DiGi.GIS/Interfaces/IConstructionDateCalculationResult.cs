@@ -2,7 +2,7 @@
 
 namespace DiGi.GIS.Interfaces
 {
-    public interface IConstructionDateCalculationResult : IGISUniqueResult
+    public interface IConstructionDateCalculationResult : IGISGuidResult
     {
         DateTime DateTime { get; }
     }

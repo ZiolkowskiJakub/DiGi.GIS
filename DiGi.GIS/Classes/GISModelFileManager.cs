@@ -87,7 +87,7 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Value;
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GISModelFileUniqueObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
 
@@ -99,7 +99,7 @@ namespace DiGi.GIS.Classes
             return TryGetObject(gISModelFileUniqueObjectReference.GuidExternalReference, gISModelFileUniqueObjectReference.GuidReference, out gISUniqueObject);
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GISModelFileUniqueObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject, out GISModel gISModel) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject, out GISModel gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
             gISModel = null;

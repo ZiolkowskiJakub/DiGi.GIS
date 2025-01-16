@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class Building2DGeometryCalculationResult : UniqueResult<Building2D>, IGISUniqueResult
+    public class Building2DGeometryCalculationResult : GuidResult<Building2D>, IGISGuidResult
     {
         [JsonInclude, JsonPropertyName("BoundingBox")]
         private BoundingBox2D boundingBox = null;

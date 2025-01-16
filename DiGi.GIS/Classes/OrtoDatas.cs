@@ -9,7 +9,7 @@ using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public class OrtoDatas : UniqueObject, IGISUniqueObject, IEnumerable<OrtoData>
+    public class OrtoDatas : GuidObject, IGISGuidObject, IEnumerable<OrtoData>
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private string reference = null;
