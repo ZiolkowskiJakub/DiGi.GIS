@@ -59,7 +59,7 @@ namespace DiGi.GIS
             {
                 ortoDataFile.Open();
 
-                string path_Relative = Core.IO.Query.RelativePath(path_Model, path_OrtoDatas);
+                string path_Relative = Core.IO.Query.RelativePath(directory, path_OrtoDatas);
 
                 foreach (Building2D building2D in building2Ds_All)
                 {
