@@ -51,6 +51,11 @@ namespace DiGi.GIS
                 return null;
             }
 
+            if (ortoDatasOptions.MaxFileSize != ulong.MaxValue)
+            {
+                fileName = Query.FileName(directory, fileName, Constans.FileExtension.OrtoDatasFile, ortoDatasOptions.MaxFileSize);
+            }
+
             string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}.{1}", fileName, Constans.FileExtension.OrtoDatasFile));
 
 
@@ -80,8 +85,6 @@ namespace DiGi.GIS
 
                     gISModel.Update(building2D, ortoDatasCalculationResult);
                 }
-
-
 
                 ortoDataFile.Save();
             }

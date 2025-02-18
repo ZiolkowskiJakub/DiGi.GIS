@@ -19,13 +19,20 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Reduce")]
         public bool Reduce { get; set; } = true;
 
-        public OrtoDatasOptions(Range<int> years, double offset, double width, bool reduce)
+        /// <summary>
+        /// Max file size in bytes. ulong.MaxValue value will keep one file
+        /// </summary>
+        [JsonInclude, JsonPropertyName("MaxFileSize")]
+        public ulong MaxFileSize { get; set; } = ulong.MaxValue;
+
+        public OrtoDatasOptions(Range<int> years, double offset, double width, bool reduce, ulong maxFileSize)
             : base()
         {
             Years = years;
             Width = width;
             Offset = offset;
             Reduce = reduce;
+            MaxFileSize = maxFileSize;
         }
 
         public OrtoDatasOptions()
@@ -43,6 +50,7 @@ namespace DiGi.GIS.Classes
                 Width = ortoDatasOptions.Width;
                 Offset = ortoDatasOptions.Offset;
                 Reduce = ortoDatasOptions.Reduce;
+                MaxFileSize = ortoDatasOptions.MaxFileSize;
             }
         }
 
