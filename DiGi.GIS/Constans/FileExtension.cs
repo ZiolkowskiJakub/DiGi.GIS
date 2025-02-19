@@ -4,5 +4,6 @@
     {
         public const string GISModelFile = "gmf";
         public const string OrtoDatasFile = "odf";
+        public const string YearBuiltDatasFile = "ybdf";
     }
 }

@@ -5,7 +5,7 @@ using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public class YearBuiltData : SerializableObject, IGISObject
+    public class YearBuiltData : SerializableObject, IYearBuiltData
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private string reference;
