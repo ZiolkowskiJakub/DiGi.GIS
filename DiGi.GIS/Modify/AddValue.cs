@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
+using DiGi.GIS.Interfaces;
 using System.Threading.Tasks;
 
 namespace DiGi.GIS
@@ -26,38 +27,6 @@ namespace DiGi.GIS
 
             UniqueReference result = ortoDatasFile.AddValue(ortoDatas);
             return result;
-        }
-
-        public static UniqueReference AddValue(this GISModelFile gISModelFile, Building2D builidng2D, int? yearBuilt)
-        {
-            if(gISModelFile == null || builidng2D == null)
-            {
-                return null;
-            }
-
-
-            string path = gISModelFile.Path;
-            if(string.IsNullOrWhiteSpace(path))
-            {
-                return null;
-            }
-
-            string directory = System.IO.Path.GetDirectoryName(path);
-            if(!System.IO.Directory.Exists(directory))
-            {
-                return null;
-            }
-
-            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDatasFile));
-
-            using(YearBuiltDataFile yearBuiltDataFile = new YearBuiltDataFile(path))
-            {
-                yearBuiltDataFile.Open();
-
-                yearBuiltDataFile.De
-            }
-
-
         }
     }
 }
