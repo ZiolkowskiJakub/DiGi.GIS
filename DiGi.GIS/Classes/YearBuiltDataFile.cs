@@ -1,4 +1,5 @@
-﻿using DiGi.GIS.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
@@ -12,15 +13,35 @@ namespace DiGi.GIS.Classes
         }
 
         public YearBuiltDataFile(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
         }
 
         public YearBuiltDataFile(string path)
-            : base(path) 
+            : base(path)
         {
-            
+
+        }
+
+        public override UniqueReference GetUniqueReference(IYearBuiltData yearBuiltData)
+        {
+            return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData.Reference);
+        }
+
+        public UniqueReference GetUniqueReference<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
+        {
+            return GetUniqueReference(typeof(UYearBuiltData), reference);
+        }
+
+        private UniqueReference GetUniqueReference(System.Type type, string reference)
+        {
+            if (string.IsNullOrWhiteSpace(reference) || type == null)
+            {
+                return null;
+            }
+
+            return new UniqueIdReference(type, reference);
         }
     }
 }

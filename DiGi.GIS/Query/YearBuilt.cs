@@ -1,14 +1,13 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS
 {
-    public static partial class Modify
+    public static partial class Query
     {
-        public static UniqueReference UpdateValue(this GISModelFile gISModelFile, Building2D builidng2D, short? yearBuilt)
+        public static short? YearBuilt(this GISModelFile gISModelFile, Building2D builidng2D)
         {
-            if(gISModelFile == null || builidng2D == null)
+            if (gISModelFile == null || builidng2D == null)
             {
                 return null;
             }
@@ -19,36 +18,45 @@ namespace DiGi.GIS
             }
 
             string path = gISModelFile.Path;
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return null;
             }
 
             string directory = System.IO.Path.GetDirectoryName(path);
-            if(!System.IO.Directory.Exists(directory))
+            if (!System.IO.Directory.Exists(directory))
             {
                 return null;
             }
 
             path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDatasFile));
 
+            if(!System.IO.File.Exists(path))
+            {
+                return null;
+            }
+
             using (YearBuiltDataFile yearBuiltDataFile = new YearBuiltDataFile(path))
             {
                 yearBuiltDataFile.Open();
 
-                UniqueReference uniqueReference = yearBuiltDataFile.RemoveFirst<IYearBuiltData>(x => x.Reference == reference);
-                if (yearBuilt != null && yearBuilt.HasValue)
+                UniqueReference uniqueReference = yearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
+                if(uniqueReference == null)
                 {
-                    uniqueReference = yearBuiltDataFile.AddValue(new YearBuiltData(builidng2D.Reference, yearBuilt.Value));
+                    return null;
                 }
 
-                if (uniqueReference != null)
+                YearBuiltData yearBuiltData = yearBuiltDataFile.GetValue<YearBuiltData>(uniqueReference);
+                if(yearBuiltData == null)
                 {
-                    yearBuiltDataFile.Save();
+                    return null;
                 }
 
-                return uniqueReference;
+                return yearBuiltData.Year;
             }
         }
     }
 }
+
+
+
