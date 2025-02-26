@@ -51,7 +51,11 @@ namespace DiGi.GIS
 
                 Areal2D areal2D = null;
 
-                if (featureMember is OT_ADMS_A)
+                if (featureMember is OT_ADJA_A)
+                {
+                    areal2D = Convert.ToDiGi((OT_ADJA_A)featureMember);
+                }
+                else if (featureMember is OT_ADMS_A)
                 {
                     areal2D = Convert.ToDiGi((OT_ADMS_A)featureMember);
                 }
