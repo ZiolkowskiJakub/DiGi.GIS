@@ -6,19 +6,16 @@ using DiGi.GIS.Enums;
 
 namespace DiGi.GIS.Classes
 {
-    public class AdministrativeDivision : Areal2D
+    public class AdministrativeDivision : AdministrativeAreal2D
     {
-        [JsonInclude, JsonPropertyName("Name")]
-        private string name;
 
         [JsonInclude, JsonPropertyName("AdministrativeDivisionType")]
         private AdministrativeDivisionType administrativeDivisionType;
 
         public AdministrativeDivision(Guid guid, string reference, PolygonalFace2D polygonalFace2D, AdministrativeDivisionType administrativeDivisionType, string name)
-            : base(guid, reference, polygonalFace2D)
+            : base(guid, reference, polygonalFace2D, name)
         {
             this.administrativeDivisionType = administrativeDivisionType;
-            this.name = name;
         }
 
         public AdministrativeDivision(AdministrativeDivision administrativeDivision)
@@ -27,7 +24,6 @@ namespace DiGi.GIS.Classes
             if(administrativeDivision != null)
             {
                 administrativeDivisionType = administrativeDivision.administrativeDivisionType;
-                name = administrativeDivision.name;
             }
         }
 
@@ -35,15 +31,6 @@ namespace DiGi.GIS.Classes
             :base(jsonObject)
         {
 
-        }
-
-        [JsonIgnore]
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
         }
 
         [JsonIgnore]

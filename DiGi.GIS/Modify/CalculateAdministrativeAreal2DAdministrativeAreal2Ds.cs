@@ -34,13 +34,15 @@ namespace DiGi.GIS
 
             tuples.Sort((x, y) => y.Item2.Area.CompareTo(x.Item2.Area));
 
+            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_All = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>(tuples);
+
             Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>> dictionary = new Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>>();
             while(tuples.Count > 0)
             {
                 Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple = tuples[0];
                 tuples.Remove(tuple);
 
-                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples.FindAll(x => tuple.Item2.BoundingBox.InRange( x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D.InRange(x.Item2.InternalPoint, tolerance));
+                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox.InRange( x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D.InRange(x.Item2.InternalPoint, tolerance));
                 dictionary[tuple.Item1] = tuples_Temp.ConvertAll(x => x.Item1);
             }
 

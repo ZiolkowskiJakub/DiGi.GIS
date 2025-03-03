@@ -15,47 +15,47 @@ namespace DiGi.GIS
                 return;
             }
 
-            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeAreal2D = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>();
+            List<Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeSubdivision = new List<Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult>>();
 
-            List<AdministrativeAreal2D> administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
-            if (administrativeAreal2Ds != null)
+            List<AdministrativeSubdivision> administrativeSubdivisions = gISModel?.GetObjects<AdministrativeSubdivision>();
+            if (administrativeSubdivisions != null)
             {
-                foreach (AdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
+                foreach (AdministrativeSubdivision administrativeSubdivision in administrativeSubdivisions)
                 {
-                    if (administrativeAreal2D == null)
+                    if (administrativeSubdivision == null)
                     {
                         continue;
                     }
 
-                    AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
+                    AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeSubdivision);
                     if (administrativeAreal2DGeometryCalculationResult == null)
                     {
-                        administrativeAreal2DGeometryCalculationResult = Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);
+                        administrativeAreal2DGeometryCalculationResult = Create.AdministrativeAreal2DGeometryCalculationResult(administrativeSubdivision);
                     }
 
-                    tuples_AdministrativeAreal2D.Add(new Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult));
+                    tuples_AdministrativeSubdivision.Add(new Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult>(administrativeSubdivision, administrativeAreal2DGeometryCalculationResult));
                 }
             }
 
-            if(tuples_AdministrativeAreal2D.Count == 0)
+            if(tuples_AdministrativeSubdivision.Count == 0)
             {
                 return;
             }
             
-            Dictionary<AdministrativeAreal2D, double> dictionary_OccupancyArea = new Dictionary<AdministrativeAreal2D, double>();
+            Dictionary<AdministrativeSubdivision, double> dictionary_OccupancyArea = new Dictionary<AdministrativeSubdivision, double>();
 
-            tuples_AdministrativeAreal2D.Sort((x, y) => x.Item2.Area.CompareTo(y.Item2.Area));
+            tuples_AdministrativeSubdivision.Sort((x, y) => x.Item2.Area.CompareTo(y.Item2.Area));
 
-            Dictionary<AdministrativeAreal2D, List<Building2D>> dictionary_Building2D = new Dictionary<AdministrativeAreal2D, List<Building2D>>();
+            Dictionary<AdministrativeSubdivision, List<Building2D>> dictionary_Building2D = new Dictionary<AdministrativeSubdivision, List<Building2D>>();
             
-            foreach (Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeAreal2D in tuples_AdministrativeAreal2D)
+            foreach (Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeSubdivision in tuples_AdministrativeSubdivision)
             {
                 List<Building2D> building2Ds = new List<Building2D>();
 
                 double occupancyArea = 0;
-                if (gISModel.TryGetRelatedObjects<Building2D, AdministrativeAreal2DBuilding2DsRelation>(tuple_AdministrativeAreal2D.Item1, out List<Building2D> building2Ds_AdministrativeAreal2D) && building2Ds_AdministrativeAreal2D != null)
+                if (gISModel.TryGetRelatedObjects<Building2D, AdministrativeAreal2DBuilding2DsRelation>(tuple_AdministrativeSubdivision.Item1, out List<Building2D> building2Ds_AdministrativeSubdivision) && building2Ds_AdministrativeSubdivision != null)
                 {
-                    foreach (Building2D building2D in building2Ds_AdministrativeAreal2D)
+                    foreach (Building2D building2D in building2Ds_AdministrativeSubdivision)
                     {
                         if (building2D == null || !building2D.IsOccupied())
                         {
@@ -68,45 +68,45 @@ namespace DiGi.GIS
                     }
                 }
 
-                dictionary_OccupancyArea[tuple_AdministrativeAreal2D.Item1] = occupancyArea;
-                dictionary_Building2D[tuple_AdministrativeAreal2D.Item1] = building2Ds;
+                dictionary_OccupancyArea[tuple_AdministrativeSubdivision.Item1] = occupancyArea;
+                dictionary_Building2D[tuple_AdministrativeSubdivision.Item1] = building2Ds;
             }
 
-            List<Tuple<AdministrativeAreal2D, OccupancyCalculationResult>> tuples_OccupancyCalculationResult = new List<Tuple<AdministrativeAreal2D, OccupancyCalculationResult>>();
+            List<Tuple<AdministrativeSubdivision, OccupancyCalculationResult>> tuples_OccupancyCalculationResult = new List<Tuple<AdministrativeSubdivision, OccupancyCalculationResult>>();
 
-            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeAreal2D_Temp = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>(tuples_AdministrativeAreal2D);
-            for (int i = tuples_AdministrativeAreal2D_Temp.Count - 1; i >= 0; i--)
+            List<Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeSubdivision_Temp = new List<Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult>>(tuples_AdministrativeSubdivision);
+            for (int i = tuples_AdministrativeSubdivision_Temp.Count - 1; i >= 0; i--)
             {
-                AdministrativeAreal2D administrativeAreal2D = tuples_AdministrativeAreal2D_Temp[i].Item1;
-                if (administrativeAreal2D.Occupancy == null || !administrativeAreal2D.Occupancy.HasValue)
+                AdministrativeSubdivision administrativeSubdivision = tuples_AdministrativeSubdivision_Temp[i].Item1;
+                if (administrativeSubdivision.Occupancy == null || !administrativeSubdivision.Occupancy.HasValue)
                 {
-                    if(dictionary_OccupancyArea[administrativeAreal2D] == 0)
+                    if(dictionary_OccupancyArea[administrativeSubdivision] == 0)
                     {
-                        tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeAreal2D, OccupancyCalculationResult>(administrativeAreal2D, new OccupancyCalculationResult(0, 0)));
-                        tuples_AdministrativeAreal2D_Temp.RemoveAt(i);
+                        tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(administrativeSubdivision, new OccupancyCalculationResult(0, 0)));
+                        tuples_AdministrativeSubdivision_Temp.RemoveAt(i);
                     }
 
                     continue;
                 }
 
-                uint occupancy = administrativeAreal2D.Occupancy.Value;
-                double occupancyArea = dictionary_OccupancyArea[administrativeAreal2D];
+                uint occupancy = administrativeSubdivision.Occupancy.Value;
+                double occupancyArea = dictionary_OccupancyArea[administrativeSubdivision];
                 OccupancyCalculationResult occupancyCalculationResult = new OccupancyCalculationResult(occupancyArea, occupancy);
 
-                tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeAreal2D, OccupancyCalculationResult>(administrativeAreal2D, occupancyCalculationResult));
-                tuples_AdministrativeAreal2D_Temp.RemoveAt(i);
+                tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(administrativeSubdivision, occupancyCalculationResult));
+                tuples_AdministrativeSubdivision_Temp.RemoveAt(i);
             }
 
             int count = 0;
 
-            while (tuples_AdministrativeAreal2D_Temp.Count != count)
+            while (tuples_AdministrativeSubdivision_Temp.Count != count)
             {
-                count = tuples_AdministrativeAreal2D_Temp.Count;
-                for (int i = tuples_AdministrativeAreal2D_Temp.Count - 1; i >= 0; i--)
+                count = tuples_AdministrativeSubdivision_Temp.Count;
+                for (int i = tuples_AdministrativeSubdivision_Temp.Count - 1; i >= 0; i--)
                 {
-                    AdministrativeAreal2D administrativeAreal2D = tuples_AdministrativeAreal2D_Temp[i].Item1;
+                    AdministrativeSubdivision administrativeSubdivision = tuples_AdministrativeSubdivision_Temp[i].Item1;
 
-                    UniqueReference uniqueReference = Core.Create.UniqueReference(administrativeAreal2D);
+                    UniqueReference uniqueReference = Core.Create.UniqueReference(administrativeSubdivision);
 
                     List<AdministrativeAreal2DAdministrativeAreal2DsRelation> administrativeAreal2DAdministrativeAreal2DsRelations = gISModel.GetRelations<AdministrativeAreal2DAdministrativeAreal2DsRelation>(x => x.Contains(Core.Relation.Enums.RelationSide.To, uniqueReference));
                     if (administrativeAreal2DAdministrativeAreal2DsRelations == null || administrativeAreal2DAdministrativeAreal2DsRelations.Count == 0)
@@ -114,15 +114,15 @@ namespace DiGi.GIS
                         continue;
                     }
 
-                    AdministrativeAreal2D administrativeAreal2D_Parent = gISModel.GetObject<AdministrativeAreal2D>(administrativeAreal2DAdministrativeAreal2DsRelations[0].UniqueReference_From as GuidReference);
-                    if (administrativeAreal2D_Parent == null)
+                    AdministrativeSubdivision administrativeSubdivision_Parent = gISModel.GetObject<AdministrativeSubdivision>(administrativeAreal2DAdministrativeAreal2DsRelations[0].UniqueReference_From as GuidReference);
+                    if (administrativeSubdivision_Parent == null)
                     {
                         continue;
                     }
 
                     double occupancyPerArea = double.NaN;
 
-                    OccupancyCalculationResult occupancyCalculationResult_Parent = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeAreal2D_Parent.Guid)?.Item2;
+                    OccupancyCalculationResult occupancyCalculationResult_Parent = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision_Parent.Guid)?.Item2;
                     if (occupancyCalculationResult_Parent != null)
                     {
                         uint? occupancy = occupancyCalculationResult_Parent.Occupancy;
@@ -134,17 +134,17 @@ namespace DiGi.GIS
                             {
                                 occupancyPerArea = occupancy.Value / occupancyArea.Value;
 
-                                OccupancyCalculationResult occupancyCalculationResult = new OccupancyCalculationResult(dictionary_OccupancyArea[administrativeAreal2D], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeAreal2D] * occupancyPerArea));
-                                tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeAreal2D, OccupancyCalculationResult>(administrativeAreal2D, occupancyCalculationResult));
+                                OccupancyCalculationResult occupancyCalculationResult = new OccupancyCalculationResult(dictionary_OccupancyArea[administrativeSubdivision], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeSubdivision] * occupancyPerArea));
+                                tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(administrativeSubdivision, occupancyCalculationResult));
 
-                                tuples_AdministrativeAreal2D_Temp.RemoveAll(x => x.Item1.Guid == administrativeAreal2D.Guid);
+                                tuples_AdministrativeSubdivision_Temp.RemoveAll(x => x.Item1.Guid == administrativeSubdivision.Guid);
 
                                 break;
                             }
                         }
                     }
 
-                    if (!gISModel.TryGetRelatedObjects<AdministrativeAreal2D, AdministrativeAreal2DAdministrativeAreal2DsRelation>(administrativeAreal2D_Parent, out List<AdministrativeAreal2D> administrativeAreal2Ds_Child) || administrativeAreal2Ds_Child == null)
+                    if (!gISModel.TryGetRelatedObjects<AdministrativeSubdivision, AdministrativeAreal2DAdministrativeAreal2DsRelation>(administrativeSubdivision_Parent, out List<AdministrativeSubdivision> administrativeSubdivisions_Child) || administrativeSubdivisions_Child == null)
                     {
                         continue;
                     }
@@ -152,9 +152,9 @@ namespace DiGi.GIS
                     List<double> occupancyAreas = new List<double>();
                     List<uint> occupancies = new List<uint>();
 
-                    foreach (AdministrativeAreal2D administrativeAreal2D_Child in administrativeAreal2Ds_Child)
+                    foreach (AdministrativeSubdivision administrativeSubdivision_Child in administrativeSubdivisions_Child)
                     {
-                        OccupancyCalculationResult occupancyCalculationResult_Child = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeAreal2D_Child.Guid)?.Item2;
+                        OccupancyCalculationResult occupancyCalculationResult_Child = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision_Child.Guid)?.Item2;
                         if(occupancyCalculationResult_Child == null)
                         {
                             continue;
@@ -178,33 +178,33 @@ namespace DiGi.GIS
                     occupancyPerArea = occupancies.ConvertAll(x  => System.Convert.ToDouble(x)).Sum() / occupancyAreas.Sum();
 
                     List<Guid> guids = new List<Guid>();
-                    foreach (AdministrativeAreal2D administrativeAreal2D_Child in administrativeAreal2Ds_Child)
+                    foreach (AdministrativeSubdivision administrativeSubdivision_Child in administrativeSubdivisions_Child)
                     {
-                        OccupancyCalculationResult occupancyCalculationResult_Child = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeAreal2D_Child.Guid)?.Item2;
+                        OccupancyCalculationResult occupancyCalculationResult_Child = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision_Child.Guid)?.Item2;
                         if (occupancyCalculationResult_Child != null)
                         {
                             continue;
                         }
 
-                        occupancyCalculationResult_Child = new OccupancyCalculationResult(dictionary_OccupancyArea[administrativeAreal2D], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeAreal2D] * occupancyPerArea));
-                        tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeAreal2D, OccupancyCalculationResult>(administrativeAreal2D, occupancyCalculationResult_Child));
-                        guids.Add(administrativeAreal2D.Guid);
+                        occupancyCalculationResult_Child = new OccupancyCalculationResult(dictionary_OccupancyArea[administrativeSubdivision], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeSubdivision] * occupancyPerArea));
+                        tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(administrativeSubdivision, occupancyCalculationResult_Child));
+                        guids.Add(administrativeSubdivision.Guid);
                     }
 
                     if(guids != null && guids.Count != 0)
                     {
-                        tuples_AdministrativeAreal2D_Temp.RemoveAll(x => guids.Contains(x.Item1.Guid));
+                        tuples_AdministrativeSubdivision_Temp.RemoveAll(x => guids.Contains(x.Item1.Guid));
                         break;
                     }
                 }
             }
 
-            if(tuples_AdministrativeAreal2D_Temp.Count != 0)
+            if(tuples_AdministrativeSubdivision_Temp.Count != 0)
             {
                 List<double> occupancyAreas = new List<double>();
                 List<uint> occupancies = new List<uint>();
 
-                foreach (Tuple<AdministrativeAreal2D, OccupancyCalculationResult>  tuple_OccupancyCalculationResult in tuples_OccupancyCalculationResult)
+                foreach (Tuple<AdministrativeSubdivision, OccupancyCalculationResult>  tuple_OccupancyCalculationResult in tuples_OccupancyCalculationResult)
                 {
                     uint? occupancy = tuple_OccupancyCalculationResult.Item2.Occupancy;
                     double? occupancyArea = tuple_OccupancyCalculationResult.Item2.OccupancyArea;
@@ -220,9 +220,9 @@ namespace DiGi.GIS
                 {
                     double occupancyPerArea = occupancies.ConvertAll(x => System.Convert.ToDouble(x)).Sum() / occupancyAreas.Sum();
                     
-                    foreach(Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeAreal2D_Temp in tuples_AdministrativeAreal2D_Temp)
+                    foreach(Tuple<AdministrativeSubdivision, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeSubdivision_Temp in tuples_AdministrativeSubdivision_Temp)
                     {
-                        if(dictionary_OccupancyArea.TryGetValue(tuple_AdministrativeAreal2D_Temp.Item1, out double occupancyArea))
+                        if(dictionary_OccupancyArea.TryGetValue(tuple_AdministrativeSubdivision_Temp.Item1, out double occupancyArea))
                         {
                             OccupancyCalculationResult occupancyCalculationResult = null;
 
@@ -235,18 +235,18 @@ namespace DiGi.GIS
                                 occupancyCalculationResult = new OccupancyCalculationResult(occupancyArea, 0);
                             }
 
-                            tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeAreal2D, OccupancyCalculationResult>(tuple_AdministrativeAreal2D_Temp.Item1, occupancyCalculationResult));
+                            tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(tuple_AdministrativeSubdivision_Temp.Item1, occupancyCalculationResult));
                         }
                     }
                 }
             }
 
-            foreach(Tuple<AdministrativeAreal2D, OccupancyCalculationResult> tuple_OccupancyCalculationResult in tuples_OccupancyCalculationResult)
+            foreach(Tuple<AdministrativeSubdivision, OccupancyCalculationResult> tuple_OccupancyCalculationResult in tuples_OccupancyCalculationResult)
             {
                 gISModel.Update(tuple_OccupancyCalculationResult.Item1, tuple_OccupancyCalculationResult.Item2);
             }
 
-            foreach(KeyValuePair<AdministrativeAreal2D, List<Building2D>> keyValuePair in dictionary_Building2D)
+            foreach(KeyValuePair<AdministrativeSubdivision, List<Building2D>> keyValuePair in dictionary_Building2D)
             {
                 List<Building2D> building2Ds = keyValuePair.Value;
                 if (building2Ds == null || building2Ds.Count == 0)
@@ -254,17 +254,17 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                AdministrativeAreal2D administrativeAreal2D = keyValuePair.Key;
+                AdministrativeSubdivision administrativeSubdivision = keyValuePair.Key;
 
-                OccupancyCalculationResult occupancyCalculationResult_AdministrativeAreal2D = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeAreal2D.Guid).Item2;
-                if (occupancyCalculationResult_AdministrativeAreal2D == null || occupancyCalculationResult_AdministrativeAreal2D.Occupancy == null || occupancyCalculationResult_AdministrativeAreal2D.OccupancyArea == null)
+                OccupancyCalculationResult occupancyCalculationResult_AdministrativeSubdivision = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision.Guid).Item2;
+                if (occupancyCalculationResult_AdministrativeSubdivision == null || occupancyCalculationResult_AdministrativeSubdivision.Occupancy == null || occupancyCalculationResult_AdministrativeSubdivision.OccupancyArea == null)
                 {
                     continue;
                 }
 
-                uint occupancy_AdministrativeAreal2D = occupancyCalculationResult_AdministrativeAreal2D.Occupancy.Value;
+                uint occupancy_AdministrativeSubdivision = occupancyCalculationResult_AdministrativeSubdivision.Occupancy.Value;
 
-                double factor = occupancy_AdministrativeAreal2D / occupancyCalculationResult_AdministrativeAreal2D.OccupancyArea.Value; 
+                double factor = occupancy_AdministrativeSubdivision / occupancyCalculationResult_AdministrativeSubdivision.OccupancyArea.Value; 
 
                 List<Tuple<Building2D, double, uint>> tuples_Builidng2D = new List<Tuple<Building2D, double, uint>>();
                 foreach(Building2D building2D in building2Ds)
@@ -272,7 +272,7 @@ namespace DiGi.GIS
                     double occupancyArea = building2D.PolygonalFace2D.GetArea() * building2D.Storeys;
 
                     uint occupancy = 0;
-                    if (occupancy_AdministrativeAreal2D != 0)
+                    if (occupancy_AdministrativeSubdivision != 0)
                     {
                         occupancy = System.Convert.ToUInt32(System.Math.Floor(occupancyArea * factor));
                         if (occupancy == 0)
@@ -280,7 +280,7 @@ namespace DiGi.GIS
                             occupancy++;
                         }
 
-                        occupancy_AdministrativeAreal2D -= occupancy;
+                        occupancy_AdministrativeSubdivision -= occupancy;
                     }
                     else
                     {
@@ -290,13 +290,13 @@ namespace DiGi.GIS
                     tuples_Builidng2D.Add(new Tuple<Building2D, double, uint>(building2D, occupancyArea, occupancy));
                 }
 
-                if(occupancy_AdministrativeAreal2D > 0)
+                if(occupancy_AdministrativeSubdivision > 0)
                 {
-                    Random random = new Random(System.Convert.ToInt32(occupancyCalculationResult_AdministrativeAreal2D.Occupancy.Value));
+                    Random random = new Random(System.Convert.ToInt32(occupancyCalculationResult_AdministrativeSubdivision.Occupancy.Value));
 
                     Range<int> range = new Range<int>(0, building2Ds.Count - 1);
 
-                    while (occupancy_AdministrativeAreal2D > 0)
+                    while (occupancy_AdministrativeSubdivision > 0)
                     {
                         int index = Core.Query.Random(random, range);
 
@@ -304,7 +304,7 @@ namespace DiGi.GIS
 
                         tuples_Builidng2D[index] = new Tuple<Building2D, double, uint>(tuple.Item1, tuple.Item2, tuple.Item3 + 1);
                         
-                        occupancy_AdministrativeAreal2D--;
+                        occupancy_AdministrativeSubdivision--;
                     }
                 }
 

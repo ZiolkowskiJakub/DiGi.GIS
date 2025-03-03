@@ -7,76 +7,114 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static Dictionary<GuidReference, OrtoDatas> OrtoDatasDictionary(this GISModelFile gISModelFile, IEnumerable<Building2D> building2Ds)
+        public static Dictionary<string, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<string> references)
         {
-            if(gISModelFile == null || building2Ds == null)
+            if(string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
             {
                 return null;
             }
 
-            GISModel gISModel = gISModelFile.Value;
-            if (gISModel == null)
+            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            foreach(string reference in references)
+            {
+                UniqueReference uniqueReference = OrtoDatasFile.GetUniqueReference(reference);
+                if(uniqueReference == null)
+                {
+                    continue;
+                }
+
+                uniqueReferences.Add(uniqueReference);
+            }
+
+            Dictionary<string, OrtoDatas> result = new Dictionary<string, OrtoDatas>();
+            
+            if (uniqueReferences.Count == 0)
+            {
+                return result;
+            }
+
+            string[] paths = System.IO.Directory.GetFiles(directory, string.Format("*.{0}", Constans.FileExtension.OrtoDatasFile));
+            if(paths == null || paths.Length == 0)
+            {
+                return result;
+            }
+
+            foreach(string path in paths)
+            {
+                using (OrtoDatasFile ortoDatasFile = new OrtoDatasFile(path))
+                {
+                    List<OrtoDatas> ortoDatasList = ortoDatasFile.GetValues(uniqueReferences)?.ToList();
+                    if(ortoDatasList == null || ortoDatasList.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    for (int i = ortoDatasList.Count - 1; i >= 0; i--)
+                    {
+                        if (ortoDatasList[i] == null)
+                        {
+                            continue;
+                        }
+
+                        UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
+
+                        result[uniqueReference.UniqueId] = ortoDatasList[i];
+                        uniqueReferences.Remove(uniqueReference);
+
+                        if(uniqueReferences.Count == 0)
+                        {
+                            return result;
+                        }
+                    }
+
+                }
+            }
+
+            return result;
+        }
+
+        public static Dictionary<GuidReference, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<Building2D> building2Ds)
+        {
+            if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)
+            {
+                return null;
+            }
+
+            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            foreach(Building2D building2D in building2Ds)
+            {
+                string reference = building2D?.Reference;
+                if(reference == null)
+                {
+                    continue;
+                }
+
+                dictionary[reference] = new GuidReference(building2D);
+            }
+
+            Dictionary<string, OrtoDatas> ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
+            if(ortoDatasDictionary == null)
             {
                 return null;
             }
 
             Dictionary<GuidReference, OrtoDatas> result = new Dictionary<GuidReference, OrtoDatas>();
-            if(building2Ds.Count() == 0)
+            if(ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
             {
-                return result;
-            }
-
-            Dictionary<string, Dictionary<GuidReference, InstanceRelatedExternalReference>> dictionary = new Dictionary<string, Dictionary<GuidReference, InstanceRelatedExternalReference>>();
-            foreach(Building2D building2D in building2Ds)
-            {
-                if(!gISModel.TryGetRelatedObject<OrtoDatasCalculationResult, Building2DExternalReferenceUniqueResultRelation>(building2D, out OrtoDatasCalculationResult ortoDatasCalculationResult))
+                foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
                 {
-                    continue;
-                }
+                    string reference = keyValuePair.Key;
 
-                InstanceRelatedExternalReference instanceRelatedExternalReference = ortoDatasCalculationResult?.Reference;
-                if(string.IsNullOrWhiteSpace(instanceRelatedExternalReference?.Source))
-                {
-                    continue;
-                }
-
-                if(!dictionary.TryGetValue(instanceRelatedExternalReference.Source, out Dictionary<GuidReference, InstanceRelatedExternalReference> dictionary_InstanceRelatedExternalReference) || dictionary_InstanceRelatedExternalReference == null)
-                {
-                    dictionary_InstanceRelatedExternalReference = new Dictionary<GuidReference, InstanceRelatedExternalReference>();
-                    dictionary[instanceRelatedExternalReference.Source] = dictionary_InstanceRelatedExternalReference;
-                }
-
-                dictionary_InstanceRelatedExternalReference[new GuidReference(building2D)] = instanceRelatedExternalReference;
-            }
-
-            string directory = System.IO.Path.GetDirectoryName(gISModelFile.Path);
-
-            foreach (KeyValuePair<string, Dictionary<GuidReference, InstanceRelatedExternalReference>> keyValuePair in dictionary)
-            {
-                string path = Core.IO.Query.AbsolutePath(directory, keyValuePair.Key);
-                if(string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
-                {
-                    continue;
-                }
-
-                using (OrtoDatasFile ortoDatasFile = new OrtoDatasFile(path)) 
-                {
-                    ortoDatasFile.Open();
-
-                    foreach(KeyValuePair<GuidReference, InstanceRelatedExternalReference> keyValuePair_instanceRelatedExternalReference in keyValuePair.Value)
+                    if (reference == null || !ortoDatasDictionary.TryGetValue(reference, out OrtoDatas ortoDatas))
                     {
-                        UniqueReference uniqueReference = keyValuePair_instanceRelatedExternalReference.Value.Reference as UniqueReference;
-                        if(uniqueReference != null)
-                        {
-                            result[keyValuePair_instanceRelatedExternalReference.Key] = ortoDatasFile.GetValue<OrtoDatas>(uniqueReference);
-                        }
+                        continue;
                     }
-                }
 
+                    result[keyValuePair.Value] = ortoDatas;
+                }
             }
 
             return result;
-
         }
     }
 }

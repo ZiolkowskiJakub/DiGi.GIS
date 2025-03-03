@@ -6,19 +6,20 @@ using DiGi.GIS.Enums;
 
 namespace DiGi.GIS.Classes
 {
-    public class AdministrativeSubdivision : Areal2D
+    public class AdministrativeSubdivision : AdministrativeAreal2D
     {
-        [JsonInclude, JsonPropertyName("Name")]
-        private string name;
 
         [JsonInclude, JsonPropertyName("AdministrativeSubdivisionType")]
         private AdministrativeSubdivisionType administrativeSubdivisionType;
 
-        public AdministrativeSubdivision(Guid guid, string reference, PolygonalFace2D polygonalFace2D, AdministrativeSubdivisionType administrativeSubdivisionType, string name)
-            : base(guid, reference, polygonalFace2D)
+        [JsonInclude, JsonPropertyName("Occupancy")]
+        private uint? occupancy = 0;
+
+        public AdministrativeSubdivision(Guid guid, string reference, PolygonalFace2D polygonalFace2D, AdministrativeSubdivisionType administrativeSubdivisionType, string name, uint? occupancy)
+            : base(guid, reference, polygonalFace2D, name)
         {
             this.administrativeSubdivisionType = administrativeSubdivisionType;
-            this.name = name;
+            this.occupancy = occupancy;
         }
 
         public AdministrativeSubdivision(AdministrativeSubdivision administrativeSubdivision)
@@ -27,7 +28,7 @@ namespace DiGi.GIS.Classes
             if(administrativeSubdivision != null)
             {
                 administrativeSubdivisionType = administrativeSubdivision.administrativeSubdivisionType;
-                name = administrativeSubdivision.name;
+                occupancy = administrativeSubdivision.occupancy;
             }
         }
 
@@ -38,11 +39,11 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Name
+        public uint? Occupancy
         {
             get
             {
-                return name;
+                return occupancy;
             }
         }
 

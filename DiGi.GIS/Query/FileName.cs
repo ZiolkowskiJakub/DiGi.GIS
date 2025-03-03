@@ -20,7 +20,7 @@ namespace DiGi.GIS
             do
             {
                 result = string.Format("{0}_{1}", fileName, index);
-                fileInfo = new FileInfo(Path.Combine(directory, string.Format("{0}.{1}", result, extension)));
+                fileInfo = new FileInfo(Path.Combine(directory, string.Format("{0}{1}", result, extension)));
 
                 index++;
 

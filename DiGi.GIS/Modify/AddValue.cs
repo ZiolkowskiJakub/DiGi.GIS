@@ -1,6 +1,5 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using DiGi.GIS.Interfaces;
 using System.Threading.Tasks;
 
 namespace DiGi.GIS
