@@ -6,6 +6,36 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        public static string Reference(this OT_ADJA_A oT_ADJA_A)
+        {
+            if (oT_ADJA_A == null)
+            {
+                return null;
+            }
+
+            string result = null;
+
+            result = Create.Reference(oT_ADJA_A.lokalnyId);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            result = Create.Reference(oT_ADJA_A.id);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            result = Reference(oT_ADJA_A.geometria);
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                return result;
+            }
+
+            return null;
+        }
+
         public static string Reference(this OT_ADMS_A oT_ADMS_A)
         {
             if (oT_ADMS_A == null)

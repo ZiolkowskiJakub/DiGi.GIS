@@ -13,12 +13,12 @@ namespace DiGi.GIS
                 return;
             }
 
-            for(int i =0; i < administrativeAreal2Ds.Count; i++)
+            for (int i = 0; i < administrativeAreal2Ds.Count; i++)
             {
                 AdministrativeAreal2D administrativeAreal2D = administrativeAreal2Ds[i];
 
                 AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D, tolerance);
-                if(administrativeAreal2DGeometryCalculationResult == null)
+                if (administrativeAreal2DGeometryCalculationResult == null)
                 {
                     continue;
                 }

@@ -2,7 +2,7 @@
 
 namespace DiGi.GIS.Enums
 {
-    public enum AdministrativeArealType
+    public enum AdministrativeSubdivisionType
     {
         [Description("city")] city,
         [Description("part of a city")] part_of_city,

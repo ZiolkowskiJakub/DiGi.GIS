@@ -6,7 +6,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static List<Building2D> Building2Ds(this GISModel gISModel, Point2D point2D, out List<AdministrativeAreal2D> administrativeAreal2Ds, double tolerance = Core.Constans.Tolerance.Distance)
+        public static List<Building2D> Building2Ds<UAdministrativeAreal2D>(this GISModel gISModel, Point2D point2D, out List<UAdministrativeAreal2D> administrativeAreal2Ds, double tolerance = Core.Constans.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             administrativeAreal2Ds = null;
 
@@ -15,16 +15,16 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<AdministrativeAreal2D> administrativeAreal2Ds_All = gISModel.GetObjects<AdministrativeAreal2D>();
+            List<UAdministrativeAreal2D> administrativeAreal2Ds_All = gISModel.GetObjects<UAdministrativeAreal2D>();
             if (administrativeAreal2Ds_All == null)
             {
                 return null;
             }
 
-            administrativeAreal2Ds = new List<AdministrativeAreal2D>();
+            administrativeAreal2Ds = new List<UAdministrativeAreal2D>();
 
             List<Building2D> result = new List<Building2D>();
-            foreach (AdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds_All)
+            foreach (UAdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds_All)
             {
                 AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
                 if (administrativeAreal2DGeometryCalculationResult == null)
