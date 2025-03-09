@@ -1,35 +1,26 @@
-﻿using DiGi.Core.Classes;
-using DiGi.GIS.Interfaces;
+﻿using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
-    public class GISModelFile : Core.IO.File.Classes.ValueFile<GISModel>, IGISObject
+    public class StatisticalUnitFile : Core.IO.File.Classes.ValueFile<StatisticalUnit>, IGISObject
     {
-        public GISModelFile(GISModelFile gISModelFile)
-            : base(gISModelFile)
+        public StatisticalUnitFile(StatisticalUnitFile statisticalUnitFile)
+            : base(statisticalUnitFile)
         {
 
         }
 
-        public GISModelFile(JsonObject jsonObject)
+        public StatisticalUnitFile(JsonObject jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public GISModelFile(string path)
+        public StatisticalUnitFile(string path)
             : base(path) 
         {
             
-        }
-
-        public GuidExternalReference GuidExternalReference
-        {
-            get
-            {
-                return new GuidExternalReference(Path, Value);
-            }
         }
     }
 }

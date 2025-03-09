@@ -1,7 +1,10 @@
-﻿using DiGi.Core.Classes;
+﻿using DiGi.BDL.Classes;
+using DiGi.BDL.Enums;
+using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiGi.GIS
@@ -89,6 +92,98 @@ namespace DiGi.GIS
             }
 
             return true;
+        }
+
+        public static async Task<bool> Write(this StatisticalUnit statisticalUnit, string path, IEnumerable<Variable> variables, Range<int> years)
+        {
+            if(statisticalUnit == null || variables == null || years == null || string.IsNullOrWhiteSpace(path))
+            {
+                return false;
+            }
+
+            string unitId = statisticalUnit.Reference;
+            if (unitId == null || variables.Count() == 0 || years.Max - years.Min == 0)
+            {
+                return false;
+            }
+
+            List<int> years_Temp = new List<int>();
+            for(int i = years.Min; i <= years.Max; i++)
+            {
+                years_Temp.Add(i);
+            }
+
+            return await Write(unitId, path, variables, years_Temp);
+        }
+
+        public static async Task<bool> Write(this string unitId, string path, IEnumerable<Variable> variables, IEnumerable<int> years, bool overrideExisting = false)
+        {
+            if(string.IsNullOrWhiteSpace(unitId) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
+            {
+                return false;
+            }
+
+            UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(unitId);
+            if (uniqueReference == null)
+            {
+                return false;
+            }
+
+            StatisticalDataCollection statisticalDataCollection = null;
+
+            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new StatisticalDataCollectionFile(path))
+            {
+                statisticalDataCollectionFile.Open();
+                statisticalDataCollection = statisticalDataCollectionFile.GetValue(uniqueReference);
+            }
+
+            List<Variable> variables_Temp = new List<Variable>(variables);
+
+            if(statisticalDataCollection != null && !overrideExisting)
+            {
+                for (int i = variables_Temp.Count - 1; i >= 0; i--)
+                {
+                    if (statisticalDataCollection.Contains(variables_Temp[i]))
+                    {
+                        variables_Temp.RemoveAt(i);
+                    }
+                }
+            }
+
+            if(variables_Temp.Count == 0)
+            {
+                return false;
+            }
+
+            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(unitId, variables, years);
+            if (unitYearlyValues == null)
+            {
+                return false;
+            }
+
+            if(statisticalDataCollection == null)
+            {
+                statisticalDataCollection = unitYearlyValues.ToDiGi();
+            }
+            else
+            {
+                statisticalDataCollection.AddRange(unitYearlyValues);
+            }
+
+            if (statisticalDataCollection == null)
+            {
+                return false;
+            }
+
+            bool result = false;
+
+            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new StatisticalDataCollectionFile(path))
+            {
+                statisticalDataCollectionFile.AddValue(statisticalDataCollection);
+                result = statisticalDataCollectionFile.Save();
+            }
+
+            return result;
         }
     }
 }

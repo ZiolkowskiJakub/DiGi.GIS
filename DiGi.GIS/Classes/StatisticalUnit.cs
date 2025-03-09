@@ -79,6 +79,31 @@ namespace DiGi.GIS.Classes
                 }
             }
         }
+
+        public IEnumerable<StatisticalUnit> GetStatisticalUnits(bool includeNested)
+        {
+            if(!includeNested)
+            {
+                return StatisticalUnits;
+            }
+
+            List<StatisticalUnit> result = new List<StatisticalUnit>();
+            foreach(StatisticalUnit statisticalUnit in StatisticalUnits)
+            {
+                result.Add(statisticalUnit);
+
+                IEnumerable<StatisticalUnit> statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested);
+                if(statisticalUnits_Nested != null)
+                {
+                    foreach(StatisticalUnit statisticalUnit_Nested in statisticalUnits_Nested)
+                    {
+                        result.Add(statisticalUnit_Nested);
+                    }
+                }
+            }
+
+            return result;
+        }
         
         [JsonIgnore]
         public StatisticalUnitType StatisticalUnitType

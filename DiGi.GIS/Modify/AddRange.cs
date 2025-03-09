@@ -1,9 +1,12 @@
-﻿using DiGi.BDOT10k.Classes;
+﻿using DiGi.BDL.Classes;
+using DiGi.BDOT10k.Classes;
 using DiGi.BDOT10k.Interfaces;
 using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
+using DiGi.BDL.Enums;
 using DiGi.GML.Classes;
 using DiGi.GML.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,6 +78,65 @@ namespace DiGi.GIS
             }
 
             return result;
+        }
+
+        public static List<StatisticalYearlyDoubleData> AddRange(this StatisticalDataCollection statisticalDataCollection, UnitYearlyValues unitYearlyValues)
+        {
+            if(statisticalDataCollection == null || unitYearlyValues == null)
+            {
+                return null;
+            }
+
+            HashSet<StatisticalYearlyDoubleData> result = new HashSet<StatisticalYearlyDoubleData>();
+
+            List<YearlyValues> yearlyValuesList = unitYearlyValues.results;
+            if (yearlyValuesList != null)
+            {
+                
+                foreach (YearlyValues yearlyValues in yearlyValuesList)
+                {
+                    int id = yearlyValues.id;
+
+                    if (!Enum.IsDefined(typeof(Variable), id))
+                    {
+                        continue;
+                    }
+
+                    Variable variable = (Variable)id;
+
+                    List<YearlyValue> yearlyValueList = yearlyValues?.values;
+                    if(yearlyValueList == null || yearlyValueList.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    string reference = id.ToString();
+
+                    StatisticalYearlyDoubleData statisticalYearlyDoubleData = statisticalDataCollection.Find<StatisticalYearlyDoubleData>(x => x.Reference == reference);
+                    if(statisticalYearlyDoubleData == null)
+                    {
+                        statisticalYearlyDoubleData = new StatisticalYearlyDoubleData(Core.Query.Description(variable), reference);
+                        statisticalDataCollection.Add(statisticalYearlyDoubleData);
+                    }
+
+                    foreach (YearlyValue yearlyValue in yearlyValueList)
+                    {
+                        if(yearlyValue == null)
+                        {
+                            continue;
+                        }
+
+                        if(!short.TryParse(yearlyValue.year, out short year))
+                        {
+                            continue;
+                        }
+
+                        statisticalYearlyDoubleData[year] = yearlyValue.val;
+                    }
+                }
+            }
+
+            return result.ToList();
         }
     }
 }
