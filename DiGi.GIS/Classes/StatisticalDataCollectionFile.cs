@@ -8,7 +8,7 @@ namespace DiGi.GIS.Classes
     {
         public override UniqueReference GetUniqueReference(StatisticalDataCollection statisticalDataCollection)
         {
-            return GetUniqueReference(statisticalDataCollection?.Reference);
+            return GetUniqueReference(statisticalDataCollection?.Code);
         }
 
         public static UniqueReference GetUniqueReference(string reference)

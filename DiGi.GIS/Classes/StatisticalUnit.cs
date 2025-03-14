@@ -1,4 +1,6 @@
-﻿using DiGi.GIS.Enums;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Enums;
+using DiGi.GIS.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
@@ -6,22 +8,22 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class StatisticalUnit : GISGuidObject2D
+    public class StatisticalUnit : GuidObject, IGISObject
     {
         [JsonIgnore]
         private Dictionary<string, StatisticalUnit> dictionary;
 
         [JsonInclude, JsonPropertyName("Name")]
         private string name;
-        
-        [JsonInclude, JsonPropertyName("StatisticalUnitType")]
-        private StatisticalUnitType statisticalUnitType;
 
-        public StatisticalUnit(Guid guid, string reference, string name, StatisticalUnitType statisticalUnitType, IEnumerable<StatisticalUnit> statisticalUnits)
-            : base(guid, reference)
+        [JsonIgnore]
+        private UnitCode unitCode;
+
+        public StatisticalUnit(Guid guid, UnitCode unitCode, string name, IEnumerable<StatisticalUnit> statisticalUnits)
+            : base(guid)
         {
             this.name = name;
-            this.statisticalUnitType = statisticalUnitType;
+            this.unitCode = Core.Query.Clone(unitCode);
             StatisticalUnits = statisticalUnits;
         }
 
@@ -31,8 +33,8 @@ namespace DiGi.GIS.Classes
             if(statisticalUnit != null)
             {
                 name = statisticalUnit.name;
-                statisticalUnitType = statisticalUnit.statisticalUnitType;
                 StatisticalUnits = statisticalUnit.StatisticalUnits;
+                unitCode = Core.Query.Clone(statisticalUnit.unitCode);
             }
         }
 
@@ -40,6 +42,20 @@ namespace DiGi.GIS.Classes
             :base(jsonObject)
         {
 
+        }
+
+        [JsonInclude, JsonPropertyName("Code")]
+        public string Code
+        {
+            get
+            {
+                return unitCode?.Code;
+            }
+
+            set
+            {
+                unitCode = Create.UnitCode(value);
+            }
         }
 
         [JsonIgnore]
@@ -61,7 +77,7 @@ namespace DiGi.GIS.Classes
 
             private set
             {
-                if(value == null)
+                if (value == null)
                 {
                     dictionary = null;
                     return;
@@ -70,48 +86,56 @@ namespace DiGi.GIS.Classes
                 dictionary = new Dictionary<string, StatisticalUnit>();
                 foreach (StatisticalUnit statisticalUnit in value)
                 {
-                    if(statisticalUnit?.Reference == null)
+                    if (statisticalUnit?.Code == null)
                     {
                         continue;
                     }
 
-                    dictionary[statisticalUnit.Reference] = statisticalUnit;
+                    dictionary[statisticalUnit.Code] = statisticalUnit;
                 }
             }
         }
 
-        public IEnumerable<StatisticalUnit> GetStatisticalUnits(bool includeNested)
+        [JsonIgnore]
+        public UnitCode UnitCode
         {
-            if(!includeNested)
+            get
             {
-                return StatisticalUnits;
+                return Core.Query.Clone(unitCode);
             }
-
+        }
+        
+        public IEnumerable<StatisticalUnit> GetStatisticalUnits(bool includeNested, Func<StatisticalUnit, bool> func = null)
+        {
             List<StatisticalUnit> result = new List<StatisticalUnit>();
-            foreach(StatisticalUnit statisticalUnit in StatisticalUnits)
+            foreach (StatisticalUnit statisticalUnit in StatisticalUnits)
             {
-                result.Add(statisticalUnit);
-
-                IEnumerable<StatisticalUnit> statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested);
-                if(statisticalUnits_Nested != null)
+                if(includeNested)
                 {
-                    foreach(StatisticalUnit statisticalUnit_Nested in statisticalUnits_Nested)
+                    IEnumerable<StatisticalUnit> statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested, func);
+                    if (statisticalUnits_Nested != null)
                     {
-                        result.Add(statisticalUnit_Nested);
+                        foreach (StatisticalUnit statisticalUnit_Nested in statisticalUnits_Nested)
+                        {
+                            result.Add(statisticalUnit_Nested);
+                        }
                     }
                 }
+
+                if(func != null && !func.Invoke(statisticalUnit))
+                {
+                    continue;
+                }
+
+                result.Add(statisticalUnit);
             }
 
             return result;
         }
         
-        [JsonIgnore]
-        public StatisticalUnitType StatisticalUnitType
+        public StatisticalUnitType? GetStatisticalUnitType()
         {
-            get
-            {
-                return statisticalUnitType;
-            }
+            return unitCode?.GetStatisticalUnitType();
         }
     }
 }

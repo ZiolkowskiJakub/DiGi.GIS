@@ -19,6 +19,20 @@ namespace DiGi.GIS
                 _ => throw new NotImplementedException(),
             };
         }
+
+        public static AdministrativeDivisionType? ToDiGi(this StatisticalUnitType statisticalUnitType)
+        {
+            return statisticalUnitType switch
+            {
+                StatisticalUnitType.country => AdministrativeDivisionType.country,
+                StatisticalUnitType.voivedships => AdministrativeDivisionType.voivodeship,
+                StatisticalUnitType.counties => AdministrativeDivisionType.county,
+                StatisticalUnitType.municipalities => AdministrativeDivisionType.municipality,
+                //StatisticalUnitType. => AdministrativeDivisionType.town_in_urban_rural_municipality,
+                //StatisticalUnitType. => AdministrativeDivisionType.district_or_delegation,
+                _ => null,
+            };
+        }
     }
 }
 

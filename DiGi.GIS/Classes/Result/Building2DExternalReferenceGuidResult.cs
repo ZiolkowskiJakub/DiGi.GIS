@@ -7,7 +7,7 @@ namespace DiGi.GIS.Classes
     public abstract class Building2DExternalReferenceGuidResult : ExternalReferenceGuidResult<Building2D, InstanceRelatedExternalReference>, IGISGuidResult
     {
         public Building2DExternalReferenceGuidResult(InstanceRelatedExternalReference reference)
-            :base(reference)
+            : base(reference)
         {
 
         }

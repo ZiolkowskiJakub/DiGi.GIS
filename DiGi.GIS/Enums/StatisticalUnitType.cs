@@ -5,7 +5,7 @@ namespace DiGi.GIS.Enums
     public enum StatisticalUnitType
     {
         [Description("country")] country,
-        [Description("macro-regions")] macro_regions,
+        [Description("macroregions")] macroregions,
         [Description("voivedships")] voivedships,
         [Description("regions")] regions,
         [Description("subregions")] subregions,

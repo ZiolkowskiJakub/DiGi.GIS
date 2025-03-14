@@ -18,35 +18,50 @@ namespace DiGi.GIS.Classes
         [JsonIgnore]
         private Dictionary<string, IStatisticalData> dictionary = new Dictionary<string, IStatisticalData>();
 
-        [JsonInclude, JsonPropertyName("Reference")]
-        private string reference = null;
-        public StatisticalDataCollection(Guid guid, string reference, IEnumerable<IStatisticalData> statisticalDatas)
+        [JsonIgnore]
+        private UnitCode unitCode = null;
+
+        public StatisticalDataCollection(Guid guid, UnitCode unitCode, IEnumerable<IStatisticalData> statisticalDatas)
             : base(guid)
         {
-            this.reference = reference;
+            this.unitCode = Core.Query.Clone(unitCode);
             StatisticalDatas = statisticalDatas;
         }
 
-        public StatisticalDataCollection(Guid guid, string reference)
+        public StatisticalDataCollection(Guid guid, UnitCode unitCode)
             : base(guid)
         {
-            this.reference = reference;
+            this.unitCode = Core.Query.Clone(unitCode);
         }
 
         public StatisticalDataCollection(StatisticalDataCollection statisticalDataCollection)
             : base(statisticalDataCollection == null ? Guid.Empty : statisticalDataCollection.Guid)
         {
-            if(statisticalDataCollection != null)
+            if (statisticalDataCollection != null)
             {
-                reference = statisticalDataCollection.reference;
+                unitCode = Core.Query.Clone(statisticalDataCollection.unitCode);
                 StatisticalDatas = statisticalDataCollection.StatisticalDatas;
             }
         }
 
         public StatisticalDataCollection(JsonObject jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
 
+        }
+
+        [JsonInclude, JsonPropertyName("Code")]
+        public string Code
+        {
+            get
+            {
+                return unitCode.Code;
+            }
+
+            set
+            {
+                unitCode = Create.UnitCode(value);
+            }
         }
 
         [JsonIgnore]
@@ -55,15 +70,6 @@ namespace DiGi.GIS.Classes
             get
             {
                 return dictionary.Keys;
-            }
-        }
-
-        [JsonIgnore]
-        public string Reference
-        {
-            get
-            {
-                return reference;
             }
         }
 
@@ -78,14 +84,14 @@ namespace DiGi.GIS.Classes
             private set
             {
                 dictionary.Clear();
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
 
-                foreach(IStatisticalData statisticalData in value)
+                foreach (IStatisticalData statisticalData in value)
                 {
-                    if(statisticalData.Name == null)
+                    if (statisticalData.Name == null)
                     {
                         continue;
                     }
@@ -95,6 +101,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        [JsonIgnore]
+        public UnitCode UnitCode
+        {
+            get
+            {
+                return Core.Query.Clone(unitCode);
+            }
+        }
         [JsonIgnore]
         public IStatisticalData this[string name]
         {
@@ -125,6 +139,28 @@ namespace DiGi.GIS.Classes
             return dictionary.ContainsKey(name);
         }
 
+        public TStatisticalData Find<TStatisticalData>(Func<TStatisticalData, bool> func) where TStatisticalData : IStatisticalData
+        {
+            if (func == null)
+            {
+                return default;
+            }
+
+            foreach (IStatisticalData statisticalData in dictionary.Values)
+            {
+                if (statisticalData is TStatisticalData)
+                {
+                    TStatisticalData statisticalData_Temp = (TStatisticalData)statisticalData;
+                    if (func.Invoke(statisticalData_Temp))
+                    {
+                        return statisticalData_Temp;
+                    }
+                }
+            }
+
+            return default;
+        }
+
         public IStatisticalData GetStatisticalData(string name)
         {
             if (!TryGetStatisticalData(name, out IStatisticalData statisticalData))
@@ -138,13 +174,13 @@ namespace DiGi.GIS.Classes
         public IEnumerable<UStatisticalData> GetStatisticalDatas<UStatisticalData>() where UStatisticalData : IStatisticalData
         {
             List<UStatisticalData> result = new List<UStatisticalData>();
-            foreach(IStatisticalData statisticalData in dictionary.Values)
+            foreach (IStatisticalData statisticalData in dictionary.Values)
             {
-                if(statisticalData is UStatisticalData)
+                if (statisticalData is UStatisticalData)
                 {
                     result.Add((UStatisticalData)statisticalData);
                 }
-                
+
             }
 
             return result;
@@ -164,34 +200,12 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            if(!dictionary.TryGetValue(name, out statisticalData))
+            if (!dictionary.TryGetValue(name, out statisticalData))
             {
                 return false;
             }
 
             return true;
-        }
-
-        public TStatisticalData Find<TStatisticalData>(Func<TStatisticalData, bool> func) where TStatisticalData : IStatisticalData
-        {
-            if(func == null)
-            {
-                return default;
-            }
-
-            foreach(IStatisticalData statisticalData in dictionary.Values)
-            {
-                if(statisticalData is TStatisticalData)
-                {
-                    TStatisticalData statisticalData_Temp = (TStatisticalData)statisticalData;
-                    if(func.Invoke(statisticalData_Temp))
-                    {
-                        return statisticalData_Temp;
-                    }
-                }
-            }
-
-            return default;
         }
     }
 }

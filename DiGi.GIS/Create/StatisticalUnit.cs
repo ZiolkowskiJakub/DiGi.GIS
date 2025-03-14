@@ -35,9 +35,9 @@ namespace DiGi.GIS
                         id = id.Substring(0, id.Length - 1);
                     }
 
-                    Core.Query.Filter(statisticalUnits, x => x.Reference.StartsWith(id), out List<StatisticalUnit> statisticalUnits_Unit, out statisticalUnits);
+                    Core.Query.Filter(statisticalUnits, x => x.Code.StartsWith(id), out List<StatisticalUnit> statisticalUnits_Unit, out statisticalUnits);
 
-                    statisticalUnits.Add(new StatisticalUnit(Guid.NewGuid(), unit_Level.id, unit_Level.name, (Enums.StatisticalUnitType)unit_Level.level, statisticalUnits_Unit));
+                    statisticalUnits.Add(new StatisticalUnit(Guid.NewGuid(), UnitCode(unit_Level.id), unit_Level.name, statisticalUnits_Unit));
                 }
             }
 
@@ -46,7 +46,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            statisticalUnits.Sort((x, y) => ((int)x.StatisticalUnitType).CompareTo((int)y.StatisticalUnitType));
+            statisticalUnits.Sort((x, y) => ((int)x.GetStatisticalUnitType()).CompareTo((int)y.GetStatisticalUnitType()));
 
             return statisticalUnits[0];
         }

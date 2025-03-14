@@ -101,8 +101,8 @@ namespace DiGi.GIS
                 return false;
             }
 
-            string unitId = statisticalUnit.Reference;
-            if (unitId == null || variables.Count() == 0 || years.Max - years.Min == 0)
+            string code = statisticalUnit.Code;
+            if (code == null || variables.Count() == 0 || years.Max - years.Min == 0)
             {
                 return false;
             }
@@ -113,17 +113,17 @@ namespace DiGi.GIS
                 years_Temp.Add(i);
             }
 
-            return await Write(unitId, path, variables, years_Temp);
+            return await Write(code, path, variables, years_Temp);
         }
 
-        public static async Task<bool> Write(this string unitId, string path, IEnumerable<Variable> variables, IEnumerable<int> years, bool overrideExisting = false)
+        public static async Task<bool> Write(this string code, string path, IEnumerable<Variable> variables, IEnumerable<int> years, bool overrideExisting = false)
         {
-            if(string.IsNullOrWhiteSpace(unitId) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
+            if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
             {
                 return false;
             }
 
-            UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(unitId);
+            UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(code);
             if (uniqueReference == null)
             {
                 return false;
@@ -155,7 +155,7 @@ namespace DiGi.GIS
                 return false;
             }
 
-            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(unitId, variables, years);
+            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(code, variables, years);
             if (unitYearlyValues == null)
             {
                 return false;

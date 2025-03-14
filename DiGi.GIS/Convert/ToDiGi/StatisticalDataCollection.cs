@@ -7,17 +7,13 @@ namespace DiGi.GIS
     {
         public static StatisticalDataCollection ToDiGi(this UnitYearlyValues unitYearlyValues)
         {
-            if (unitYearlyValues == null)
+            UnitCode unitCode = Create.UnitCode(unitYearlyValues?.unitId);
+            if(unitCode == null)
             {
                 return null;
             }
 
-            if(string.IsNullOrWhiteSpace(unitYearlyValues.unitId))
-            {
-                return null;
-            }
-
-            StatisticalDataCollection result = new StatisticalDataCollection(System.Guid.NewGuid(), unitYearlyValues.unitId);
+            StatisticalDataCollection result = new StatisticalDataCollection(System.Guid.NewGuid(), unitCode);
             result.AddRange(unitYearlyValues);
 
             return result;
