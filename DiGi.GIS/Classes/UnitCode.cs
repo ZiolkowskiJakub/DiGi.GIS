@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Xml.Schema;
+using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.GIS.Enums;
@@ -135,6 +136,38 @@ namespace DiGi.GIS.Classes
             }
 
             return null;
+        }
+
+        public UnitCode GetParent()
+        {
+            StatisticalUnitType? statisticalUnitType = GetStatisticalUnitType();
+            if(statisticalUnitType == null || !statisticalUnitType.HasValue)
+            {
+                return null;
+            }
+
+            if(statisticalUnitType.Value == 0)
+            {
+                return null;
+            }
+
+            return GetUnitCode(Core.Query.Previous(statisticalUnitType.Value));
+        }
+
+        public string GetPrefix()
+        {
+            if(string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+
+            string result = code;
+            while(result.EndsWith("0"))
+            {
+                result = result.Substring(0, result.Length - 1);
+            }
+
+            return result;
         }
     }
 }

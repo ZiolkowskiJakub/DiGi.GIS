@@ -137,5 +137,52 @@ namespace DiGi.GIS.Classes
         {
             return unitCode?.GetStatisticalUnitType();
         }
+
+        public StatisticalUnit Find(UnitCode unitCode, bool includeNested)
+        {
+            if(unitCode == null)
+            {
+                return null;
+            }
+
+            string prefix = unitCode.GetPrefix();
+
+            if(this.unitCode == unitCode)
+            {
+                return this;
+            }
+
+            IEnumerable<StatisticalUnit> statisticalUnits = StatisticalUnits;
+            if(statisticalUnits == null)
+            {
+                return null;
+            }
+
+            foreach (StatisticalUnit statisticalUnit in statisticalUnits)
+            {
+                string prefix_StatisticalUnit = statisticalUnit?.UnitCode?.GetPrefix();
+
+                if(prefix_StatisticalUnit == prefix)
+                {
+                    return statisticalUnit;
+                }
+
+                if(includeNested && prefix.StartsWith(prefix_StatisticalUnit))
+                {
+                    StatisticalUnit statisticalUnit_Nested = statisticalUnit.Find(unitCode, includeNested);
+                    if(statisticalUnit_Nested != null)
+                    {
+                        return statisticalUnit_Nested;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", string.IsNullOrWhiteSpace(unitCode.Code) ? "???" : unitCode.Code, string.IsNullOrWhiteSpace(name) ? "???" : name);
+        }
     }
 }

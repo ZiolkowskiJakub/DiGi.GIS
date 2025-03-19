@@ -138,6 +138,26 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        public bool Update(AdministrativeAreal2D administrativeAreal2D, AdministrativeAreal2DStatisticalUnitsCalculcationResult administrativeAreal2DStatisticalUnitCalculcationResult)
+        {
+            if (administrativeAreal2D == null || administrativeAreal2DStatisticalUnitCalculcationResult == null)
+            {
+                return false;
+            }
+
+            Update(administrativeAreal2D);
+            Update(administrativeAreal2DStatisticalUnitCalculcationResult);
+
+            AdministrativeAreal2DStatisticalUnitsCalculcationResult administrativeAreal2DStatisticalUnitCalculcationResult_Old = GetRelatedObject<AdministrativeAreal2DStatisticalUnitsCalculcationResult>(administrativeAreal2D);
+            if (administrativeAreal2DStatisticalUnitCalculcationResult_Old != null)
+            {
+                uniqueObjectRelationCluster.Remove(administrativeAreal2DStatisticalUnitCalculcationResult_Old);
+            }
+
+            uniqueObjectRelationCluster.AddRelation(new AdministrativeAreal2DStatisticalUnitsCalculcationRelation(administrativeAreal2D, administrativeAreal2DStatisticalUnitCalculcationResult));
+            return true;
+        }
+
         public bool Update(Building2D building2D, OccupancyCalculationResult occupancyCalculationResult)
         {
             if (building2D == null || occupancyCalculationResult == null)
