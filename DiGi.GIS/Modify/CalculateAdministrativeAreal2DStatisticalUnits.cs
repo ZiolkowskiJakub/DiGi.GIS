@@ -25,7 +25,7 @@ namespace DiGi.GIS
 
             List<Tuple<AdministrativeAreal2D, List<StatisticalUnit>>> tuples = new List<Tuple<AdministrativeAreal2D, List<StatisticalUnit>>>();
 
-            Func<StatisticalUnit, AdministrativeDivision, bool, bool> similar_AdministrativeDivision = new Func<StatisticalUnit, AdministrativeDivision, bool, bool>((StatisticalUnit statisticalUnit, AdministrativeDivision administrativeDivision, bool contains) =>
+            Func<StatisticalUnit, AdministrativeDivision, bool, bool> similar_AdministrativeDivision = new Func<StatisticalUnit, AdministrativeDivision, bool, bool>((StatisticalUnit statisticalUnit, AdministrativeDivision administrativeDivision, bool extended) =>
             {
                 if (statisticalUnit == null && administrativeDivision == null)
                 {
@@ -44,30 +44,122 @@ namespace DiGi.GIS
 
                 if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.county)
                 {
-                    return statisticalUnit.Name.ToUpper().EndsWith(administrativeDivision.Name.ToUpper());
+                    if(extended)
+                    {
+                        string name = statisticalUnit.Name.Trim().ToUpper();
+
+                        return name.EndsWith(administrativeDivision.Name.ToUpper());
+                    }
+                    else
+                    {
+                        string name_StatisticalUnit = statisticalUnit.Name.Trim().ToUpper();
+                        int index_OD = name_StatisticalUnit.IndexOf(" OD ");
+                        int index_DO = name_StatisticalUnit.IndexOf(" DO ");
+                        if (index_DO > 0 || index_OD > 0)
+                        {
+                            index_OD = index_OD == -1 ? index_DO : index_OD;
+                            index_DO = index_DO == -1 ? index_OD : index_DO;
+                            name_StatisticalUnit = name_StatisticalUnit.Substring(0, System.Math.Min(index_OD, index_DO));
+                        }
+
+                        string name_AdministrativeDivision = administrativeDivision.Name.Trim().ToUpper();
+                        string name_AdministrativeDivision_2 = "POWIAT " + name_AdministrativeDivision;
+                        string name_AdministrativeDivision_3 = "POWIAT M. " + name_AdministrativeDivision;
+
+                        return name_StatisticalUnit == name_AdministrativeDivision_2 || name_StatisticalUnit == name_AdministrativeDivision_3;
+                    }
+                }
+                else if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.town_in_urban_rural_municipality)
+                {
+                    MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
+                    if (municipalityType != null && municipalityType.HasValue)
+                    {
+                        if(extended)
+                        {
+                            return Query.IsUrban(municipalityType.Value) ? statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper()) : false;
+                        }
+                        else
+                        {
+                            return municipalityType == MunicipalityType.urban_rural_municipality_town ? statisticalUnit.Name?.ToUpper() == administrativeDivision.Name?.ToUpper() : false;
+                        }
+                    }
+
                 }
                 else if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.municipality)
                 {
                     if (statisticalUnit.GetStatisticalUnitType() == StatisticalUnitType.municipalities)
                     {
-                        string name = administrativeDivision.Name?.ToUpper();
-                        if (name.StartsWith("M. ST."))
+                        string name_StatisticalUnit = statisticalUnit.Name.ToUpper();
+
+                        string name_AdministrativeDivision = administrativeDivision.Name?.ToUpper();
+                        if (name_AdministrativeDivision.StartsWith("M. ST."))
                         {
-                            name = name.Replace(" ", string.Empty) + " OD 2002";
+                            name_AdministrativeDivision = name_AdministrativeDivision.Replace(" ", string.Empty) + " OD 2002";
                         }
-                        else if (name.StartsWith("M."))
+                        else if (name_AdministrativeDivision.StartsWith("M."))
                         {
-                            name = name.Substring(2).Trim();
+                            name_AdministrativeDivision = name_AdministrativeDivision.Substring(2).Trim();
                         }
 
-                        return contains ? statisticalUnit.Name.ToUpper().Contains(name) : statisticalUnit.Name.ToUpper() == name;
+                        MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
+                        if(municipalityType != null && municipalityType.HasValue)
+                        {
+                            string sufix;
+
+                            sufix = "(GM. MIEJSKA)";
+                            if (name_AdministrativeDivision.EndsWith(sufix))
+                            {
+                                if (Query.IsUrban(municipalityType.Value))
+                                {
+                                    name_StatisticalUnit = string.Format("{0} {1}", name_StatisticalUnit, sufix);
+                                }
+                            }
+
+                            sufix = "(GM. WIEJSKA)";
+                            if (name_AdministrativeDivision.EndsWith(sufix))
+                            {
+                                if (!Query.IsUrban(municipalityType.Value))
+                                {
+                                    name_StatisticalUnit = string.Format("{0} {1}", name_StatisticalUnit, sufix);
+                                }
+                            }
+
+                            if(name_StatisticalUnit == name_AdministrativeDivision)
+                            {
+                                return true;
+                            }
+
+                            int index_Start = name_AdministrativeDivision.LastIndexOf("(");
+                            int index_End = name_AdministrativeDivision.LastIndexOf(")");
+                            if (index_Start > 0 && index_End > 1 && index_End == name_AdministrativeDivision.Length - 1)
+                            {
+                                name_AdministrativeDivision = name_AdministrativeDivision.Substring(0, index_Start).Trim();
+                            }
+                        }
+
+
+                        return extended ? name_StatisticalUnit.Contains(name_AdministrativeDivision) : name_StatisticalUnit == name_AdministrativeDivision;
                     }
                 }
                 else if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.district_or_delegation)
                 {
-                    if (statisticalUnit.MunicipalityType() == MunicipalityType.Warsaw_district)
+                    if(statisticalUnit.GetStatisticalUnitType() == StatisticalUnitType.municipalities)
                     {
-                        return statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name.ToUpper());
+                        MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
+                        if(municipalityType != null && municipalityType.HasValue)
+                        {
+                            if (Query.IsUrban(municipalityType.Value))
+                            {
+                                if(municipalityType.Value == MunicipalityType.Warsaw_district)
+                                {
+                                    return statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name.ToUpper());
+                                }
+                                else
+                                {
+                                    return administrativeDivision.Name.ToUpper().StartsWith(statisticalUnit.Name.ToUpper());
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -108,13 +200,56 @@ namespace DiGi.GIS
                     {
                         if (statisticalUnits_Temp.Count > 1)
                         {
-                            for (int i = statisticalUnits_Temp.Count - 1; i >= 0; i--)
+                            List<StatisticalUnit> statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+
+                            for (int i = statisticalUnits_Temp_Temp.Count - 1; i >= 0; i--)
                             {
-                                StatisticalUnit statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp[i].UnitCode.GetParent(), true);
+                                StatisticalUnit statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp_Temp[i].UnitCode.GetParent(), true);
                                 if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent.Code) != null) == null)
                                 {
-                                    statisticalUnits_Temp.RemoveAt(i);
+                                    statisticalUnits_Temp_Temp.RemoveAt(i);
                                 }
+                            }
+
+                            if(statisticalUnits_Temp_Temp.Count == 0)
+                            {
+                                statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+
+                                List<StatisticalUnit> statisticalUnits = new List<StatisticalUnit>();
+                                tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
+
+                                string prefix = null;
+                                foreach(string prefix_Temp in statisticalUnits.ConvertAll(x => x.UnitCode.GetPrefix()))
+                                {
+                                    if(prefix == null || prefix_Temp.Length > prefix.Length)
+                                    {
+                                        prefix = prefix_Temp;
+                                    }
+                                }
+
+                                statisticalUnits_Temp_Temp.RemoveAll(x => !x.Code.StartsWith(prefix));
+                            }
+
+                            statisticalUnits_Temp = statisticalUnits_Temp_Temp;
+                        }
+
+                        if(statisticalUnits_Temp.Count > 1)
+                        {
+                            List<string> names = statisticalUnits_Temp.ConvertAll(x => x.Name.Trim().ToUpper());
+                            if(names.TrueForAll(x => x.Contains(" OD ") || x.Contains(" DO ")))
+                            {
+                                List<StatisticalUnit> statisticalUnits = new List<StatisticalUnit>();
+                                tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
+
+                                List<StatisticalUnit> statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+                                statisticalUnits_Temp_Temp.RemoveAll(x => statisticalUnits.Find(y => y.Code == x.Code) != null);
+                                if(statisticalUnits_Temp_Temp.Count > 0)
+                                {
+                                    statisticalUnits_Temp = statisticalUnits_Temp_Temp;
+                                }
+
+                                statisticalUnits_Temp.Sort((x, y) => y.Code.CompareTo(x.Code));
+                                statisticalUnits_Temp = new List<StatisticalUnit>() { statisticalUnits_Temp[0] };
                             }
                         }
 
