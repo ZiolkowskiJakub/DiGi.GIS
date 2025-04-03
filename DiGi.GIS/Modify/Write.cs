@@ -155,7 +155,7 @@ namespace DiGi.GIS
                 return false;
             }
 
-            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(code, variables, years);
+            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(code, variables_Temp, years);
             if (unitYearlyValues == null)
             {
                 return false;
