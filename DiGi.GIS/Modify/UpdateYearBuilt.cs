@@ -29,7 +29,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDatasFile));
+            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDataFile));
 
             UniqueReference uniqueReference = null;
 
@@ -45,7 +45,7 @@ namespace DiGi.GIS
                 }
                 else
                 {
-                    UniqueReference uniqueReference_Temp = yearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
+                    UniqueReference uniqueReference_Temp = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
                     if(uniqueReference_Temp != null && yearBuiltDataFile.Remove(uniqueReference_Temp))
                     {
                         uniqueReference = uniqueReference_Temp;

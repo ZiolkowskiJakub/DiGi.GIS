@@ -15,6 +15,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("IncludeYearBuiltData")]
         public bool IncludeYearBuilt { get; set; } = true;
 
+        [JsonInclude, JsonPropertyName("YearBuiltOnly")]
+        public bool YearBuiltOnly { get; set; } = true;
+
         [JsonInclude, JsonPropertyName("IncludeOrtoDatasComparison")]
         public bool IncludeOrtoDatasComparison { get; set; } = true;
 

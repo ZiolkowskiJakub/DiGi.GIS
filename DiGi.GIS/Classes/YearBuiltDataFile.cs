@@ -29,12 +29,12 @@ namespace DiGi.GIS.Classes
             return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData.Reference);
         }
 
-        public UniqueReference GetUniqueReference<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
+        public static UniqueReference GetUniqueReference<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
         {
             return GetUniqueReference(typeof(UYearBuiltData), reference);
         }
 
-        private UniqueReference GetUniqueReference(System.Type type, string reference)
+        private static UniqueReference GetUniqueReference(System.Type type, string reference)
         {
             if (string.IsNullOrWhiteSpace(reference) || type == null)
             {

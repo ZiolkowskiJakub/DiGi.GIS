@@ -29,7 +29,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDatasFile));
+            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDataFile));
 
             if(!System.IO.File.Exists(path))
             {
@@ -40,7 +40,7 @@ namespace DiGi.GIS
             {
                 yearBuiltDataFile.Open();
 
-                UniqueReference uniqueReference = yearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
+                UniqueReference uniqueReference = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
                 if(uniqueReference == null)
                 {
                     return null;
