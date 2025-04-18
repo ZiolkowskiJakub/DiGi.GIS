@@ -11,39 +11,30 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
-    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    <PackageReference Include="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="DiGi.BDL">
-      <HintPath>..\references\DiGi.BDL.dll</HintPath>
+      <HintPath>..\..\DiGi.BDL\bin\DiGi.BDL.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.BDOT10k">
-      <HintPath>..\references\DiGi.BDOT10k.dll</HintPath>
+      <HintPath>..\..\DiGi.BDOT10k\bin\DiGi.BDOT10k.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.Core">
-      <HintPath>..\references\DiGi.Core.dll</HintPath>
+      <HintPath>..\..\DiGi.Core\bin\DiGi.Core.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.Core.IO">
-      <HintPath>..\references\DiGi.Core.IO.dll</HintPath>
+      <HintPath>..\..\DiGi.Core\bin\DiGi.Core.IO.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.Core.Relation">
-      <HintPath>..\references\DiGi.Core.Relation.dll</HintPath>
+      <HintPath>..\..\DiGi.Core\bin\DiGi.Core.Relation.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.Geometry">
-      <HintPath>..\references\DiGi.Geometry.dll</HintPath>
-    </Reference>
-    <Reference Include="DiGi.Geometry.Object">
-      <HintPath>..\references\DiGi.Geometry.Object.dll</HintPath>
-    </Reference>
-    <Reference Include="DiGi.Geometry.Visual">
-      <HintPath>..\references\DiGi.Geometry.Visual.dll</HintPath>
+      <HintPath>..\..\DiGi.Geometry\bin\DiGi.Geometry.dll</HintPath>
     </Reference>
     <Reference Include="DiGi.GML">
-      <HintPath>..\references\DiGi.GML.dll</HintPath>
-    </Reference>
-    <Reference Include="DiGi.Math">
-      <HintPath>..\references\DiGi.Math.dll</HintPath>
+      <HintPath>..\..\DiGi.GML\bin\DiGi.GML.dll</HintPath>
     </Reference>
   </ItemGroup>
 

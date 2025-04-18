@@ -1,6 +1,4 @@
 ﻿using DiGi.GIS.Classes;
-using DiGi.GML.Classes;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DiGi.GIS

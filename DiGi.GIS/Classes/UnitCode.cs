@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Xml.Schema;
-using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.GIS.Enums;

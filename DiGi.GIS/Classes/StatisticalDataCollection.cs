@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core;
 using DiGi.Core.Classes;
-using DiGi.Geometry.Core.Classes;
 using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
