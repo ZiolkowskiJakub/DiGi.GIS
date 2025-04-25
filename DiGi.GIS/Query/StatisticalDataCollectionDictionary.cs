@@ -48,7 +48,7 @@ namespace DiGi.GIS
 
                 UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
 
-                result[uniqueReference.ToString()] = statisticalDataCollectionList[i];
+                result[uniqueReference.UniqueId] = statisticalDataCollectionList[i];
                 uniqueReferences.Remove(uniqueReference);
 
                 if (uniqueReferences.Count == 0)

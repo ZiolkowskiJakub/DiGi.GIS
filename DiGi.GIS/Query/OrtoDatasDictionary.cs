@@ -116,6 +116,50 @@ namespace DiGi.GIS
 
             return result;
         }
+
+        public static Dictionary<GuidReference, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<OrtoRange> ortoRanges)
+        {
+            if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || ortoRanges == null)
+            {
+                return null;
+            }
+
+            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            foreach (OrtoRange ortoRange in ortoRanges)
+            {
+                string reference = ortoRange?.UniqueId;
+                if (reference == null)
+                {
+                    continue;
+                }
+
+                dictionary[reference] = new GuidReference(ortoRange);
+            }
+
+            Dictionary<string, OrtoDatas> ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
+            if (ortoDatasDictionary == null)
+            {
+                return null;
+            }
+
+            Dictionary<GuidReference, OrtoDatas> result = new Dictionary<GuidReference, OrtoDatas>();
+            if (ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
+            {
+                foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
+                {
+                    string reference = keyValuePair.Key;
+
+                    if (reference == null || !ortoDatasDictionary.TryGetValue(reference, out OrtoDatas ortoDatas))
+                    {
+                        continue;
+                    }
+
+                    result[keyValuePair.Value] = ortoDatas;
+                }
+            }
+
+            return result;
+        }
     }
 }
 

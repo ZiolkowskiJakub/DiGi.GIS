@@ -8,7 +8,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this IEnumerable<Building2D> building2Ds, string path, OrtoDatasOptions ortoDatasOptions, bool overrideExisting = false)
+        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this IEnumerable<Building2D> building2Ds, string path, OrtoDatasBuilding2DOptions ortoDatasBuilding2DOptions, bool overrideExisting = false)
         {
             if(building2Ds == null)
             {
@@ -26,9 +26,9 @@ namespace DiGi.GIS
                 return null;
             }
 
-            if(ortoDatasOptions == null)
+            if(ortoDatasBuilding2DOptions == null)
             {
-                ortoDatasOptions = new OrtoDatasOptions();
+                ortoDatasBuilding2DOptions = new OrtoDatasBuilding2DOptions();
             }
 
             IEnumerable<Building2D> building2Ds_Temp = building2Ds;
@@ -59,9 +59,9 @@ namespace DiGi.GIS
             }
 
             string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
-            if (ortoDatasOptions.MaxFileSize != ulong.MaxValue)
+            if (ortoDatasBuilding2DOptions.MaxFileSize != ulong.MaxValue)
             {
-                fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasOptions.MaxFileSize);
+                fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasBuilding2DOptions.MaxFileSize);
             }
 
             string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}{1}", fileName, System.IO.Path.GetExtension(path)));
@@ -72,7 +72,7 @@ namespace DiGi.GIS
 
                 foreach (Building2D building2D in building2Ds_Temp)
                 {
-                    UniqueReference uniqueReference = await ortoDataFile.AddValue(building2D, ortoDatasOptions);
+                    UniqueReference uniqueReference = await ortoDataFile.AddValue(building2D, ortoDatasBuilding2DOptions);
                     if (uniqueReference == null)
                     {
                         continue;
@@ -87,6 +87,84 @@ namespace DiGi.GIS
             return result;
         }
 
+        public static async Task<HashSet<GuidReference>> CalculateOrtoDatas(this IEnumerable<OrtoRange> ortoRanges, string path, OrtoDatasOrtoRangeOptions ortoDatasOrtoRangeOptions, bool overrideExisting = false)
+        {
+            if (ortoRanges == null)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return null;
+            }
+
+            string directory = System.IO.Path.GetDirectoryName(path);
+            if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory))
+            {
+                return null;
+            }
+
+            if (ortoDatasOrtoRangeOptions == null)
+            {
+                ortoDatasOrtoRangeOptions = new OrtoDatasOrtoRangeOptions();
+            }
+
+            IEnumerable<OrtoRange> ortoRanges_Temp = ortoRanges;
+            if (!overrideExisting)
+            {
+                Dictionary<GuidReference, OrtoDatas> dictionary = Query.OrtoDatasDictionary(directory, ortoRanges_Temp);
+                if (dictionary != null && dictionary.Count != 0)
+                {
+                    List<OrtoRange> ortoRanges_Temp_Temp = new List<OrtoRange>(ortoRanges_Temp);
+                    foreach (OrtoRange ortoRange in ortoRanges_Temp)
+                    {
+                        GuidReference guidReference = ortoRange == null ? null : new GuidReference(ortoRange);
+                        if (dictionary.ContainsKey(guidReference))
+                        {
+                            ortoRanges_Temp_Temp.Remove(ortoRange);
+                        }
+                    }
+
+                    ortoRanges_Temp = ortoRanges_Temp_Temp;
+                }
+            }
+
+            HashSet<GuidReference> result = new HashSet<GuidReference>();
+
+            if (ortoRanges_Temp.Count() == 0)
+            {
+                return result;
+            }
+
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(path) + "_OrtoRange";
+            if (ortoDatasOrtoRangeOptions.MaxFileSize != ulong.MaxValue)
+            {
+                fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasOrtoRangeOptions.MaxFileSize);
+            }
+
+            string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}{1}", fileName, System.IO.Path.GetExtension(path)));
+
+            using (OrtoDatasFile ortoDataFile = new OrtoDatasFile(path_OrtoDatas))
+            {
+                ortoDataFile.Open();
+
+                foreach (OrtoRange ortoRange in ortoRanges_Temp)
+                {
+                    UniqueReference uniqueReference = await ortoDataFile.AddValue(ortoRange, ortoDatasOrtoRangeOptions);
+                    if (uniqueReference == null)
+                    {
+                        continue;
+                    }
+
+                    result.Add(new GuidReference(ortoRange));
+                }
+
+                ortoDataFile.Save();
+            }
+
+            return result;
+        }
     }
 }
 

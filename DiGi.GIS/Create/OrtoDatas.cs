@@ -22,16 +22,38 @@ namespace DiGi.GIS
                 return null;
             }
 
+            double scale = width / boundingBox2D.Width;
+
+            return await OrtoDatas(boundingBox2D, building2D.Reference, years, scale, reduce);
+        }
+
+        public static async Task<OrtoDatas> OrtoDatas(this OrtoRange ortoRange, Range<int> years, double scale, bool reduce = true)
+        {
+            if(double.IsNaN(scale))
+            {
+                return null;
+            }
+
+            BoundingBox2D boundingBox2D = ortoRange?.BoundingBox2D;
+            if (boundingBox2D == null)
+            {
+                return null;
+            }
+
+            return await OrtoDatas(boundingBox2D, ortoRange.UniqueId, years, scale, reduce);
+        }
+
+        public static async Task<OrtoDatas> OrtoDatas(this BoundingBox2D boundingBox2D, string reference, Range<int> years, double scale, bool reduce = true)
+        {
             List<OrtoData> values = new List<OrtoData>();
 
             List<int> yearsList = years.ToSystem(1);
-            if(yearsList.Count != 0)
+            if (yearsList.Count != 0)
             {
-                Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(boundingBox2D, yearsList, offset, width);
-                if(dictionary != null && dictionary.Count != 0)
+                Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(boundingBox2D, yearsList, scale);
+                if (dictionary != null && dictionary.Count != 0)
                 {
-                    double scale = boundingBox2D.Width / width;
-                    foreach(KeyValuePair<int, byte[]> keyValuePair in dictionary)
+                    foreach (KeyValuePair<int, byte[]> keyValuePair in dictionary)
                     {
                         OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.TopLeft);
                         values.Add(value);
@@ -39,8 +61,8 @@ namespace DiGi.GIS
                 }
             }
 
-            OrtoDatas result = new OrtoDatas(building2D.Reference, values);
-            if(reduce)
+            OrtoDatas result = new OrtoDatas(reference, values);
+            if (reduce)
             {
                 result.Reduce();
             }
