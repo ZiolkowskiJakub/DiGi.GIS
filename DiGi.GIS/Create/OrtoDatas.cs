@@ -22,6 +22,8 @@ namespace DiGi.GIS
                 return null;
             }
 
+            boundingBox2D.Offset(offset);
+
             double scale = width / boundingBox2D.Width;
 
             return await OrtoDatas(boundingBox2D, building2D.Reference, years, scale, reduce);

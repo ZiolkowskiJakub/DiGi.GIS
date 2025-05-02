@@ -93,7 +93,7 @@ namespace DiGi.GIS.Classes
 
             Vector2D vector2D = new Vector2D(location, point2D);
 
-            vector2D.Scale(1 / scale);
+            vector2D.Scale(scale);
 
             return new Point2D(vector2D.X, - vector2D.Y);
         }
@@ -126,7 +126,7 @@ namespace DiGi.GIS.Classes
             }
 
             Vector2D vector2D = new Vector2D(point2D.X, - point2D.Y);
-            vector2D.Scale(scale);
+            vector2D.Scale(1 / scale);
 
             return point2D.GetMoved(vector2D);
         }

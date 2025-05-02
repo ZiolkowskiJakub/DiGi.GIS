@@ -4,7 +4,7 @@ using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class ExtractOptions : SerializableObject, IExtractOptions
+    public abstract class ExtractOptions : Options, IExtractOptions
     {
         public ExtractOptions()
         {

@@ -31,6 +31,16 @@ namespace DiGi.GIS
                 ortoDatasBuilding2DOptions = new OrtoDatasBuilding2DOptions();
             }
 
+            directory = ortoDatasBuilding2DOptions.Directory(directory);
+            if(!System.IO.Directory.Exists(directory))
+            {
+                System.IO.DirectoryInfo directoryInfo = System.IO.Directory.CreateDirectory(directory);
+                if(directoryInfo == null)
+                {
+                    return null;
+                }
+            }
+
             IEnumerable<Building2D> building2Ds_Temp = building2Ds;
             if (!overrideExisting)
             {
@@ -108,6 +118,16 @@ namespace DiGi.GIS
             if (ortoDatasOrtoRangeOptions == null)
             {
                 ortoDatasOrtoRangeOptions = new OrtoDatasOrtoRangeOptions();
+            }
+
+            directory = ortoDatasOrtoRangeOptions.Directory(directory);
+            if (!System.IO.Directory.Exists(directory))
+            {
+                System.IO.DirectoryInfo directoryInfo = System.IO.Directory.CreateDirectory(directory);
+                if (directoryInfo == null)
+                {
+                    return null;
+                }
             }
 
             IEnumerable<OrtoRange> ortoRanges_Temp = ortoRanges;

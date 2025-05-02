@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class OrtoDatasOptions : ExtractOptions
+    public abstract class OrtoDatasOptions : DirectoryNamesOptions
     {
         [JsonInclude, JsonPropertyName("Years")]
         public Range<int> Years { get; set; } = new Range<int>(2008, DateTime.Now.Year);
