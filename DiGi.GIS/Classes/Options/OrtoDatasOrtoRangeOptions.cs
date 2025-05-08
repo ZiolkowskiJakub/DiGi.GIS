@@ -18,7 +18,7 @@ namespace DiGi.GIS.Classes
         public OrtoDatasOrtoRangeOptions()
             : base()
         {
-            DirectoryNames = Query.DirectoryNames_OrtoRange();
+            DirectoryNames = Query.OrtoDatasDirectoryNames_OrtoRange();
         }
 
         public OrtoDatasOrtoRangeOptions(OrtoDatasOrtoRangeOptions ortoDatasOrtoRangeOptions)

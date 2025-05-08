@@ -48,16 +48,6 @@ namespace DiGi.GIS
 
             return Directory(directory, directoryNames, checkIfExists);
         }
-
-        public static string Directory_Building2D(string directory, bool checkIfExists = false)
-        {
-            return Directory(directory, DirectoryNames_Building2D(), checkIfExists);
-        }
-
-        public static string Directory_OrtoRange(string directory, bool checkIfExists = false)
-        {
-            return Directory(directory, DirectoryNames_OrtoRange(), checkIfExists);
-        }
     }
 }
 

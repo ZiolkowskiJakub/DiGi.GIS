@@ -8,6 +8,38 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        public static Dictionary<string, TYearBuiltData> YearBuiltDataDictionary<TYearBuiltData>(GISModelFile gISModelFile, IEnumerable<string> references) where TYearBuiltData : IYearBuiltData
+        {
+            if (gISModelFile == null || references == null || references.Count() == 0)
+            {
+                return null;
+            }
+
+            string path = gISModelFile.Path;
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return null;
+            }
+
+            string directory = System.IO.Path.GetDirectoryName(path);
+            if (!System.IO.Directory.Exists(directory))
+            {
+                return null;
+            }
+
+            path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDataFile));
+
+            if (!System.IO.File.Exists(path))
+            {
+                return null;
+            }
+
+            using (YearBuiltDataFile yearBuiltDataFile = new YearBuiltDataFile(path))
+            {
+                return YearBuiltDataDictionary<TYearBuiltData>(yearBuiltDataFile, references);
+            }
+        }
+
         public static Dictionary<string, TYearBuiltData> YearBuiltDataDictionary<TYearBuiltData>(YearBuiltDataFile yearBuiltDataFile, IEnumerable<string> references) where TYearBuiltData : IYearBuiltData
         {
             if (yearBuiltDataFile == null || references == null)

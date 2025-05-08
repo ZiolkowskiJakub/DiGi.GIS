@@ -22,7 +22,7 @@ namespace DiGi.GIS.Classes
         public OrtoDatasBuilding2DOptions()
             : base()
         {
-            DirectoryNames = Query.DirectoryNames_Building2D();
+            DirectoryNames = Query.OrtoDatasDirectoryNames_Building2D();
         }
 
         public OrtoDatasBuilding2DOptions(OrtoDatasBuilding2DOptions ortoDatasBuilding2DOptions)

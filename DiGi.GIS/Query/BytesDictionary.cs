@@ -1,12 +1,10 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
-using DiGi.Geometry.Spatial.Classes;
 using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
