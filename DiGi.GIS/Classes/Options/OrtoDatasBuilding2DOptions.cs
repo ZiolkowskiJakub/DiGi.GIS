@@ -10,7 +10,7 @@ namespace DiGi.GIS.Classes
         public double Offset { get; set; } = 5;
 
         [JsonInclude, JsonPropertyName("Width")]
-        public double Width { get; set; } = 300;
+        public double Width { get; set; } = 320;
 
         public OrtoDatasBuilding2DOptions(Range<int> years, double offset, double width, bool reduce, ulong maxFileSize)
             : base(years, reduce, maxFileSize)

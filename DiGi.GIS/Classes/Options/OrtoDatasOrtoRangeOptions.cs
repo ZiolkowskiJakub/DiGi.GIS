@@ -7,7 +7,7 @@ namespace DiGi.GIS.Classes
     public class OrtoDatasOrtoRangeOptions : OrtoDatasOptions
     {
         [JsonInclude, JsonPropertyName("Scale")]
-        public double Scale { get; set; } = 2;
+        public double Scale { get; set; } = 3;
 
         public OrtoDatasOrtoRangeOptions(Range<int> years, double scale, bool reduce, ulong maxFileSize)
             : base(years, reduce, maxFileSize)

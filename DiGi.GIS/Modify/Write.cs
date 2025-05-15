@@ -70,7 +70,7 @@ namespace DiGi.GIS
                 return true;
             }
 
-            Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(building2D, dictionary_Path.Keys);
+            Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(building2D, dictionary_Path.Keys, squared: true);
             if (dictionary == null)
             {
                 return true;

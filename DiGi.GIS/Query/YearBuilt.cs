@@ -1,6 +1,4 @@
-﻿using DiGi.Core.Classes;
-using DiGi.GIS.Classes;
-using DiGi.GIS.Interfaces;
+﻿using DiGi.GIS.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.GIS

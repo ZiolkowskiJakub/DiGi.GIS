@@ -18,7 +18,7 @@ namespace DiGi.GIS
                 ortoDatasBuilding2DOptions = new OrtoDatasBuilding2DOptions();
             }
 
-            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDatasBuilding2DOptions.Years, ortoDatasBuilding2DOptions.Offset, ortoDatasBuilding2DOptions.Width, ortoDatasBuilding2DOptions.Reduce);
+            OrtoDatas ortoDatas = await Create.OrtoDatas(builidng2D, ortoDatasBuilding2DOptions.Years, ortoDatasBuilding2DOptions.Offset, ortoDatasBuilding2DOptions.Width, ortoDatasBuilding2DOptions.Reduce, squared: true);
             if(ortoDatas == null)
             {
                 return null;

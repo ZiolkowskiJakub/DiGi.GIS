@@ -157,7 +157,7 @@ namespace DiGi.GIS
                 return result;
             }
 
-            string fileName = System.IO.Path.GetFileNameWithoutExtension(path) + "_OrtoRange";
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
             if (ortoDatasOrtoRangeOptions.MaxFileSize != ulong.MaxValue)
             {
                 fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasOrtoRangeOptions.MaxFileSize);

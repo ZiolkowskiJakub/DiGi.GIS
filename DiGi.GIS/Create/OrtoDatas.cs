@@ -2,6 +2,7 @@
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static async Task<OrtoDatas> OrtoDatas(this Building2D building2D, Range<int> years, double offset = 5, double width = 300, bool reduce = true)
+        public static async Task<OrtoDatas> OrtoDatas(this Building2D building2D, Range<int> years, double offset = 5, double width = 320, bool reduce = true, bool squared = false)
         {
             if(building2D == null || years == null)
             {
@@ -24,12 +25,19 @@ namespace DiGi.GIS
 
             boundingBox2D.Offset(offset);
 
+            if (squared && boundingBox2D.Width != boundingBox2D.Height)
+            {
+                double max_Temp = Math.Max(boundingBox2D.Width, boundingBox2D.Height);
+
+                boundingBox2D = Geometry.Planar.Create.BoundingBox2D(boundingBox2D.GetCentroid(), max_Temp, max_Temp);
+            }
+
             double scale = width / boundingBox2D.Width;
 
             return await OrtoDatas(boundingBox2D, building2D.Reference, years, scale, reduce);
         }
 
-        public static async Task<OrtoDatas> OrtoDatas(this OrtoRange ortoRange, Range<int> years, double scale, bool reduce = true)
+        public static async Task<OrtoDatas> OrtoDatas(this OrtoRange ortoRange, Range<int> years, double scale, bool reduce = true, bool squared = false)
         {
             if(double.IsNaN(scale))
             {
@@ -40,6 +48,13 @@ namespace DiGi.GIS
             if (boundingBox2D == null)
             {
                 return null;
+            }
+
+            if (squared && boundingBox2D.Width != boundingBox2D.Height)
+            {
+                double max_Temp = Math.Max(boundingBox2D.Width, boundingBox2D.Height);
+
+                boundingBox2D = Geometry.Planar.Create.BoundingBox2D(boundingBox2D.GetCentroid(), max_Temp, max_Temp);
             }
 
             return await OrtoDatas(boundingBox2D, ortoRange.UniqueId, years, scale, reduce);
@@ -57,7 +72,7 @@ namespace DiGi.GIS
                 {
                     foreach (KeyValuePair<int, byte[]> keyValuePair in dictionary)
                     {
-                        OrtoData value = new OrtoData(new System.DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.TopLeft);
+                        OrtoData value = new OrtoData(new DateTime(keyValuePair.Key, 1, 1), keyValuePair.Value, scale, boundingBox2D.TopLeft);
                         values.Add(value);
                     }
                 }
