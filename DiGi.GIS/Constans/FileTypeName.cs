@@ -7,5 +7,6 @@
         public const string YearBuiltDatasFile = "Year Built Datas File";
         public const string StatisticalDataCollectionFile = "Statistical Data Collection File";
         public const string StatisticalUnitFile = "Statistical Unit File";
+        public const string Building2DYearBuiltPredictionsFile = "Building2D Year Built Predictions File";
     }
 }

@@ -8,5 +8,6 @@
         public static Core.IO.Classes.FileFilter StatisticalDataCollectionFile { get; } = Core.IO.Create.FileFilter(FileTypeName.StatisticalDataCollectionFile, FileExtension.StatisticalDataCollectionFile);
         public static Core.IO.Classes.FileFilter StatisticalUnitFile { get; } = Core.IO.Create.FileFilter(FileTypeName.StatisticalUnitFile, FileExtension.StatisticalUnitFile);
         public static Core.IO.Classes.FileFilter OrtoRangeFile { get; } = Core.IO.Create.FileFilter(FileTypeName.YearBuiltDatasFile, FileExtension.OrtoRangeFile);
+        public static Core.IO.Classes.FileFilter Building2DYearBuiltPredictionsFile { get; } = Core.IO.Create.FileFilter(FileTypeName.Building2DYearBuiltPredictionsFile, FileExtension.Building2DYearBuiltPredictionsFile);
     }
 }
