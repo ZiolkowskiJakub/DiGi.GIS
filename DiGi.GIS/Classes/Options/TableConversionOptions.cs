@@ -4,7 +4,7 @@ using DiGi.Core.Classes;
 
 namespace DiGi.GIS.Classes
 {
-    public class TableConversionOptions : Options
+    public abstract class TableConversionOptions : Options
     {
         [JsonInclude, JsonPropertyName("IncludeModel")]
         public bool IncludeModel { get; set; } = true;
@@ -17,9 +17,6 @@ namespace DiGi.GIS.Classes
 
         [JsonInclude, JsonPropertyName("YearBuiltOnly")]
         public bool YearBuiltOnly { get; set; } = true;
-
-        [JsonInclude, JsonPropertyName("IncludeOrtoDatasComparison")]
-        public bool IncludeOrtoDatasComparison { get; set; } = true;
 
         [JsonInclude, JsonPropertyName("Years")]
         public Range<int> Years { get; set; } = new Range<int>(2008, System.DateTime.Now.Year);
@@ -34,7 +31,15 @@ namespace DiGi.GIS.Classes
 
         public TableConversionOptions(TableConversionOptions tableConversionOptions)
         {
-
+            if(tableConversionOptions != null)
+            {
+                IncludeModel = tableConversionOptions.IncludeModel;
+                IncludeStatistical = tableConversionOptions.IncludeStatistical;
+                IncludeYearBuilt = tableConversionOptions.IncludeYearBuilt;
+                YearBuiltOnly = tableConversionOptions.YearBuiltOnly;
+                Years = Core.Query.Clone(tableConversionOptions.Years);
+                StatisticalDirectory = tableConversionOptions.StatisticalDirectory;
+            }
         }
 
         public TableConversionOptions(JsonObject jsonObject)
