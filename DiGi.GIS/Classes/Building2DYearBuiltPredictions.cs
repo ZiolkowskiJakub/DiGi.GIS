@@ -93,5 +93,15 @@ namespace DiGi.GIS.Classes
                 return Core.Query.Clone(yearBuiltPrediction);
             }
         }
+
+        public YearBuiltPrediction GetYearBuiltPrediction(ushort year)
+        {
+            if (!Core.Query.TryGetLowerValue(yearBuiltPredictions, year, out YearBuiltPrediction result))
+            {
+                return null;
+            }
+
+            return result;
+        }
     }
 }

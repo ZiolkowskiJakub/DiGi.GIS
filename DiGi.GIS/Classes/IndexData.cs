@@ -46,7 +46,7 @@ namespace DiGi.GIS.Classes
         {
             get
             {
-                return Index;
+                return index;
             }
         }
 
