@@ -1,10 +1,10 @@
 ﻿using DiGi.Core;
 using DiGi.Core.Classes;
-using DiGi.GIS.Interfaces;
-using System.Text.Json.Nodes;
 using DiGi.Core.Relation.Classes;
+using DiGi.GIS.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
@@ -52,6 +52,33 @@ namespace DiGi.GIS.Classes
             return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
         }
 
+        public HashSet<string> GetReferences<T>() where T : GISGuidObject2D
+        {
+            if (uniqueObjectRelationCluster == null)
+            {
+                return null;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<T> gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
+            {
+                return null;
+            }
+
+            HashSet<string> result = new HashSet<string>();
+            foreach(T gISGuidObject2D in gISGuidObject2Ds)
+            {
+                string reference = gISGuidObject2D?.Reference;
+                if(reference == null)
+                {
+                    continue;
+                }
+
+                result.Add(reference);
+            }
+
+            return result;
+        }
+        
         public bool Update(ISource source)
         {
             if (source == null)

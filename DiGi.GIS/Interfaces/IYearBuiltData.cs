@@ -6,6 +6,6 @@ namespace DiGi.GIS.Interfaces
     {
         public string Reference { get; }
 
-        public short Year { get; }
+        //public short Year { get; }
     }
 }

@@ -59,7 +59,7 @@ namespace DiGi.GIS
                         {
                             index_OD = index_OD == -1 ? index_DO : index_OD;
                             index_DO = index_DO == -1 ? index_OD : index_DO;
-                            name_StatisticalUnit = name_StatisticalUnit.Substring(0, System.Math.Min(index_OD, index_DO));
+                            name_StatisticalUnit = name_StatisticalUnit.Substring(0, Math.Min(index_OD, index_DO));
                         }
 
                         string name_AdministrativeDivision = administrativeDivision.Name.Trim().ToUpper();

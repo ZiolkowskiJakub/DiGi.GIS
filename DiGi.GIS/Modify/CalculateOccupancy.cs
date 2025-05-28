@@ -274,7 +274,7 @@ namespace DiGi.GIS
                     uint occupancy = 0;
                     if (occupancy_AdministrativeSubdivision != 0)
                     {
-                        occupancy = System.Convert.ToUInt32(System.Math.Floor(occupancyArea * factor));
+                        occupancy = System.Convert.ToUInt32(Math.Floor(occupancyArea * factor));
                         if (occupancy == 0)
                         {
                             occupancy++;
