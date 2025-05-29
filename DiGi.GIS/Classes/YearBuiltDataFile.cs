@@ -24,16 +24,27 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public override UniqueReference GetUniqueReference(IYearBuiltData yearBuiltData)
-        {
-            return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData.Reference);
-        }
-
         public static UniqueReference GetUniqueReference<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
         {
             return GetUniqueReference(typeof(UYearBuiltData), reference);
         }
 
+        public override UniqueReference GetUniqueReference(IYearBuiltData yearBuiltData)
+        {
+            return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData.Reference);
+        }
+
+        public UYearBuiltData GetValue<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
+        {
+            UniqueReference uniqueReference = GetUniqueReference<UYearBuiltData>(reference);
+            if(uniqueReference == null)
+            {
+                return default;
+            }
+
+            return GetValue<UYearBuiltData>(uniqueReference);
+        }
+        
         private static UniqueReference GetUniqueReference(System.Type type, string reference)
         {
             if (string.IsNullOrWhiteSpace(reference) || type == null)

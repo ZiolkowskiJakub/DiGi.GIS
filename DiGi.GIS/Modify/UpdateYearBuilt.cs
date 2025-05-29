@@ -1,11 +1,12 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
+using System.Linq;
 
 namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static UniqueReference UpdateYearBuilt(this GISModelFile gISModelFile, Building2D builidng2D, short? yearBuilt)
+        public static UniqueReference UpdateUserYearBuilt(this GISModelFile gISModelFile, Building2D builidng2D, short? yearBuilt)
         {
             if(gISModelFile == null || builidng2D == null)
             {
@@ -37,18 +38,34 @@ namespace DiGi.GIS
             {
                 yearBuiltDataFile.Open();
 
-                
+                YearBuiltData yearBuiltData = yearBuiltDataFile.GetValue<YearBuiltData>(reference);
+
                 if (yearBuilt != null && yearBuilt.HasValue)
                 {
-                    YearBuiltData yearBuiltData = new YearBuiltData(builidng2D.Reference, yearBuilt.Value);
+                    if(yearBuiltData == null)
+                    {
+                        yearBuiltData = new YearBuiltData(reference);
+                    }
+
+                    yearBuiltData.SetUserYearBuilt(yearBuilt.Value);
+
                     uniqueReference = yearBuiltDataFile.AddValue(yearBuiltData);
                 }
-                else
+                else if(yearBuiltData != null)
                 {
-                    UniqueReference uniqueReference_Temp = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
-                    if(uniqueReference_Temp != null && yearBuiltDataFile.Remove(uniqueReference_Temp))
+                    yearBuiltData.RemoveUserYearBuilt();
+
+                    if(yearBuiltData.YearBuilts == null || yearBuiltData.YearBuilts.Count() == 0)
                     {
-                        uniqueReference = uniqueReference_Temp;
+                        UniqueReference uniqueReference_Temp = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
+                        if (uniqueReference_Temp != null && yearBuiltDataFile.Remove(uniqueReference_Temp))
+                        {
+                            uniqueReference = uniqueReference_Temp;
+                        }
+                    }
+                    else
+                    {
+                        uniqueReference = yearBuiltDataFile.AddValue(yearBuiltData);
                     }
                 }
 
