@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static short? YearBuilt(this GISModelFile gISModelFile, Building2D builidng2D)
+        public static short? UserYearBuilt(this GISModelFile gISModelFile, Building2D builidng2D)
         {
             if (gISModelFile == null || builidng2D == null)
             {
@@ -23,7 +23,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            return yearBuiltData.Year;
+            return yearBuiltData.GetUserYearBuilt()?.Year;
 
 
             //string path = gISModelFile.Path;
