@@ -76,13 +76,13 @@ namespace DiGi.GIS
 
             string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}{1}", fileName, System.IO.Path.GetExtension(path)));
 
-            using (OrtoDatasFile ortoDataFile = new OrtoDatasFile(path_OrtoDatas))
+            using (OrtoDatasFile ortoDatasFile = new OrtoDatasFile(path_OrtoDatas))
             {
-                ortoDataFile.Open();
+                ortoDatasFile.Open();
 
                 foreach (Building2D building2D in building2Ds_Temp)
                 {
-                    UniqueReference uniqueReference = await ortoDataFile.AddValue(building2D, ortoDatasBuilding2DOptions);
+                    UniqueReference uniqueReference = await ortoDatasFile.AddValue(building2D, ortoDatasBuilding2DOptions);
                     if (uniqueReference == null)
                     {
                         continue;
@@ -91,7 +91,7 @@ namespace DiGi.GIS
                     result.Add(new GuidReference(building2D));
                 }
 
-                ortoDataFile.Save();
+                ortoDatasFile.Save();
             }
 
             return result;
@@ -165,13 +165,13 @@ namespace DiGi.GIS
 
             string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}{1}", fileName, System.IO.Path.GetExtension(path)));
 
-            using (OrtoDatasFile ortoDataFile = new OrtoDatasFile(path_OrtoDatas))
+            using (OrtoDatasFile ortoDatasFile = new OrtoDatasFile(path_OrtoDatas))
             {
-                ortoDataFile.Open();
+                ortoDatasFile.Open();
 
                 foreach (OrtoRange ortoRange in ortoRanges_Temp)
                 {
-                    UniqueReference uniqueReference = await ortoDataFile.AddValue(ortoRange, ortoDatasOrtoRangeOptions);
+                    UniqueReference uniqueReference = await ortoDatasFile.AddValue(ortoRange, ortoDatasOrtoRangeOptions);
                     if (uniqueReference == null)
                     {
                         continue;
@@ -180,7 +180,7 @@ namespace DiGi.GIS
                     result.Add(new GuidReference(ortoRange));
                 }
 
-                ortoDataFile.Save();
+                ortoDatasFile.Save();
             }
 
             return result;
