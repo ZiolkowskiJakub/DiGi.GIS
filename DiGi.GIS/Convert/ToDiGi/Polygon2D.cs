@@ -31,6 +31,18 @@ namespace DiGi.GIS
                 point2Ds.Add(new Point2D(values[i], values[i + 1]));
             }
 
+            if(point2Ds == null || point2Ds.Count < 3)
+            {
+                return null;
+            }
+
+            int lastIndex = point2Ds.Count - 1;
+
+            if (point2Ds[0].Equals(point2Ds[lastIndex]))
+            {
+                point2Ds.RemoveAt(lastIndex);
+            }
+
             return new Polygon2D(point2Ds);
         }
     }
