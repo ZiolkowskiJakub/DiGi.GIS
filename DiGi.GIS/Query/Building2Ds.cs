@@ -1,12 +1,14 @@
 ﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Interfaces;
 using DiGi.GIS.Classes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static List<Building2D> Building2Ds<UAdministrativeAreal2D>(this GISModel gISModel, Point2D point2D, out List<UAdministrativeAreal2D> administrativeAreal2Ds, double tolerance = Core.Constans.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
+        public static List<Building2D> Building2Ds<UAdministrativeAreal2D>(this GISModel gISModel, Point2D point2D, out List<UAdministrativeAreal2D> administrativeAreal2Ds, double distance = 0, double tolerance = Core.Constans.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             administrativeAreal2Ds = null;
 
@@ -23,7 +25,9 @@ namespace DiGi.GIS
 
             administrativeAreal2Ds = new List<UAdministrativeAreal2D>();
 
-            List<Building2D> result = new List<Building2D>();
+            Circle2D circle2D = distance > 0 ? new Circle2D(point2D, distance) : null;
+
+            Dictionary<string, Building2D> dictionary = new Dictionary<string, Building2D>();
             foreach (UAdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds_All)
             {
                 AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
@@ -51,27 +55,49 @@ namespace DiGi.GIS
 
                 foreach (Building2D building2D in building2Ds)
                 {
-                    PolygonalFace2D polygonalFace2D = building2D?.PolygonalFace2D;
+                    string reference = building2D?.Reference;
+                    if(reference == null)
+                    {
+                        continue;
+                    }
+
+                    if(dictionary.ContainsKey(reference))
+                    {
+                        continue;
+                    }
+
+                    PolygonalFace2D polygonalFace2D = building2D.PolygonalFace2D;
                     if (polygonalFace2D == null)
                     {
                         continue;
                     }
 
-                    if (building2D == null || !polygonalFace2D.GetBoundingBox().InRange(point2D, tolerance))
+                    if(circle2D == null)
                     {
-                        continue;
+                        if (polygonalFace2D.GetBoundingBox().InRange(point2D, tolerance))
+                        {
+                            continue;
+                        }
+
+                        if (!polygonalFace2D.InRange(point2D, tolerance))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if(!circle2D.InRange(polygonalFace2D.ExternalEdge, tolerance))
+                        {
+                            continue;
+                        }
                     }
 
-                    if (!polygonalFace2D.InRange(point2D, tolerance))
-                    {
-                        continue;
-                    }
 
-                    result.Add(building2D);
+                    dictionary[reference] = building2D;
                 }
             }
 
-            return result;
+            return dictionary.Values.ToList();
         }
     }
 }
