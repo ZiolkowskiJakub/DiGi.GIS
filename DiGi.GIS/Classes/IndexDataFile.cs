@@ -11,7 +11,7 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public bool Read(string path)
+        public bool Read(string? path)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
             {
@@ -49,13 +49,13 @@ namespace DiGi.GIS.Classes
                     continue;
                 }
 
-                string reference = null;
+                string? reference = null;
                 if (count > 1)
                 {
                     reference = values_IndexData[1];
                 }
 
-                string name = null;
+                string? name = null;
                 if (count > 2)
                 {
                     name = values_IndexData[2];
@@ -67,7 +67,7 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        public bool Write(string path)
+        public bool Write(string? path)
         {
             if(string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
@@ -78,7 +78,7 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        public bool TryGetIndex(string reference, out int index)
+        public bool TryGetIndex(string? reference, out int index)
         {
             index = -1;
 
@@ -99,7 +99,7 @@ namespace DiGi.GIS.Classes
 
         public override string ToString()
         {
-            List<string> values = new List<string>();
+            List<string> values = [];
             foreach(IndexData indexData in this)
             {
                 if(indexData == null)
@@ -107,7 +107,7 @@ namespace DiGi.GIS.Classes
                     values.Add(string.Empty);
                 }
 
-                values.Add(indexData.ToString());
+                values.Add(indexData?.ToString() ?? string.Empty);
             }
 
             return string.Join("\n", values);

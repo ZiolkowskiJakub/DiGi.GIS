@@ -2,7 +2,7 @@
 {
     public static partial class Create
     {
-        public static string Reference(string text)
+        public static string? Reference(string? text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -11,9 +11,9 @@
 
             char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
 
-            string result = text;
+            string? result = text;
 
-            int index = result.IndexOfAny(invalidChars);
+            int index = result!.IndexOfAny(invalidChars);
 
             while (index != -1)
             {

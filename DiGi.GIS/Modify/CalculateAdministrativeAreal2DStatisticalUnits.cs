@@ -8,7 +8,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void CalculateAdministrativeAreal2DStatisticalUnits(this GISModel gISModel, StatisticalUnit statisticalUnit, out List<AdministrativeAreal2D> invalidAdministrativeAreal2Ds)
+        public static void CalculateAdministrativeAreal2DStatisticalUnits(this GISModel? gISModel, StatisticalUnit? statisticalUnit, out List<AdministrativeAreal2D>? invalidAdministrativeAreal2Ds)
         {
             invalidAdministrativeAreal2Ds = null;
 
@@ -17,15 +17,15 @@ namespace DiGi.GIS
                 return;
             }
 
-            List<AdministrativeDivision> administrativeDivisions = gISModel.GetObjects<AdministrativeDivision>();
+            List<AdministrativeDivision>? administrativeDivisions = gISModel.GetObjects<AdministrativeDivision>();
             if (administrativeDivisions == null || administrativeDivisions.Count == 0)
             {
                 return;
             }
 
-            List<Tuple<AdministrativeAreal2D, List<StatisticalUnit>>> tuples = new List<Tuple<AdministrativeAreal2D, List<StatisticalUnit>>>();
+            List<Tuple<AdministrativeAreal2D, List<StatisticalUnit>>> tuples = [];
 
-            Func<StatisticalUnit, AdministrativeDivision, bool, bool> similar_AdministrativeDivision = new Func<StatisticalUnit, AdministrativeDivision, bool, bool>((StatisticalUnit statisticalUnit, AdministrativeDivision administrativeDivision, bool extended) =>
+            Func<StatisticalUnit?, AdministrativeDivision?, bool, bool> similar_AdministrativeDivision = new((statisticalUnit, administrativeDivision, extended) =>
             {
                 if (statisticalUnit == null && administrativeDivision == null)
                 {
@@ -48,7 +48,7 @@ namespace DiGi.GIS
                     {
                         string name = statisticalUnit.Name.Trim().ToUpper();
 
-                        return name.EndsWith(administrativeDivision.Name.ToUpper());
+                        return name.EndsWith(administrativeDivision.Name?.ToUpper());
                     }
                     else
                     {
@@ -62,7 +62,7 @@ namespace DiGi.GIS
                             name_StatisticalUnit = name_StatisticalUnit.Substring(0, Math.Min(index_OD, index_DO));
                         }
 
-                        string name_AdministrativeDivision = administrativeDivision.Name.Trim().ToUpper();
+                        string name_AdministrativeDivision = administrativeDivision.Name?.Trim().ToUpper() ?? string.Empty;
                         string name_AdministrativeDivision_2 = "POWIAT " + name_AdministrativeDivision;
                         string name_AdministrativeDivision_3 = "POWIAT M. " + name_AdministrativeDivision;
 
@@ -76,11 +76,11 @@ namespace DiGi.GIS
                     {
                         if(extended)
                         {
-                            return Query.IsUrban(municipalityType.Value) ? statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper()) : false;
+                            return Query.IsUrban(municipalityType.Value) && statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper());
                         }
                         else
                         {
-                            return municipalityType == MunicipalityType.urban_rural_municipality_town ? statisticalUnit.Name?.ToUpper() == administrativeDivision.Name?.ToUpper() : false;
+                            return municipalityType == MunicipalityType.urban_rural_municipality_town && statisticalUnit.Name?.ToUpper() == administrativeDivision.Name?.ToUpper();
                         }
                     }
 
@@ -91,7 +91,7 @@ namespace DiGi.GIS
                     {
                         string name_StatisticalUnit = statisticalUnit.Name.ToUpper();
 
-                        string name_AdministrativeDivision = administrativeDivision.Name?.ToUpper();
+                        string name_AdministrativeDivision = administrativeDivision.Name?.ToUpper() ?? string.Empty;
                         if (name_AdministrativeDivision.StartsWith("M. ST."))
                         {
                             name_AdministrativeDivision = name_AdministrativeDivision.Replace(" ", string.Empty) + " OD 2002";
@@ -152,11 +152,11 @@ namespace DiGi.GIS
                             {
                                 if(municipalityType.Value == MunicipalityType.Warsaw_district)
                                 {
-                                    return statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name.ToUpper());
+                                    return statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper());
                                 }
                                 else
                                 {
-                                    return administrativeDivision.Name.ToUpper().StartsWith(statisticalUnit.Name.ToUpper());
+                                    return administrativeDivision.Name != null && administrativeDivision.Name.ToUpper().StartsWith(statisticalUnit.Name.ToUpper());
                                 }
                             }
                         }
@@ -166,7 +166,7 @@ namespace DiGi.GIS
                 return statisticalUnit.Name?.ToUpper() == administrativeDivision.Name?.ToUpper();
             });
 
-            invalidAdministrativeAreal2Ds = new List<AdministrativeAreal2D>();
+            invalidAdministrativeAreal2Ds = [];
 
             foreach (AdministrativeDivisionType administrativeDivisionType in Enum.GetValues(typeof(AdministrativeDivisionType)))
             {
@@ -180,11 +180,11 @@ namespace DiGi.GIS
                 {
                     if(similar_AdministrativeDivision.Invoke(statisticalUnit, administrativeDivision, false))
                     {
-                        tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, new List<StatisticalUnit>() { statisticalUnit }));
+                        tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, [statisticalUnit]));
                         continue;
                     }
 
-                    List<StatisticalUnit> statisticalUnits_Temp = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeDivision.Invoke(x, administrativeDivision, false))?.ToList();
+                    List<StatisticalUnit>? statisticalUnits_Temp = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeDivision.Invoke(x, administrativeDivision, false))?.ToList();
                     if (statisticalUnits_Temp == null || statisticalUnits_Temp.Count == 0)
                     {
                         statisticalUnits_Temp = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeDivision.Invoke(x, administrativeDivision, true))?.ToList();
@@ -200,12 +200,12 @@ namespace DiGi.GIS
                     {
                         if (statisticalUnits_Temp.Count > 1)
                         {
-                            List<StatisticalUnit> statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+                            List<StatisticalUnit> statisticalUnits_Temp_Temp = [.. statisticalUnits_Temp];
 
                             for (int i = statisticalUnits_Temp_Temp.Count - 1; i >= 0; i--)
                             {
-                                StatisticalUnit statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp_Temp[i].UnitCode.GetParent(), true);
-                                if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent.Code) != null) == null)
+                                StatisticalUnit? statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp_Temp[i].UnitCode?.GetParent(), true);
+                                if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent?.Code) != null) == null)
                                 {
                                     statisticalUnits_Temp_Temp.RemoveAt(i);
                                 }
@@ -213,21 +213,26 @@ namespace DiGi.GIS
 
                             if(statisticalUnits_Temp_Temp.Count == 0)
                             {
-                                statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+                                statisticalUnits_Temp_Temp = [.. statisticalUnits_Temp];
 
-                                List<StatisticalUnit> statisticalUnits = new List<StatisticalUnit>();
+                                List<StatisticalUnit> statisticalUnits = [];
                                 tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
 
-                                string prefix = null;
-                                foreach(string prefix_Temp in statisticalUnits.ConvertAll(x => x.UnitCode.GetPrefix()))
+                                string? prefix = null;
+                                foreach(string? prefix_Temp in statisticalUnits.ConvertAll(x => x.UnitCode?.GetPrefix()))
                                 {
+                                    if(prefix_Temp == null)
+                                    {
+                                        continue;
+                                    }
+
                                     if(prefix == null || prefix_Temp.Length > prefix.Length)
                                     {
                                         prefix = prefix_Temp;
                                     }
                                 }
 
-                                statisticalUnits_Temp_Temp.RemoveAll(x => !x.Code.StartsWith(prefix));
+                                statisticalUnits_Temp_Temp.RemoveAll(x => !(x.Code ?? string.Empty).StartsWith(prefix));
                             }
 
                             statisticalUnits_Temp = statisticalUnits_Temp_Temp;
@@ -235,30 +240,30 @@ namespace DiGi.GIS
 
                         if(statisticalUnits_Temp.Count > 1)
                         {
-                            List<string> names = statisticalUnits_Temp.ConvertAll(x => x.Name.Trim().ToUpper());
+                            List<string> names = statisticalUnits_Temp.ConvertAll(x => x.Name?.Trim().ToUpper() ?? string.Empty);
                             if(names.TrueForAll(x => x.Contains(" OD ") || x.Contains(" DO ")))
                             {
-                                List<StatisticalUnit> statisticalUnits = new List<StatisticalUnit>();
+                                List<StatisticalUnit> statisticalUnits = [];
                                 tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
 
-                                List<StatisticalUnit> statisticalUnits_Temp_Temp = new List<StatisticalUnit>(statisticalUnits_Temp);
+                                List<StatisticalUnit> statisticalUnits_Temp_Temp = [.. statisticalUnits_Temp];
                                 statisticalUnits_Temp_Temp.RemoveAll(x => statisticalUnits.Find(y => y.Code == x.Code) != null);
                                 if(statisticalUnits_Temp_Temp.Count > 0)
                                 {
                                     statisticalUnits_Temp = statisticalUnits_Temp_Temp;
                                 }
 
-                                statisticalUnits_Temp.Sort((x, y) => y.Code.CompareTo(x.Code));
-                                statisticalUnits_Temp = new List<StatisticalUnit>() { statisticalUnits_Temp[0] };
+                                statisticalUnits_Temp.Sort((x, y) => (y?.Code ?? string.Empty).CompareTo(x?.Code ?? string.Empty));
+                                statisticalUnits_Temp = [statisticalUnits_Temp[0]];
                             }
                         }
 
-                        Dictionary<string, StatisticalUnit> dictionary = new Dictionary<string, StatisticalUnit>();
+                        Dictionary<string, StatisticalUnit> dictionary = [];
                         foreach (StatisticalUnit statisticalUnit_Temp in statisticalUnits_Temp)
                         {
-                            if (!dictionary.ContainsKey(statisticalUnit_Temp.Code))
+                            if (!dictionary.ContainsKey(statisticalUnit_Temp.Code ?? string.Empty))
                             {
-                                dictionary[statisticalUnit_Temp.Code] = statisticalUnit_Temp;
+                                dictionary[statisticalUnit_Temp.Code ?? string.Empty] = statisticalUnit_Temp;
                             }
 
                             StatisticalUnitType? statisticalUnitType = statisticalUnit_Temp.GetStatisticalUnitType();
@@ -267,18 +272,20 @@ namespace DiGi.GIS
                                 continue;
                             }
 
-                            string code = statisticalUnit_Temp.Code;
+                            string code = statisticalUnit_Temp.Code ?? string.Empty;
 
                             code = code.Substring(0, code.Length - 1);
 
-                            IEnumerable<StatisticalUnit> statisticalUnits_Code = statisticalUnit.GetStatisticalUnits(true, x => x.Code.StartsWith(code));
+                            IEnumerable<StatisticalUnit>? statisticalUnits_Code = statisticalUnit.GetStatisticalUnits(true, x => (x?.Code ?? string.Empty).StartsWith(code));
                             if (statisticalUnits_Code != null)
                             {
                                 foreach (StatisticalUnit statisticalUnit_Code in statisticalUnits_Code)
                                 {
-                                    if (!dictionary.ContainsKey(statisticalUnit_Code.Code))
+                                    string code_Temp = statisticalUnit_Code.Code ?? string.Empty;
+
+                                    if (!dictionary.ContainsKey(code_Temp))
                                     {
-                                        dictionary[statisticalUnit_Code.Code] = statisticalUnit_Code;
+                                        dictionary[code_Temp] = statisticalUnit_Code;
                                     }
                                 }
                             }
@@ -286,7 +293,7 @@ namespace DiGi.GIS
 
                         if(dictionary.Count != 0)
                         {
-                            tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, new List<StatisticalUnit>(dictionary.Values)));
+                            tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, [.. dictionary.Values]));
                         }
                     }
 
@@ -297,13 +304,13 @@ namespace DiGi.GIS
                 }
             }
 
-            List<AdministrativeSubdivision> administrativeSubdivisions = gISModel.GetObjects<AdministrativeSubdivision>();
+            List<AdministrativeSubdivision>? administrativeSubdivisions = gISModel.GetObjects<AdministrativeSubdivision>();
             if (administrativeSubdivisions == null || administrativeSubdivisions.Count == 0)
             {
                 return;
             }
 
-            Func<StatisticalUnit, AdministrativeSubdivision, bool> similar_AdministrativeSubdivision = new Func<StatisticalUnit, AdministrativeSubdivision, bool>((StatisticalUnit statisticalUnit, AdministrativeSubdivision administrativeSubdivision) =>
+            Func<StatisticalUnit?, AdministrativeSubdivision?, bool> similar_AdministrativeSubdivision = new((statisticalUnit, administrativeSubdivision) =>
             {
                 if (statisticalUnit == null && administrativeSubdivision == null)
                 {
@@ -325,15 +332,15 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                List<StatisticalUnit> statisticalUnits_Temp = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeSubdivision.Invoke(x, administrativeSubdivision))?.ToList();
+                List<StatisticalUnit>? statisticalUnits_Temp = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeSubdivision.Invoke(x, administrativeSubdivision))?.ToList();
                 if (statisticalUnits_Temp != null && statisticalUnits_Temp.Count != 0)
                 {
                     if (statisticalUnits_Temp.Count > 1)
                     {
                         for (int i = statisticalUnits_Temp.Count - 1; i >= 0; i--)
                         {
-                            StatisticalUnit statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp[i].UnitCode.GetParent(), true);
-                            if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent.Code) != null) == null)
+                            StatisticalUnit? statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits_Temp[i].UnitCode?.GetParent(), true);
+                            if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent?.Code) != null) == null)
                             {
                                 statisticalUnits_Temp.RemoveAt(i);
                             }
@@ -343,32 +350,32 @@ namespace DiGi.GIS
 
                 if (statisticalUnits_Temp == null || statisticalUnits_Temp.Count == 0)
                 {
-                    if (!gISModel.TryGetRelatedObjects<AdministrativeAreal2D, AdministrativeAreal2DAdministrativeAreal2DsRelation>(administrativeSubdivision, out List<AdministrativeAreal2D> administrativeAreal2Ds_Related) || administrativeAreal2Ds_Related == null)
+                    if (!gISModel.TryGetRelatedObjects<AdministrativeAreal2D, AdministrativeAreal2DAdministrativeAreal2DsRelation>(administrativeSubdivision, out List<AdministrativeAreal2D>? administrativeAreal2Ds_Related) || administrativeAreal2Ds_Related == null)
                     {
                         continue;
                     }
 
-                    List<Tuple<string, StatisticalUnit>> tuples_StatisticalUnits = new List<Tuple<string, StatisticalUnit>>();
+                    List<Tuple<string, StatisticalUnit>> tuples_StatisticalUnits = [];
                     foreach (AdministrativeAreal2D administrativeAreal2D_Related in administrativeAreal2Ds_Related)
                     {
-                        List<StatisticalUnit> statisticalUnits = tuples.Find(x => x.Item1.Guid == administrativeAreal2D_Related.Guid)?.Item2;
+                        List<StatisticalUnit>? statisticalUnits = tuples.Find(x => x.Item1.Guid == administrativeAreal2D_Related.Guid)?.Item2;
                         if(statisticalUnits == null || statisticalUnits.Count == 0)
                         {
-                            if (administrativeAreal2D_Related is AdministrativeSubdivision)
+                            if (administrativeAreal2D_Related is AdministrativeSubdivision administrativeSubdivision_Temp)
                             {
-                                statisticalUnits = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeSubdivision.Invoke(x, (AdministrativeSubdivision)administrativeAreal2D_Related))?.ToList();
+                                statisticalUnits = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeSubdivision.Invoke(x, administrativeSubdivision_Temp))?.ToList();
                             }
-                            else if (administrativeAreal2D_Related is AdministrativeDivision)
+                            else if (administrativeAreal2D_Related is AdministrativeDivision administrativeDivision_Temp)
                             {
-                                statisticalUnits = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeDivision.Invoke(x, (AdministrativeDivision)administrativeAreal2D_Related, false))?.ToList();
+                                statisticalUnits = statisticalUnit.GetStatisticalUnits(true, x => similar_AdministrativeDivision.Invoke(x, administrativeDivision_Temp, false))?.ToList();
                             }
 
-                            if (statisticalUnits.Count > 1)
+                            if (statisticalUnits is not null && statisticalUnits.Count > 1)
                             {
                                 for (int i = statisticalUnits.Count - 1; i >= 0; i--)
                                 {
-                                    StatisticalUnit statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits[i].UnitCode.GetParent(), true);
-                                    if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent.Code) != null) == null)
+                                    StatisticalUnit? statisticalUnit_Parent = statisticalUnit.Find(statisticalUnits[i].UnitCode?.GetParent(), true);
+                                    if (tuples.Find(x => x.Item2.Find(y => y.Code == statisticalUnit_Parent?.Code) != null) == null)
                                     {
                                         statisticalUnits.RemoveAt(i);
                                     }
@@ -380,15 +387,15 @@ namespace DiGi.GIS
                         {
                             foreach(StatisticalUnit statisticalUnit_Temp in statisticalUnits)
                             {
-                                string code = statisticalUnit_Temp?.Code;
+                                string? code = statisticalUnit_Temp?.Code;
                                 if(string.IsNullOrWhiteSpace(code))
                                 {
                                     continue;
                                 }
 
-                                code = code.Substring(0, code.Length - 1);
+                                code = code!.Substring(0, code.Length - 1);
 
-                                tuples_StatisticalUnits.Add(new Tuple<string, StatisticalUnit>(code, statisticalUnit_Temp));
+                                tuples_StatisticalUnits.Add(new Tuple<string, StatisticalUnit>(code, statisticalUnit_Temp!));
                             }
                         }
                     }
@@ -423,7 +430,7 @@ namespace DiGi.GIS
 
                         if(index != -1)
                         {
-                            statisticalUnits_Temp = new List<StatisticalUnit>() { statisticalUnits_Temp[index] };
+                            statisticalUnits_Temp = [statisticalUnits_Temp[index]];
                         }
                     }
                     else
@@ -441,7 +448,7 @@ namespace DiGi.GIS
 
                         if (index != -1)
                         {
-                            statisticalUnits_Temp = new List<StatisticalUnit>() { statisticalUnits_Temp[index] };
+                            statisticalUnits_Temp = [statisticalUnits_Temp[index]];
                         }
                     }
                 }

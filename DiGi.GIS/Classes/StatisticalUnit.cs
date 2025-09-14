@@ -11,15 +11,15 @@ namespace DiGi.GIS.Classes
     public class StatisticalUnit : GuidObject, IGISObject
     {
         [JsonIgnore]
-        private Dictionary<string, StatisticalUnit> dictionary;
+        private Dictionary<string, StatisticalUnit>? dictionary;
 
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
         [JsonIgnore]
-        private UnitCode unitCode;
+        private UnitCode? unitCode;
 
-        public StatisticalUnit(Guid guid, UnitCode unitCode, string name, IEnumerable<StatisticalUnit> statisticalUnits)
+        public StatisticalUnit(Guid guid, UnitCode? unitCode, string? name, IEnumerable<StatisticalUnit>? statisticalUnits)
             : base(guid)
         {
             this.name = name;
@@ -27,7 +27,7 @@ namespace DiGi.GIS.Classes
             StatisticalUnits = statisticalUnits;
         }
 
-        public StatisticalUnit(StatisticalUnit statisticalUnit)
+        public StatisticalUnit(StatisticalUnit? statisticalUnit)
             : base(statisticalUnit)
         {
             if(statisticalUnit != null)
@@ -38,14 +38,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public StatisticalUnit(JsonObject jsonObject)
+        public StatisticalUnit(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
         [JsonInclude, JsonPropertyName("Code")]
-        public string Code
+        public string? Code
         {
             get
             {
@@ -59,7 +59,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {
@@ -68,7 +68,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonInclude, JsonPropertyName("StatisticalUnits")]
-        public IEnumerable<StatisticalUnit> StatisticalUnits
+        public IEnumerable<StatisticalUnit>? StatisticalUnits
         {
             get
             {
@@ -83,7 +83,7 @@ namespace DiGi.GIS.Classes
                     return;
                 }
 
-                dictionary = new Dictionary<string, StatisticalUnit>();
+                dictionary = [];
                 foreach (StatisticalUnit statisticalUnit in value)
                 {
                     if (statisticalUnit?.Code == null)
@@ -97,7 +97,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public UnitCode UnitCode
+        public UnitCode? UnitCode
         {
             get
             {
@@ -105,14 +105,19 @@ namespace DiGi.GIS.Classes
             }
         }
         
-        public IEnumerable<StatisticalUnit> GetStatisticalUnits(bool includeNested, Func<StatisticalUnit, bool> func = null)
+        public IEnumerable<StatisticalUnit>? GetStatisticalUnits(bool includeNested, Func<StatisticalUnit?, bool>? func = null)
         {
-            List<StatisticalUnit> result = new List<StatisticalUnit>();
-            foreach (StatisticalUnit statisticalUnit in StatisticalUnits)
+            if(dictionary is null)
+            {
+                return null;
+            }
+
+            List<StatisticalUnit> result = [];
+            foreach (StatisticalUnit statisticalUnit in dictionary.Values)
             {
                 if(includeNested)
                 {
-                    IEnumerable<StatisticalUnit> statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested, func);
+                    IEnumerable<StatisticalUnit>? statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested, func);
                     if (statisticalUnits_Nested != null)
                     {
                         foreach (StatisticalUnit statisticalUnit_Nested in statisticalUnits_Nested)
@@ -138,21 +143,21 @@ namespace DiGi.GIS.Classes
             return unitCode?.GetStatisticalUnitType();
         }
 
-        public StatisticalUnit Find(UnitCode unitCode, bool includeNested)
+        public StatisticalUnit? Find(UnitCode? unitCode, bool includeNested)
         {
             if(unitCode == null)
             {
                 return null;
             }
 
-            string prefix = unitCode.GetPrefix();
+            string? prefix = unitCode.GetPrefix();
 
             if(this.unitCode == unitCode)
             {
                 return this;
             }
 
-            IEnumerable<StatisticalUnit> statisticalUnits = StatisticalUnits;
+            IEnumerable<StatisticalUnit>? statisticalUnits = StatisticalUnits;
             if(statisticalUnits == null)
             {
                 return null;
@@ -160,16 +165,16 @@ namespace DiGi.GIS.Classes
 
             foreach (StatisticalUnit statisticalUnit in statisticalUnits)
             {
-                string prefix_StatisticalUnit = statisticalUnit?.UnitCode?.GetPrefix();
+                string? prefix_StatisticalUnit = statisticalUnit?.UnitCode?.GetPrefix();
 
                 if(prefix_StatisticalUnit == prefix)
                 {
                     return statisticalUnit;
                 }
 
-                if(includeNested && prefix.StartsWith(prefix_StatisticalUnit))
+                if(includeNested && prefix is not null && prefix.StartsWith(prefix_StatisticalUnit))
                 {
-                    StatisticalUnit statisticalUnit_Nested = statisticalUnit.Find(unitCode, includeNested);
+                    StatisticalUnit? statisticalUnit_Nested = statisticalUnit?.Find(unitCode, includeNested);
                     if(statisticalUnit_Nested != null)
                     {
                         return statisticalUnit_Nested;
@@ -180,9 +185,9 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
-            return string.Format("{0}: {1}", string.IsNullOrWhiteSpace(unitCode.Code) ? "???" : unitCode.Code, string.IsNullOrWhiteSpace(name) ? "???" : name);
+            return string.Format("{0}: {1}", string.IsNullOrWhiteSpace(unitCode?.Code) ? "???" : unitCode!.Code, string.IsNullOrWhiteSpace(name) ? "???" : name);
         }
     }
 }

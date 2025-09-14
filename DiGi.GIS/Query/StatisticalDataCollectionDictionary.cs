@@ -7,18 +7,18 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static Dictionary<string, StatisticalDataCollection> StatisticalDataCollectionDictionary(StatisticalDataCollectionFile statisticalDataCollectionFile, IEnumerable<string> references)
+        public static Dictionary<string, StatisticalDataCollection>? StatisticalDataCollectionDictionary(StatisticalDataCollectionFile? statisticalDataCollectionFile, IEnumerable<string>? references)
         {
             if (statisticalDataCollectionFile == null || references == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            HashSet<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
-                UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(reference);
-                if (uniqueReference == null)
+                UniqueReference? uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(reference);
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -26,14 +26,14 @@ namespace DiGi.GIS
                 uniqueReferences.Add(uniqueReference);
             }
 
-            Dictionary<string, StatisticalDataCollection> result = new Dictionary<string, StatisticalDataCollection>();
+            Dictionary<string, StatisticalDataCollection> result = [];
 
             if (uniqueReferences.Count == 0)
             {
                 return result;
             }
 
-            List<StatisticalDataCollection> statisticalDataCollectionList = statisticalDataCollectionFile.GetValues(uniqueReferences)?.ToList();
+            List<StatisticalDataCollection?>? statisticalDataCollectionList = statisticalDataCollectionFile.GetValues(uniqueReferences)?.ToList();
             if (statisticalDataCollectionList == null || statisticalDataCollectionList.Count == 0)
             {
                 return result;
@@ -48,8 +48,15 @@ namespace DiGi.GIS
 
                 UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
 
-                result[uniqueReference.UniqueId] = statisticalDataCollectionList[i];
-                uniqueReferences.Remove(uniqueReference);
+                if(uniqueReference.UniqueId is string uniqueId)
+                {
+                    result[uniqueId] = statisticalDataCollectionList[i]!;
+                }
+
+                if(uniqueReference is not null)
+                {
+                    uniqueReferences.Remove(uniqueReference);
+                }
 
                 if (uniqueReferences.Count == 0)
                 {
@@ -60,18 +67,18 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static Dictionary<string, StatisticalDataCollection> StatisticalDataCollectionDictionary(string directory, IEnumerable<string> references)
+        public static Dictionary<string, StatisticalDataCollection>? StatisticalDataCollectionDictionary(string? directory, IEnumerable<string>? references)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            HashSet<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
-                UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(reference);
-                if (uniqueReference == null)
+                UniqueReference? uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(reference);
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -79,7 +86,7 @@ namespace DiGi.GIS
                 uniqueReferences.Add(uniqueReference);
             }
 
-            Dictionary<string, StatisticalDataCollection> result = new Dictionary<string, StatisticalDataCollection>();
+            Dictionary<string, StatisticalDataCollection> result = [];
 
             if (uniqueReferences.Count == 0)
             {
@@ -94,15 +101,14 @@ namespace DiGi.GIS
 
             foreach (string path in paths)
             {
-                using (StatisticalDataCollectionFile statisticalDataCollectionFile = new StatisticalDataCollectionFile(path))
+                using StatisticalDataCollectionFile statisticalDataCollectionFile = new(path);
+
+                Dictionary<string, StatisticalDataCollection>? statisticalDataCollectionDictionary = StatisticalDataCollectionDictionary(statisticalDataCollectionFile, references);
+                if (statisticalDataCollectionDictionary != null)
                 {
-                    Dictionary<string, StatisticalDataCollection> statisticalDataCollectionDictionary = StatisticalDataCollectionDictionary(statisticalDataCollectionFile, references);
-                    if(statisticalDataCollectionDictionary != null)
+                    foreach (KeyValuePair<string, StatisticalDataCollection> keyValuePair in statisticalDataCollectionDictionary)
                     {
-                        foreach(KeyValuePair<string, StatisticalDataCollection> keyValuePair in statisticalDataCollectionDictionary)
-                        {
-                            result[keyValuePair.Key] = keyValuePair.Value;
-                        }
+                        result[keyValuePair.Key] = keyValuePair.Value;
                     }
                 }
             }
@@ -110,17 +116,17 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static Dictionary<GuidReference, StatisticalDataCollection> StatisticalDataCollectionDictionary(string directory, IEnumerable<Building2D> building2Ds)
+        public static Dictionary<GuidReference, StatisticalDataCollection>? StatisticalDataCollectionDictionary(string? directory, IEnumerable<Building2D>? building2Ds)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)
             {
                 return null;
             }
 
-            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            Dictionary<string, GuidReference> dictionary = [];
             foreach(Building2D building2D in building2Ds)
             {
-                string reference = building2D?.Reference;
+                string? reference = building2D?.Reference;
                 if(reference == null)
                 {
                     continue;
@@ -129,13 +135,13 @@ namespace DiGi.GIS
                 dictionary[reference] = new GuidReference(building2D);
             }
 
-            Dictionary<string, StatisticalDataCollection> statisticalDataCollectionDictionary = StatisticalDataCollectionDictionary(directory, dictionary.Keys);
+            Dictionary<string, StatisticalDataCollection>? statisticalDataCollectionDictionary = StatisticalDataCollectionDictionary(directory, dictionary.Keys);
             if(statisticalDataCollectionDictionary == null)
             {
                 return null;
             }
 
-            Dictionary<GuidReference, StatisticalDataCollection> result = new Dictionary<GuidReference, StatisticalDataCollection>();
+            Dictionary<GuidReference, StatisticalDataCollection> result = [];
             foreach(KeyValuePair<string, GuidReference> keyValuePair in dictionary)
             {
                 string reference = keyValuePair.Key;

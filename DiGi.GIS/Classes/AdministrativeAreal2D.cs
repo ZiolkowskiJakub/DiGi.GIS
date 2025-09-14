@@ -8,15 +8,15 @@ namespace DiGi.GIS.Classes
     public abstract class AdministrativeAreal2D : Areal2D
     {
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
-        public AdministrativeAreal2D(Guid guid, string reference, PolygonalFace2D polygonalFace2D, string name)
+        public AdministrativeAreal2D(Guid guid, string? reference, PolygonalFace2D? polygonalFace2D, string? name)
             : base(guid, reference, polygonalFace2D)
         {
             this.name = name;
         }
 
-        public AdministrativeAreal2D(AdministrativeAreal2D administrativeArea2D)
+        public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D)
             : base(administrativeArea2D)
         {
             if(administrativeArea2D != null)
@@ -25,14 +25,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public AdministrativeAreal2D(JsonObject jsonObject)
+        public AdministrativeAreal2D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {

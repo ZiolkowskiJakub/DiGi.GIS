@@ -6,12 +6,12 @@ namespace DiGi.GIS.Classes
 {
     public class StatisticalDataCollectionFile : Core.IO.File.Classes.StorageFile<StatisticalDataCollection>, IGISObject
     {
-        public override UniqueReference GetUniqueReference(StatisticalDataCollection statisticalDataCollection)
+        public override UniqueReference? GetUniqueReference(StatisticalDataCollection? statisticalDataCollection)
         {
             return GetUniqueReference(statisticalDataCollection?.Code);
         }
 
-        public static UniqueReference GetUniqueReference(string reference)
+        public static UniqueReference? GetUniqueReference(string? reference)
         {
             if(reference == null)
             {
@@ -21,19 +21,19 @@ namespace DiGi.GIS.Classes
             return new UniqueIdReference(typeof(StatisticalDataCollection), reference);
         }
 
-        public StatisticalDataCollectionFile(StatisticalDataCollectionFile statisticalDataCollectionFile)
+        public StatisticalDataCollectionFile(StatisticalDataCollectionFile? statisticalDataCollectionFile)
             : base(statisticalDataCollectionFile)
         {
 
         }
 
-        public StatisticalDataCollectionFile(JsonObject jsonObject)
+        public StatisticalDataCollectionFile(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public StatisticalDataCollectionFile(string path)
+        public StatisticalDataCollectionFile(string? path)
             : base(path) 
         {
             

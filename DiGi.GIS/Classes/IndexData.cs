@@ -8,15 +8,15 @@ namespace DiGi.GIS.Classes
     public class IndexData : UniqueObject, IGISUniqueObject
     {
         [JsonInclude, JsonPropertyName("Index")]
-        private int index;
+        private readonly int index;
 
         [JsonInclude, JsonPropertyName("Reference")]
-        private string reference;
+        private readonly string? reference;
 
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
-        public IndexData(int index, string reference, string name)
+        public IndexData(int index, string? reference, string? name)
             : base()
         {
             this.index = index;
@@ -24,7 +24,7 @@ namespace DiGi.GIS.Classes
             this.name = name;
         }
 
-        public IndexData(IndexData indexData)
+        public IndexData(IndexData? indexData)
             : base(indexData)
         {
             if(indexData != null)
@@ -35,7 +35,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public IndexData(JsonObject jsonObject)
+        public IndexData(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
@@ -51,7 +51,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Reference
+        public string? Reference
         {
             get
             {
@@ -60,7 +60,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {
@@ -69,7 +69,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public override string UniqueId
+        public override string? UniqueId
         {
             get
             {
@@ -77,9 +77,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public override string ToString()
+        public override string? ToString()
         {
-            return string.Join("\t", index.ToString(), reference == null ? string.Empty : reference, name == null ? string.Empty : name);
+            return string.Join("\t", index.ToString(), reference ?? string.Empty, name ?? string.Empty);
         }
     }
 }

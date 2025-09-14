@@ -6,38 +6,38 @@ namespace DiGi.GIS.Classes
 {
     public class YearBuiltDataFile : Core.IO.File.Classes.StorageFile<IYearBuiltData>, IGISObject
     {
-        public YearBuiltDataFile(YearBuiltDataFile yearBuiltDataFile)
+        public YearBuiltDataFile(YearBuiltDataFile? yearBuiltDataFile)
             : base(yearBuiltDataFile)
         {
 
         }
 
-        public YearBuiltDataFile(JsonObject jsonObject)
+        public YearBuiltDataFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public YearBuiltDataFile(string path)
+        public YearBuiltDataFile(string? path)
             : base(path)
         {
 
         }
 
-        public static UniqueReference GetUniqueReference<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
+        public static UniqueReference? GetUniqueReference<UYearBuiltData>(string? reference) where UYearBuiltData : IYearBuiltData
         {
             return GetUniqueReference(typeof(UYearBuiltData), reference);
         }
 
-        public override UniqueReference GetUniqueReference(IYearBuiltData yearBuiltData)
+        public override UniqueReference? GetUniqueReference(IYearBuiltData? yearBuiltData)
         {
-            return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData.Reference);
+            return GetUniqueReference(yearBuiltData?.GetType(), yearBuiltData?.Reference);
         }
 
-        public UYearBuiltData GetValue<UYearBuiltData>(string reference) where UYearBuiltData : IYearBuiltData
+        public UYearBuiltData? GetValue<UYearBuiltData>(string? reference) where UYearBuiltData : IYearBuiltData
         {
-            UniqueReference uniqueReference = GetUniqueReference<UYearBuiltData>(reference);
-            if(uniqueReference == null)
+            UniqueReference? uniqueReference = GetUniqueReference<UYearBuiltData>(reference);
+            if(uniqueReference is null)
             {
                 return default;
             }
@@ -45,7 +45,7 @@ namespace DiGi.GIS.Classes
             return GetValue<UYearBuiltData>(uniqueReference);
         }
         
-        private static UniqueReference GetUniqueReference(System.Type type, string reference)
+        private static UniqueReference? GetUniqueReference(System.Type? type, string? reference)
         {
             if (string.IsNullOrWhiteSpace(reference) || type == null)
             {

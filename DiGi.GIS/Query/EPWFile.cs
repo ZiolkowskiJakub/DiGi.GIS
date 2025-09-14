@@ -8,7 +8,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static EPWFile EPWFile(this Point2D point2D, IEnumerable<EPWFile> ePWFiles, out double distance)
+        public static EPWFile? EPWFile(this Point2D? point2D, IEnumerable<EPWFile>? ePWFiles, out double distance)
         {
             distance = double.NaN;
 
@@ -17,21 +17,25 @@ namespace DiGi.GIS
                 return null;
             }
 
-            Point3D point3D = Convert.ToEPSG4326(point2D);
+            Point3D? point3D = Convert.ToEPSG4326(point2D);
+            if(point3D is null)
+            {
+                return null;
+            }
 
-            List<Tuple<double, Point3D, EPWFile>> tuples = new List<Tuple<double, Point3D, EPWFile>>();
+            List<Tuple<double, Point3D, EPWFile>> tuples = [];
 
             foreach (EPWFile ePWFile in ePWFiles)
             {
-                Location location = ePWFile?.Location;
+                Location? location = ePWFile?.Location;
                 if(location == null)
                 {
                     continue;
                 }
 
-                Point3D point3D_EPWFile = new Point3D(location.Longitude, location.Latitude, location.Elevation);
+                Point3D point3D_EPWFile = new (location.Longitude, location.Latitude, location.Elevation);
 
-                tuples.Add(new Tuple<double, Point3D, EPWFile>(point3D.Distance(point3D_EPWFile), point3D_EPWFile, ePWFile));
+                tuples.Add(new Tuple<double, Point3D, EPWFile>(point3D.Distance(point3D_EPWFile), point3D_EPWFile, ePWFile!));
             }
 
             if(tuples == null || tuples.Count == 0)
@@ -40,7 +44,6 @@ namespace DiGi.GIS
             }
 
             tuples.Sort((x, y) => x.Item1.CompareTo(y.Item1));
-
 
             Tuple<double, Point3D, EPWFile> tuple = tuples[0];
 

@@ -6,29 +6,29 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static IndexDataFile IndexDataFile<TAdministrativeAreal2D>(this IEnumerable<TAdministrativeAreal2D> administrativeAreal2Ds) where TAdministrativeAreal2D : AdministrativeAreal2D
+        public static IndexDataFile? IndexDataFile<TAdministrativeAreal2D>(this IEnumerable<TAdministrativeAreal2D>? administrativeAreal2Ds) where TAdministrativeAreal2D : AdministrativeAreal2D
         {
-            if(administrativeAreal2Ds == null)
+            if (administrativeAreal2Ds == null)
             {
                 return null;
             }
 
-            Dictionary<string, TAdministrativeAreal2D> dictionary = new Dictionary<string, TAdministrativeAreal2D>();
+            Dictionary<string, TAdministrativeAreal2D> dictionary = [];
             for (int i = 0; i < administrativeAreal2Ds.Count(); i++)
             {
                 TAdministrativeAreal2D administrativeAreal2D = administrativeAreal2Ds.ElementAt(i);
-                if(administrativeAreal2D?.Reference == null)
+                if (administrativeAreal2D?.Reference == null)
                 {
                     continue;
                 }
 
-                dictionary[administrativeAreal2D?.Reference] = administrativeAreal2D;
+                dictionary[administrativeAreal2D?.Reference!] = administrativeAreal2D!;
             }
 
-            List<TAdministrativeAreal2D> administrativeAreal2Ds_Temp = dictionary.Values.ToList();
+            List<TAdministrativeAreal2D> administrativeAreal2Ds_Temp = [.. dictionary.Values];
 
-            IndexDataFile result = new IndexDataFile();
-            for(int i=0; i < administrativeAreal2Ds_Temp.Count; i++)
+            IndexDataFile result = [];
+            for (int i = 0; i < administrativeAreal2Ds_Temp.Count; i++)
             {
                 AdministrativeAreal2D administrativeAreal2D = administrativeAreal2Ds_Temp[i];
 

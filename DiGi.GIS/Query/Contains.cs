@@ -15,7 +15,7 @@ namespace DiGi.GIS
 
             string reference = ((int)variable).ToString();
 
-            IStatisticalData statisticalData = statisticalDataCollection.Find<IStatisticalData>(x => x.Reference == reference);
+            IStatisticalData? statisticalData = statisticalDataCollection.Find<IStatisticalData>(x => x?.Reference == reference);
 
             return statisticalData != null;
         }

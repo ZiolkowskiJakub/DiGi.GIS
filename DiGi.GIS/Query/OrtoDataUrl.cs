@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string OrtoDataUrl(this BoundingBox2D boundingBox2D, int year, double scale)
+        public static string? OrtoDataUrl(this BoundingBox2D? boundingBox2D, int year, double scale)
         {
             if (boundingBox2D == null)
             {
@@ -24,7 +24,7 @@ namespace DiGi.GIS
             return OrtoDataUrl(boundingBox2D, year, width_Int, height_Int);
         }
 
-        public static string OrtoDataUrl(this BoundingBox2D boundingBox2D, int year, int width, int height)
+        public static string? OrtoDataUrl(this BoundingBox2D? boundingBox2D, int year, int width, int height)
         {
             if(boundingBox2D == null)
             {

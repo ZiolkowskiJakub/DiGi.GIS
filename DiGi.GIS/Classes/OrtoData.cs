@@ -12,18 +12,18 @@ namespace DiGi.GIS.Classes
     public class OrtoData : SerializableObject, IGISObject
     {
         [JsonInclude, JsonPropertyName("DateTime")]
-        private DateTime dateTime;
+        private readonly DateTime dateTime;
 
         [JsonInclude, JsonPropertyName("Bytes")]
-        private byte[] bytes;
+        private readonly byte[]? bytes;
 
         [JsonInclude, JsonPropertyName("Scale")]
-        private double scale;
+        private readonly double scale;
 
         [JsonInclude, JsonPropertyName("Location")]
-        private Point2D location;
+        private readonly Point2D? location;
 
-        public OrtoData(DateTime dateTime, byte[] bytes, double scale, Point2D location)
+        public OrtoData(DateTime dateTime, byte[]? bytes, double scale, Point2D? location)
         {
             this.dateTime = dateTime;
             this.bytes = bytes;
@@ -31,7 +31,7 @@ namespace DiGi.GIS.Classes
             this.location = location;
         }
 
-        public OrtoData(OrtoData ortoData)
+        public OrtoData(OrtoData? ortoData)
         {
             if (ortoData != null)
             {
@@ -42,7 +42,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public OrtoData(JsonObject jsonObject)
+        public OrtoData(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -58,7 +58,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public byte[] Bytes
+        public byte[]? Bytes
         {
             get
             {
@@ -76,7 +76,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public Point2D Location
+        public Point2D? Location
         {
             get
             {
@@ -84,21 +84,21 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public Point2D ToOrto(Point2D point2D)
+        public Point2D? ToOrto(Point2D? point2D)
         {
             if(point2D == null)
             {
                 return null;
             }
 
-            Vector2D vector2D = new Vector2D(location, point2D);
+            Vector2D vector2D = new(location, point2D);
 
             vector2D.Scale(scale);
 
             return new Point2D(vector2D.X, - vector2D.Y);
         }
 
-        public IPolygonal2D ToOrto(IPolygonal2D polygonal2D)
+        public IPolygonal2D? ToOrto(IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)
             {
@@ -108,7 +108,7 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonal2D, x => ToOrto(x));
         }
 
-        public PolygonalFace2D ToOrto(PolygonalFace2D polygonalFace2D)
+        public PolygonalFace2D? ToOrto(PolygonalFace2D? polygonalFace2D)
         {
             if(polygonalFace2D == null)
             {
@@ -118,20 +118,20 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonalFace2D, x => ToOrto(x));
         }
 
-        public Point2D FromOrto(Point2D point2D)
+        public Point2D? FromOrto(Point2D? point2D)
         {
             if (point2D == null)
             {
                 return null;
             }
 
-            Vector2D vector2D = new Vector2D(point2D.X, - point2D.Y);
+            Vector2D vector2D = new(point2D.X, - point2D.Y);
             vector2D.Scale(1 / scale);
 
             return point2D.GetMoved(vector2D);
         }
 
-        public PolygonalFace2D FromOrto(PolygonalFace2D polygonalFace2D)
+        public PolygonalFace2D? FromOrto(PolygonalFace2D? polygonalFace2D)
         {
             if (polygonalFace2D == null)
             {
@@ -141,7 +141,7 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonalFace2D, x => FromOrto(x));
         }
 
-        public IPolygonal2D FromOrto(IPolygonal2D polygonal2D)
+        public IPolygonal2D? FromOrto(IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)
             {

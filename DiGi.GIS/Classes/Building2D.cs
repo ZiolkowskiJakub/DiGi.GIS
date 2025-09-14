@@ -11,24 +11,25 @@ namespace DiGi.GIS.Classes
     public class Building2D : Areal2D
     {
         [JsonInclude, JsonPropertyName("Storeys")]
-        private ushort storeys = 1;
+        private readonly ushort storeys = 1;
 
         [JsonInclude, JsonPropertyName("BuildingGeneralFunction")]
-        private BuildingGeneralFunction? buildingGeneralFunction;
+        private readonly BuildingGeneralFunction? buildingGeneralFunction;
 
         [JsonInclude, JsonPropertyName("BuildingSpecificFunctions")]
-        private HashSet<BuildingSpecificFunction> buildingSpecificFunctions;
+        private readonly HashSet<BuildingSpecificFunction> buildingSpecificFunctions = [BuildingSpecificFunction.single_family_building];
 
         [JsonInclude, JsonPropertyName("BuildingPhase")]
-        private BuildingPhase? buildingPhase;
+        private readonly BuildingPhase? buildingPhase;
 
-        public Building2D(Guid guid, string reference, PolygonalFace2D polygonalFace2D, ushort storeys, BuildingPhase? buildingPhase, BuildingGeneralFunction? buildingGeneralFunction, IEnumerable<BuildingSpecificFunction> buildingSpecificFunctions)
+        public Building2D(Guid guid, string? reference, PolygonalFace2D? polygonalFace2D, ushort storeys, BuildingPhase? buildingPhase, BuildingGeneralFunction? buildingGeneralFunction, IEnumerable<BuildingSpecificFunction> buildingSpecificFunctions)
             : base(guid, reference, polygonalFace2D)
         {
             this.storeys = storeys;
             this.buildingPhase = buildingPhase;
             this.buildingGeneralFunction = buildingGeneralFunction;
-            this.buildingSpecificFunctions = buildingSpecificFunctions == null ? null : new HashSet<BuildingSpecificFunction>(buildingSpecificFunctions);
+            this.buildingSpecificFunctions = [.. buildingSpecificFunctions];
+
         }
 
         public Building2D(Building2D building2D)
@@ -39,17 +40,17 @@ namespace DiGi.GIS.Classes
                 storeys = building2D.storeys;
                 buildingPhase = building2D.buildingPhase;
                 buildingGeneralFunction = building2D.buildingGeneralFunction;
-                buildingSpecificFunctions = building2D.buildingSpecificFunctions == null ? null : new HashSet<BuildingSpecificFunction>(building2D.buildingSpecificFunctions);
+                buildingSpecificFunctions = [.. building2D.buildingSpecificFunctions];
             }
         }
 
-        public Building2D(JsonObject jsonObject)
+        public Building2D(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public override ISerializableObject Clone()
+        public override ISerializableObject? Clone()
         {
             return new Building2D(this);
         }
@@ -68,7 +69,7 @@ namespace DiGi.GIS.Classes
         {
             get
             {
-                return buildingSpecificFunctions == null ? null : new HashSet<BuildingSpecificFunction>(buildingSpecificFunctions);
+                return [.. buildingSpecificFunctions];
             }
         }
 

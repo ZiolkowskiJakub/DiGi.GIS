@@ -8,15 +8,15 @@ namespace DiGi.GIS.Classes
     public abstract class StatisticalYearlyData<T> : StatisticalData, IStatisticalYearlyData<T>
     {
         [JsonInclude, JsonPropertyName("Values")]
-        private SortedDictionary<short, T> sortedDictionary = new SortedDictionary<short, T>();
+        private readonly SortedDictionary<short, T> sortedDictionary = [];
 
-        public StatisticalYearlyData(string name, string reference)
+        public StatisticalYearlyData(string? name, string? reference)
             : base(name, reference)
         {
 
         }
 
-        public StatisticalYearlyData(string name, string reference, IEnumerable<KeyValuePair<short, T>> values)
+        public StatisticalYearlyData(string? name, string? reference, IEnumerable<KeyValuePair<short, T>>? values)
             : base(name, reference)
         {
             if(values != null)
@@ -28,7 +28,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public StatisticalYearlyData(StatisticalYearlyData<T> statisticalYearlyData)
+        public StatisticalYearlyData(StatisticalYearlyData<T>? statisticalYearlyData)
             : base(statisticalYearlyData)
         {
             if (statisticalYearlyData != null)
@@ -43,7 +43,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public StatisticalYearlyData(JsonObject jsonObject)
+        public StatisticalYearlyData(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
@@ -58,7 +58,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public T this[short year]
+        public T? this[short year]
         {
             get
             {
@@ -72,6 +72,11 @@ namespace DiGi.GIS.Classes
 
             set
             {
+                if(value is null)
+                {
+                    return;
+                }
+
                 sortedDictionary[year] = value;
             }
         }

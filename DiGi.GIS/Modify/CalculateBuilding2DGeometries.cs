@@ -5,9 +5,9 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void CalculateBuilding2DGeometries(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
+        public static void CalculateBuilding2DGeometries(this GISModel? gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
-            List<Building2D> building2Ds = gISModel?.GetObjects<Building2D>();
+            List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
             if (building2Ds == null)
             {
                 return;
@@ -17,13 +17,13 @@ namespace DiGi.GIS
             {
                 Building2D building2D = building2Ds[i];
 
-                Building2DGeometryCalculationResult building2DGeometryCalculationResult = Create.Building2DGeometryCalculationResult(building2D, tolerance);
+                Building2DGeometryCalculationResult? building2DGeometryCalculationResult = Create.Building2DGeometryCalculationResult(building2D, tolerance);
                 if (building2DGeometryCalculationResult == null)
                 {
                     continue;
                 }
 
-                gISModel.Update(building2D, building2DGeometryCalculationResult);
+                gISModel!.Update(building2D, building2DGeometryCalculationResult);
 
             }
         }

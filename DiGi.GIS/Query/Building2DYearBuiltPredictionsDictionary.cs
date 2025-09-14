@@ -7,14 +7,14 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static Dictionary<string, Building2DYearBuiltPredictions> Building2DYearBuiltPredictionsDictionary(GISModelFile gISModelFile, IEnumerable<string> references)
+        public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(GISModelFile? gISModelFile, IEnumerable<string>? references)
         {
             if (gISModelFile == null || references == null || references.Count() == 0)
             {
                 return null;
             }
 
-            string path = gISModelFile.Path;
+            string? path = gISModelFile.Path;
             if (string.IsNullOrWhiteSpace(path))
             {
                 return null;
@@ -33,24 +33,23 @@ namespace DiGi.GIS
                 return null;
             }
 
-            using (Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new Building2DYearBuiltPredictionsFile(path))
-            {
-                return Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
-            }
+            using Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new (path);
+
+            return Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
         }
 
-        public static Dictionary<string, Building2DYearBuiltPredictions> Building2DYearBuiltPredictionsDictionary(Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile, IEnumerable<string> references)
+        public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(Building2DYearBuiltPredictionsFile? building2DYearBuiltPredictionsFile, IEnumerable<string>? references)
         {
             if (building2DYearBuiltPredictionsFile == null || references == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            HashSet<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
-                UniqueReference uniqueReference = Building2DYearBuiltPredictionsFile.GetUniqueReference(reference);
-                if (uniqueReference == null)
+                UniqueReference? uniqueReference = Building2DYearBuiltPredictionsFile.GetUniqueReference(reference);
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -58,14 +57,14 @@ namespace DiGi.GIS
                 uniqueReferences.Add(uniqueReference);
             }
 
-            Dictionary<string, Building2DYearBuiltPredictions> result = new Dictionary<string, Building2DYearBuiltPredictions>();
+            Dictionary<string, Building2DYearBuiltPredictions> result = [];
 
             if (uniqueReferences.Count == 0)
             {
                 return result;
             }
 
-            List<Building2DYearBuiltPredictions> building2DYearBuiltPredictions = building2DYearBuiltPredictionsFile.GetValues(uniqueReferences)?.ToList();
+            List<Building2DYearBuiltPredictions?>? building2DYearBuiltPredictions = building2DYearBuiltPredictionsFile.GetValues(uniqueReferences)?.ToList();
             if (building2DYearBuiltPredictions == null || building2DYearBuiltPredictions.Count == 0)
             {
                 return result;
@@ -80,8 +79,13 @@ namespace DiGi.GIS
 
                 UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
 
-                result[uniqueReference.UniqueId] = building2DYearBuiltPredictions[i];
-                uniqueReferences.Remove(uniqueReference);
+                string? uniqueId = uniqueReference?.UniqueId;
+                if(uniqueId is not null)
+                {
+                    result[uniqueId] = building2DYearBuiltPredictions[i]!;
+                }
+
+                uniqueReferences.Remove(uniqueReference!);
 
                 if (uniqueReferences.Count == 0)
                 {
@@ -92,18 +96,18 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static Dictionary<string, Building2DYearBuiltPredictions> Building2DYearBuiltPredictionsDictionary(string directory, IEnumerable<string> references)
+        public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(string? directory, IEnumerable<string>? references)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            HashSet<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
-                UniqueReference uniqueReference = Building2DYearBuiltPredictionsFile.GetUniqueReference(reference);
-                if (uniqueReference == null)
+                UniqueReference? uniqueReference = Building2DYearBuiltPredictionsFile.GetUniqueReference(reference);
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -111,7 +115,7 @@ namespace DiGi.GIS
                 uniqueReferences.Add(uniqueReference);
             }
 
-            Dictionary<string, Building2DYearBuiltPredictions> result = new Dictionary<string, Building2DYearBuiltPredictions>();
+            Dictionary<string, Building2DYearBuiltPredictions> result = [];
 
             if (uniqueReferences.Count == 0)
             {
@@ -126,15 +130,14 @@ namespace DiGi.GIS
 
             foreach (string path in paths)
             {
-                using (Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new Building2DYearBuiltPredictionsFile(path))
+                using Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new(path);
+
+                Dictionary<string, Building2DYearBuiltPredictions>? building2DYearBuiltPredictionsDictionary = Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
+                if (building2DYearBuiltPredictionsDictionary != null)
                 {
-                    Dictionary<string, Building2DYearBuiltPredictions> building2DYearBuiltPredictionsDictionary = Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
-                    if(building2DYearBuiltPredictionsDictionary != null)
+                    foreach (KeyValuePair<string, Building2DYearBuiltPredictions> keyValuePair in building2DYearBuiltPredictionsDictionary)
                     {
-                        foreach(KeyValuePair<string, Building2DYearBuiltPredictions> keyValuePair in building2DYearBuiltPredictionsDictionary)
-                        {
-                            result[keyValuePair.Key] = keyValuePair.Value;
-                        }
+                        result[keyValuePair.Key] = keyValuePair.Value;
                     }
                 }
             }
@@ -142,17 +145,17 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static Dictionary<GuidReference, Building2DYearBuiltPredictions> Building2DYearBuiltPredictionsDictionary(string directory, IEnumerable<Building2D> building2Ds)
+        public static Dictionary<GuidReference, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(string? directory, IEnumerable<Building2D>? building2Ds)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)
             {
                 return null;
             }
 
-            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            Dictionary<string, GuidReference> dictionary = [];
             foreach(Building2D building2D in building2Ds)
             {
-                string reference = building2D?.Reference;
+                string? reference = building2D?.Reference;
                 if(reference == null)
                 {
                     continue;
@@ -161,13 +164,13 @@ namespace DiGi.GIS
                 dictionary[reference] = new GuidReference(building2D);
             }
 
-            Dictionary<string, Building2DYearBuiltPredictions> building2DYearBuiltPredictionsDictionary = Building2DYearBuiltPredictionsDictionary(directory, dictionary.Keys);
+            Dictionary<string, Building2DYearBuiltPredictions>? building2DYearBuiltPredictionsDictionary = Building2DYearBuiltPredictionsDictionary(directory, dictionary.Keys);
             if(building2DYearBuiltPredictionsDictionary == null)
             {
                 return null;
             }
 
-            Dictionary<GuidReference, Building2DYearBuiltPredictions> result = new Dictionary<GuidReference, Building2DYearBuiltPredictions>();
+            Dictionary<GuidReference, Building2DYearBuiltPredictions> result = [];
             foreach(KeyValuePair<string, GuidReference> keyValuePair in dictionary)
             {
                 string reference = keyValuePair.Key;

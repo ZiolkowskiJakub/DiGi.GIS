@@ -12,49 +12,49 @@ namespace DiGi.GIS.Classes
     public class OrtoRange : GuidObject, IGISUniqueObject
     {
         [JsonInclude, JsonPropertyName("BoundingBox2D")]
-        private BoundingBox2D boundingBox2D = null;
+        private readonly BoundingBox2D? boundingBox2D = null;
 
         [JsonInclude, JsonPropertyName("References_Inside")]
-        private HashSet<string> references_Inside;
+        private readonly HashSet<string>? references_Inside;
 
         [JsonInclude, JsonPropertyName("References_Intersect")]
-        private HashSet<string> references_Intersect;
+        private readonly HashSet<string>? references_Intersect;
 
-        public OrtoRange(Guid guid, BoundingBox2D boundingBox2D, IEnumerable<string> references_Inside, IEnumerable<string> references_Intersect)
+        public OrtoRange(Guid guid, BoundingBox2D? boundingBox2D, IEnumerable<string>? references_Inside, IEnumerable<string>? references_Intersect)
             : base(guid)
         {
             this.boundingBox2D = boundingBox2D?.Clone<BoundingBox2D>();
-            this.references_Inside = references_Inside == null ? null : new HashSet<string>(references_Inside);
-            this.references_Intersect = references_Intersect == null ? null : new HashSet<string>(references_Intersect);
+            this.references_Inside = references_Inside == null ? null : [.. references_Inside];
+            this.references_Intersect = references_Intersect == null ? null : [.. references_Intersect];
         }
 
-        public OrtoRange(BoundingBox2D boundingBox2D, IEnumerable<string> references_Inside, IEnumerable<string> references_Intersect)
+        public OrtoRange(BoundingBox2D? boundingBox2D, IEnumerable<string>? references_Inside, IEnumerable<string>? references_Intersect)
             : base(Guid.NewGuid())
         {
             this.boundingBox2D = boundingBox2D?.Clone<BoundingBox2D>();
-            this.references_Inside = references_Inside == null ? null : new HashSet<string>(references_Inside);
-            this.references_Intersect = references_Intersect == null ? null : new HashSet<string>(references_Intersect);
+            this.references_Inside = references_Inside == null ? null : [.. references_Inside];
+            this.references_Intersect = references_Intersect == null ? null : [.. references_Intersect];
         }
 
-        public OrtoRange(OrtoRange ortoRange)
+        public OrtoRange(OrtoRange? ortoRange)
             : base(ortoRange)
         {
             if(ortoRange != null)
             {
                 boundingBox2D = ortoRange.boundingBox2D?.Clone<BoundingBox2D>();
-                references_Inside = ortoRange.references_Inside == null ? null : new HashSet<string>(ortoRange.references_Inside);
-                references_Intersect = ortoRange.references_Intersect == null ? null : new HashSet<string>(ortoRange.references_Intersect);
+                references_Inside = ortoRange.references_Inside == null ? null : [.. ortoRange.references_Inside];
+                references_Intersect = ortoRange.references_Intersect == null ? null : [.. ortoRange.references_Intersect];
             }
         }
 
-        public OrtoRange(JsonObject jsonObject)
+        public OrtoRange(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public BoundingBox2D BoundingBox2D
+        public BoundingBox2D? BoundingBox2D
         {
             get
             {
@@ -63,7 +63,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public HashSet<string> References_InRange
+        public HashSet<string>? References_InRange
         {
             get
             {
@@ -72,7 +72,7 @@ namespace DiGi.GIS.Classes
                     return null;
                 }
 
-                HashSet<string> result = new HashSet<string>();
+                HashSet<string> result = [];
 
                 if (references_Inside != null)
                 {
@@ -95,40 +95,60 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public HashSet<string> References_Inside
+        public HashSet<string>? References_Inside
         {
             get
             {
-                return references_Inside == null ? null : new HashSet<string>(references_Inside);
+                return references_Inside == null ? null : [.. references_Inside];
             }
         }
 
         [JsonIgnore]
-        public HashSet<string> References_Intersect
+        public HashSet<string>? References_Intersect
         {
             get
             {
-                return references_Intersect == null ? null : new HashSet<string>(references_Intersect);
+                return references_Intersect == null ? null : [.. references_Intersect];
             }
         }
 
-        public bool Contains(string reference)
+        public bool Contains(string? reference)
         {
+            if (reference == null)
+            {
+                return false;
+            }
+
             return (references_Inside != null && references_Inside.Contains(reference)) || (references_Intersect != null && references_Intersect.Contains(reference));
         }
 
-        public bool InRange(string reference)
+        public bool InRange(string? reference)
         {
+            if (reference == null)
+            {
+                return false;
+            }
+
             return (references_Inside != null && references_Inside.Contains(reference)) || (references_Intersect != null && references_Intersect.Contains(reference));
         }
 
-        public bool Inside(string reference)
+        public bool Inside(string? reference)
         {
+            if(reference == null)
+            {
+                return false;
+            }
+
             return references_Inside != null && references_Inside.Contains(reference);
         }
 
-        public bool Intersect(string reference)
+        public bool Intersect(string? reference)
         {
+            if (reference == null)
+            {
+                return false;
+            }
+
             return references_Intersect != null && references_Intersect.Contains(reference);
         }
     }

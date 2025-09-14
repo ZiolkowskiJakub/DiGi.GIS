@@ -6,15 +6,15 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static GISModelFileGuidObjectReference GISModelFileUniqueObjectReference(this GISModelFile gISModelFile, IGISGuidObject gISGuidObject)
+        public static GISModelFileGuidObjectReference? GISModelFileUniqueObjectReference(this GISModelFile? gISModelFile, IGISGuidObject? gISGuidObject)
         {
             if(gISModelFile == null || gISGuidObject == null)
             {
                 return null;
             }
 
-            GuidExternalReference guidExternalReference = gISModelFile.GuidExternalReference;
-            if(guidExternalReference == null)
+            GuidExternalReference? guidExternalReference = gISModelFile.GuidExternalReference;
+            if(guidExternalReference is null)
             {
                 return null;
             }

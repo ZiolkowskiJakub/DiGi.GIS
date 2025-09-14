@@ -6,12 +6,12 @@ namespace DiGi.GIS.Classes
 {
     public class OrtoDatasFile : Core.IO.File.Classes.StorageFile<OrtoDatas>, IGISObject
     {
-        public override UniqueReference GetUniqueReference(OrtoDatas ortoDatas)
+        public override UniqueReference? GetUniqueReference(OrtoDatas? ortoDatas)
         {
             return GetUniqueReference(ortoDatas?.Reference);
         }
 
-        public static UniqueReference GetUniqueReference(string reference)
+        public static UniqueReference? GetUniqueReference(string? reference)
         {
             if(reference == null)
             {
@@ -21,19 +21,19 @@ namespace DiGi.GIS.Classes
             return new UniqueIdReference(typeof(OrtoDatas), reference);
         }
 
-        public OrtoDatasFile(OrtoDatasFile ortoDatasFile)
+        public OrtoDatasFile(OrtoDatasFile? ortoDatasFile)
             : base(ortoDatasFile)
         {
 
         }
 
-        public OrtoDatasFile(JsonObject jsonObject)
+        public OrtoDatasFile(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public OrtoDatasFile(string path)
+        public OrtoDatasFile(string? path)
             : base(path) 
         {
             

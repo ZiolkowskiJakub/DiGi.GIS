@@ -6,12 +6,12 @@ namespace DiGi.GIS.Classes
 {
     public class Building2DYearBuiltPredictionsFile : Core.IO.File.Classes.StorageFile<Building2DYearBuiltPredictions>, IGISObject
     {
-        public override UniqueReference GetUniqueReference(Building2DYearBuiltPredictions building2DYearBuiltPredictions)
+        public override UniqueReference? GetUniqueReference(Building2DYearBuiltPredictions? building2DYearBuiltPredictions)
         {
             return GetUniqueReference(building2DYearBuiltPredictions?.Reference);
         }
 
-        public static UniqueReference GetUniqueReference(string reference)
+        public static UniqueReference? GetUniqueReference(string? reference)
         {
             if(reference == null)
             {
@@ -21,19 +21,19 @@ namespace DiGi.GIS.Classes
             return new UniqueIdReference(typeof(Building2DYearBuiltPredictions), reference);
         }
 
-        public Building2DYearBuiltPredictionsFile(Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile)
+        public Building2DYearBuiltPredictionsFile(Building2DYearBuiltPredictionsFile? building2DYearBuiltPredictionsFile)
             : base(building2DYearBuiltPredictionsFile)
         {
 
         }
 
-        public Building2DYearBuiltPredictionsFile(JsonObject jsonObject)
+        public Building2DYearBuiltPredictionsFile(JsonObject? jsonObject)
             :base(jsonObject)
         {
 
         }
 
-        public Building2DYearBuiltPredictionsFile(string path)
+        public Building2DYearBuiltPredictionsFile(string? path)
             : base(path) 
         {
             

@@ -22,14 +22,14 @@ namespace DiGi.GIS.Classes
         public Range<int> Years { get; set; } = new Range<int>(2008, System.DateTime.Now.Year);
 
         [JsonInclude, JsonPropertyName("StatisticalDirectory")]
-        public string StatisticalDirectory { get; set; } = null;
+        public string? StatisticalDirectory { get; set; } = null;
 
         public TableConversionOptions()
         {
 
         }
 
-        public TableConversionOptions(TableConversionOptions tableConversionOptions)
+        public TableConversionOptions(TableConversionOptions? tableConversionOptions)
         {
             if(tableConversionOptions != null)
             {
@@ -37,12 +37,15 @@ namespace DiGi.GIS.Classes
                 IncludeStatistical = tableConversionOptions.IncludeStatistical;
                 IncludeYearBuilt = tableConversionOptions.IncludeYearBuilt;
                 YearBuiltOnly = tableConversionOptions.YearBuiltOnly;
-                Years = Core.Query.Clone(tableConversionOptions.Years);
+                if(Core.Query.Clone(tableConversionOptions.Years) is Range<int> range)
+                {
+                    Years = range;
+                }
                 StatisticalDirectory = tableConversionOptions.StatisticalDirectory;
             }
         }
 
-        public TableConversionOptions(JsonObject jsonObject)
+        public TableConversionOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

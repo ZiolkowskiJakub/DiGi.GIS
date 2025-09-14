@@ -7,46 +7,50 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static StatisticalUnit StatisticalUnit(this IEnumerable<Unit> units)
+        public static StatisticalUnit? StatisticalUnit(this IEnumerable<Unit>? units)
         {
             if (units == null)
             {
                 return null;
             }
 
-            List<Unit> units_Temp = new List<Unit>(units);
+            List<Unit>? units_Temp = [.. units];
 
-            List<StatisticalUnit> statisticalUnits = new List<StatisticalUnit>();
+            List<StatisticalUnit>? statisticalUnits = [];
 
-            for (int i = 7; i >=0; i--)
+            for (int i = 7; i >= 0; i--)
             {
-                Core.Query.Filter(units_Temp, x => x.level == i, out List<Unit> units_Level, out units_Temp);
-
-                foreach(Unit unit_Level in units_Level)
+                Core.Query.Filter(units_Temp, x => x != null && x.level == i, out List<Unit>? units_Level, out units_Temp);
+                if (units_Level is null)
                 {
-                    string id = unit_Level.id;
-                    if(string.IsNullOrWhiteSpace(id))
+                    continue;
+                }
+
+                foreach (Unit unit_Level in units_Level)
+                {
+                    string? id = unit_Level.id;
+                    if (string.IsNullOrWhiteSpace(id))
                     {
                         continue;
                     }
 
-                    while(id.EndsWith("0"))
+                    while (id!.EndsWith("0"))
                     {
                         id = id.Substring(0, id.Length - 1);
                     }
 
-                    Core.Query.Filter(statisticalUnits, x => x.Code.StartsWith(id), out List<StatisticalUnit> statisticalUnits_Unit, out statisticalUnits);
+                    Core.Query.Filter(statisticalUnits, x => string.IsNullOrWhiteSpace(x?.Code) && x!.Code!.StartsWith(id), out List<StatisticalUnit>? statisticalUnits_Unit, out statisticalUnits);
 
-                    statisticalUnits.Add(new StatisticalUnit(Guid.NewGuid(), UnitCode(unit_Level.id), unit_Level.name, statisticalUnits_Unit));
+                    statisticalUnits?.Add(new StatisticalUnit(Guid.NewGuid(), UnitCode(unit_Level.id), unit_Level.name, statisticalUnits_Unit));
                 }
             }
 
-            if(statisticalUnits == null || statisticalUnits.Count  == 0)
+            if (statisticalUnits == null || statisticalUnits.Count == 0)
             {
                 return null;
             }
 
-            statisticalUnits.Sort((x, y) => ((int)x.GetStatisticalUnitType()).CompareTo((int)y.GetStatisticalUnitType()));
+            statisticalUnits.Sort((x, y) => ((int)x.GetStatisticalUnitType()!).CompareTo((int)y.GetStatisticalUnitType()!));
 
             return statisticalUnits[0];
         }

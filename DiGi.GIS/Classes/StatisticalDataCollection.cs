@@ -10,25 +10,25 @@ namespace DiGi.GIS.Classes
     public class StatisticalDataCollection : GuidObject, IGISGuidObject2D
     {
         [JsonIgnore]
-        private Dictionary<string, IStatisticalData> dictionary = new Dictionary<string, IStatisticalData>();
+        private readonly Dictionary<string, IStatisticalData> dictionary = [];
 
         [JsonIgnore]
-        private UnitCode unitCode = null;
+        private UnitCode? unitCode = null;
 
-        public StatisticalDataCollection(Guid guid, UnitCode unitCode, IEnumerable<IStatisticalData> statisticalDatas)
+        public StatisticalDataCollection(Guid guid, UnitCode? unitCode, IEnumerable<IStatisticalData>? statisticalDatas)
             : base(guid)
         {
             this.unitCode = Core.Query.Clone(unitCode);
             StatisticalDatas = statisticalDatas;
         }
 
-        public StatisticalDataCollection(Guid guid, UnitCode unitCode)
+        public StatisticalDataCollection(Guid guid, UnitCode? unitCode)
             : base(guid)
         {
             this.unitCode = Core.Query.Clone(unitCode);
         }
 
-        public StatisticalDataCollection(StatisticalDataCollection statisticalDataCollection)
+        public StatisticalDataCollection(StatisticalDataCollection? statisticalDataCollection)
             : base(statisticalDataCollection == null ? Guid.Empty : statisticalDataCollection.Guid)
         {
             if (statisticalDataCollection != null)
@@ -45,11 +45,11 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonInclude, JsonPropertyName("Code")]
-        public string Code
+        public string? Code
         {
             get
             {
-                return unitCode.Code;
+                return unitCode?.Code;
             }
 
             set
@@ -68,7 +68,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonInclude, JsonPropertyName("StatisticalDatas")]
-        public IEnumerable<IStatisticalData> StatisticalDatas
+        public IEnumerable<IStatisticalData>? StatisticalDatas
         {
             get
             {
@@ -96,7 +96,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public UnitCode UnitCode
+        public UnitCode? UnitCode
         {
             get
             {
@@ -104,7 +104,7 @@ namespace DiGi.GIS.Classes
             }
         }
         [JsonIgnore]
-        public IStatisticalData this[string name]
+        public IStatisticalData? this[string name]
         {
             get
             {
@@ -117,7 +117,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public bool Add(IStatisticalData statisticalData)
+        public bool Add(IStatisticalData? statisticalData)
         {
             if (statisticalData?.Name == null)
             {
@@ -133,7 +133,7 @@ namespace DiGi.GIS.Classes
             return dictionary.ContainsKey(name);
         }
 
-        public TStatisticalData Find<TStatisticalData>(Func<TStatisticalData, bool> func) where TStatisticalData : IStatisticalData
+        public TStatisticalData? Find<TStatisticalData>(Func<TStatisticalData?, bool>? func) where TStatisticalData : IStatisticalData
         {
             if (func == null)
             {
@@ -142,9 +142,8 @@ namespace DiGi.GIS.Classes
 
             foreach (IStatisticalData statisticalData in dictionary.Values)
             {
-                if (statisticalData is TStatisticalData)
+                if (statisticalData is TStatisticalData statisticalData_Temp)
                 {
-                    TStatisticalData statisticalData_Temp = (TStatisticalData)statisticalData;
                     if (func.Invoke(statisticalData_Temp))
                     {
                         return statisticalData_Temp;
@@ -155,9 +154,9 @@ namespace DiGi.GIS.Classes
             return default;
         }
 
-        public IStatisticalData GetStatisticalData(string name)
+        public IStatisticalData? GetStatisticalData(string? name)
         {
-            if (!TryGetStatisticalData(name, out IStatisticalData statisticalData))
+            if (!TryGetStatisticalData(name, out IStatisticalData? statisticalData))
             {
                 return null;
             }
@@ -167,12 +166,12 @@ namespace DiGi.GIS.Classes
 
         public IEnumerable<UStatisticalData> GetStatisticalDatas<UStatisticalData>() where UStatisticalData : IStatisticalData
         {
-            List<UStatisticalData> result = new List<UStatisticalData>();
+            List<UStatisticalData> result = [];
             foreach (IStatisticalData statisticalData in dictionary.Values)
             {
-                if (statisticalData is UStatisticalData)
+                if (statisticalData is UStatisticalData statisticalData_Temp)
                 {
-                    result.Add((UStatisticalData)statisticalData);
+                    result.Add(statisticalData_Temp);
                 }
 
             }
@@ -180,12 +179,17 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public bool Remove(string name)
+        public bool Remove(string? name)
         {
+            if(name is null)
+            {
+                return false;
+            }
+
             return dictionary.Remove(name);
         }
 
-        public bool TryGetStatisticalData(string name, out IStatisticalData statisticalData)
+        public bool TryGetStatisticalData(string? name, out IStatisticalData? statisticalData)
         {
             statisticalData = null;
 

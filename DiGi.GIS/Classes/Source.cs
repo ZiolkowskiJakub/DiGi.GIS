@@ -12,13 +12,13 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public Source(Source source)
+        public Source(Source? source)
             : base(source)
         {
 
         }
 
-        public Source(JsonObject jsonObject)
+        public Source(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

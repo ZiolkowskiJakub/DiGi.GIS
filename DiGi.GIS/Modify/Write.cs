@@ -11,7 +11,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static async Task<bool> Write(this IEnumerable<Building2D> building2Ds, string directory, Range<int> range)
+        public static async Task<bool> Write(this IEnumerable<Building2D>? building2Ds, string? directory, Range<int>? range)
         {
             if (building2Ds == null || string.IsNullOrWhiteSpace(directory) || range == null)
             {
@@ -26,7 +26,7 @@ namespace DiGi.GIS
             return true;
         }
 
-        public static async Task<bool> Write(this Building2D building2D, string directory, Range<int> range)
+        public static async Task<bool> Write(this Building2D? building2D, string? directory, Range<int>? range)
         {
             if (building2D == null || string.IsNullOrWhiteSpace(directory) || range == null)
             {
@@ -53,7 +53,7 @@ namespace DiGi.GIS
             //    Directory.CreateDirectory(directory_Orto);
             //}
 
-            Dictionary<int, string> dictionary_Path = new Dictionary<int, string>();
+            Dictionary<int, string> dictionary_Path = [];
             for (int i = range.Min; i <= range.Max; i++)
             {
                 string path_Orto = System.IO.Path.Combine(directory_Orto, string.Format("{0}.jpeg", i));
@@ -70,7 +70,7 @@ namespace DiGi.GIS
                 return true;
             }
 
-            Dictionary<int, byte[]> dictionary = await Query.BytesDictionary(building2D, dictionary_Path.Keys, squared: true);
+            Dictionary<int, byte[]>? dictionary = await Query.BytesDictionary(building2D, dictionary_Path.Keys, squared: true);
             if (dictionary == null)
             {
                 return true;
@@ -85,29 +85,28 @@ namespace DiGi.GIS
 
                 string path_Orto = System.IO.Path.Combine(directory_Orto, string.Format("{0}.jpeg", keyValuePair.Key));
 
-                using (Stream memoryStream = new MemoryStream(keyValuePair.Value), fileStream = new FileStream(path_Orto, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
-                {
-                    await memoryStream.CopyToAsync(fileStream);
-                }
+                using Stream memoryStream = new MemoryStream(keyValuePair.Value), fileStream = new FileStream(path_Orto, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true);
+
+                await memoryStream.CopyToAsync(fileStream);
             }
 
             return true;
         }
 
-        public static async Task<bool> Write(this StatisticalUnit statisticalUnit, string path, IEnumerable<Variable> variables, Range<int> years)
+        public static async Task<bool> Write(this StatisticalUnit? statisticalUnit, string? path, IEnumerable<Variable>? variables, Range<int>? years)
         {
             if(statisticalUnit == null || variables == null || years == null || string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
 
-            string code = statisticalUnit.Code;
+            string? code = statisticalUnit.Code;
             if (code == null || variables.Count() == 0 || years.Max - years.Min == 0)
             {
                 return false;
             }
 
-            List<int> years_Temp = new List<int>();
+            List<int> years_Temp = [];
             for(int i = years.Min; i <= years.Max; i++)
             {
                 years_Temp.Add(i);
@@ -116,28 +115,28 @@ namespace DiGi.GIS
             return await Write(code, path, variables, years_Temp);
         }
 
-        public static async Task<bool> Write(this string code, string path, IEnumerable<Variable> variables, IEnumerable<int> years, bool overrideExisting = false)
+        public static async Task<bool> Write(this string? code, string? path, IEnumerable<Variable>? variables, IEnumerable<int>? years, bool overrideExisting = false)
         {
             if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
             {
                 return false;
             }
 
-            UniqueReference uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(code);
-            if (uniqueReference == null)
+            UniqueReference? uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(code);
+            if (uniqueReference is null)
             {
                 return false;
             }
 
-            StatisticalDataCollection statisticalDataCollection = null;
+            StatisticalDataCollection? statisticalDataCollection = null;
 
-            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new StatisticalDataCollectionFile(path))
+            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new(path))
             {
                 statisticalDataCollectionFile.Open();
                 statisticalDataCollection = statisticalDataCollectionFile.GetValue(uniqueReference);
             }
 
-            List<Variable> variables_Temp = new List<Variable>(variables);
+            List<Variable> variables_Temp = [.. variables];
 
             if(statisticalDataCollection != null && !overrideExisting)
             {
@@ -155,7 +154,7 @@ namespace DiGi.GIS
                 return false;
             }
 
-            UnitYearlyValues unitYearlyValues = await BDL.Create.UnitYearlyValues(code, variables_Temp, years);
+            UnitYearlyValues? unitYearlyValues = await BDL.Create.UnitYearlyValues(code, variables_Temp, years);
             if (unitYearlyValues == null)
             {
                 return false;
@@ -177,7 +176,7 @@ namespace DiGi.GIS
 
             bool result = false;
 
-            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new StatisticalDataCollectionFile(path))
+            using (StatisticalDataCollectionFile statisticalDataCollectionFile = new(path))
             {
                 statisticalDataCollectionFile.AddValue(statisticalDataCollection);
                 result = statisticalDataCollectionFile.Save();

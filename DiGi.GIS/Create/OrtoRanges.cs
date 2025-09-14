@@ -9,10 +9,9 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static List<OrtoRange> OrtoRanges(GISModel gISModel, IEnumerable<string> references = null, OrtoRangeOptions ortoRangeOptions = null, double tolerance = Core.Constans.Tolerance.Distance)
+        public static List<OrtoRange>? OrtoRanges(GISModel? gISModel, IEnumerable<string>? references = null, OrtoRangeOptions? ortoRangeOptions = null, double tolerance = Core.Constans.Tolerance.Distance)
         {
-
-            List<Building2D> building2Ds = gISModel?.GetObjects<Building2D>();
+            List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
             if(building2Ds == null)
             {
                 return null;
@@ -28,19 +27,16 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<Tuple<Building2D, BoundingBox2D>> tuples = new List<Tuple<Building2D, BoundingBox2D>>();
+            List<Tuple<Building2D, BoundingBox2D>> tuples = [];
             foreach(Building2D building2D in building2Ds)
             {
-                BoundingBox2D boundingBox2D = null;
+                BoundingBox2D? boundingBox2D = null;
 
-                Building2DGeometryCalculationResult building2DGeometryCalculationResult = gISModel.GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
+                Building2DGeometryCalculationResult? building2DGeometryCalculationResult = gISModel!.GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
 
                 boundingBox2D = building2DGeometryCalculationResult?.BoundingBox;
 
-                if (boundingBox2D == null)
-                {
-                    boundingBox2D = building2D.PolygonalFace2D?.GetBoundingBox();
-                }
+                boundingBox2D ??= building2D.PolygonalFace2D?.GetBoundingBox();
 
                 if (boundingBox2D == null)
                 {
@@ -50,12 +46,9 @@ namespace DiGi.GIS
                 tuples.Add(new Tuple<Building2D, BoundingBox2D>(building2D, boundingBox2D));
             }
 
-            if(ortoRangeOptions == null)
-            {
-                ortoRangeOptions = new OrtoRangeOptions();
-            }
+            ortoRangeOptions ??= new OrtoRangeOptions();
 
-            List<OrtoRange> result = new List<OrtoRange>();
+            List<OrtoRange> result = [];
 
             while (tuples.Count > 0)
             {
@@ -69,18 +62,22 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                Point2D point2D = boundingBox2D_Building2D.GetCentroid();
+                Point2D? point2D = boundingBox2D_Building2D.GetCentroid();
 
-                BoundingBox2D boundingBox2D = Geometry.Planar.Create.BoundingBox2D(point2D, ortoRangeOptions.Width, ortoRangeOptions.Height);
+                BoundingBox2D? boundingBox2D = Geometry.Planar.Create.BoundingBox2D(point2D, ortoRangeOptions.Width, ortoRangeOptions.Height);
+                if (boundingBox2D is null)
+                {
+                    continue;
+                }
 
                 boundingBox2D.Add(boundingBox2D_Building2D);
 
-                HashSet<string> references_Intersect = new HashSet<string>();
-                HashSet<string> references_Inside = new HashSet<string>();
+                HashSet<string> references_Intersect = [];
+                HashSet<string> references_Inside = [];
 
                 for(int i = tuples.Count - 1; i >= 0; i--)
                 {
-                    string reference = tuples[i].Item1.Reference;
+                    string? reference = tuples[i].Item1.Reference;
                     if(string.IsNullOrWhiteSpace(reference))
                     {
                         continue;
@@ -95,11 +92,11 @@ namespace DiGi.GIS
 
                     if(!boundingBox2D.Inside(boundingBox2D_Temp, tolerance))
                     {
-                        references_Intersect.Add(reference);
+                        references_Intersect.Add(reference!);
                         continue;
                     }
 
-                    references_Inside.Add(reference);
+                    references_Inside.Add(reference!);
                     tuples.Remove(tuples[i]);
                 }
 

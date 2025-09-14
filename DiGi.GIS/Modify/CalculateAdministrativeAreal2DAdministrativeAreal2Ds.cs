@@ -8,25 +8,27 @@ namespace DiGi.GIS
     {
         public static void CalculateAdministrativeAreal2DAdministrativeAreal2Ds(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
-            List<Building2D> building2Ds = gISModel?.GetObjects<Building2D>();
+            List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
             if(building2Ds == null)
             {
                 return;
             }
 
-            List<AdministrativeAreal2D> administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
+            List<AdministrativeAreal2D>? administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
             if (administrativeAreal2Ds == null)
             {
                 return;
             }
 
-            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>();
+            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples = [];
             foreach (AdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
             {
-                AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
-                if (administrativeAreal2DGeometryCalculationResult == null)
+                AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult = gISModel!.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
+                administrativeAreal2DGeometryCalculationResult ??= Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);
+
+                if(administrativeAreal2DGeometryCalculationResult is null)
                 {
-                    administrativeAreal2DGeometryCalculationResult = Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);
+                    continue;
                 }
 
                 tuples.Add(new Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult));
@@ -34,21 +36,21 @@ namespace DiGi.GIS
 
             tuples.Sort((x, y) => y.Item2.Area.CompareTo(x.Item2.Area));
 
-            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_All = new List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>(tuples);
+            List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_All = [.. tuples];
 
-            Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>> dictionary = new Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>>();
+            Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>> dictionary = [];
             while(tuples.Count > 0)
             {
                 Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple = tuples[0];
                 tuples.Remove(tuple);
 
-                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox.InRange( x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D.InRange(x.Item2.InternalPoint, tolerance));
+                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox!.InRange( x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D!.InRange(x.Item2.InternalPoint, tolerance));
                 dictionary[tuple.Item1] = tuples_Temp.ConvertAll(x => x.Item1);
             }
 
             foreach(KeyValuePair<AdministrativeAreal2D, List<AdministrativeAreal2D>> keyValuePair in dictionary)
             {
-                gISModel.Update(keyValuePair.Key, keyValuePair.Value);
+                gISModel!.Update(keyValuePair.Key, keyValuePair.Value);
             }
         }
     }

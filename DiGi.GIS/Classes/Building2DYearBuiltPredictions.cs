@@ -9,31 +9,29 @@ namespace DiGi.GIS.Classes
     public class Building2DYearBuiltPredictions : SerializableObject
     {
         [JsonInclude, JsonPropertyName("Reference")]
-        private string reference;
+        private readonly string? reference;
 
         [JsonInclude, JsonPropertyName("YearBuiltPredictions")]
-        private SortedDictionary<ushort, YearBuiltPrediction> yearBuiltPredictions;
+        private readonly SortedDictionary<ushort, YearBuiltPrediction>? yearBuiltPredictions;
 
-        public Building2DYearBuiltPredictions(string reference, IEnumerable<YearBuiltPrediction> yearBuiltPredictions)
+        public Building2DYearBuiltPredictions(string? reference, IEnumerable<YearBuiltPrediction>? yearBuiltPredictions)
         {
             this.reference = reference;
             if(yearBuiltPredictions != null)
             {
-                this.yearBuiltPredictions = new SortedDictionary<ushort, YearBuiltPrediction>();
+                this.yearBuiltPredictions = [];
                 foreach (YearBuiltPrediction yearBuiltPrediction in yearBuiltPredictions)
                 {
-                    if(yearBuiltPrediction == null)
+                    if(Core.Query.Clone(yearBuiltPrediction) is YearBuiltPrediction yearBuiltPrediction_Temp)
                     {
-                        continue;
+                        this.yearBuiltPredictions[yearBuiltPrediction.Year] = yearBuiltPrediction_Temp;
                     }
-
-                    this.yearBuiltPredictions[yearBuiltPrediction.Year] = Core.Query.Clone(yearBuiltPrediction);
                 }
 
             }
         }
 
-        public Building2DYearBuiltPredictions(Building2DYearBuiltPredictions building2DYearBuiltPredictions)
+        public Building2DYearBuiltPredictions(Building2DYearBuiltPredictions? building2DYearBuiltPredictions)
             : base(building2DYearBuiltPredictions)
         {
             if(building2DYearBuiltPredictions != null)
@@ -42,24 +40,27 @@ namespace DiGi.GIS.Classes
 
                 if(building2DYearBuiltPredictions.yearBuiltPredictions != null)
                 {
-                    yearBuiltPredictions = new SortedDictionary<ushort, YearBuiltPrediction>();
+                    yearBuiltPredictions = [];
                     foreach (KeyValuePair<ushort, YearBuiltPrediction> keyValuePair in building2DYearBuiltPredictions.yearBuiltPredictions)
                     {
-                        yearBuiltPredictions[keyValuePair.Key] = Core.Query.Clone(keyValuePair.Value);
+                        if(Core.Query.Clone(keyValuePair.Value) is YearBuiltPrediction yearBuiltPrediction)
+                        {
+                            yearBuiltPredictions[keyValuePair.Key] = yearBuiltPrediction;
+                        }
                     }
                 }
 
             }
         }
 
-        public Building2DYearBuiltPredictions(JsonObject jsonObject)
+        public Building2DYearBuiltPredictions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public string Reference
+        public string? Reference
         {
             get
             {
@@ -68,7 +69,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public List<ushort> Years
+        public List<ushort>? Years
         {
             get
             {
@@ -76,7 +77,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public YearBuiltPrediction this[ushort year]
+        public YearBuiltPrediction? this[ushort year]
         {
             get
             {
@@ -94,9 +95,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public YearBuiltPrediction GetYearBuiltPrediction(ushort year)
+        public YearBuiltPrediction? GetYearBuiltPrediction(ushort year)
         {
-            if (!Core.Query.TryGetLowerValue(yearBuiltPredictions, year, out YearBuiltPrediction result))
+            if (!Core.Query.TryGetLowerValue(yearBuiltPredictions, year, out YearBuiltPrediction? result))
             {
                 return null;
             }

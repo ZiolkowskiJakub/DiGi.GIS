@@ -8,20 +8,20 @@ namespace DiGi.GIS.Classes
     public abstract class StatisticalData : SerializableObject, IStatisticalData
     {
         [JsonInclude, JsonPropertyName("Name")]
-        private string name;
+        private readonly string? name;
 
         [JsonInclude, JsonPropertyName("Reference")]
-        private string reference = null;
+        private readonly string? reference = null;
 
 
-        public StatisticalData(string name, string reference)
+        public StatisticalData(string? name, string? reference)
             : base()
         {
             this.name = name;
             this.reference = reference;
         }
 
-        public StatisticalData(StatisticalData statisticalData)
+        public StatisticalData(StatisticalData? statisticalData)
             : base(statisticalData)
         {
             if(statisticalData != null)
@@ -31,14 +31,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public StatisticalData(JsonObject jsonObject)
+        public StatisticalData(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public string Name
+        public string? Name
         {
             get
             {
@@ -47,7 +47,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Reference
+        public string? Reference
         {
             get
             {

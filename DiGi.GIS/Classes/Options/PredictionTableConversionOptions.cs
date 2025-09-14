@@ -9,7 +9,7 @@ namespace DiGi.GIS.Classes
         public bool IncludeYearBuiltPredictions { get; set; } = true;
 
         [JsonInclude, JsonPropertyName("AdministrativeAreal2DsIndexDataFilePath")]
-        public string AdministrativeAreal2DsIndexDataFilePath { get; set; } = null;
+        public string? AdministrativeAreal2DsIndexDataFilePath { get; set; } = null;
 
         public PredictionTableConversionOptions()
             :base()

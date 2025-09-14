@@ -8,22 +8,22 @@ namespace DiGi.GIS.Classes
     public class YearBuiltPrediction : SerializableObject
     {
         [JsonInclude, JsonPropertyName("BoundingBox")]
-        private BoundingBox2D boundingBox;
+        private readonly BoundingBox2D? boundingBox;
 
         [JsonInclude, JsonPropertyName("Confidence")]
-        private double confidence;
+        private readonly double confidence;
 
         [JsonInclude, JsonPropertyName("Year")]
-        private ushort year;
+        private readonly ushort year;
 
-        public YearBuiltPrediction(ushort year, BoundingBox2D boundingBox, double confidence)
+        public YearBuiltPrediction(ushort year, BoundingBox2D? boundingBox, double confidence)
         {
             this.year = year;
             this.boundingBox = Core.Query.Clone(boundingBox);
             this.confidence = confidence;
         }
 
-        public YearBuiltPrediction(YearBuiltPrediction yearBuiltPrediction)
+        public YearBuiltPrediction(YearBuiltPrediction? yearBuiltPrediction)
         {
             if (yearBuiltPrediction != null)
             {
@@ -33,14 +33,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public YearBuiltPrediction(JsonObject jsonObject)
+        public YearBuiltPrediction(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public BoundingBox2D BoundingBox
+        public BoundingBox2D? BoundingBox
         {
             get
             {

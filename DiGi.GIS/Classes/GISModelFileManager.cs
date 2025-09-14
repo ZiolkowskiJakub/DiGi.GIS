@@ -6,24 +6,24 @@ namespace DiGi.GIS.Classes
 {
     public class GISModelFileManager : IGISObject
     {
-        private Dictionary<GuidExternalReference, GISModelFile> dictionary = new Dictionary<GuidExternalReference, GISModelFile>();
+        private readonly Dictionary<GuidExternalReference, GISModelFile> dictionary = [];
 
         public GISModelFileManager() 
         { 
         }
 
-        public GuidExternalReference Open(string path)
+        public GuidExternalReference? Open(string? path)
         {
             if(string.IsNullOrWhiteSpace(path))
             {
                 return null;
             }
 
-            GISModelFile gISModelFile = new GISModelFile(path);
+            GISModelFile gISModelFile = new(path);
             if(gISModelFile.Open())
             {
-                GuidExternalReference guidExternalReference = gISModelFile.GuidExternalReference;
-                if(guidExternalReference != null)
+                GuidExternalReference? guidExternalReference = gISModelFile.GuidExternalReference;
+                if(guidExternalReference is not null)
                 {
                     dictionary[guidExternalReference] = gISModelFile;
                     return guidExternalReference;
@@ -33,9 +33,9 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
-        public bool Save(GuidExternalReference guidExternalReference)
+        public bool Save(GuidExternalReference? guidExternalReference)
         {
-            if(guidExternalReference == null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
+            if(guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
             {
                 return false;
             }
@@ -43,9 +43,9 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Save();
         }
 
-        public GuidExternalReference SaveAs(GuidExternalReference guidExternalReference, string path)
+        public GuidExternalReference? SaveAs(GuidExternalReference? guidExternalReference, string path)
         {
-            if (guidExternalReference == null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
+            if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
             {
                 return null;
             }
@@ -56,8 +56,8 @@ namespace DiGi.GIS.Classes
                 return null;
             }
 
-            GuidExternalReference result = gISModelFile.GuidExternalReference;
-            if(result == null)
+            GuidExternalReference? result = gISModelFile.GuidExternalReference;
+            if(result is null)
             {
                 return null;
             }
@@ -67,14 +67,14 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public HashSet<GuidExternalReference> GetGuidExternalReferences()
+        public HashSet<GuidExternalReference>? GetGuidExternalReferences()
         {
-            return new HashSet<GuidExternalReference>(dictionary.Keys);
+            return [.. dictionary.Keys];
         }
 
-        public GISModel GetGISModel(GuidExternalReference guidExternalReference)
+        public GISModel? GetGISModel(GuidExternalReference? guidExternalReference)
         {
-            if(guidExternalReference == null)
+            if(guidExternalReference is null)
             {
                 return null;
             }
@@ -87,11 +87,11 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Value;
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
 
-            if(gISModelFileUniqueObjectReference == null)
+            if(gISModelFileUniqueObjectReference is null)
             {
                 return false;
             }
@@ -99,12 +99,12 @@ namespace DiGi.GIS.Classes
             return TryGetObject(gISModelFileUniqueObjectReference.GuidExternalReference, gISModelFileUniqueObjectReference.GuidReference, out gISUniqueObject);
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference gISModelFileUniqueObjectReference, out YIGISUniqueObject gISUniqueObject, out GISModel gISModel) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
             gISModel = null;
 
-            if (gISModelFileUniqueObjectReference == null)
+            if (gISModelFileUniqueObjectReference is null)
             {
                 return false;
             }
@@ -112,17 +112,17 @@ namespace DiGi.GIS.Classes
             return TryGetObject(gISModelFileUniqueObjectReference.GuidExternalReference, gISModelFileUniqueObjectReference.GuidReference, out gISUniqueObject, out gISModel);
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference guidExternalReference, GuidReference guidReference, out YIGISUniqueObject gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
-            return TryGetObject(guidExternalReference, guidReference, out gISUniqueObject, out GISModel gISModel);
+            return TryGetObject(guidExternalReference, guidReference, out gISUniqueObject, out _);
         }
 
-        public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference guidExternalReference, GuidReference guidReference, out YIGISUniqueObject gISUniqueObject, out GISModel gISModel) where YIGISUniqueObject : IGISUniqueObject
+        public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
             gISModel = null;
 
-            if (guidExternalReference == null || guidReference == null)
+            if (guidExternalReference is null || guidReference is null)
             {
                 return false;
             }

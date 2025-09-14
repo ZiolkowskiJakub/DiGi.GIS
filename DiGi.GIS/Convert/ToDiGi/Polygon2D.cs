@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
-        public static Polygon2D ToDiGi(this GML.Classes.LinearRing linearRing)
+        public static Polygon2D? ToDiGi(this GML.Classes.LinearRing? linearRing)
         {
             if (linearRing == null)
             {
@@ -25,8 +25,8 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<Point2D> point2Ds = new List<Point2D>();
-            for (int i = 0; i < values.Count; i = i + 2)
+            List<Point2D> point2Ds = [];
+            for (int i = 0; i < values.Count; i += 2)
             {
                 point2Ds.Add(new Point2D(values[i], values[i + 1]));
             }

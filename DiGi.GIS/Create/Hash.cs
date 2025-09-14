@@ -6,7 +6,7 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static long Hash(string @string)
+        public static long Hash(string? @string)
         {
             if (string.IsNullOrEmpty(@string))
             {
@@ -14,7 +14,7 @@ namespace DiGi.GIS
             }
 
             long result = 0;
-            foreach (char @char in @string)
+            foreach (char @char in @string!)
             {
                 result = (result * 31) + @char;
             }
@@ -22,7 +22,7 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static long Hash(IEnumerable<double> doubles)
+        public static long Hash(IEnumerable<double>? doubles)
         {
             if (doubles == null || doubles.Count() == 0)
             {
@@ -38,7 +38,7 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static long Hash(IEnumerable<long> longs)
+        public static long Hash(IEnumerable<long>? longs)
         {
             if (longs == null || longs.Count() == 0)
             {
@@ -54,14 +54,14 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static long Hash<T>(IEnumerable<T> geometries) where T : GML.Classes.Geometry
+        public static long Hash<T>(IEnumerable<T>? geometries) where T : GML.Classes.Geometry
         {
             if (geometries == null || geometries.Count() == 0)
             {
                 return 0;
             }
 
-            List<long> hashes = new List<long>();
+            List<long> hashes = [];
             foreach (T geometry in geometries)
             {
                 if(geometry is Polygon)
@@ -81,35 +81,35 @@ namespace DiGi.GIS
             return Hash(hashes);
         }
 
-        public static long Hash(LinearRing linearRing)
+        public static long Hash(LinearRing? linearRing)
         {
             if (linearRing == null)
             {
                 return 0;
             }
 
-            List<long> hashes = new List<long>()
-            {
+            List<long> hashes =
+            [
                 Hash(Core.Query.FullTypeName(linearRing.GetType())),
                 Hash(linearRing.posList)
-            };
+            ];
 
             return Hash(hashes);
         }
 
-        public static long Hash(Polygon polygon)
+        public static long Hash(Polygon? polygon)
         {
             if (polygon == null)
             {
                 return 0;
             }
 
-            List<long> hashes = new List<long>()
-            {
+            List<long> hashes =
+            [
                 Hash(Core.Query.FullTypeName(polygon.GetType())),
                 Hash(polygon.exterior),
                 Hash(polygon.interior),
-            };
+            ];
 
             return Hash(hashes);
         }

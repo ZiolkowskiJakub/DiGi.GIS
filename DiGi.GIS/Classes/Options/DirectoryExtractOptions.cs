@@ -6,10 +6,10 @@ namespace DiGi.GIS.Classes
     public class DirectoryExtractOptions : ExtractOptions
     {
         [JsonInclude, JsonPropertyName("SourcePath")]
-        public string SourcePath { get; set; } = null;
+        public string? SourcePath { get; set; } = null;
 
         [JsonInclude, JsonPropertyName("DestionationDirectory")]
-        public string DestionationDirectory { get; set; } = null;
+        public string? DestionationDirectory { get; set; } = null;
 
         [JsonInclude, JsonPropertyName("UpdateExisting")]
         public bool UpdateExisting { get; set; } = true;
@@ -26,7 +26,7 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("AdministrativeArealsDirectoryName")]
         public string AdministrativeArealsDirectoryName { get; set; } = Constans.DirectoryName.AdministrativeAreals;
 
-        public DirectoryExtractOptions(string sourcePath, string destionationDirectory)
+        public DirectoryExtractOptions(string? sourcePath, string? destionationDirectory)
             : base()
         {
             SourcePath = sourcePath;
@@ -39,7 +39,7 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public DirectoryExtractOptions(JsonObject jsonObject)
+        public DirectoryExtractOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

@@ -9,7 +9,7 @@ namespace DiGi.GIS.Classes
     public abstract class Building2DConstructionDateCalculationResult : GuidResult<Building2D>, IConstructionDateCalculationResult
     {
         [JsonInclude, JsonPropertyName("DateTime")]
-        private DateTime dateTime;
+        private readonly DateTime dateTime;
 
         public Building2DConstructionDateCalculationResult()
             :base()
@@ -23,16 +23,16 @@ namespace DiGi.GIS.Classes
             this.dateTime = dateTime;
         }
 
-        public Building2DConstructionDateCalculationResult(JsonObject jsonObject)
+        public Building2DConstructionDateCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public Building2DConstructionDateCalculationResult(Building2DConstructionDateCalculationResult building2DConstructionDateCalculationResult)
+        public Building2DConstructionDateCalculationResult(Building2DConstructionDateCalculationResult? building2DConstructionDateCalculationResult)
             : base(building2DConstructionDateCalculationResult)
         {
-            if(building2DConstructionDateCalculationResult == null)
+            if(building2DConstructionDateCalculationResult is not null)
             {
                 dateTime = building2DConstructionDateCalculationResult.dateTime;
             }

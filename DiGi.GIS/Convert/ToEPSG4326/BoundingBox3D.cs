@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
-        public static BoundingBox3D ToEPSG4326(this BoundingBox2D boundingBox2D)
+        public static BoundingBox3D? ToEPSG4326(this BoundingBox2D? boundingBox2D)
         {
             if (boundingBox2D == null)
             {

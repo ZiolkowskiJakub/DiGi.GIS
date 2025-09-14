@@ -10,28 +10,28 @@ namespace DiGi.GIS.Classes
     public class AdministrativeAreal2DGeometryCalculationResult : GuidResult<AdministrativeAreal2D>, IGISUniqueResult
     {
         [JsonInclude, JsonPropertyName("BoundingBox")]
-        private BoundingBox2D boundingBox = null;
+        private readonly BoundingBox2D? boundingBox = null;
 
         [JsonInclude, JsonPropertyName("Rectangle")]
-        private Rectangle2D rectangle = null;
+        private readonly Rectangle2D? rectangle = null;
 
         [JsonInclude, JsonPropertyName("Centroid")]
-        private Point2D centroid = null;
+        private readonly Point2D? centroid = null;
 
         [JsonInclude, JsonPropertyName("InternalPoint")]
-        private Point2D internalPoint = null;
+        private readonly Point2D? internalPoint = null;
 
         [JsonInclude, JsonPropertyName("ThinnessRatio")]
-        private double thinnessRatio = double.NaN;
+        private readonly double thinnessRatio = double.NaN;
 
         [JsonInclude, JsonPropertyName("Rectangularity")]
-        private double rectangularity = double.NaN;
+        private readonly double rectangularity = double.NaN;
 
         [JsonInclude, JsonPropertyName("Area")]
-        private double area = double.NaN;
+        private readonly double area = double.NaN;
 
 
-        public AdministrativeAreal2DGeometryCalculationResult(BoundingBox2D boundingBox, Rectangle2D rectangle, Point2D centroid, Point2D internalPoint, double thinnessRatio, double rectangularity, double area)
+        public AdministrativeAreal2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area)
             : base()
         {
             this.boundingBox = boundingBox?.Clone<BoundingBox2D>();
@@ -43,7 +43,7 @@ namespace DiGi.GIS.Classes
             this.area = area;
         }
 
-        public AdministrativeAreal2DGeometryCalculationResult(AdministrativeAreal2DGeometryCalculationResult administrativeAreal2DGeometryCalculationResult)
+        public AdministrativeAreal2DGeometryCalculationResult(AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult)
             :base(administrativeAreal2DGeometryCalculationResult)
         {
             if(administrativeAreal2DGeometryCalculationResult != null)
@@ -58,14 +58,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public AdministrativeAreal2DGeometryCalculationResult(JsonObject jsonObject)
+        public AdministrativeAreal2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public BoundingBox2D BoundingBox
+        public BoundingBox2D? BoundingBox
         {
             get
             {
@@ -74,7 +74,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public Rectangle2D Rectangle2D
+        public Rectangle2D? Rectangle2D
         {
             get
             {
@@ -83,7 +83,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public Point2D Centroid
+        public Point2D? Centroid
         {
             get
             {
@@ -92,7 +92,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public Point2D InternalPoint
+        public Point2D? InternalPoint
         {
             get
             {

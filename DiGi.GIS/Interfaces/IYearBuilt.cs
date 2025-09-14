@@ -5,7 +5,7 @@ namespace DiGi.GIS.Interfaces
 {
     public interface IYearBuilt : IGISObject, ISerializableObject
     {
-        public string Source { get; }
+        public string? Source { get; }
 
         public short Year { get; }
 

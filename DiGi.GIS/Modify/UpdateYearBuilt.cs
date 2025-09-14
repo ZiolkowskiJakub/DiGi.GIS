@@ -6,19 +6,19 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static UniqueReference UpdateUserYearBuilt(this GISModelFile gISModelFile, Building2D builidng2D, short? yearBuilt)
+        public static UniqueReference? UpdateUserYearBuilt(this GISModelFile? gISModelFile, Building2D? builidng2D, short? yearBuilt)
         {
             if(gISModelFile == null || builidng2D == null)
             {
                 return null;
             }
-            string reference = builidng2D.Reference;
+            string? reference = builidng2D.Reference;
             if (string.IsNullOrWhiteSpace(reference))
             {
                 return null;
             }
 
-            string path = gISModelFile.Path;
+            string? path = gISModelFile.Path;
             if(string.IsNullOrWhiteSpace(path))
             {
                 return null;
@@ -32,50 +32,46 @@ namespace DiGi.GIS
 
             path = System.IO.Path.Combine(directory, string.Format("{0}.{1}", System.IO.Path.GetFileNameWithoutExtension(path), Constans.FileExtension.YearBuiltDataFile));
 
-            UniqueReference uniqueReference = null;
+            UniqueReference? uniqueReference = null;
 
-            using (YearBuiltDataFile yearBuiltDataFile = new YearBuiltDataFile(path))
+            using YearBuiltDataFile yearBuiltDataFile = new(path);
+
+            yearBuiltDataFile.Open();
+
+            YearBuiltData? yearBuiltData = yearBuiltDataFile.GetValue<YearBuiltData>(reference);
+
+            if (yearBuilt != null && yearBuilt.HasValue)
             {
-                yearBuiltDataFile.Open();
+                yearBuiltData ??= new YearBuiltData(reference);
 
-                YearBuiltData yearBuiltData = yearBuiltDataFile.GetValue<YearBuiltData>(reference);
+                yearBuiltData.SetUserYearBuilt(yearBuilt.Value);
 
-                if (yearBuilt != null && yearBuilt.HasValue)
+                uniqueReference = yearBuiltDataFile.AddValue(yearBuiltData);
+            }
+            else if (yearBuiltData != null)
+            {
+                yearBuiltData.RemoveUserYearBuilt();
+
+                if (yearBuiltData.YearBuilts == null || yearBuiltData.YearBuilts.Count() == 0)
                 {
-                    if(yearBuiltData == null)
+                    UniqueReference? uniqueReference_Temp = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
+                    if (uniqueReference_Temp is not null && yearBuiltDataFile.Remove(uniqueReference_Temp))
                     {
-                        yearBuiltData = new YearBuiltData(reference);
+                        uniqueReference = uniqueReference_Temp;
                     }
-
-                    yearBuiltData.SetUserYearBuilt(yearBuilt.Value);
-
+                }
+                else
+                {
                     uniqueReference = yearBuiltDataFile.AddValue(yearBuiltData);
                 }
-                else if(yearBuiltData != null)
-                {
-                    yearBuiltData.RemoveUserYearBuilt();
-
-                    if(yearBuiltData.YearBuilts == null || yearBuiltData.YearBuilts.Count() == 0)
-                    {
-                        UniqueReference uniqueReference_Temp = YearBuiltDataFile.GetUniqueReference<YearBuiltData>(reference);
-                        if (uniqueReference_Temp != null && yearBuiltDataFile.Remove(uniqueReference_Temp))
-                        {
-                            uniqueReference = uniqueReference_Temp;
-                        }
-                    }
-                    else
-                    {
-                        uniqueReference = yearBuiltDataFile.AddValue(yearBuiltData);
-                    }
-                }
-
-                if (uniqueReference != null)
-                {
-                    yearBuiltDataFile.Save();
-                }
-
-                return uniqueReference;
             }
+
+            if (uniqueReference is not null)
+            {
+                yearBuiltDataFile.Save();
+            }
+
+            return uniqueReference;
         }
     }
 }

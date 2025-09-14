@@ -7,7 +7,7 @@ namespace DiGi.GIS.Classes
     public abstract class DirectoryNamesOptions : Options
     {
         [JsonInclude, JsonPropertyName("DirectoryNames")]
-        public string[] DirectoryNames { get; set; }
+        public string[]? DirectoryNames { get; set; }
 
         public DirectoryNamesOptions()
             : base()
@@ -15,16 +15,16 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public DirectoryNamesOptions(DirectoryNamesOptions directoryNamesOptions)
+        public DirectoryNamesOptions(DirectoryNamesOptions? directoryNamesOptions)
             : base(directoryNamesOptions)
         {
             if(directoryNamesOptions != null)
             {
-                DirectoryNames = (string[])directoryNamesOptions.DirectoryNames?.Clone();
+                DirectoryNames = (string[]?)directoryNamesOptions.DirectoryNames?.Clone();
             }
         }
 
-        public DirectoryNamesOptions(JsonObject jsonObject)
+        public DirectoryNamesOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

@@ -19,7 +19,7 @@ namespace DiGi.GIS
             
             CalculateAdministrativeAreal2DBuilding2Ds(gISModel, tolerance);
 
-            CalculateOccupancy(gISModel, tolerance);
+            CalculateOccupancy(gISModel);
         }
     }
 }

@@ -7,18 +7,18 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static Dictionary<string, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<string> references)
+        public static Dictionary<string, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<string>? references)
         {
             if(string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
             {
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = new HashSet<UniqueReference>();
+            HashSet<UniqueReference> uniqueReferences = [];
             foreach(string reference in references)
             {
-                UniqueReference uniqueReference = OrtoDatasFile.GetUniqueReference(reference);
-                if(uniqueReference == null)
+                UniqueReference? uniqueReference = OrtoDatasFile.GetUniqueReference(reference);
+                if(uniqueReference is null)
                 {
                     continue;
                 }
@@ -26,7 +26,7 @@ namespace DiGi.GIS
                 uniqueReferences.Add(uniqueReference);
             }
 
-            Dictionary<string, OrtoDatas> result = new Dictionary<string, OrtoDatas>();
+            Dictionary<string, OrtoDatas> result = [];
             
             if (uniqueReferences.Count == 0)
             {
@@ -41,49 +41,54 @@ namespace DiGi.GIS
 
             foreach(string path in paths)
             {
-                using (OrtoDatasFile ortoDatasFile = new OrtoDatasFile(path))
+                using OrtoDatasFile ortoDatasFile = new(path);
+
+                List<OrtoDatas?>? ortoDatasList = ortoDatasFile.GetValues(uniqueReferences)?.ToList();
+                if (ortoDatasList == null || ortoDatasList.Count == 0)
                 {
-                    List<OrtoDatas> ortoDatasList = ortoDatasFile.GetValues(uniqueReferences)?.ToList();
-                    if(ortoDatasList == null || ortoDatasList.Count == 0)
+                    continue;
+                }
+
+                for (int i = ortoDatasList.Count - 1; i >= 0; i--)
+                {
+                    if (ortoDatasList[i] == null)
                     {
                         continue;
                     }
 
-                    for (int i = ortoDatasList.Count - 1; i >= 0; i--)
+                    UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
+
+                    if (uniqueReference?.UniqueId is string uniqueId)
                     {
-                        if (ortoDatasList[i] == null)
-                        {
-                            continue;
-                        }
-
-                        UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
-
-                        result[uniqueReference.UniqueId] = ortoDatasList[i];
-                        uniqueReferences.Remove(uniqueReference);
-
-                        if(uniqueReferences.Count == 0)
-                        {
-                            return result;
-                        }
+                        result[uniqueId] = ortoDatasList[i]!;
                     }
 
+                    if (uniqueReference is not null)
+                    {
+                        uniqueReferences.Remove(uniqueReference);
+                    }
+
+                    if (uniqueReferences.Count == 0)
+                    {
+                        return result;
+                    }
                 }
             }
 
             return result;
         }
 
-        public static Dictionary<GuidReference, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<Building2D> building2Ds)
+        public static Dictionary<GuidReference, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<Building2D>? building2Ds)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)
             {
                 return null;
             }
 
-            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            Dictionary<string, GuidReference> dictionary = [];
             foreach(Building2D building2D in building2Ds)
             {
-                string reference = building2D?.Reference;
+                string? reference = building2D?.Reference;
                 if(reference == null)
                 {
                     continue;
@@ -92,13 +97,13 @@ namespace DiGi.GIS
                 dictionary[reference] = new GuidReference(building2D);
             }
 
-            Dictionary<string, OrtoDatas> ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
+            Dictionary<string, OrtoDatas>? ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
             if(ortoDatasDictionary == null)
             {
                 return null;
             }
 
-            Dictionary<GuidReference, OrtoDatas> result = new Dictionary<GuidReference, OrtoDatas>();
+            Dictionary<GuidReference, OrtoDatas> result = [];
             if(ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
             {
                 foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
@@ -117,17 +122,17 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static Dictionary<GuidReference, OrtoDatas> OrtoDatasDictionary(string directory, IEnumerable<OrtoRange> ortoRanges)
+        public static Dictionary<GuidReference, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<OrtoRange>? ortoRanges)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || ortoRanges == null)
             {
                 return null;
             }
 
-            Dictionary<string, GuidReference> dictionary = new Dictionary<string, GuidReference>();
+            Dictionary<string, GuidReference> dictionary = [];
             foreach (OrtoRange ortoRange in ortoRanges)
             {
-                string reference = ortoRange?.UniqueId;
+                string? reference = ortoRange?.UniqueId;
                 if (reference == null)
                 {
                     continue;
@@ -136,13 +141,13 @@ namespace DiGi.GIS
                 dictionary[reference] = new GuidReference(ortoRange);
             }
 
-            Dictionary<string, OrtoDatas> ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
+            Dictionary<string, OrtoDatas>? ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
             if (ortoDatasDictionary == null)
             {
                 return null;
             }
 
-            Dictionary<GuidReference, OrtoDatas> result = new Dictionary<GuidReference, OrtoDatas>();
+            Dictionary<GuidReference, OrtoDatas> result = [];
             if (ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
             {
                 foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)

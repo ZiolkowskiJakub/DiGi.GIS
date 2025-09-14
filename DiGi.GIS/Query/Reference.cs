@@ -6,14 +6,14 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string Reference(this OT_ADJA_A oT_ADJA_A)
+        public static string? Reference(this OT_ADJA_A? oT_ADJA_A)
         {
             if (oT_ADJA_A == null)
             {
                 return null;
             }
 
-            string result = null;
+            string? result;
 
             result = Create.Reference(oT_ADJA_A.lokalnyId);
             if (!string.IsNullOrWhiteSpace(result))
@@ -36,14 +36,14 @@ namespace DiGi.GIS
             return null;
         }
 
-        public static string Reference(this OT_ADMS_A oT_ADMS_A)
+        public static string? Reference(this OT_ADMS_A? oT_ADMS_A)
         {
             if (oT_ADMS_A == null)
             {
                 return null;
             }
 
-            string result = null;
+            string? result;
 
             result = Create.Reference(oT_ADMS_A.lokalnyId);
             if (!string.IsNullOrWhiteSpace(result))
@@ -66,14 +66,14 @@ namespace DiGi.GIS
             return null;
         }
 
-        public static string Reference(this OT_BUBD_A oT_BUBD_A)
+        public static string? Reference(this OT_BUBD_A? oT_BUBD_A)
         {
             if (oT_BUBD_A == null)
             {
                 return null;
             }
 
-            string result = null;
+            string? result;
 
             result = Create.Reference(oT_BUBD_A.lokalnyId);
             if (!string.IsNullOrWhiteSpace(result))
@@ -81,7 +81,7 @@ namespace DiGi.GIS
                 return result;
             }
 
-            List<string> identyfikatoryEGiB = oT_BUBD_A.identyfikatorEGiB;
+            List<string>? identyfikatoryEGiB = oT_BUBD_A.identyfikatorEGiB;
             if (identyfikatoryEGiB != null && identyfikatoryEGiB.Count != 0)
             {
                 foreach (string identyfikatorEGiB in identyfikatoryEGiB)
@@ -128,14 +128,14 @@ namespace DiGi.GIS
             return null;
         }
 
-        public static string Reference(this GML.Classes.Geometry geometry)
+        public static string? Reference(this GML.Classes.Geometry? geometry)
         {
             if(geometry == null)
             {
                 return null;
             }
 
-            string result;
+            string? result;
 
             result = Create.Reference(geometry.id);
             if (!string.IsNullOrWhiteSpace(result))
@@ -143,27 +143,27 @@ namespace DiGi.GIS
                 return result;
             }
 
-            if(geometry is Polygon)
+            if(geometry is Polygon polygon)
             {
-                return Reference((Polygon)geometry);
+                return Reference(polygon);
             }
 
-            if (geometry is LinearRing)
+            if (geometry is LinearRing linearRing)
             {
-                return Reference((LinearRing)geometry);
+                return Reference(linearRing);
             }
 
             return null;
         }
 
-        public static string Reference(this Polygon polygon)
+        public static string? Reference(this Polygon? polygon)
         {
             if (polygon == null)
             {
                 return null;
             }
 
-            string result;
+            string? result;
 
             result = Create.Reference(polygon.id);
             if (!string.IsNullOrWhiteSpace(result))
@@ -180,15 +180,15 @@ namespace DiGi.GIS
             return null;
         }
 
-        public static string Reference(this LinearRing linearRing)
+        public static string? Reference(this LinearRing? linearRing)
         {
             if (linearRing == null)
             {
                 return null;
             }
 
-            string result;
-
+            string? result;
+            
             result = Create.Reference(linearRing.id);
             if (!string.IsNullOrWhiteSpace(result))
             {

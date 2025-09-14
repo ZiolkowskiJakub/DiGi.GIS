@@ -8,7 +8,7 @@ namespace DiGi.GIS.Classes
     public sealed class PredictedYearBuilt : YearBuilt
     {
         [JsonInclude, JsonPropertyName("DateTime")]
-        private DateTime dateTime;
+        private readonly DateTime dateTime;
         
         public PredictedYearBuilt(DateTime dateTime, short year)
             : base(year)

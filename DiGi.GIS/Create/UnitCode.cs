@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static UnitCode UnitCode(string code)
+        public static UnitCode? UnitCode(string? code)
         {
             if(code == null)
             {

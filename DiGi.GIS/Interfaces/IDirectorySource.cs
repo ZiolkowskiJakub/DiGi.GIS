@@ -2,6 +2,6 @@
 {
     internal interface IDirectorySource : ISource
     {
-        public string Directory { get; }
+        public string? Directory { get; }
     }
 }

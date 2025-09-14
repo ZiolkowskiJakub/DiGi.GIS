@@ -7,20 +7,20 @@ namespace DiGi.GIS.Classes
     public class DirectorySource : Source, IDirectorySource
     {
         [JsonInclude, JsonPropertyName("Directory")]
-        public string directory;
+        public string? directory;
 
-        public DirectorySource(JsonObject jsonObject)
+        public DirectorySource(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
-        public DirectorySource(string directory)
+        public DirectorySource(string? directory)
         {
             this.directory = directory;
         }
 
-        public DirectorySource(DirectorySource directorySource)
+        public DirectorySource(DirectorySource? directorySource)
             :base(directorySource)
         {
             if(directorySource != null)
@@ -30,7 +30,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonIgnore]
-        public string Directory
+        public string? Directory
         {
             get
             {

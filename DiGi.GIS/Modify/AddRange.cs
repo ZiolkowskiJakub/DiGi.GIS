@@ -15,14 +15,14 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static List<GuidReference> AddRange(this GISModel gISModel, Stream stream)
+        public static List<GuidReference>? AddRange(this GISModel? gISModel, Stream? stream)
         {
             if (stream == null)
             {
                 return null;
             }
 
-            FeatureCollection featureCollection = GML.Convert.ToGML<FeatureCollection>(stream)?.FirstOrDefault();
+            FeatureCollection? featureCollection = GML.Convert.ToGML<FeatureCollection>(stream)?.FirstOrDefault();
             if (featureCollection == null)
             {
                 return null;
@@ -31,7 +31,7 @@ namespace DiGi.GIS
             return gISModel.AddRange(featureCollection);
         }
 
-        public static List<GuidReference> AddRange(this GISModel gISModel, FeatureCollection featureCollection)
+        public static List<GuidReference>? AddRange(this GISModel? gISModel, FeatureCollection? featureCollection)
         {
             if (gISModel == null || featureCollection == null)
             {
@@ -44,27 +44,27 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<GuidReference> result = new List<GuidReference>();
+            List<GuidReference> result = [];
             foreach (IFeatureMember featureMember in featureMembers)
             {
-                if (!(featureMember is IOT_ObiektGeometryczny))
+                if (featureMember is not IOT_ObiektGeometryczny)
                 {
                     continue;
                 }
 
-                Areal2D areal2D = null;
+                Areal2D? areal2D = null;
 
-                if (featureMember is OT_ADJA_A)
+                if (featureMember is OT_ADJA_A oT_ADJA_A)
                 {
-                    areal2D = Convert.ToDiGi((OT_ADJA_A)featureMember);
+                    areal2D = Convert.ToDiGi(oT_ADJA_A);
                 }
-                else if (featureMember is OT_ADMS_A)
+                else if (featureMember is OT_ADMS_A oT_ADMS_A)
                 {
-                    areal2D = Convert.ToDiGi((OT_ADMS_A)featureMember);
+                    areal2D = Convert.ToDiGi(oT_ADMS_A);
                 }
-                else if (featureMember is OT_BUBD_A)
+                else if (featureMember is OT_BUBD_A oT_BUBD_A)
                 {
-                    areal2D = Convert.ToDiGi((OT_BUBD_A)featureMember);
+                    areal2D = Convert.ToDiGi(oT_BUBD_A);
                 }
 
                 if (areal2D != null)
@@ -80,16 +80,16 @@ namespace DiGi.GIS
             return result;
         }
 
-        public static List<StatisticalYearlyDoubleData> AddRange(this StatisticalDataCollection statisticalDataCollection, UnitYearlyValues unitYearlyValues)
+        public static List<StatisticalYearlyDoubleData>? AddRange(this StatisticalDataCollection? statisticalDataCollection, UnitYearlyValues? unitYearlyValues)
         {
             if(statisticalDataCollection == null || unitYearlyValues == null)
             {
                 return null;
             }
 
-            HashSet<StatisticalYearlyDoubleData> result = new HashSet<StatisticalYearlyDoubleData>();
+            HashSet<StatisticalYearlyDoubleData> result = [];
 
-            List<YearlyValues> yearlyValuesList = unitYearlyValues.results;
+            List<YearlyValues>? yearlyValuesList = unitYearlyValues.results;
             if (yearlyValuesList != null)
             {
                 
@@ -104,7 +104,7 @@ namespace DiGi.GIS
 
                     Variable variable = (Variable)id;
 
-                    List<YearlyValue> yearlyValueList = yearlyValues?.values;
+                    List<YearlyValue>? yearlyValueList = yearlyValues?.values;
                     if(yearlyValueList == null || yearlyValueList.Count == 0)
                     {
                         continue;
@@ -112,7 +112,7 @@ namespace DiGi.GIS
 
                     string reference = id.ToString();
 
-                    StatisticalYearlyDoubleData statisticalYearlyDoubleData = statisticalDataCollection.Find<StatisticalYearlyDoubleData>(x => x.Reference == reference);
+                    StatisticalYearlyDoubleData? statisticalYearlyDoubleData = statisticalDataCollection.Find<StatisticalYearlyDoubleData>(x => x?.Reference == reference);
                     if(statisticalYearlyDoubleData == null)
                     {
                         statisticalYearlyDoubleData = new StatisticalYearlyDoubleData(Core.Query.Description(variable), reference);
@@ -136,7 +136,7 @@ namespace DiGi.GIS
                 }
             }
 
-            return result.ToList();
+            return [.. result];
         }
     }
 }

@@ -8,10 +8,10 @@ namespace DiGi.GIS.Classes
     public class OccupancyCalculationResult : GuidResult<Areal2D>, IGISGuidResult
     {
         [JsonInclude, JsonPropertyName("OccupancyArea")]
-        private double? occupancyArea = null;
+        private readonly double? occupancyArea = null;
 
         [JsonInclude, JsonPropertyName("Occupancy")]
-        private uint? occupancy = null;
+        private readonly uint? occupancy = null;
 
         public OccupancyCalculationResult(double? occupancyArea, uint? occupancy)
             :base()

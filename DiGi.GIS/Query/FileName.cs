@@ -4,18 +4,18 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string FileName(string directory, string fileName, string extension, double maxFileSize)
+        public static string? FileName(string? directory, string? fileName, string? extension, double maxFileSize)
         {
             if (string.IsNullOrWhiteSpace(directory) || string.IsNullOrWhiteSpace(fileName))
             {
                 return null;
             }
 
-            string result = null;
+            string? result;
 
             int index = 1;
 
-            FileInfo fileInfo = null;
+            FileInfo? fileInfo;
 
             do
             {

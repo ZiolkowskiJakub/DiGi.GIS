@@ -12,18 +12,18 @@ namespace DiGi.GIS.Classes
     public class OrtoDatas : GuidObject, IGISGuidObject, IEnumerable<OrtoData>
     {
         [JsonInclude, JsonPropertyName("Reference")]
-        private string reference = null;
+        private readonly string? reference = null;
 
         [JsonIgnore]
-        private SortedDictionary<DateTime, OrtoData> sortedDictionary = new SortedDictionary<DateTime, OrtoData>();
+        private readonly SortedDictionary<DateTime, OrtoData> sortedDictionary = [];
         
-        public OrtoDatas(string reference, IEnumerable<OrtoData> values)
+        public OrtoDatas(string? reference, IEnumerable<OrtoData>? values)
         {
             this.reference = reference;
             Values = values;
         }
 
-        public OrtoDatas(OrtoDatas ortoDatas)
+        public OrtoDatas(OrtoDatas? ortoDatas)
         {
             if(ortoDatas != null)
             {
@@ -32,14 +32,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public OrtoDatas(JsonObject jsonObject)
+        public OrtoDatas(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public string Reference
+        public string? Reference
         {
             get
             {
@@ -48,7 +48,7 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonInclude, JsonPropertyName("Values")]
-        private IEnumerable<OrtoData> Values
+        private IEnumerable<OrtoData>? Values
         {
             get
             {
@@ -91,23 +91,27 @@ namespace DiGi.GIS.Classes
                 return;
             }
 
-            List<OrtoData> ortoDatas = new List<OrtoData>(sortedDictionary.Values);
+            List<OrtoData> ortoDatas = [.. sortedDictionary.Values];
 
             sortedDictionary.Clear();
 
-            List<OrtoData> result = new List<OrtoData>();
             while (ortoDatas.Count > 0)
             {
                 OrtoData ortoData = ortoDatas[0];
                 ortoDatas.RemoveAt(0);
 
-                byte[] bytes = ortoData?.Bytes;
+                if(ortoData is null)
+                {
+                    continue;
+                }
+
+                byte[]? bytes = ortoData?.Bytes;
                 if(bytes == null || bytes.Length == 0)
                 {
                     continue;
                 }
 
-                sortedDictionary[ortoData.DateTime] = ortoData;
+                sortedDictionary[ortoData!.DateTime] = ortoData;
 
                 int index = 0;
 
@@ -130,7 +134,7 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public bool TryGetYears(out HashSet<int> years)
+        public bool TryGetYears(out HashSet<int>? years)
         {
             years = null;
             if (!TryGetDateTime(out DateTime dateTime_Min, out DateTime dateTime_Max))
@@ -138,7 +142,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            years = new HashSet<int>();
+            years = [];
             for (int i = dateTime_Min.Year; i <= dateTime_Max.Year; i++)
             {
                 years.Add(i);
@@ -161,9 +165,9 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        public byte[] GetBytes(DateTime dateTime)
+        public byte[]? GetBytes(DateTime dateTime)
         {
-            OrtoData ortoData = GetOrtoData(dateTime);
+            OrtoData? ortoData = GetOrtoData(dateTime);
             if(ortoData == null)
             {
                 return null;
@@ -172,9 +176,9 @@ namespace DiGi.GIS.Classes
             return ortoData.Bytes;
         }
 
-        public OrtoData GetOrtoData(DateTime dateTime)
+        public OrtoData? GetOrtoData(DateTime dateTime)
         {
-            if(!Core.Query.TryGetLowerValue(sortedDictionary, dateTime, out OrtoData result))
+            if(!Core.Query.TryGetLowerValue(sortedDictionary, dateTime, out OrtoData? result))
             {
                 return null;
             }

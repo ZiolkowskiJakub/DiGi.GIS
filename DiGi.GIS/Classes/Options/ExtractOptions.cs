@@ -11,12 +11,13 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public ExtractOptions(ExtractOptions extractOptions)
+        public ExtractOptions(ExtractOptions? extractOptions)
+            :base(extractOptions)
         {
 
         }
 
-        public ExtractOptions(JsonObject jsonObject)
+        public ExtractOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
 

@@ -9,7 +9,7 @@ namespace DiGi.GIS.Classes
     public class AdministrativeAreal2DStatisticalUnitsCalculcationResult : GuidResult<AdministrativeAreal2D>, IGISUniqueResult
     {
         [JsonIgnore]
-        private Dictionary<string, StatisticalUnit> dictionary = new Dictionary<string, StatisticalUnit>();
+        private readonly Dictionary<string, StatisticalUnit> dictionary = [];
 
         public AdministrativeAreal2DStatisticalUnitsCalculcationResult(IEnumerable<StatisticalUnit> statisticalUnits)
             : base()

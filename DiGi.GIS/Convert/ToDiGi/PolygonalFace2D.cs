@@ -6,29 +6,28 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
-        public static PolygonalFace2D ToDiGi(this Surface surface)
+        public static PolygonalFace2D? ToDiGi(this Surface? surface)
         {
             if (surface == null)
             {
                 return null;
             }
 
-            if (surface is Polygon)
+            if (surface is Polygon polygon)
             {
-                Polygon polygon = (Polygon)surface;
-                Polygon2D externalPolygon2D = polygon.exterior?.ToDiGi();
+                Polygon2D? externalPolygon2D = polygon.exterior?.ToDiGi();
                 if (externalPolygon2D == null)
                 {
                     return null;
                 }
 
-                List<Polygon2D> internalPolygon2Ds = null;
+                List<Polygon2D>? internalPolygon2Ds = null;
                 if (polygon.interior != null)
                 {
-                    internalPolygon2Ds = new List<Polygon2D>();
+                    internalPolygon2Ds = [];
                     foreach (LinearRing linearRing in polygon.interior)
                     {
-                        Polygon2D internalPolygon2D = linearRing?.ToDiGi();
+                        Polygon2D? internalPolygon2D = linearRing?.ToDiGi();
                         if (internalPolygon2D == null)
                         {
                             continue;

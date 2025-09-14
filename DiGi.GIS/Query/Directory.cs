@@ -6,20 +6,20 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static string Directory(string directory, IEnumerable<string> directoryNames, bool checkIfExists = false)
+        public static string? Directory(string? directory, IEnumerable<string>? directoryNames, bool checkIfExists = false)
         {
             if (string.IsNullOrWhiteSpace(directory))
             {
                 return null;
             }
 
-            List<string> values = new List<string>() { directory };
+            List<string> values = [directory];
             if (directoryNames != null && directoryNames.Count() != 0)
             {
                 values.AddRange(directoryNames);
             }
 
-            string directory_Temp = System.IO.Path.Combine(values.ToArray());
+            string directory_Temp = System.IO.Path.Combine([.. values]);
             if (!checkIfExists)
             {
                 return directory_Temp;
@@ -33,14 +33,14 @@ namespace DiGi.GIS
             return directory;
         }
 
-        public static string Directory(this DirectoryNamesOptions directoryNamesOptions, string directory, bool checkIfExists = false)
+        public static string? Directory(this DirectoryNamesOptions? directoryNamesOptions, string directory, bool checkIfExists = false)
         {
             if (directoryNamesOptions == null)
             {
                 return null;
             }
 
-            string[] directoryNames = directoryNamesOptions.DirectoryNames;
+            string[]? directoryNames = directoryNamesOptions.DirectoryNames;
             if (directoryNames == null || directoryNames.Length == 0)
             {
                 return directory;

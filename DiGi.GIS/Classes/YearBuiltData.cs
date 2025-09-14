@@ -11,20 +11,20 @@ namespace DiGi.GIS.Classes
     public class YearBuiltData : SerializableObject, IYearBuiltData
     {
         [JsonInclude, JsonPropertyName("Reference")]
-        private string reference;
+        private readonly string? reference;
 
         //[JsonInclude, JsonPropertyName("Year")]
         //public short Year;
 
         [JsonIgnore]
-        private Dictionary<string, IYearBuilt> yearBuilts;
+        private Dictionary<string, IYearBuilt>? yearBuilts;
 
-        public YearBuiltData(string reference)
+        public YearBuiltData(string? reference)
         {
             this.reference = reference;
         }
 
-        public YearBuiltData(YearBuiltData yearBuiltData)
+        public YearBuiltData(YearBuiltData? yearBuiltData)
         {
             if (yearBuiltData != null)
             {
@@ -33,14 +33,14 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        public YearBuiltData(JsonObject jsonObject)
+        public YearBuiltData(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public string Reference
+        public string? Reference
         {
             get
             {
@@ -49,11 +49,11 @@ namespace DiGi.GIS.Classes
         }
 
         [JsonInclude, JsonPropertyName("YearBuilts")]
-        public IEnumerable<IYearBuilt> YearBuilts
+        public IEnumerable<IYearBuilt>? YearBuilts
         {
             get
             {
-                return yearBuilts == null ? null : yearBuilts.Values;
+                return yearBuilts?.Values;
             }
 
             set
@@ -64,7 +64,7 @@ namespace DiGi.GIS.Classes
                     return;
                 }
 
-                yearBuilts = new Dictionary<string, IYearBuilt>();
+                yearBuilts = [];
 
                 foreach (IYearBuilt yearBuilt in value)
                 {
@@ -75,24 +75,21 @@ namespace DiGi.GIS.Classes
 
         public bool Add(IYearBuilt yearBuilt)
         {
-            string source = yearBuilt?.Source;
+            string? source = yearBuilt?.Source;
             if (source == null)
             {
                 return false;
             }
 
-            if(yearBuilts == null)
-            {
-                yearBuilts = new Dictionary<string, IYearBuilt>();
-            }
+            yearBuilts ??= [];
 
-            yearBuilts[source] = yearBuilt;
+            yearBuilts[source] = yearBuilt!;
             return true;
         }
 
-        public PredictedYearBuilt GetLatestPredictedYearBuilt()
+        public PredictedYearBuilt? GetLatestPredictedYearBuilt()
         {
-            List<PredictedYearBuilt> predictedYearBuilts = GetPredictedYearBuilts();
+            List<PredictedYearBuilt>? predictedYearBuilts = GetPredictedYearBuilts();
             if (predictedYearBuilts == null || predictedYearBuilts.Count == 0)
             {
                 return null;
@@ -110,7 +107,7 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public PredictedYearBuilt GetPredictedYearBuilt(DateTime dateTime)
+        public PredictedYearBuilt? GetPredictedYearBuilt(DateTime dateTime)
         {
             if (yearBuilts == null)
             {
@@ -119,8 +116,7 @@ namespace DiGi.GIS.Classes
 
             foreach (KeyValuePair<string, IYearBuilt> keyValuePair in yearBuilts)
             {
-                PredictedYearBuilt predictedYearBuilt = keyValuePair.Value as PredictedYearBuilt;
-                if (predictedYearBuilt != null && dateTime.Equals(predictedYearBuilt.DateTime))
+                if (keyValuePair.Value is PredictedYearBuilt predictedYearBuilt && dateTime.Equals(predictedYearBuilt.DateTime))
                 {
                     return predictedYearBuilt;
                 }
@@ -129,18 +125,17 @@ namespace DiGi.GIS.Classes
             return null;
         }
         
-        public List<PredictedYearBuilt> GetPredictedYearBuilts()
+        public List<PredictedYearBuilt>? GetPredictedYearBuilts()
         {
             if(yearBuilts == null)
             {
                 return null;
             }
 
-            List < PredictedYearBuilt > result = new List<PredictedYearBuilt> ();
+            List < PredictedYearBuilt > result = [];
             foreach (IYearBuilt yearBuilt in yearBuilts.Values)
             {
-                PredictedYearBuilt predictedYearBuilt = yearBuilt as PredictedYearBuilt;
-                if (predictedYearBuilt != null)
+                if (yearBuilt is PredictedYearBuilt predictedYearBuilt)
                 {
                     result.Add(predictedYearBuilt);
                 }
@@ -149,9 +144,9 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public UserYearBuilt GetUserYearBuilt()
+        public UserYearBuilt? GetUserYearBuilt()
         {
-            if (!TryGetYearBuilt(Core.Query.Description(YearBuiltSource.User), out UserYearBuilt result))
+            if (!TryGetYearBuilt(Core.Query.Description(YearBuiltSource.User), out UserYearBuilt? result))
             {
                 return null;
             }
@@ -159,26 +154,26 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public List<TYearBuilt> GetYearBuilts<TYearBuilt>() where TYearBuilt : IYearBuilt
+        public List<TYearBuilt>? GetYearBuilts<TYearBuilt>() where TYearBuilt : IYearBuilt
         {
             if (yearBuilts == null)
             {
                 return null;
             }
 
-            List<TYearBuilt> result = new List<TYearBuilt>();
-            foreach (IYearBuilt yearBuilt in yearBuilts.Values)
+            List<TYearBuilt> result = [];
+            foreach (IYearBuilt? yearBuilt in yearBuilts.Values)
             {
-                if (yearBuilt is TYearBuilt)
+                if (yearBuilt is TYearBuilt yearBuilt_Temp)
                 {
-                    result.Add((TYearBuilt)yearBuilt);
+                    result.Add(yearBuilt_Temp);
                 }
             }
 
             return result;
         }
 
-        public bool Remove(string source)
+        public bool Remove(string? source)
         {
             if (source == null || yearBuilts == null)
             {
@@ -197,7 +192,7 @@ namespace DiGi.GIS.Classes
                 return result;
             }
 
-            List<string> sources = new List<string>();
+            List<string> sources = [];
             foreach(KeyValuePair<string, IYearBuilt> keyValuePair in yearBuilts)
             {
                 if(keyValuePair.Value is PredictedYearBuilt)
@@ -233,7 +228,7 @@ namespace DiGi.GIS.Classes
             return Add(new UserYearBuilt(year));
         }
 
-        public bool TryGetYearBuilt<TYearBuilt>(string source, out TYearBuilt yearBuilt) where TYearBuilt : IYearBuilt
+        public bool TryGetYearBuilt<TYearBuilt>(string? source, out TYearBuilt? yearBuilt) where TYearBuilt : IYearBuilt
         {
             yearBuilt = default;
 
@@ -242,7 +237,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
-            if(!yearBuilts.TryGetValue(source, out IYearBuilt yearBuilt_Temp) || !(yearBuilt_Temp is TYearBuilt))
+            if(!yearBuilts.TryGetValue(source, out IYearBuilt yearBuilt_Temp) || yearBuilt_Temp is not TYearBuilt)
             {
                 return false;
             }

@@ -6,14 +6,14 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static MunicipalityType? MunicipalityType(this UnitCode unitCode)
+        public static MunicipalityType? MunicipalityType(this UnitCode? unitCode)
         {
             if(unitCode == null || unitCode.GetStatisticalUnitType() != StatisticalUnitType.municipalities)
             {
                 return null;
             }
 
-            switch(unitCode.Code.Last())
+            switch (unitCode.Code.Last())
             {
                 case '1':
                     return Enums.MunicipalityType.urban_municipality;
@@ -32,6 +32,9 @@ namespace DiGi.GIS
 
                 case '8':
                     return Enums.MunicipalityType.Warsaw_district;
+
+                default:
+                    break;
             }
 
             return null;

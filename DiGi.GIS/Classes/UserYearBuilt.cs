@@ -12,20 +12,20 @@ namespace DiGi.GIS.Classes
 
         }
 
-        public UserYearBuilt(UserYearBuilt userYearBuilt)
+        public UserYearBuilt(UserYearBuilt? userYearBuilt)
             : base(userYearBuilt)
         {
 
         }
 
-        public UserYearBuilt(JsonObject jsonObject)
+        public UserYearBuilt(JsonObject? jsonObject)
             : base(jsonObject)
         {
 
         }
 
         [JsonIgnore]
-        public override string Source => Core.Query.Description(YearBuiltSource);
+        public override string? Source => Core.Query.Description(YearBuiltSource);
 
         [JsonIgnore]
         public override YearBuiltSource YearBuiltSource => YearBuiltSource.User;
