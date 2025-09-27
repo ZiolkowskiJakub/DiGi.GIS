@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class OrtoRangeOptions : Options
+    public class OrtoRangeOptions : SerializableOptions
     {
         [JsonInclude, JsonPropertyName("Width")]
         public double Width { get; set; } = 300;

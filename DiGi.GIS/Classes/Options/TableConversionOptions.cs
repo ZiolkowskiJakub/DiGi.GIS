@@ -4,7 +4,7 @@ using DiGi.Core.Classes;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class TableConversionOptions : Options
+    public abstract class TableConversionOptions : SerializableOptions
     {
         [JsonInclude, JsonPropertyName("IncludeModel")]
         public bool IncludeModel { get; set; } = true;

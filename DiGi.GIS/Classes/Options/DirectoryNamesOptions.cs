@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public abstract class DirectoryNamesOptions : Options
+    public abstract class DirectoryNamesOptions : SerializableOptions
     {
         [JsonInclude, JsonPropertyName("DirectoryNames")]
         public string[]? DirectoryNames { get; set; }
