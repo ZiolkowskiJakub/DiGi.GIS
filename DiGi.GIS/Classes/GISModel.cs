@@ -52,6 +52,29 @@ namespace DiGi.GIS.Classes
             return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
         }
 
+        public T? GetObject<T>(string? reference) where T : GISGuidObject2D
+        {
+            if(string.IsNullOrWhiteSpace(reference))
+            {
+                return default;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<T>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
+            {
+                return null;
+            }
+
+            foreach(T gISGuidObject2D in gISGuidObject2Ds)
+            {
+                if(gISGuidObject2D?.Reference == reference)
+                {
+                    return gISGuidObject2D.Clone<T>();
+                }
+            }
+
+            return null;
+        }
+
         public HashSet<string>? GetReferences<T>() where T : GISGuidObject2D
         {
             if (uniqueObjectRelationCluster == null)
