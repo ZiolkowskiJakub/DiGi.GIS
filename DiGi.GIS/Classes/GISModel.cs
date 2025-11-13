@@ -2,6 +2,7 @@
 using DiGi.Core.Classes;
 using DiGi.Core.Relation.Classes;
 using DiGi.GIS.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
@@ -52,46 +53,33 @@ namespace DiGi.GIS.Classes
             return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
         }
 
-        public T? GetObject<T>(string? reference) where T : GISGuidObject2D
+        public TGISGuidObject2D? GetObject<TGISGuidObject2D>(string? reference) where TGISGuidObject2D : GISGuidObject2D
         {
-            if(string.IsNullOrWhiteSpace(reference))
+            if(!TryGetObject(reference, out TGISGuidObject2D result))
             {
                 return default;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetValues(out List<T>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
-            {
-                return null;
-            }
-
-            foreach(T gISGuidObject2D in gISGuidObject2Ds)
-            {
-                if(gISGuidObject2D?.Reference == reference)
-                {
-                    return gISGuidObject2D.Clone<T>();
-                }
-            }
-
-            return null;
+            return result;
         }
 
-        public HashSet<string>? GetReferences<T>() where T : GISGuidObject2D
+        public HashSet<string>? GetReferences<TGISGuidObject2D>() where TGISGuidObject2D : GISGuidObject2D
         {
             if (uniqueObjectRelationCluster == null)
             {
                 return null;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetValues(out List<T>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<TGISGuidObject2D>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
             {
                 return null;
             }
 
             HashSet<string> result = [];
-            foreach(T gISGuidObject2D in gISGuidObject2Ds)
+            foreach (TGISGuidObject2D gISGuidObject2D in gISGuidObject2Ds)
             {
                 string? reference = gISGuidObject2D?.Reference;
-                if(reference == null)
+                if (reference == null)
                 {
                     continue;
                 }
@@ -100,6 +88,35 @@ namespace DiGi.GIS.Classes
             }
 
             return result;
+        }
+
+        public virtual bool TryGetObject<TGISGuidObject2D>(string? reference, out TGISGuidObject2D? gISGuidObject2D) where TGISGuidObject2D : GISGuidObject2D
+        {
+            gISGuidObject2D = null;
+
+            if (string.IsNullOrWhiteSpace(reference))
+            {
+                return false;
+            }
+
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<TGISGuidObject2D>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
+            {
+                return false;
+            }
+
+            foreach (TGISGuidObject2D gISGuidObject2D_Temp in gISGuidObject2Ds)
+            {
+                if (gISGuidObject2D_Temp?.Reference == reference)
+                {
+                    gISGuidObject2D = gISGuidObject2D_Temp.Clone<TGISGuidObject2D>();
+                    if(gISGuidObject2D is not null)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
         
         public bool Update(ISource? source)
