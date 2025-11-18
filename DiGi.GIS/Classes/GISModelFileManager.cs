@@ -121,7 +121,7 @@ namespace DiGi.GIS.Classes
 
         public bool Remove(GuidExternalReference? guidExternalReference)
         {
-            if(guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
+            if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out _))
             {
                 return false;
             }

@@ -16,7 +16,7 @@ namespace DiGi.GIS
                 return Enums.CardinalDirection.Undefined;
             }
 
-            double normalizedAzimuth = ((azimuth % 360) + 360) % 360;
+            //double normalizedAzimuth = ((azimuth % 360) + 360) % 360;
 
             // Each direction covers 45°, centered on its main bearing
             // e.g. North is centered at 0°, NE at 45°, etc.

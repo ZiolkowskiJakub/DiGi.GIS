@@ -22,10 +22,7 @@ namespace DiGi.GIS
                 return double.NaN;
             }
 
-            if (referenceDirection is null)
-            {
-                referenceDirection = Geometry.Planar.Constans.Vector2D.WorldY;
-            }
+            referenceDirection ??= Geometry.Planar.Constans.Vector2D.WorldY;
 
             Vector2D? direction = rectangle2D.Height > rectangle2D.Width ? rectangle2D.WidthDirection : rectangle2D.HeightDirection;
             if(direction is null)

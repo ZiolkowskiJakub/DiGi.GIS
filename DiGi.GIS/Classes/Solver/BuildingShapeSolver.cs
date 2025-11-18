@@ -11,9 +11,9 @@ namespace DiGi.GIS.Classes
 {
     public class BuildingShapeSolver : IOneToOneSolver<Building2D, BuildingShape>
     {
-        private double tolerance = Core.Constans.Tolerance.Distance;
-        private double offset = 1.0;
-        private double thinnessRatio = 0.9;
+        private readonly double tolerance = Core.Constans.Tolerance.Distance;
+        private readonly double offset = 1.0;
+        private readonly double thinnessRatio = 0.9;
 
         private Building2D? input = null;
         private BuildingShape output = BuildingShape.Undefined;
@@ -97,7 +97,7 @@ namespace DiGi.GIS.Classes
                 }
             }
 
-            Polygonal2DSelfIntersectionSolver polygonal2DSelfIntersectionSolver = new Polygonal2DSelfIntersectionSolver(offset, tolerance);
+            Polygonal2DSelfIntersectionSolver polygonal2DSelfIntersectionSolver = new (offset, tolerance);
 
             List<IPolygonal2D>? polygonal2Ds = Geometry.Planar.Query.Difference(rectangle2D, externalEdge);
             if(polygonal2Ds is not null)

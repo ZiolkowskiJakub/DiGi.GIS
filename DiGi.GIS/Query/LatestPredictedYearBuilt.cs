@@ -25,6 +25,27 @@ namespace DiGi.GIS
 
             return yearBuiltData.GetLatestPredictedYearBuilt()?.Year;
         }
+
+        public static short? LatestPredictedYearBuilt(string? directory, Building2D? builidng2D)
+        {
+            if (directory == null || builidng2D == null)
+            {
+                return null;
+            }
+            string? reference = builidng2D.Reference;
+            if (string.IsNullOrWhiteSpace(reference))
+            {
+                return null;
+            }
+
+            Dictionary<string, YearBuiltData>? dictionary = YearBuiltDataDictionary<YearBuiltData>(directory, [reference!]);
+            if (dictionary == null || !dictionary.TryGetValue(reference!, out YearBuiltData yearBuiltData) || yearBuiltData == null)
+            {
+                return null;
+            }
+
+            return yearBuiltData.GetLatestPredictedYearBuilt()?.Year;
+        }
     }
 }
 

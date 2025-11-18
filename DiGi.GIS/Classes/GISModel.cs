@@ -55,7 +55,7 @@ namespace DiGi.GIS.Classes
 
         public TGISGuidObject2D? GetObject<TGISGuidObject2D>(string? reference) where TGISGuidObject2D : GISGuidObject2D
         {
-            if(!TryGetObject(reference, out TGISGuidObject2D result))
+            if(!TryGetObject(reference, out TGISGuidObject2D? result))
             {
                 return default;
             }
