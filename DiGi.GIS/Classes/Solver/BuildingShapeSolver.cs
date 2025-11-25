@@ -78,7 +78,7 @@ namespace DiGi.GIS.Classes
 
             double rectangleThinnesRatio = Geometry.Core.Query.RectangularThinnessRatio(area, rectangleArea);
 
-            double length = System.Math.Max(rectangle2D.Width, rectangle2D.Height);
+            double length = Math.Max(rectangle2D.Width, rectangle2D.Height);
 
             double squareThinnesRatio = Geometry.Core.Query.SquareThinnessRatio(area, length * length);
 

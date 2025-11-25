@@ -13,7 +13,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<string> values = [directory];
+            List<string> values = [directory!];
             if (directoryNames != null && directoryNames.Count() != 0)
             {
                 values.AddRange(directoryNames);
