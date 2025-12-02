@@ -1,4 +1,5 @@
-﻿using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Constans;
+using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
@@ -11,19 +12,28 @@ namespace DiGi.GIS.Classes
 {
     public class BuildingShapeSolver : IOneToOneSolver<Building2D, BuildingShape>
     {
-        private readonly double tolerance = Core.Constans.Tolerance.Distance;
+        private readonly double microTolerance = Tolerance.Distance;
+        private readonly double macroTolerance = Tolerance.MacroDistance;
         private readonly double offset = 1.0;
         private readonly double thinnessRatio = 0.9;
 
         private Building2D? input = null;
         private BuildingShape output = BuildingShape.Undefined;
 
+        private double areaFactor = 0.5;
+        private double aspectRatioFactor = 0.3;
+        private double rectangleThinnessRatioFactor = 0.2;
 
-        public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double tolerance = Core.Constans.Tolerance.Distance)
+        private double scoreFactor = 0.7;
+
+        private double minRectangleThinnessRatio = 0.5;
+
+        public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double microTolerance = Tolerance.Distance, double macroTolerance = Tolerance.MacroDistance)
         {
             this.offset = offset;
             this.thinnessRatio = thinnessRatio;
-            this.tolerance = tolerance;
+            this.microTolerance = microTolerance;
+            this.macroTolerance = macroTolerance;
         }
 
         public Building2D? Input
@@ -54,12 +64,12 @@ namespace DiGi.GIS.Classes
             List<IPolygonal2D>? internalEdges = input?.PolygonalFace2D?.InternalEdges;
 
             double area = externalEdge.GetArea();
-            if(area <= tolerance)
+            if(area <= microTolerance)
             {
                 return false;
             }
 
-            if (Geometry.Planar.Create.Rectangle2D(externalEdge, tolerance) is not Rectangle2D rectangle2D)
+            if (Geometry.Planar.Create.Rectangle2D(externalEdge, microTolerance) is not Rectangle2D rectangle2D)
             {
                 return false;
             }
@@ -97,25 +107,74 @@ namespace DiGi.GIS.Classes
                 }
             }
 
-            Polygonal2DSelfIntersectionSolver polygonal2DSelfIntersectionSolver = new (offset, tolerance);
-
             List<IPolygonal2D>? polygonal2Ds = Geometry.Planar.Query.Difference(rectangle2D, externalEdge);
             if(polygonal2Ds is not null)
             {
                 for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
                 {
-                    if (polygonal2Ds[i].RectangularThinnessRatio(tolerance) < 1 - thinnessRatio)
+                    if (Geometry.Planar.Query.SelfIntersectionPolygons(polygonal2Ds[i], offset, macroTolerance) is not List<Polygon2D> polygon2Ds || polygon2Ds.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    polygonal2Ds.RemoveAt(i);
+
+                    for (int j = polygon2Ds.Count - 1; j >= 0; j--)
+                    {
+                         polygonal2Ds.Add(polygon2Ds[j]);
+                    }
+                }
+
+                List<Tuple<double, IPolygonal2D>> tuples_Polygonal2D = [];
+                for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
+                {
+                    double area_Temp = polygonal2Ds[i].GetArea();
+                    if (area_Temp < macroTolerance)
                     {
                         polygonal2Ds.RemoveAt(i);
                         continue;
                     }
 
-                    polygonal2DSelfIntersectionSolver.Input = polygonal2Ds[i];
-                    if (polygonal2DSelfIntersectionSolver.Solve())
-                    {
-                        if (polygonal2DSelfIntersectionSolver.Output is IPolygonal2D polygonal2D_Output)
+                    tuples_Polygonal2D.Add(new Tuple<double, IPolygonal2D>(area_Temp, polygonal2Ds[i]));                   
+                }
 
-                            polygonal2Ds[i] = polygonal2D_Output;
+                if(tuples_Polygonal2D.Count != 0)
+                {
+                    double maxArea = tuples_Polygonal2D.Max(x => x.Item1);
+
+                    for (int i = tuples_Polygonal2D.Count - 1; i >= 0; i--)
+                    {
+                        IPolygonal2D polygonal2D = tuples_Polygonal2D[i].Item2;
+
+                        Rectangle2D? rectangle2D_Temp = Geometry.Planar.Create.Rectangle2D(polygonal2D, microTolerance);
+                        if (rectangle2D_Temp is null)
+                        {
+                            tuples_Polygonal2D.RemoveAt(i);
+                            continue;
+                        }
+
+                        double aspectRatio = Geometry.Planar.Query.AspectRatio(rectangle2D_Temp);
+                        if (aspectRatio < 1 - thinnessRatio)
+                        {
+                            tuples_Polygonal2D.RemoveAt(i);
+                            continue;
+                        }
+
+                        double rectangleThinnesRatio_Temp = polygonal2D.RectangularThinnessRatio(microTolerance);
+                        if (rectangleThinnesRatio_Temp < 1 - thinnessRatio)
+                        {
+                            tuples_Polygonal2D.RemoveAt(i);
+                            continue;
+                        }
+
+                        tuples_Polygonal2D[i] = new Tuple<double, IPolygonal2D>(areaFactor * (tuples_Polygonal2D[i].Item1 / maxArea) + aspectRatioFactor * aspectRatio + rectangleThinnessRatioFactor * rectangleThinnesRatio_Temp, polygonal2D);
+                    }
+
+                    if (tuples_Polygonal2D.Count != 0)
+                    {
+                        double minScore = tuples_Polygonal2D.Max(x => x.Item1) * scoreFactor;
+
+                        polygonal2Ds = tuples_Polygonal2D.FindAll(x => x.Item1 >= minScore).ConvertAll(x => x.Item2);
                     }
                 }
             }
@@ -145,7 +204,7 @@ namespace DiGi.GIS.Classes
                 return false;
             }
             
-            double minArea = rectangle2D_Offset.GetArea() / 9;
+            double minArea = rectangle2D_Offset.GetArea() / 9 * Math.Max(rectangleThinnesRatio, minRectangleThinnessRatio);
 
             for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
             {
@@ -204,7 +263,7 @@ namespace DiGi.GIS.Classes
                 IPolygonal2D polygonal2D = polygonal2Ds[i];
                 foreach (Tuple<int, Segment2D> tuple in tuples)
                 {
-                    if(tuple.Item2.Intersect(polygonal2D, tolerance))
+                    if(tuple.Item2.Intersect(polygonal2D, microTolerance))
                     {
                         if(!dictionary.TryGetValue(tuple.Item1, out HashSet<int> polygonal2Ds_Index))
                         {

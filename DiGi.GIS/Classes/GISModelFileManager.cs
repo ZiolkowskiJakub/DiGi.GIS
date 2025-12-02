@@ -1,7 +1,6 @@
 ﻿using DiGi.GIS.Interfaces;
 using System.Collections.Generic;
 using DiGi.Core.Classes;
-using System.Net.Http.Headers;
 
 namespace DiGi.GIS.Classes
 {
