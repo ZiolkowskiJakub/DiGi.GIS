@@ -26,7 +26,7 @@ namespace DiGi.GIS.Classes
 
         private double scoreFactor = 0.7;
 
-        private double minRectangleThinnessRatio = 0.5;
+        //private double minRectangleThinnessRatio = 0.5;
 
         public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double microTolerance = Tolerance.Distance, double macroTolerance = Tolerance.MacroDistance)
         {
@@ -107,7 +107,7 @@ namespace DiGi.GIS.Classes
                 }
             }
 
-            List<IPolygonal2D>? polygonal2Ds = Geometry.Planar.Query.Difference(rectangle2D, externalEdge);
+            List<IPolygonal2D>? polygonal2Ds = Geometry.Planar.Query.Difference(rectangle2D.Offset(-macroTolerance), externalEdge);
             if(polygonal2Ds is not null)
             {
                 for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
@@ -203,8 +203,8 @@ namespace DiGi.GIS.Classes
                 output = BuildingShape.Undefined;
                 return false;
             }
-            
-            double minArea = rectangle2D_Offset.GetArea() / 9 * Math.Max(rectangleThinnesRatio, minRectangleThinnessRatio);
+
+            double minArea = rectangle2D_Offset.GetArea() / 18;//9 * Math.Max(rectangleThinnesRatio, minRectangleThinnessRatio);
 
             for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
             {
