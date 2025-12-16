@@ -7,18 +7,19 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static Dictionary<string, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<string>? references)
+        public static Dictionary<string, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<string>? references, out Dictionary<string, string>? pathDictionary)
         {
-            if(string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
+            pathDictionary = null;
+            if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
             {
                 return null;
             }
 
             HashSet<UniqueReference> uniqueReferences = [];
-            foreach(string reference in references)
+            foreach (string reference in references)
             {
                 UniqueReference? uniqueReference = OrtoDatasFile.GetUniqueReference(reference);
-                if(uniqueReference is null)
+                if (uniqueReference is null)
                 {
                     continue;
                 }
@@ -27,19 +28,20 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, OrtoDatas> result = [];
-            
+
             if (uniqueReferences.Count == 0)
             {
                 return result;
             }
 
             string[] paths = System.IO.Directory.GetFiles(directory, string.Format("*.{0}", Constans.FileExtension.OrtoDatasFile));
-            if(paths == null || paths.Length == 0)
+            if (paths == null || paths.Length == 0)
             {
                 return result;
             }
 
-            foreach(string path in paths)
+            pathDictionary = [];
+            foreach (string path in paths)
             {
                 using OrtoDatasFile ortoDatasFile = new(path);
 
@@ -61,6 +63,7 @@ namespace DiGi.GIS
                     if (uniqueReference?.UniqueId is string uniqueId)
                     {
                         result[uniqueId] = ortoDatasList[i]!;
+                        pathDictionary[uniqueId] = path;
                     }
 
                     if (uniqueReference is not null)
@@ -71,6 +74,62 @@ namespace DiGi.GIS
                     if (uniqueReferences.Count == 0)
                     {
                         return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<string>? references)
+        {
+            return OrtoDatasDictionary(directory, references, out _);
+        }
+
+        public static Dictionary<GuidReference, OrtoDatas>? OrtoDatasDictionary(string? directory, IEnumerable<Building2D>? building2Ds, out Dictionary<GuidReference, string>? pathDictionary)
+        {
+            pathDictionary = null;
+            if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)
+            {
+                return null;
+            }
+
+            Dictionary<string, GuidReference> dictionary = [];
+            foreach (Building2D building2D in building2Ds)
+            {
+                string? reference = building2D?.Reference;
+                if (reference == null)
+                {
+                    continue;
+                }
+
+                dictionary[reference] = new GuidReference(building2D);
+            }
+
+            Dictionary<string, OrtoDatas>? ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys, out Dictionary<string, string>? pathDictionary_Temp);
+            if (ortoDatasDictionary == null)
+            {
+                return null;
+            }
+
+            pathDictionary = [];
+
+            Dictionary<GuidReference, OrtoDatas> result = [];
+            if (ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
+            {
+                foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
+                {
+                    string reference = keyValuePair.Key;
+
+                    if (reference == null || !ortoDatasDictionary.TryGetValue(reference, out OrtoDatas ortoDatas))
+                    {
+                        continue;
+                    }
+
+                    result[keyValuePair.Value] = ortoDatas;
+                    if(pathDictionary_Temp != null && pathDictionary_Temp.TryGetValue(reference, out string path))
+                    {
+                        pathDictionary[keyValuePair.Value] = path;
                     }
                 }
             }

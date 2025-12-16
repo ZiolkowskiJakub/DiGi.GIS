@@ -53,13 +53,62 @@ namespace DiGi.GIS
                         }
 
                         GuidReference guidReference = new (building2D);
-                        if (dictionary.ContainsKey(guidReference))
+                        //if (dictionary.ContainsKey(guidReference))
+                        //{
+                        //    building2Ds_Temp_Temp.Remove(building2D);
+                        //}
+
+                        if (dictionary.TryGetValue(guidReference, out OrtoDatas ortoDatas) && ortoDatas != null)
                         {
                             building2Ds_Temp_Temp.Remove(building2D);
                         }
                     }
 
                     building2Ds_Temp = building2Ds_Temp_Temp;
+                }
+            }
+            else
+            {
+                Dictionary<GuidReference, OrtoDatas>? dictionary = Query.OrtoDatasDictionary(directory, building2Ds_Temp, out Dictionary<GuidReference, string>? pathDictionary);
+                if (dictionary != null && dictionary.Count != 0 && pathDictionary != null && pathDictionary.Count != 0)
+                {
+                    Dictionary<string, List<GuidReference>> dictionary_GuidReference = [];
+                    foreach (KeyValuePair<GuidReference, string> keyValuePair in pathDictionary)
+                    {
+                        if(!dictionary_GuidReference.TryGetValue(keyValuePair.Value, out List<GuidReference> guidReferences) || guidReferences == null)
+                        {
+                            guidReferences = [];
+                            dictionary_GuidReference[keyValuePair.Value] = guidReferences;
+                        }
+
+                        guidReferences.Add(keyValuePair.Key);
+                    }
+
+                    foreach(KeyValuePair<string, List<GuidReference>> keyValuePair in dictionary_GuidReference)
+                    {
+                        using OrtoDatasFile ortoDatasFile = new(keyValuePair.Key);
+                        ortoDatasFile.Open();
+
+                        List<UniqueReference> uniqueReferences = [];
+                        foreach (GuidReference guidReference in keyValuePair.Value)
+                        {
+                            if (!dictionary.TryGetValue(guidReference, out OrtoDatas ortoDatas) || ortoDatas is null)
+                            {
+                                continue;
+                            }
+
+                            if (ortoDatasFile.GetUniqueReference(ortoDatas) is not UniqueReference uniqueReference)
+                            {
+                                continue;
+                            }
+
+                            uniqueReferences.Add(uniqueReference);
+                        }
+
+                        ortoDatasFile.Remove(uniqueReferences);
+
+                        ortoDatasFile.Save();
+                    }
                 }
             }
 
