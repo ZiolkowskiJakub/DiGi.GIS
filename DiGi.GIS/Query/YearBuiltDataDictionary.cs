@@ -97,6 +97,13 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TYearBuiltData">Type of YesrBuiltData</typeparam>
+        /// <param name="directory">Directory where YearBuiltDataFile (*.ybdf) is located</param>
+        /// <param name="references">Building2D references</param>
+        /// <returns></returns>
         public static Dictionary<string, TYearBuiltData>? YearBuiltDataDictionary<TYearBuiltData>(string? directory, IEnumerable<string>? references) where TYearBuiltData : IYearBuiltData
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
