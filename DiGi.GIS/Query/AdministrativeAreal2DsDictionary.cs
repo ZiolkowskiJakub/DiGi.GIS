@@ -1,5 +1,6 @@
 ﻿using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,13 +16,13 @@ namespace DiGi.GIS
                 return null;
             }
 
-            Dictionary<GuidReference, List<UAdministrativeAreal2D>?> result = [];
-
             List<AdministrativeAreal2DBuilding2DsRelation>? administrativeAreal2DBuilding2DsRelations = gISModel.GetRelations<AdministrativeAreal2DBuilding2DsRelation>();
             if (administrativeAreal2DBuilding2DsRelations == null || administrativeAreal2DBuilding2DsRelations.Count == 0)
             {
-                return result;
+                return [];
             }
+
+            Dictionary<string, GuidReference> dictionary_GuidReference = [];
 
             foreach (Building2D building2D in building2Ds)
             {
@@ -30,44 +31,57 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                result[new GuidReference(building2D)] = null;
-            }
-
-            Parallel.ForEach(building2Ds, building2D =>
-            {
                 GuidReference guidReference = new(building2D);
 
-                foreach (AdministrativeAreal2DBuilding2DsRelation administrativeAreal2DBuilding2DsRelation in administrativeAreal2DBuilding2DsRelations)
+                dictionary_GuidReference[guidReference.ToString()!] = guidReference;
+            }
+
+            int count = administrativeAreal2DBuilding2DsRelations.Count;
+
+            HashSet<string>[] hashSets = new HashSet<string>[count];
+            List<UAdministrativeAreal2D>?[] administrativeAreal2Ds = new List<UAdministrativeAreal2D>?[count];
+            for (int i = 0; i < count; i++)
+            {
+                HashSet<string> hashSet = [];
+                administrativeAreal2DBuilding2DsRelations[i].UniqueReferences_To?.ForEach(x => hashSet.Add(x.ToString()));
+                hashSets[i] = hashSet;
+
+                administrativeAreal2Ds[i] = gISModel.GetObjects<UAdministrativeAreal2D>(administrativeAreal2DBuilding2DsRelations[i], Core.Relation.Enums.RelationSide.From);
+            }
+
+            ConcurrentDictionary<GuidReference, List<UAdministrativeAreal2D>?> concurrentDictionary = new();
+
+            Parallel.For(0, count, i =>
+            {
+                HashSet<string> hashSet = hashSets[i];
+                List<UAdministrativeAreal2D>? administrativeAreal2Ds_Temp = administrativeAreal2Ds[i];
+
+                if (administrativeAreal2Ds_Temp == null || administrativeAreal2Ds_Temp.Count == 0)
                 {
-                    if (administrativeAreal2DBuilding2DsRelation == null || !administrativeAreal2DBuilding2DsRelation.Contains(Core.Relation.Enums.RelationSide.To, guidReference))
+                    return;
+                }
+
+                foreach (KeyValuePair<string, GuidReference> pair in dictionary_GuidReference)
+                {
+                    if (!hashSet.Contains(pair.Key))
                     {
                         continue;
                     }
 
-                    List<UAdministrativeAreal2D>? administrativeAreal2Ds = gISModel.GetObjects<UAdministrativeAreal2D>(administrativeAreal2DBuilding2DsRelation, Core.Relation.Enums.RelationSide.From);
-                    if (administrativeAreal2Ds == null || administrativeAreal2Ds.Count == 0)
+                    List<UAdministrativeAreal2D>? administrativeAreal2Ds_Current = concurrentDictionary.GetOrAdd(pair.Value, _ => []);
+                    if (administrativeAreal2Ds_Current is null)
                     {
                         continue;
                     }
 
-                    if (!result.TryGetValue(guidReference, out List<UAdministrativeAreal2D>? administrativeAreal2Ds_Temp) || administrativeAreal2Ds_Temp == null)
+                    lock (administrativeAreal2Ds_Current)
                     {
-                        administrativeAreal2Ds_Temp = [];
-                        result[guidReference] = administrativeAreal2Ds_Temp;
-                    }
-
-                    foreach (UAdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
-                    {
-                        UAdministrativeAreal2D administrativeAreal2D_Temp = administrativeAreal2Ds_Temp.Find(x => x.Guid == administrativeAreal2D.Guid);
-                        if (administrativeAreal2D_Temp == null)
-                        {
-                            administrativeAreal2Ds_Temp.Add(administrativeAreal2D);
-                        }
+                        administrativeAreal2Ds_Current.AddRange(administrativeAreal2Ds_Temp);
                     }
                 }
             });
 
-            return result;
+            return new Dictionary<GuidReference, List<UAdministrativeAreal2D>?>(concurrentDictionary);
         }
     }
 }
