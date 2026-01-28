@@ -13,15 +13,14 @@ namespace DiGi.GIS.Classes
         public StatisticalYearlyData(string? name, string? reference)
             : base(name, reference)
         {
-
         }
 
         public StatisticalYearlyData(string? name, string? reference, IEnumerable<KeyValuePair<short, T>>? values)
             : base(name, reference)
         {
-            if(values != null)
+            if (values != null)
             {
-                foreach(KeyValuePair<short, T> keyValuePair in values)
+                foreach (KeyValuePair<short, T> keyValuePair in values)
                 {
                     sortedDictionary[keyValuePair.Key] = keyValuePair.Value;
                 }
@@ -33,9 +32,9 @@ namespace DiGi.GIS.Classes
         {
             if (statisticalYearlyData != null)
             {
-                if(statisticalYearlyData.sortedDictionary != null)
+                if (statisticalYearlyData.sortedDictionary != null)
                 {
-                    foreach(KeyValuePair<short, T> keyValuePair in statisticalYearlyData.sortedDictionary)
+                    foreach (KeyValuePair<short, T> keyValuePair in statisticalYearlyData.sortedDictionary)
                     {
                         sortedDictionary[keyValuePair.Key] = keyValuePair.Value;
                     }
@@ -46,7 +45,6 @@ namespace DiGi.GIS.Classes
         public StatisticalYearlyData(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -62,7 +60,7 @@ namespace DiGi.GIS.Classes
         {
             get
             {
-                if(!sortedDictionary.TryGetValue(year, out T result))
+                if (!sortedDictionary.TryGetValue(year, out T result))
                 {
                     return default;
                 }
@@ -72,7 +70,7 @@ namespace DiGi.GIS.Classes
 
             set
             {
-                if(value is null)
+                if (value is null)
                 {
                     return;
                 }

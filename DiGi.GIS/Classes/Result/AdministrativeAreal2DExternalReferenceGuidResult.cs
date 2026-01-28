@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public AdministrativeAreal2DExternalReferenceGuidResult(InstanceRelatedExternalReference reference)
             : base(reference)
         {
-
         }
 
         public AdministrativeAreal2DExternalReferenceGuidResult(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public AdministrativeAreal2DExternalReferenceGuidResult(AdministrativeAreal2DExternalReferenceGuidResult administrativeAreal2DExternalReferenceGuidResult)
             : base(administrativeAreal2DExternalReferenceGuidResult)
         {
-
         }
     }
 }

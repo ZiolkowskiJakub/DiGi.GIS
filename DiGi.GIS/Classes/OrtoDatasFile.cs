@@ -13,7 +13,7 @@ namespace DiGi.GIS.Classes
 
         public static UniqueReference? GetUniqueReference(string? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return null;
             }
@@ -24,19 +24,16 @@ namespace DiGi.GIS.Classes
         public OrtoDatasFile(OrtoDatasFile? ortoDatasFile)
             : base(ortoDatasFile)
         {
-
         }
 
         public OrtoDatasFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public OrtoDatasFile(string? path)
-            : base(path) 
+            : base(path)
         {
-            
         }
     }
 }

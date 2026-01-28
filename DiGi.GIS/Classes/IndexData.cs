@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -27,7 +27,7 @@ namespace DiGi.GIS.Classes
         public IndexData(IndexData? indexData)
             : base(indexData)
         {
-            if(indexData != null)
+            if (indexData != null)
             {
                 index = indexData.index;
                 reference = indexData.reference;
@@ -36,9 +36,8 @@ namespace DiGi.GIS.Classes
         }
 
         public IndexData(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

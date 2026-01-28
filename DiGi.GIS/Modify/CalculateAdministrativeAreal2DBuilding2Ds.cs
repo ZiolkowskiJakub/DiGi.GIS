@@ -11,25 +11,24 @@ namespace DiGi.GIS
         public static void CalculateAdministrativeAreal2DBuilding2Ds(this GISModel? gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
-            if(building2Ds == null)
+            if (building2Ds == null)
             {
                 return;
             }
 
             List<Tuple<Building2D, Building2DGeometryCalculationResult>> tuples_Building2D = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 Building2DGeometryCalculationResult? building2DGeometryCalculationResult = gISModel!.GetRelatedObject<Building2DGeometryCalculationResult>(building2D);
                 building2DGeometryCalculationResult ??= Create.Building2DGeometryCalculationResult(building2D);
 
-                if(building2DGeometryCalculationResult is null)
+                if (building2DGeometryCalculationResult is null)
                 {
                     continue;
                 }
 
                 tuples_Building2D.Add(new Tuple<Building2D, Building2DGeometryCalculationResult>(building2D, building2DGeometryCalculationResult));
             }
-
 
             List<AdministrativeAreal2D>? administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
             if (administrativeAreal2Ds == null)
@@ -43,7 +42,7 @@ namespace DiGi.GIS
                 AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult = gISModel!.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
                 administrativeAreal2DGeometryCalculationResult ??= Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);
 
-                if(administrativeAreal2DGeometryCalculationResult is null)
+                if (administrativeAreal2DGeometryCalculationResult is null)
                 {
                     continue;
                 }
@@ -51,8 +50,8 @@ namespace DiGi.GIS
                 tuples_AdministrativeAreal2D.Add(new Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult));
             }
 
-            Func<List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>, Point2D, List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>> func = new((tuples, point2D) => {
-
+            Func<List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>, Point2D, List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>> func = new((tuples, point2D) =>
+            {
                 List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_AdministrativeAreal2D_Temp = tuples.FindAll(x => x?.Item2?.BoundingBox is BoundingBox2D boundingBox2D && boundingBox2D.InRange(point2D, tolerance) && x.Item1.PolygonalFace2D is PolygonalFace2D polygonalFace2D && polygonalFace2D.Inside(point2D, tolerance));
                 if (tuples_AdministrativeAreal2D_Temp.Count == 0)
                 {
@@ -61,7 +60,7 @@ namespace DiGi.GIS
                     List<Tuple<AdministrativeAreal2D, double>> tuple_Distances = [];
                     foreach (Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple_AdministrativeAreal2D in tuples)
                     {
-                        tuple_Distances.Add(new Tuple<AdministrativeAreal2D, double>(tuple_AdministrativeAreal2D.Item1, tuple_AdministrativeAreal2D?.Item1?.PolygonalFace2D?.ExternalEdge is IPolygonal2D polygonal2D ?  tuple_AdministrativeAreal2D.Item1.PolygonalFace2D.ExternalEdge.Distance(point2D) : double.MaxValue ));
+                        tuple_Distances.Add(new Tuple<AdministrativeAreal2D, double>(tuple_AdministrativeAreal2D.Item1, tuple_AdministrativeAreal2D?.Item1?.PolygonalFace2D?.ExternalEdge is IPolygonal2D polygonal2D ? tuple_AdministrativeAreal2D.Item1.PolygonalFace2D.ExternalEdge.Distance(point2D) : double.MaxValue));
                     }
 
                     tuple_Distances.Sort((x, y) => x.Item2.CompareTo(y.Item2));
@@ -81,10 +80,10 @@ namespace DiGi.GIS
 
             Dictionary<AdministrativeAreal2D, List<Building2D>> dictionary = [];
 
-            foreach(Tuple<Building2D, Building2DGeometryCalculationResult> tuple_Building2D in tuples_Building2D)
+            foreach (Tuple<Building2D, Building2DGeometryCalculationResult> tuple_Building2D in tuples_Building2D)
             {
                 Point2D? internalPoint = tuple_Building2D.Item2.InternalPoint;
-                if(internalPoint == null)
+                if (internalPoint == null)
                 {
                     continue;
                 }
@@ -92,7 +91,7 @@ namespace DiGi.GIS
                 List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>>? tuples_AdministrativeAreal2D_Temp = null;
 
                 tuples_AdministrativeAreal2D_Temp = func.Invoke(tuples_AdministrativeAreal2D_Subdivision, internalPoint);
-                if(tuples_AdministrativeAreal2D_Temp != null)
+                if (tuples_AdministrativeAreal2D_Temp != null)
                 {
                     tuples_AdministrativeAreal2D_Temp.Sort((x, y) => x.Item2.Area.CompareTo(y.Item2.Area));
 
@@ -112,7 +111,7 @@ namespace DiGi.GIS
                 {
                     tuples_AdministrativeAreal2D_Temp.Sort((x, y) => x.Item2.Area.CompareTo(y.Item2.Area));
 
-                    foreach(AdministrativeAreal2D administrativeAreal2D in tuples_AdministrativeAreal2D_Temp.ConvertAll(x => x.Item1))
+                    foreach (AdministrativeAreal2D administrativeAreal2D in tuples_AdministrativeAreal2D_Temp.ConvertAll(x => x.Item1))
                     {
                         if (!dictionary.TryGetValue(administrativeAreal2D, out List<Building2D> buidling2Ds))
                         {
@@ -122,15 +121,13 @@ namespace DiGi.GIS
 
                         buidling2Ds.Add(tuple_Building2D.Item1);
                     }
-
                 }
             }
 
-            foreach(KeyValuePair<AdministrativeAreal2D, List<Building2D>> keyValuePair in dictionary)
+            foreach (KeyValuePair<AdministrativeAreal2D, List<Building2D>> keyValuePair in dictionary)
             {
                 gISModel!.Update(keyValuePair.Key, keyValuePair.Value);
             }
         }
     }
 }
-

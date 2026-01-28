@@ -95,7 +95,7 @@ namespace DiGi.GIS
 
         public static async Task<bool> Write(this StatisticalUnit? statisticalUnit, string? path, IEnumerable<Variable>? variables, Range<int>? years)
         {
-            if(statisticalUnit == null || variables == null || years == null || string.IsNullOrWhiteSpace(path))
+            if (statisticalUnit == null || variables == null || years == null || string.IsNullOrWhiteSpace(path))
             {
                 return false;
             }
@@ -107,7 +107,7 @@ namespace DiGi.GIS
             }
 
             List<int> years_Temp = [];
-            for(int i = years.Min; i <= years.Max; i++)
+            for (int i = years.Min; i <= years.Max; i++)
             {
                 years_Temp.Add(i);
             }
@@ -117,7 +117,7 @@ namespace DiGi.GIS
 
         public static async Task<bool> Write(this string? code, string? path, IEnumerable<Variable>? variables, IEnumerable<int>? years, bool overrideExisting = false)
         {
-            if(string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
+            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(path) || variables == null || variables.Count() == 0 || years == null || years.Count() == 0)
             {
                 return false;
             }
@@ -138,7 +138,7 @@ namespace DiGi.GIS
 
             List<Variable> variables_Temp = [.. variables];
 
-            if(statisticalDataCollection != null && !overrideExisting)
+            if (statisticalDataCollection != null && !overrideExisting)
             {
                 for (int i = variables_Temp.Count - 1; i >= 0; i--)
                 {
@@ -149,7 +149,7 @@ namespace DiGi.GIS
                 }
             }
 
-            if(variables_Temp.Count == 0)
+            if (variables_Temp.Count == 0)
             {
                 return false;
             }
@@ -160,7 +160,7 @@ namespace DiGi.GIS
                 return false;
             }
 
-            if(statisticalDataCollection == null)
+            if (statisticalDataCollection == null)
             {
                 statisticalDataCollection = unitYearlyValues.ToDiGi();
             }

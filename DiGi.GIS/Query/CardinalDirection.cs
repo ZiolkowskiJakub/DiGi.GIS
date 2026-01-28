@@ -11,7 +11,7 @@ namespace DiGi.GIS
         /// <returns>CardinalDirection</returns>
         public static CardinalDirection CardinalDirection(this double azimuth)
         {
-            if(double.IsNaN(azimuth))
+            if (double.IsNaN(azimuth))
             {
                 return Enums.CardinalDirection.Undefined;
             }
@@ -63,10 +63,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-
-
-
-
-
-

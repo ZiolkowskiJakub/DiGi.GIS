@@ -36,7 +36,6 @@ namespace DiGi.GIS.Classes
         public YearBuiltData(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -124,15 +123,15 @@ namespace DiGi.GIS.Classes
 
             return null;
         }
-        
+
         public List<PredictedYearBuilt>? GetPredictedYearBuilts()
         {
-            if(yearBuilts == null)
+            if (yearBuilts == null)
             {
                 return null;
             }
 
-            List < PredictedYearBuilt > result = [];
+            List<PredictedYearBuilt> result = [];
             foreach (IYearBuilt yearBuilt in yearBuilts.Values)
             {
                 if (yearBuilt is PredictedYearBuilt predictedYearBuilt)
@@ -193,22 +192,21 @@ namespace DiGi.GIS.Classes
             }
 
             List<string> sources = [];
-            foreach(KeyValuePair<string, IYearBuilt> keyValuePair in yearBuilts)
+            foreach (KeyValuePair<string, IYearBuilt> keyValuePair in yearBuilts)
             {
-                if(keyValuePair.Value is PredictedYearBuilt)
+                if (keyValuePair.Value is PredictedYearBuilt)
                 {
                     sources.Add(keyValuePair.Key);
                 }
             }
 
-            foreach(string source in sources)
+            foreach (string source in sources)
             {
-                if(yearBuilts.Remove(source))
+                if (yearBuilts.Remove(source))
                 {
                     result = true;
                 }
             }
-
 
             return result;
         }
@@ -222,7 +220,7 @@ namespace DiGi.GIS.Classes
         {
             return Add(new PredictedYearBuilt(dateTime, year));
         }
-        
+
         public bool SetUserYearBuilt(short year)
         {
             return Add(new UserYearBuilt(year));
@@ -232,12 +230,12 @@ namespace DiGi.GIS.Classes
         {
             yearBuilt = default;
 
-            if(source == null || yearBuilts == null)
+            if (source == null || yearBuilts == null)
             {
                 return false;
             }
 
-            if(!yearBuilts.TryGetValue(source, out IYearBuilt yearBuilt_Temp) || yearBuilt_Temp is not TYearBuilt)
+            if (!yearBuilts.TryGetValue(source, out IYearBuilt yearBuilt_Temp) || yearBuilt_Temp is not TYearBuilt)
             {
                 return false;
             }

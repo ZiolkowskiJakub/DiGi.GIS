@@ -12,7 +12,6 @@ namespace DiGi.GIS.Classes
         public DirectorySource(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public DirectorySource(string? directory)
@@ -21,9 +20,9 @@ namespace DiGi.GIS.Classes
         }
 
         public DirectorySource(DirectorySource? directorySource)
-            :base(directorySource)
+            : base(directorySource)
         {
-            if(directorySource != null)
+            if (directorySource != null)
             {
                 directory = directorySource.directory;
             }
@@ -37,6 +36,5 @@ namespace DiGi.GIS.Classes
                 return directory;
             }
         }
-
     }
 }

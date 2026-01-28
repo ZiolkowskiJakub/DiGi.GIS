@@ -12,7 +12,6 @@ namespace DiGi.GIS.Classes
     {
         public GISModel()
         {
-
         }
 
         public GISModel(ISource? source)
@@ -21,15 +20,13 @@ namespace DiGi.GIS.Classes
         }
 
         public GISModel(GISModel? gISModel)
-            :base(gISModel)
+            : base(gISModel)
         {
-
         }
 
         public GISModel(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public bool Contains(Building2D? building2D)
@@ -54,7 +51,7 @@ namespace DiGi.GIS.Classes
 
         public TGISGuidObject2D? GetObject<TGISGuidObject2D>(string? reference) where TGISGuidObject2D : GISGuidObject2D
         {
-            if(!TryGetObject(reference, out TGISGuidObject2D? result))
+            if (!TryGetObject(reference, out TGISGuidObject2D? result))
             {
                 return default;
             }
@@ -108,7 +105,7 @@ namespace DiGi.GIS.Classes
                 if (gISGuidObject2D_Temp?.Reference == reference)
                 {
                     gISGuidObject2D = gISGuidObject2D_Temp.Clone<TGISGuidObject2D>();
-                    if(gISGuidObject2D is not null)
+                    if (gISGuidObject2D is not null)
                     {
                         return true;
                     }
@@ -117,7 +114,7 @@ namespace DiGi.GIS.Classes
 
             return false;
         }
-        
+
         public bool Update(ISource? source)
         {
             if (source == null)
@@ -126,7 +123,7 @@ namespace DiGi.GIS.Classes
             }
 
             List<ISource> sources = uniqueObjectRelationCluster.GetValues<ISource>();
-            if(sources != null && sources.Count != 0)
+            if (sources != null && sources.Count != 0)
             {
                 uniqueObjectRelationCluster.Remove(source);
             }

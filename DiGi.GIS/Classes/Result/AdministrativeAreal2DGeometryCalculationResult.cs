@@ -30,7 +30,6 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Area")]
         private readonly double area = double.NaN;
 
-
         public AdministrativeAreal2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area)
             : base()
         {
@@ -44,9 +43,9 @@ namespace DiGi.GIS.Classes
         }
 
         public AdministrativeAreal2DGeometryCalculationResult(AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult)
-            :base(administrativeAreal2DGeometryCalculationResult)
+            : base(administrativeAreal2DGeometryCalculationResult)
         {
-            if(administrativeAreal2DGeometryCalculationResult != null)
+            if (administrativeAreal2DGeometryCalculationResult != null)
             {
                 boundingBox = administrativeAreal2DGeometryCalculationResult.boundingBox?.Clone<BoundingBox2D>();
                 rectangle = administrativeAreal2DGeometryCalculationResult.rectangle?.Clone<Rectangle2D>();
@@ -61,7 +60,6 @@ namespace DiGi.GIS.Classes
         public AdministrativeAreal2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

@@ -10,7 +10,7 @@ namespace DiGi.GIS
     {
         public static async Task<HashSet<GuidReference>?> CalculateOrtoDatas(this IEnumerable<Building2D>? building2Ds, string? path, OrtoDatasBuilding2DOptions? ortoDatasBuilding2DOptions, bool overrideExisting = false)
         {
-            if(building2Ds == null)
+            if (building2Ds == null)
             {
                 return null;
             }
@@ -29,10 +29,10 @@ namespace DiGi.GIS
             ortoDatasBuilding2DOptions ??= new OrtoDatasBuilding2DOptions();
 
             directory = ortoDatasBuilding2DOptions.Directory(directory);
-            if(!System.IO.Directory.Exists(directory))
+            if (!System.IO.Directory.Exists(directory))
             {
                 System.IO.DirectoryInfo directoryInfo = System.IO.Directory.CreateDirectory(directory);
-                if(directoryInfo == null)
+                if (directoryInfo == null)
                 {
                     return null;
                 }
@@ -47,12 +47,12 @@ namespace DiGi.GIS
                     List<Building2D> building2Ds_Temp_Temp = [.. building2Ds_Temp];
                     foreach (Building2D building2D in building2Ds_Temp)
                     {
-                        if(building2D is null)
+                        if (building2D is null)
                         {
                             continue;
                         }
 
-                        GuidReference guidReference = new (building2D);
+                        GuidReference guidReference = new(building2D);
                         //if (dictionary.ContainsKey(guidReference))
                         //{
                         //    building2Ds_Temp_Temp.Remove(building2D);
@@ -75,7 +75,7 @@ namespace DiGi.GIS
                     Dictionary<string, List<GuidReference>> dictionary_GuidReference = [];
                     foreach (KeyValuePair<GuidReference, string> keyValuePair in pathDictionary)
                     {
-                        if(!dictionary_GuidReference.TryGetValue(keyValuePair.Value, out List<GuidReference> guidReferences) || guidReferences == null)
+                        if (!dictionary_GuidReference.TryGetValue(keyValuePair.Value, out List<GuidReference> guidReferences) || guidReferences == null)
                         {
                             guidReferences = [];
                             dictionary_GuidReference[keyValuePair.Value] = guidReferences;
@@ -84,7 +84,7 @@ namespace DiGi.GIS
                         guidReferences.Add(keyValuePair.Key);
                     }
 
-                    foreach(KeyValuePair<string, List<GuidReference>> keyValuePair in dictionary_GuidReference)
+                    foreach (KeyValuePair<string, List<GuidReference>> keyValuePair in dictionary_GuidReference)
                     {
                         using OrtoDatasFile ortoDatasFile = new(keyValuePair.Key);
                         ortoDatasFile.Open();
@@ -125,14 +125,14 @@ namespace DiGi.GIS
                 fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasBuilding2DOptions.MaxFileSize);
             }
 
-            if(string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 return result;
             }
 
             string path_OrtoDatas = System.IO.Path.Combine(directory, string.Format("{0}{1}", fileName, System.IO.Path.GetExtension(path)));
 
-            using (OrtoDatasFile ortoDatasFile = new (path_OrtoDatas))
+            using (OrtoDatasFile ortoDatasFile = new(path_OrtoDatas))
             {
                 ortoDatasFile.Open();
 
@@ -221,7 +221,7 @@ namespace DiGi.GIS
                 fileName = Query.FileName(directory, fileName, System.IO.Path.GetExtension(path), ortoDatasOrtoRangeOptions.MaxFileSize);
             }
 
-            if(string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 return result;
             }
@@ -250,4 +250,3 @@ namespace DiGi.GIS
         }
     }
 }
-

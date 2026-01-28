@@ -18,7 +18,7 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, YearBuiltData>? dictionary = YearBuiltDataDictionary<YearBuiltData>(gISModelFile, [reference!]);
-            if(dictionary == null || !dictionary.TryGetValue(reference!, out YearBuiltData yearBuiltData) || yearBuiltData == null)
+            if (dictionary == null || !dictionary.TryGetValue(reference!, out YearBuiltData yearBuiltData) || yearBuiltData == null)
             {
                 return null;
             }
@@ -48,10 +48,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-
-
-
-
-
-

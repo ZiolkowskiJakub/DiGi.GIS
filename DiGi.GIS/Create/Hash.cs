@@ -64,11 +64,11 @@ namespace DiGi.GIS
             List<long> hashes = [];
             foreach (T geometry in geometries)
             {
-                if(geometry is Polygon)
+                if (geometry is Polygon)
                 {
                     hashes.Add(Hash((Polygon)(object)geometry));
                 }
-                else if(geometry is LinearRing)
+                else if (geometry is LinearRing)
                 {
                     hashes.Add(Hash((LinearRing)(object)geometry));
                 }

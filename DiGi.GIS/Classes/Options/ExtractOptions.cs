@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Nodes;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
+using System.Text.Json.Nodes;
 
 namespace DiGi.GIS.Classes
 {
@@ -8,20 +8,16 @@ namespace DiGi.GIS.Classes
     {
         public ExtractOptions()
         {
-
         }
 
         public ExtractOptions(ExtractOptions? extractOptions)
-            :base(extractOptions)
+            : base(extractOptions)
         {
-
         }
 
         public ExtractOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
-
     }
 }

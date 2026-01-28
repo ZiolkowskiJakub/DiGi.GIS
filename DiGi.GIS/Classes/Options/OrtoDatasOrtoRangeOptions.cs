@@ -26,15 +26,13 @@ namespace DiGi.GIS.Classes
         {
             if (ortoDatasOrtoRangeOptions != null)
             {
-                Scale = ortoDatasOrtoRangeOptions.Scale;  
+                Scale = ortoDatasOrtoRangeOptions.Scale;
             }
         }
 
         public OrtoDatasOrtoRangeOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }
-

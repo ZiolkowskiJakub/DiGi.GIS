@@ -12,7 +12,7 @@ namespace DiGi.GIS
     {
         public static Building2D? ToDiGi(this OT_BUBD_A? oT_BUBD_A)
         {
-            if(oT_BUBD_A is null)
+            if (oT_BUBD_A is null)
             {
                 return null;
             }
@@ -43,5 +43,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-

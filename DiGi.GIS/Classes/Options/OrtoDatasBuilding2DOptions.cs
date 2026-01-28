@@ -38,8 +38,6 @@ namespace DiGi.GIS.Classes
         public OrtoDatasBuilding2DOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }
-

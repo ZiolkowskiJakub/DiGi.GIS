@@ -44,7 +44,7 @@ namespace DiGi.GIS
 
                 if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.county)
                 {
-                    if(extended)
+                    if (extended)
                     {
                         string name = statisticalUnit.Name.Trim().ToUpper();
 
@@ -74,7 +74,7 @@ namespace DiGi.GIS
                     MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
                     if (municipalityType != null && municipalityType.HasValue)
                     {
-                        if(extended)
+                        if (extended)
                         {
                             return Query.IsUrban(municipalityType.Value) && statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper());
                         }
@@ -83,7 +83,6 @@ namespace DiGi.GIS
                             return municipalityType == MunicipalityType.urban_rural_municipality_town && statisticalUnit.Name?.ToUpper() == administrativeDivision.Name?.ToUpper();
                         }
                     }
-
                 }
                 else if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.municipality)
                 {
@@ -102,7 +101,7 @@ namespace DiGi.GIS
                         }
 
                         MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
-                        if(municipalityType != null && municipalityType.HasValue)
+                        if (municipalityType != null && municipalityType.HasValue)
                         {
                             string sufix;
 
@@ -124,7 +123,7 @@ namespace DiGi.GIS
                                 }
                             }
 
-                            if(name_StatisticalUnit == name_AdministrativeDivision)
+                            if (name_StatisticalUnit == name_AdministrativeDivision)
                             {
                                 return true;
                             }
@@ -137,20 +136,19 @@ namespace DiGi.GIS
                             }
                         }
 
-
                         return extended ? name_StatisticalUnit.Contains(name_AdministrativeDivision) : name_StatisticalUnit == name_AdministrativeDivision;
                     }
                 }
                 else if (administrativeDivision.AdministrativeDivisionType == AdministrativeDivisionType.district_or_delegation)
                 {
-                    if(statisticalUnit.GetStatisticalUnitType() == StatisticalUnitType.municipalities)
+                    if (statisticalUnit.GetStatisticalUnitType() == StatisticalUnitType.municipalities)
                     {
                         MunicipalityType? municipalityType = statisticalUnit.MunicipalityType();
-                        if(municipalityType != null && municipalityType.HasValue)
+                        if (municipalityType != null && municipalityType.HasValue)
                         {
                             if (Query.IsUrban(municipalityType.Value))
                             {
-                                if(municipalityType.Value == MunicipalityType.Warsaw_district)
+                                if (municipalityType.Value == MunicipalityType.Warsaw_district)
                                 {
                                     return statisticalUnit.Name.ToUpper().StartsWith(administrativeDivision.Name?.ToUpper());
                                 }
@@ -171,14 +169,14 @@ namespace DiGi.GIS
             foreach (AdministrativeDivisionType administrativeDivisionType in Enum.GetValues(typeof(AdministrativeDivisionType)))
             {
                 List<AdministrativeDivision> administrativeDivisions_Temp = administrativeDivisions.FindAll(x => x.AdministrativeDivisionType == administrativeDivisionType);
-                if(administrativeDivisions_Temp.Count == 0)
+                if (administrativeDivisions_Temp.Count == 0)
                 {
                     continue;
                 }
 
-                foreach(AdministrativeDivision administrativeDivision in administrativeDivisions_Temp)
+                foreach (AdministrativeDivision administrativeDivision in administrativeDivisions_Temp)
                 {
-                    if(similar_AdministrativeDivision.Invoke(statisticalUnit, administrativeDivision, false))
+                    if (similar_AdministrativeDivision.Invoke(statisticalUnit, administrativeDivision, false))
                     {
                         tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, [statisticalUnit]));
                         continue;
@@ -211,7 +209,7 @@ namespace DiGi.GIS
                                 }
                             }
 
-                            if(statisticalUnits_Temp_Temp.Count == 0)
+                            if (statisticalUnits_Temp_Temp.Count == 0)
                             {
                                 statisticalUnits_Temp_Temp = [.. statisticalUnits_Temp];
 
@@ -219,14 +217,14 @@ namespace DiGi.GIS
                                 tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
 
                                 string? prefix = null;
-                                foreach(string? prefix_Temp in statisticalUnits.ConvertAll(x => x.UnitCode?.GetPrefix()))
+                                foreach (string? prefix_Temp in statisticalUnits.ConvertAll(x => x.UnitCode?.GetPrefix()))
                                 {
-                                    if(prefix_Temp == null)
+                                    if (prefix_Temp == null)
                                     {
                                         continue;
                                     }
 
-                                    if(prefix == null || prefix_Temp.Length > prefix.Length)
+                                    if (prefix == null || prefix_Temp.Length > prefix.Length)
                                     {
                                         prefix = prefix_Temp;
                                     }
@@ -238,17 +236,17 @@ namespace DiGi.GIS
                             statisticalUnits_Temp = statisticalUnits_Temp_Temp;
                         }
 
-                        if(statisticalUnits_Temp.Count > 1)
+                        if (statisticalUnits_Temp.Count > 1)
                         {
                             List<string> names = statisticalUnits_Temp.ConvertAll(x => x.Name?.Trim().ToUpper() ?? string.Empty);
-                            if(names.TrueForAll(x => x.Contains(" OD ") || x.Contains(" DO ")))
+                            if (names.TrueForAll(x => x.Contains(" OD ") || x.Contains(" DO ")))
                             {
                                 List<StatisticalUnit> statisticalUnits = [];
                                 tuples.ConvertAll(x => x.Item2).ForEach(x => statisticalUnits.AddRange(x));
 
                                 List<StatisticalUnit> statisticalUnits_Temp_Temp = [.. statisticalUnits_Temp];
                                 statisticalUnits_Temp_Temp.RemoveAll(x => statisticalUnits.Find(y => y.Code == x.Code) != null);
-                                if(statisticalUnits_Temp_Temp.Count > 0)
+                                if (statisticalUnits_Temp_Temp.Count > 0)
                                 {
                                     statisticalUnits_Temp = statisticalUnits_Temp_Temp;
                                 }
@@ -291,7 +289,7 @@ namespace DiGi.GIS
                             }
                         }
 
-                        if(dictionary.Count != 0)
+                        if (dictionary.Count != 0)
                         {
                             tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeDivision, [.. dictionary.Values]));
                         }
@@ -327,7 +325,7 @@ namespace DiGi.GIS
 
             foreach (AdministrativeSubdivision administrativeSubdivision in administrativeSubdivisions)
             {
-                if(administrativeSubdivision == null)
+                if (administrativeSubdivision == null)
                 {
                     continue;
                 }
@@ -359,7 +357,7 @@ namespace DiGi.GIS
                     foreach (AdministrativeAreal2D administrativeAreal2D_Related in administrativeAreal2Ds_Related)
                     {
                         List<StatisticalUnit>? statisticalUnits = tuples.Find(x => x.Item1.Guid == administrativeAreal2D_Related.Guid)?.Item2;
-                        if(statisticalUnits == null || statisticalUnits.Count == 0)
+                        if (statisticalUnits == null || statisticalUnits.Count == 0)
                         {
                             if (administrativeAreal2D_Related is AdministrativeSubdivision administrativeSubdivision_Temp)
                             {
@@ -385,10 +383,10 @@ namespace DiGi.GIS
 
                         if (statisticalUnits != null && statisticalUnits.Count > 0)
                         {
-                            foreach(StatisticalUnit statisticalUnit_Temp in statisticalUnits)
+                            foreach (StatisticalUnit statisticalUnit_Temp in statisticalUnits)
                             {
                                 string? code = statisticalUnit_Temp?.Code;
-                                if(string.IsNullOrWhiteSpace(code))
+                                if (string.IsNullOrWhiteSpace(code))
                                 {
                                     continue;
                                 }
@@ -414,7 +412,7 @@ namespace DiGi.GIS
 
                     List<MunicipalityType?> municipalityTypes = statisticalUnits_Temp.ConvertAll(x => x.MunicipalityType());
 
-                    if(administrativeSubdivisionType == AdministrativeSubdivisionType.city || administrativeSubdivisionType == AdministrativeSubdivisionType.part_of_city)
+                    if (administrativeSubdivisionType == AdministrativeSubdivisionType.city || administrativeSubdivisionType == AdministrativeSubdivisionType.part_of_city)
                     {
                         int index = -1;
 
@@ -428,7 +426,7 @@ namespace DiGi.GIS
                             }
                         }
 
-                        if(index != -1)
+                        if (index != -1)
                         {
                             statisticalUnits_Temp = [statisticalUnits_Temp[index]];
                         }
@@ -453,7 +451,7 @@ namespace DiGi.GIS
                     }
                 }
 
-                if(statisticalUnits_Temp == null || statisticalUnits_Temp.Count == 0)
+                if (statisticalUnits_Temp == null || statisticalUnits_Temp.Count == 0)
                 {
                     invalidAdministrativeAreal2Ds.Add(administrativeSubdivision);
                     continue;
@@ -462,11 +460,10 @@ namespace DiGi.GIS
                 tuples.Add(new Tuple<AdministrativeAreal2D, List<StatisticalUnit>>(administrativeSubdivision, statisticalUnits_Temp));
             }
 
-            foreach(Tuple<AdministrativeAreal2D, List<StatisticalUnit>> tuple in tuples)
+            foreach (Tuple<AdministrativeAreal2D, List<StatisticalUnit>> tuple in tuples)
             {
                 gISModel.Update(tuple.Item1, new AdministrativeAreal2DStatisticalUnitsCalculcationResult(tuple.Item2));
             }
         }
     }
 }
-

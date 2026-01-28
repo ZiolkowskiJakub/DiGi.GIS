@@ -24,9 +24,7 @@ namespace DiGi.GIS
                 }
 
                 gISModel!.Update(building2D, building2DGeometryCalculationResult);
-
             }
         }
     }
 }
-

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
-using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
@@ -41,7 +41,6 @@ namespace DiGi.GIS.Classes
         public StatisticalDataCollection(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonInclude, JsonPropertyName("Code")]
@@ -103,6 +102,7 @@ namespace DiGi.GIS.Classes
                 return Core.Query.Clone(unitCode);
             }
         }
+
         [JsonIgnore]
         public IStatisticalData? this[string name]
         {
@@ -173,7 +173,6 @@ namespace DiGi.GIS.Classes
                 {
                     result.Add(statisticalData_Temp);
                 }
-
             }
 
             return result;
@@ -181,7 +180,7 @@ namespace DiGi.GIS.Classes
 
         public bool Remove(string? name)
         {
-            if(name is null)
+            if (name is null)
             {
                 return false;
             }

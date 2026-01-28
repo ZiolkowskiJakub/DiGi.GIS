@@ -26,7 +26,7 @@ namespace DiGi.GIS
 
         public static string? OrtoDataUrl(this BoundingBox2D? boundingBox2D, int year, int width, int height)
         {
-            if(boundingBox2D == null)
+            if (boundingBox2D == null)
             {
                 return null;
             }
@@ -38,4 +38,3 @@ namespace DiGi.GIS
         }
     }
 }
-

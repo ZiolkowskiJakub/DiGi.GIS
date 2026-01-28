@@ -14,7 +14,7 @@ namespace DiGi.GIS.Classes
         private readonly uint? occupancy = null;
 
         public OccupancyCalculationResult(double? occupancyArea, uint? occupancy)
-            :base()
+            : base()
         {
             this.occupancyArea = occupancyArea;
             this.occupancy = occupancy;
@@ -23,7 +23,7 @@ namespace DiGi.GIS.Classes
         public OccupancyCalculationResult(OccupancyCalculationResult occupancyCalculationResult)
             : base(occupancyCalculationResult)
         {
-            if(occupancyCalculationResult != null)
+            if (occupancyCalculationResult != null)
             {
                 occupancyArea = occupancyCalculationResult.occupancyArea;
                 occupancy = occupancyCalculationResult.occupancy;
@@ -33,7 +33,6 @@ namespace DiGi.GIS.Classes
         public OccupancyCalculationResult(JsonObject jsonObject)
         : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

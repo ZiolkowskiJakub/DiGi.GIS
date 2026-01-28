@@ -29,9 +29,9 @@ namespace DiGi.GIS
             int height_Int = System.Convert.ToInt32(deltaY * scale);
 
             Dictionary<int, string> result = [];
-            foreach(int year in years)
+            foreach (int year in years)
             {
-                if(OrtoDataUrl(boundingBox2D, year, width_Int, height_Int) is string url)
+                if (OrtoDataUrl(boundingBox2D, year, width_Int, height_Int) is string url)
                 {
                     result[year] = url;
                 }
@@ -62,7 +62,7 @@ namespace DiGi.GIS
                 boundingBox2D = Geometry.Planar.Create.BoundingBox2D(boundingBox2D.GetCentroid(), max_Temp, max_Temp);
             }
 
-            if(boundingBox2D is null)
+            if (boundingBox2D is null)
             {
                 return null;
             }
@@ -78,4 +78,3 @@ namespace DiGi.GIS
         }
     }
 }
-

@@ -6,7 +6,7 @@ namespace DiGi.GIS.Classes
 {
     public class AdministrativeAreal2DStatisticalUnitsCalculcationRelation : OneToOneDirectionalRelation<AdministrativeAreal2D, AdministrativeAreal2DStatisticalUnitsCalculcationResult>, IGISRelation
     {
-        public AdministrativeAreal2DStatisticalUnitsCalculcationRelation(AdministrativeAreal2D administrativeAreal2D, AdministrativeAreal2DStatisticalUnitsCalculcationResult administrativeAreal2DStatisticalUnitsCalculcationResult) 
+        public AdministrativeAreal2DStatisticalUnitsCalculcationRelation(AdministrativeAreal2D administrativeAreal2D, AdministrativeAreal2DStatisticalUnitsCalculcationResult administrativeAreal2DStatisticalUnitsCalculcationResult)
             : base(administrativeAreal2D, administrativeAreal2DStatisticalUnitsCalculcationResult)
         {
         }

@@ -13,7 +13,7 @@ namespace DiGi.GIS.Classes
 
         public static UniqueReference? GetUniqueReference(string? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return null;
             }
@@ -24,19 +24,16 @@ namespace DiGi.GIS.Classes
         public OrtoRangeFile(OrtoRangeFile? ortoRangeFile)
             : base(ortoRangeFile)
         {
-
         }
 
         public OrtoRangeFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public OrtoRangeFile(string path)
-            : base(path) 
+            : base(path)
         {
-            
         }
     }
 }

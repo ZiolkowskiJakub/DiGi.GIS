@@ -30,7 +30,7 @@ namespace DiGi.GIS.Classes
         public StatisticalUnit(StatisticalUnit? statisticalUnit)
             : base(statisticalUnit)
         {
-            if(statisticalUnit != null)
+            if (statisticalUnit != null)
             {
                 name = statisticalUnit.name;
                 StatisticalUnits = statisticalUnit.StatisticalUnits;
@@ -39,9 +39,8 @@ namespace DiGi.GIS.Classes
         }
 
         public StatisticalUnit(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonInclude, JsonPropertyName("Code")]
@@ -104,10 +103,10 @@ namespace DiGi.GIS.Classes
                 return Core.Query.Clone(unitCode);
             }
         }
-        
+
         public IEnumerable<StatisticalUnit>? GetStatisticalUnits(bool includeNested, Func<StatisticalUnit?, bool>? func = null)
         {
-            if(dictionary is null)
+            if (dictionary is null)
             {
                 return null;
             }
@@ -115,7 +114,7 @@ namespace DiGi.GIS.Classes
             List<StatisticalUnit> result = [];
             foreach (StatisticalUnit statisticalUnit in dictionary.Values)
             {
-                if(includeNested)
+                if (includeNested)
                 {
                     IEnumerable<StatisticalUnit>? statisticalUnits_Nested = statisticalUnit.GetStatisticalUnits(includeNested, func);
                     if (statisticalUnits_Nested != null)
@@ -127,7 +126,7 @@ namespace DiGi.GIS.Classes
                     }
                 }
 
-                if(func != null && !func.Invoke(statisticalUnit))
+                if (func != null && !func.Invoke(statisticalUnit))
                 {
                     continue;
                 }
@@ -137,7 +136,7 @@ namespace DiGi.GIS.Classes
 
             return result;
         }
-        
+
         public StatisticalUnitType? GetStatisticalUnitType()
         {
             return unitCode?.GetStatisticalUnitType();
@@ -145,20 +144,20 @@ namespace DiGi.GIS.Classes
 
         public StatisticalUnit? Find(UnitCode? unitCode, bool includeNested)
         {
-            if(unitCode == null)
+            if (unitCode == null)
             {
                 return null;
             }
 
             string? prefix = unitCode.GetPrefix();
 
-            if(this.unitCode == unitCode)
+            if (this.unitCode == unitCode)
             {
                 return this;
             }
 
             IEnumerable<StatisticalUnit>? statisticalUnits = StatisticalUnits;
-            if(statisticalUnits == null)
+            if (statisticalUnits == null)
             {
                 return null;
             }
@@ -167,15 +166,15 @@ namespace DiGi.GIS.Classes
             {
                 string? prefix_StatisticalUnit = statisticalUnit?.UnitCode?.GetPrefix();
 
-                if(prefix_StatisticalUnit == prefix)
+                if (prefix_StatisticalUnit == prefix)
                 {
                     return statisticalUnit;
                 }
 
-                if(includeNested && prefix is not null && prefix.StartsWith(prefix_StatisticalUnit))
+                if (includeNested && prefix is not null && prefix.StartsWith(prefix_StatisticalUnit))
                 {
                     StatisticalUnit? statisticalUnit_Nested = statisticalUnit?.Find(unitCode, includeNested);
-                    if(statisticalUnit_Nested != null)
+                    if (statisticalUnit_Nested != null)
                     {
                         return statisticalUnit_Nested;
                     }

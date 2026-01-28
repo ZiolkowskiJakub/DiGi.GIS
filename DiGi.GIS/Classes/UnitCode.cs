@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.GIS.Enums;
 using DiGi.GIS.Interfaces;
+using System;
+using System.Linq;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -21,7 +21,7 @@ namespace DiGi.GIS.Classes
 
         public UnitCode(UnitCode? unitCode)
         {
-            if(unitCode != null)
+            if (unitCode != null)
             {
                 code = unitCode.code;
             }
@@ -30,7 +30,6 @@ namespace DiGi.GIS.Classes
         public UnitCode(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -91,7 +90,7 @@ namespace DiGi.GIS.Classes
                 return result;
             }
 
-            if(result is null)
+            if (result is null)
             {
                 return result;
             }
@@ -164,7 +163,7 @@ namespace DiGi.GIS.Classes
 
         public bool IsValid()
         {
-            if(code == null || code.Length != 12)
+            if (code == null || code.Length != 12)
             {
                 return false;
             }

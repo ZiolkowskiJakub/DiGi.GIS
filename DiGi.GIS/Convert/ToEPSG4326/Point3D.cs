@@ -1,22 +1,22 @@
 ﻿using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Classes;
 using GeoAPI.CoordinateSystems;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
 
 namespace DiGi.GIS
 {
     public static partial class Convert
     {
         /// <summary>
-        /// Converts from EPSG:2180 to EPSG:4326 Coordinate System 
+        /// Converts from EPSG:2180 to EPSG:4326 Coordinate System
         /// </summary>
         /// <param name="point2D">Point2D in EPSG:2180 Coordinate System</param>
         /// <returns>Point3D in EPSG:4326 Coordinate System</returns>
         public static Point3D? ToEPSG4326(this Point2D? point2D)
         {
-            if(point2D is null)
+            if (point2D is null)
             {
                 return null;
             }
@@ -39,4 +39,3 @@ namespace DiGi.GIS
         }
     }
 }
-

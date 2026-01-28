@@ -12,7 +12,7 @@ namespace DiGi.GIS
 
         public static bool IsCity(this AdministrativeSubdivision administrativeSubdivision)
         {
-            if(administrativeSubdivision is null)
+            if (administrativeSubdivision is null)
             {
                 return false;
             }
@@ -21,6 +21,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-
-

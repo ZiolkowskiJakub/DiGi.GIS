@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public UserYearBuilt(short year)
             : base(year)
         {
-
         }
 
         public UserYearBuilt(UserYearBuilt? userYearBuilt)
             : base(userYearBuilt)
         {
-
         }
 
         public UserYearBuilt(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

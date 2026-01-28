@@ -12,9 +12,8 @@ namespace DiGi.GIS.Classes
         private readonly DateTime dateTime;
 
         public Building2DConstructionDateCalculationResult()
-            :base()
+            : base()
         {
-
         }
 
         public Building2DConstructionDateCalculationResult(DateTime dateTime)
@@ -26,13 +25,12 @@ namespace DiGi.GIS.Classes
         public Building2DConstructionDateCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Building2DConstructionDateCalculationResult(Building2DConstructionDateCalculationResult? building2DConstructionDateCalculationResult)
             : base(building2DConstructionDateCalculationResult)
         {
-            if(building2DConstructionDateCalculationResult is not null)
+            if (building2DConstructionDateCalculationResult is not null)
             {
                 dateTime = building2DConstructionDateCalculationResult.dateTime;
             }

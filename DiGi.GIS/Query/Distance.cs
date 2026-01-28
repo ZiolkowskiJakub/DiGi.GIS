@@ -6,7 +6,7 @@ namespace DiGi.GIS
     {
         public static double Distance(double latitude_1, double longitude_1, double latitude_2, double longitude_2)
         {
-            if(double.IsNaN(latitude_1) || double.IsNaN(latitude_2) || double.IsNaN(longitude_1) || double.IsNaN(longitude_2))
+            if (double.IsNaN(latitude_1) || double.IsNaN(latitude_2) || double.IsNaN(longitude_1) || double.IsNaN(longitude_2))
             {
                 return double.NaN;
             }
@@ -21,11 +21,10 @@ namespace DiGi.GIS
             double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
                        Math.Cos(radLat1) * Math.Cos(radLat2) *
                        Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
-            
+
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
             return r * c;
         }
     }
 }
-

@@ -36,13 +36,11 @@ namespace DiGi.GIS.Classes
         public DirectoryExtractOptions()
             : base()
         {
-
         }
 
         public DirectoryExtractOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

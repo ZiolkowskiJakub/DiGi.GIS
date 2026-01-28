@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Nodes;
+﻿using DiGi.Core.Classes;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -8,7 +8,7 @@ namespace DiGi.GIS.Classes
     {
         [JsonInclude, JsonPropertyName("IncludeModel")]
         public bool IncludeModel { get; set; } = true;
-        
+
         [JsonInclude, JsonPropertyName("IncludeStatistical")]
         public bool IncludeStatistical { get; set; } = true;
 
@@ -26,18 +26,17 @@ namespace DiGi.GIS.Classes
 
         public TableConversionOptions()
         {
-
         }
 
         public TableConversionOptions(TableConversionOptions? tableConversionOptions)
         {
-            if(tableConversionOptions != null)
+            if (tableConversionOptions != null)
             {
                 IncludeModel = tableConversionOptions.IncludeModel;
                 IncludeStatistical = tableConversionOptions.IncludeStatistical;
                 IncludeYearBuilt = tableConversionOptions.IncludeYearBuilt;
                 YearBuiltOnly = tableConversionOptions.YearBuiltOnly;
-                if(Core.Query.Clone(tableConversionOptions.Years) is Range<int> range)
+                if (Core.Query.Clone(tableConversionOptions.Years) is Range<int> range)
                 {
                     Years = range;
                 }
@@ -48,8 +47,6 @@ namespace DiGi.GIS.Classes
         public TableConversionOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
-
     }
 }

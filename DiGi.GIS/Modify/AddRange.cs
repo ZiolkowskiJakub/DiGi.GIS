@@ -1,9 +1,9 @@
 ﻿using DiGi.BDL.Classes;
+using DiGi.BDL.Enums;
 using DiGi.BDOT10k.Classes;
 using DiGi.BDOT10k.Interfaces;
 using DiGi.Core.Classes;
 using DiGi.GIS.Classes;
-using DiGi.BDL.Enums;
 using DiGi.GML.Classes;
 using DiGi.GML.Interfaces;
 using System;
@@ -82,7 +82,7 @@ namespace DiGi.GIS
 
         public static List<StatisticalYearlyDoubleData>? AddRange(this StatisticalDataCollection? statisticalDataCollection, UnitYearlyValues? unitYearlyValues)
         {
-            if(statisticalDataCollection == null || unitYearlyValues == null)
+            if (statisticalDataCollection == null || unitYearlyValues == null)
             {
                 return null;
             }
@@ -92,7 +92,6 @@ namespace DiGi.GIS
             List<YearlyValues>? yearlyValuesList = unitYearlyValues.results;
             if (yearlyValuesList != null)
             {
-                
                 foreach (YearlyValues yearlyValues in yearlyValuesList)
                 {
                     int id = yearlyValues.id;
@@ -105,7 +104,7 @@ namespace DiGi.GIS
                     Variable variable = (Variable)id;
 
                     List<YearlyValue>? yearlyValueList = yearlyValues?.values;
-                    if(yearlyValueList == null || yearlyValueList.Count == 0)
+                    if (yearlyValueList == null || yearlyValueList.Count == 0)
                     {
                         continue;
                     }
@@ -113,7 +112,7 @@ namespace DiGi.GIS
                     string reference = id.ToString();
 
                     StatisticalYearlyDoubleData? statisticalYearlyDoubleData = statisticalDataCollection.Find<StatisticalYearlyDoubleData>(x => x?.Reference == reference);
-                    if(statisticalYearlyDoubleData == null)
+                    if (statisticalYearlyDoubleData == null)
                     {
                         statisticalYearlyDoubleData = new StatisticalYearlyDoubleData(Core.Query.Description(variable), reference);
                         statisticalDataCollection.Add(statisticalYearlyDoubleData);
@@ -121,12 +120,12 @@ namespace DiGi.GIS
 
                     foreach (YearlyValue yearlyValue in yearlyValueList)
                     {
-                        if(yearlyValue == null)
+                        if (yearlyValue == null)
                         {
                             continue;
                         }
 
-                        if(!short.TryParse(yearlyValue.year, out short year))
+                        if (!short.TryParse(yearlyValue.year, out short year))
                         {
                             continue;
                         }
@@ -140,4 +139,3 @@ namespace DiGi.GIS
         }
     }
 }
-

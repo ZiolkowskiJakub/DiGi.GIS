@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -36,7 +36,6 @@ namespace DiGi.GIS.Classes
         public YearBuiltPrediction(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

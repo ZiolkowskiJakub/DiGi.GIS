@@ -1,6 +1,6 @@
-﻿using DiGi.GIS.Interfaces;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
 using System.Collections.Generic;
-using DiGi.Core.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -8,8 +8,8 @@ namespace DiGi.GIS.Classes
     {
         private readonly Dictionary<GuidExternalReference, GISModelFile> dictionary = [];
 
-        public GISModelFileManager() 
-        { 
+        public GISModelFileManager()
+        {
         }
 
         public GISModel? GetGISModel(GuidExternalReference? guidExternalReference)
@@ -52,21 +52,21 @@ namespace DiGi.GIS.Classes
 
         public GuidExternalReference? GetGuidExternalReference(GISModel? gISModel)
         {
-            if(gISModel is null)
+            if (gISModel is null)
             {
                 return null;
             }
 
-            GuidReference guidReference = new (gISModel);
+            GuidReference guidReference = new(gISModel);
 
-            foreach(GuidExternalReference guidExternalReference in dictionary.Keys)
+            foreach (GuidExternalReference guidExternalReference in dictionary.Keys)
             {
-                if(guidExternalReference.Reference is not GuidReference guidReference_Temp)
+                if (guidExternalReference.Reference is not GuidReference guidReference_Temp)
                 {
                     continue;
                 }
 
-                if(!guidReference.Equals(guidReference_Temp))
+                if (!guidReference.Equals(guidReference_Temp))
                 {
                     continue;
                 }
@@ -84,31 +84,31 @@ namespace DiGi.GIS.Classes
 
         public string? GetPath(GISModel? gISModel)
         {
-            if(GetGuidExternalReference(gISModel) is not GuidExternalReference guidExternalReference)
+            if (GetGuidExternalReference(gISModel) is not GuidExternalReference guidExternalReference)
             {
                 return null;
             }
 
-            if(!dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile) || gISModelFile is null)
+            if (!dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile) || gISModelFile is null)
             {
                 return null;
             }
 
             return gISModelFile.Path;
         }
-        
+
         public GuidExternalReference? Open(string? path)
         {
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return null;
             }
 
             GISModelFile gISModelFile = new(path);
-            if(gISModelFile.Open())
+            if (gISModelFile.Open())
             {
                 GuidExternalReference? guidExternalReference = gISModelFile.GuidExternalReference;
-                if(guidExternalReference is not null)
+                if (guidExternalReference is not null)
                 {
                     dictionary[guidExternalReference] = gISModelFile;
                     return guidExternalReference;
@@ -132,9 +132,9 @@ namespace DiGi.GIS.Classes
         {
             bool result = false;
 
-            foreach(GuidExternalReference guidExternalReference in dictionary.Keys)
+            foreach (GuidExternalReference guidExternalReference in dictionary.Keys)
             {
-                if(Remove(guidExternalReference))
+                if (Remove(guidExternalReference))
                 {
                     result = true;
                 }
@@ -145,14 +145,14 @@ namespace DiGi.GIS.Classes
 
         public bool Save(GuidExternalReference? guidExternalReference)
         {
-            if(guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
+            if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
             {
                 return false;
             }
 
             return gISModelFile.Save();
         }
-        
+
         public GuidExternalReference? SaveAs(GuidExternalReference? guidExternalReference, string path)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
@@ -161,13 +161,13 @@ namespace DiGi.GIS.Classes
             }
 
             bool saved = gISModelFile.SaveAs(path);
-            if(!saved)
+            if (!saved)
             {
                 return null;
             }
 
             GuidExternalReference? result = gISModelFile.GuidExternalReference;
-            if(result is null)
+            if (result is null)
             {
                 return null;
             }
@@ -176,12 +176,12 @@ namespace DiGi.GIS.Classes
             dictionary[result] = gISModelFile;
             return result;
         }
-        
+
         public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
 
-            if(gISModelFileUniqueObjectReference is null)
+            if (gISModelFileUniqueObjectReference is null)
             {
                 return false;
             }

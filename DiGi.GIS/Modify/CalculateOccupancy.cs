@@ -31,7 +31,7 @@ namespace DiGi.GIS
                     AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult = gISModel.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeSubdivision);
                     administrativeAreal2DGeometryCalculationResult ??= Create.AdministrativeAreal2DGeometryCalculationResult(administrativeSubdivision);
 
-                    if(administrativeAreal2DGeometryCalculationResult is null)
+                    if (administrativeAreal2DGeometryCalculationResult is null)
                     {
                         continue;
                     }
@@ -137,7 +137,7 @@ namespace DiGi.GIS
                             {
                                 occupancyPerArea = occupancy.Value / occupancyArea.Value;
 
-                                OccupancyCalculationResult occupancyCalculationResult = new (dictionary_OccupancyArea[administrativeSubdivision], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeSubdivision] * occupancyPerArea));
+                                OccupancyCalculationResult occupancyCalculationResult = new(dictionary_OccupancyArea[administrativeSubdivision], System.Convert.ToUInt32(dictionary_OccupancyArea[administrativeSubdivision] * occupancyPerArea));
                                 tuples_OccupancyCalculationResult.Add(new Tuple<AdministrativeSubdivision, OccupancyCalculationResult>(administrativeSubdivision, occupancyCalculationResult));
 
                                 tuples_AdministrativeSubdivision_Temp.RemoveAll(x => x.Item1.Guid == administrativeSubdivision.Guid);
@@ -326,4 +326,3 @@ namespace DiGi.GIS
         }
     }
 }
-

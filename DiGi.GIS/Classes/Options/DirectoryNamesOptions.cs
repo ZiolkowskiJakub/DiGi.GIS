@@ -12,13 +12,12 @@ namespace DiGi.GIS.Classes
         public DirectoryNamesOptions()
             : base()
         {
-
         }
 
         public DirectoryNamesOptions(DirectoryNamesOptions? directoryNamesOptions)
             : base(directoryNamesOptions)
         {
-            if(directoryNamesOptions != null)
+            if (directoryNamesOptions != null)
             {
                 DirectoryNames = (string[]?)directoryNamesOptions.DirectoryNames?.Clone();
             }
@@ -27,8 +26,6 @@ namespace DiGi.GIS.Classes
         public DirectoryNamesOptions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }
-

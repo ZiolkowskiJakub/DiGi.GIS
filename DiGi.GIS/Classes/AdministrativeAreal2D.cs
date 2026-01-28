@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DiGi.Geometry.Planar.Classes;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -19,16 +19,15 @@ namespace DiGi.GIS.Classes
         public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D)
             : base(administrativeArea2D)
         {
-            if(administrativeArea2D != null)
+            if (administrativeArea2D != null)
             {
                 name = administrativeArea2D.name;
             }
         }
 
         public AdministrativeAreal2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -39,6 +38,5 @@ namespace DiGi.GIS.Classes
                 return name;
             }
         }
-
     }
 }

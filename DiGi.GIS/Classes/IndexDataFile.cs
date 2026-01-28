@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using DiGi.GIS.Interfaces;
+﻿using DiGi.GIS.Interfaces;
+using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {
-    public class IndexDataFile: List<IndexData>, IGISObject
+    public class IndexDataFile : List<IndexData>, IGISObject
     {
         public IndexDataFile()
             : base()
         {
-
         }
 
         public bool Read(string? path)
@@ -69,7 +68,7 @@ namespace DiGi.GIS.Classes
 
         public bool Write(string? path)
         {
-            if(string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
+            if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
             {
                 return false;
             }
@@ -82,13 +81,13 @@ namespace DiGi.GIS.Classes
         {
             index = -1;
 
-            if(reference == null)
+            if (reference == null)
             {
                 return false;
             }
 
             IndexData indexData = Find(x => x.Reference == reference);
-            if(indexData == null)
+            if (indexData == null)
             {
                 return false;
             }
@@ -100,9 +99,9 @@ namespace DiGi.GIS.Classes
         public override string ToString()
         {
             List<string> values = [];
-            foreach(IndexData indexData in this)
+            foreach (IndexData indexData in this)
             {
-                if(indexData == null)
+                if (indexData == null)
                 {
                     values.Add(string.Empty);
                 }

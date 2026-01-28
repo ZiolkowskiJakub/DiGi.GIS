@@ -9,15 +9,14 @@ namespace DiGi.GIS.Classes
         public bool IncludeOrtoDatasComparison { get; set; } = true;
 
         public ComparisonTableConversionOptions()
-            :base()
+            : base()
         {
-
         }
 
         public ComparisonTableConversionOptions(ComparisonTableConversionOptions comparisonTableConversionOptions)
             : base(comparisonTableConversionOptions)
         {
-            if(comparisonTableConversionOptions != null)
+            if (comparisonTableConversionOptions != null)
             {
                 IncludeOrtoDatasComparison = comparisonTableConversionOptions.IncludeOrtoDatasComparison;
             }
@@ -26,8 +25,6 @@ namespace DiGi.GIS.Classes
         public ComparisonTableConversionOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
-
     }
 }

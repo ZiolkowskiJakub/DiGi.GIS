@@ -4,6 +4,5 @@ namespace DiGi.GIS.Interfaces
 {
     public interface IGISObject : IObject
     {
-
     }
 }

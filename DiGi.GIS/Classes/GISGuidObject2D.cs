@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using DiGi.GIS.Interfaces;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
-using DiGi.GIS.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
@@ -20,16 +20,15 @@ namespace DiGi.GIS.Classes
         public GISGuidObject2D(GISGuidObject2D? gISGuidObject2D)
             : base(gISGuidObject2D == null ? Guid.Empty : gISGuidObject2D.Guid)
         {
-            if(gISGuidObject2D != null)
+            if (gISGuidObject2D != null)
             {
                 reference = gISGuidObject2D.reference;
             }
         }
 
         public GISGuidObject2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -40,6 +39,5 @@ namespace DiGi.GIS.Classes
                 return reference;
             }
         }
-
     }
 }

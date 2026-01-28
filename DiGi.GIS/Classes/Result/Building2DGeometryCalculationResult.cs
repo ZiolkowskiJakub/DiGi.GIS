@@ -55,9 +55,9 @@ namespace DiGi.GIS.Classes
         }
 
         public Building2DGeometryCalculationResult(Building2DGeometryCalculationResult? building2DGeometryCalculationResult)
-            :base(building2DGeometryCalculationResult)
+            : base(building2DGeometryCalculationResult)
         {
-            if(building2DGeometryCalculationResult != null)
+            if (building2DGeometryCalculationResult != null)
             {
                 boundingBox = building2DGeometryCalculationResult.boundingBox?.Clone<BoundingBox2D>();
                 rectangle = building2DGeometryCalculationResult.rectangle?.Clone<Rectangle2D>();
@@ -75,7 +75,6 @@ namespace DiGi.GIS.Classes
         public Building2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

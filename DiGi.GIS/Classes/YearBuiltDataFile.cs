@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public YearBuiltDataFile(YearBuiltDataFile? yearBuiltDataFile)
             : base(yearBuiltDataFile)
         {
-
         }
 
         public YearBuiltDataFile(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public YearBuiltDataFile(string? path)
             : base(path)
         {
-
         }
 
         public static UniqueReference? GetUniqueReference<UYearBuiltData>(string? reference) where UYearBuiltData : IYearBuiltData
@@ -37,14 +34,14 @@ namespace DiGi.GIS.Classes
         public UYearBuiltData? GetValue<UYearBuiltData>(string? reference) where UYearBuiltData : IYearBuiltData
         {
             UniqueReference? uniqueReference = GetUniqueReference<UYearBuiltData>(reference);
-            if(uniqueReference is null)
+            if (uniqueReference is null)
             {
                 return default;
             }
 
             return GetValue<UYearBuiltData>(uniqueReference);
         }
-        
+
         private static UniqueReference? GetUniqueReference(System.Type? type, string? reference)
         {
             if (string.IsNullOrWhiteSpace(reference) || type == null)

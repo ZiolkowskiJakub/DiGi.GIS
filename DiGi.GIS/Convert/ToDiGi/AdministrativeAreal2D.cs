@@ -27,14 +27,12 @@ namespace DiGi.GIS
             string? reference = Query.Reference(oT_ADMS_A);
 
             return new AdministrativeSubdivision(
-                guid.Value, 
-                reference, 
-                polygonalFace2D, 
-                administrativeSubdivisionType == null || !administrativeSubdivisionType.HasValue ? AdministrativeSubdivisionType.other : administrativeSubdivisionType.Value, 
-                name, 
+                guid.Value,
+                reference,
+                polygonalFace2D,
+                administrativeSubdivisionType == null || !administrativeSubdivisionType.HasValue ? AdministrativeSubdivisionType.other : administrativeSubdivisionType.Value,
+                name,
                 occupancy);
         }
     }
 }
-
-

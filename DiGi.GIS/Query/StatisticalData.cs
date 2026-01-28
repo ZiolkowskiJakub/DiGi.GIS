@@ -14,10 +14,6 @@ namespace DiGi.GIS
             }
 
             return statisticalDataCollection.Find<TStatisticalData>(x => x?.Reference == ((int)variable).ToString());
-
         }
     }
 }
-
-
-

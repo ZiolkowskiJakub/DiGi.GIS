@@ -20,20 +20,19 @@ namespace DiGi.GIS.Classes
         public AdministrativeAreal2DStatisticalUnitsCalculcationResult(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public AdministrativeAreal2DStatisticalUnitsCalculcationResult(AdministrativeAreal2DStatisticalUnitsCalculcationResult administrativeAreal2DStatisticalUnitsCalculcationResult)
             : base(administrativeAreal2DStatisticalUnitsCalculcationResult)
         {
-            if(administrativeAreal2DStatisticalUnitsCalculcationResult != null)
+            if (administrativeAreal2DStatisticalUnitsCalculcationResult != null)
             {
                 StatisticalUnits = administrativeAreal2DStatisticalUnitsCalculcationResult.StatisticalUnits;
             }
         }
 
         [JsonInclude, JsonPropertyName("StatisticalUnits")]
-        public IEnumerable< StatisticalUnit> StatisticalUnits
+        public IEnumerable<StatisticalUnit> StatisticalUnits
         {
             get
             {
@@ -43,14 +42,14 @@ namespace DiGi.GIS.Classes
             private set
             {
                 dictionary.Clear();
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
 
-                foreach(StatisticalUnit statisticalUnit in value)
+                foreach (StatisticalUnit statisticalUnit in value)
                 {
-                    if(statisticalUnit?.Code == null)
+                    if (statisticalUnit?.Code == null)
                     {
                         continue;
                     }

@@ -6,7 +6,7 @@ namespace DiGi.GIS.Classes
 {
     public class Building2DOccupancyCalculationResultRelation : OneToOneDirectionalRelation<Building2D, OccupancyCalculationResult>, IGISRelation
     {
-        public Building2DOccupancyCalculationResultRelation(Building2D building2D, OccupancyCalculationResult occupancyCalculationResult) 
+        public Building2DOccupancyCalculationResultRelation(Building2D building2D, OccupancyCalculationResult occupancyCalculationResult)
             : base(building2D, occupancyCalculationResult)
         {
         }

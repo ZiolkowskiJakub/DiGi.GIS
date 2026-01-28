@@ -12,23 +12,23 @@ namespace DiGi.GIS
         public static List<OrtoRange>? OrtoRanges(GISModel? gISModel, IEnumerable<string>? references = null, OrtoRangeOptions? ortoRangeOptions = null, double tolerance = Core.Constans.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
-            if(building2Ds == null)
+            if (building2Ds == null)
             {
                 return null;
             }
 
-            if(references != null)
+            if (references != null)
             {
                 building2Ds = building2Ds.FindAll(x => references.Contains(x.Reference));
             }
 
-            if(building2Ds == null || building2Ds.Count == 0)
+            if (building2Ds == null || building2Ds.Count == 0)
             {
                 return null;
             }
 
             List<Tuple<Building2D, BoundingBox2D>> tuples = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 BoundingBox2D? boundingBox2D = null;
 
@@ -57,7 +57,7 @@ namespace DiGi.GIS
 
                 tuples.RemoveAt(0);
 
-                if(building2D == null)
+                if (building2D == null)
                 {
                     continue;
                 }
@@ -75,22 +75,22 @@ namespace DiGi.GIS
                 HashSet<string> references_Intersect = [];
                 HashSet<string> references_Inside = [];
 
-                for(int i = tuples.Count - 1; i >= 0; i--)
+                for (int i = tuples.Count - 1; i >= 0; i--)
                 {
                     string? reference = tuples[i].Item1.Reference;
-                    if(string.IsNullOrWhiteSpace(reference))
+                    if (string.IsNullOrWhiteSpace(reference))
                     {
                         continue;
                     }
 
                     BoundingBox2D boundingBox2D_Temp = tuples[i].Item2;
 
-                    if(!boundingBox2D.InRange(boundingBox2D_Temp, tolerance))
+                    if (!boundingBox2D.InRange(boundingBox2D_Temp, tolerance))
                     {
                         continue;
                     }
 
-                    if(!boundingBox2D.Inside(boundingBox2D_Temp, tolerance))
+                    if (!boundingBox2D.Inside(boundingBox2D_Temp, tolerance))
                     {
                         references_Intersect.Add(reference!);
                         continue;

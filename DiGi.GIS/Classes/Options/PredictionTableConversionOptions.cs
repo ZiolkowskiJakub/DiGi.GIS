@@ -12,15 +12,14 @@ namespace DiGi.GIS.Classes
         public string? AdministrativeAreal2DsIndexDataFilePath { get; set; } = null;
 
         public PredictionTableConversionOptions()
-            :base()
+            : base()
         {
-
         }
 
         public PredictionTableConversionOptions(PredictionTableConversionOptions predictionTableConversionOptions)
             : base(predictionTableConversionOptions)
         {
-            if(predictionTableConversionOptions != null)
+            if (predictionTableConversionOptions != null)
             {
                 IncludeYearBuiltPredictions = predictionTableConversionOptions.IncludeYearBuiltPredictions;
                 AdministrativeAreal2DsIndexDataFilePath = predictionTableConversionOptions.AdministrativeAreal2DsIndexDataFilePath;
@@ -30,8 +29,6 @@ namespace DiGi.GIS.Classes
         public PredictionTableConversionOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
-
     }
 }

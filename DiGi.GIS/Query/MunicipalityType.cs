@@ -8,7 +8,7 @@ namespace DiGi.GIS
     {
         public static MunicipalityType? MunicipalityType(this UnitCode? unitCode)
         {
-            if(unitCode == null || unitCode.GetStatisticalUnitType() != StatisticalUnitType.municipalities)
+            if (unitCode == null || unitCode.GetStatisticalUnitType() != StatisticalUnitType.municipalities)
             {
                 return null;
             }
@@ -59,6 +59,3 @@ namespace DiGi.GIS
         //}
     }
 }
-
-
-

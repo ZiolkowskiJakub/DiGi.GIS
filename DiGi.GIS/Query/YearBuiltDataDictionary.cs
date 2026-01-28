@@ -78,7 +78,7 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                if(uniqueReferences.ElementAt(i) is UniqueReference uniqueReference)
+                if (uniqueReferences.ElementAt(i) is UniqueReference uniqueReference)
                 {
                     if (uniqueReference.UniqueId is string uniqueId)
                     {
@@ -98,7 +98,7 @@ namespace DiGi.GIS
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TYearBuiltData">Type of YesrBuiltData</typeparam>
         /// <param name="directory">Directory where YearBuiltDataFile (*.ybdf) is located</param>
@@ -161,10 +161,10 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, GuidReference> dictionary = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 string? reference = building2D?.Reference;
-                if(reference == null)
+                if (reference == null)
                 {
                     continue;
                 }
@@ -173,17 +173,17 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, TYearBuiltData>? yearBuiltDataDictionary = YearBuiltDataDictionary<TYearBuiltData>(directory, dictionary.Keys);
-            if(yearBuiltDataDictionary == null)
+            if (yearBuiltDataDictionary == null)
             {
                 return null;
             }
 
             Dictionary<GuidReference, TYearBuiltData> result = [];
-            foreach(KeyValuePair<string, GuidReference> keyValuePair in dictionary)
+            foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
             {
                 string reference = keyValuePair.Key;
 
-                if(yearBuiltDataDictionary.TryGetValue(reference, out TYearBuiltData yearBuiltData))
+                if (yearBuiltDataDictionary.TryGetValue(reference, out TYearBuiltData yearBuiltData))
                 {
                     result[dictionary[reference]] = yearBuiltData;
                 }
@@ -193,4 +193,3 @@ namespace DiGi.GIS
         }
     }
 }
-

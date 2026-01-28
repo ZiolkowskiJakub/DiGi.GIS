@@ -13,7 +13,6 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly string? reference = null;
 
-
         public StatisticalData(string? name, string? reference)
             : base()
         {
@@ -24,7 +23,7 @@ namespace DiGi.GIS.Classes
         public StatisticalData(StatisticalData? statisticalData)
             : base(statisticalData)
         {
-            if(statisticalData != null)
+            if (statisticalData != null)
             {
                 name = statisticalData.name;
                 reference = statisticalData.reference;
@@ -34,7 +33,6 @@ namespace DiGi.GIS.Classes
         public StatisticalData(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

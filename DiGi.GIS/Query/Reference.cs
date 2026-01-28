@@ -130,7 +130,7 @@ namespace DiGi.GIS
 
         public static string? Reference(this GML.Classes.Geometry? geometry)
         {
-            if(geometry == null)
+            if (geometry == null)
             {
                 return null;
             }
@@ -143,7 +143,7 @@ namespace DiGi.GIS
                 return result;
             }
 
-            if(geometry is Polygon polygon)
+            if (geometry is Polygon polygon)
             {
                 return Reference(polygon);
             }
@@ -188,7 +188,7 @@ namespace DiGi.GIS
             }
 
             string? result;
-            
+
             result = Create.Reference(linearRing.id);
             if (!string.IsNullOrWhiteSpace(result))
             {

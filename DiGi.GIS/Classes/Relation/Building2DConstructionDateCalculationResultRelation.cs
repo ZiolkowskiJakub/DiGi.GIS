@@ -7,7 +7,7 @@ namespace DiGi.GIS.Classes
 {
     public class Building2DConstructionDateCalculationResultRelation : OneToManyDirectionalRelation<Building2D, Building2DConstructionDateCalculationResult>, IGISRelation
     {
-        public Building2DConstructionDateCalculationResultRelation(Building2D building2D, IEnumerable<Building2DConstructionDateCalculationResult> constructionDateCalculationResults) 
+        public Building2DConstructionDateCalculationResultRelation(Building2D building2D, IEnumerable<Building2DConstructionDateCalculationResult> constructionDateCalculationResults)
             : base(building2D, constructionDateCalculationResults)
         {
         }

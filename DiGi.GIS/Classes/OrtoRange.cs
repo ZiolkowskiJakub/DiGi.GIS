@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core;
+﻿using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -39,7 +39,7 @@ namespace DiGi.GIS.Classes
         public OrtoRange(OrtoRange? ortoRange)
             : base(ortoRange)
         {
-            if(ortoRange != null)
+            if (ortoRange != null)
             {
                 boundingBox2D = ortoRange.boundingBox2D?.Clone<BoundingBox2D>();
                 references_Inside = ortoRange.references_Inside == null ? null : [.. ortoRange.references_Inside];
@@ -48,9 +48,8 @@ namespace DiGi.GIS.Classes
         }
 
         public OrtoRange(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -134,7 +133,7 @@ namespace DiGi.GIS.Classes
 
         public bool Inside(string? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return false;
             }

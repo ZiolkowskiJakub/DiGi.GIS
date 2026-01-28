@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DiGi.Core;
+using DiGi.Geometry.Planar.Classes;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core;
-using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -20,16 +20,15 @@ namespace DiGi.GIS.Classes
         public Areal2D(Areal2D? areal2D)
             : base(areal2D)
         {
-            if(areal2D != null)
+            if (areal2D != null)
             {
                 polygonalFace2D = areal2D.polygonalFace2D?.Clone<PolygonalFace2D>();
             }
         }
 
         public Areal2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

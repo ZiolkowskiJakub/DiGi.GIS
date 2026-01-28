@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public Building2DExternalReferenceGuidResult(InstanceRelatedExternalReference reference)
             : base(reference)
         {
-
         }
 
         public Building2DExternalReferenceGuidResult(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         public Building2DExternalReferenceGuidResult(Building2DExternalReferenceGuidResult building2DExternalReferenceGuidResult)
             : base(building2DExternalReferenceGuidResult)
         {
-
         }
     }
 }

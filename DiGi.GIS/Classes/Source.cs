@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public Source()
             : base()
         {
-
         }
 
         public Source(Source? source)
             : base(source)
         {
-
         }
 
         public Source(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }

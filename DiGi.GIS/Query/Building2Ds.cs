@@ -51,22 +51,22 @@ namespace DiGi.GIS
                 foreach (Building2D building2D in building2Ds)
                 {
                     string? reference = building2D?.Reference;
-                    if(reference == null)
+                    if (reference == null)
                     {
                         continue;
                     }
 
-                    if(dictionary.ContainsKey(reference))
+                    if (dictionary.ContainsKey(reference))
                     {
                         continue;
                     }
 
-                    if(building2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)
+                    if (building2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)
                     {
                         continue;
                     }
 
-                    if(circle2D == null)
+                    if (circle2D == null)
                     {
                         if (polygonalFace2D?.GetBoundingBox() is not BoundingBox2D boundingBox2D_Building2D || !boundingBox2D_Building2D.InRange(point2D, tolerance))
                         {
@@ -80,12 +80,11 @@ namespace DiGi.GIS
                     }
                     else
                     {
-                        if(!circle2D.InRange(polygonalFace2D.ExternalEdge, tolerance))
+                        if (!circle2D.InRange(polygonalFace2D.ExternalEdge, tolerance))
                         {
                             continue;
                         }
                     }
-
 
                     dictionary[reference] = building2D;
                 }

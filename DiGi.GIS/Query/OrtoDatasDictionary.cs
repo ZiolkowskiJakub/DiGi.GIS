@@ -127,7 +127,7 @@ namespace DiGi.GIS
                     }
 
                     result[keyValuePair.Value] = ortoDatas;
-                    if(pathDictionary_Temp != null && pathDictionary_Temp.TryGetValue(reference, out string path))
+                    if (pathDictionary_Temp != null && pathDictionary_Temp.TryGetValue(reference, out string path))
                     {
                         pathDictionary[keyValuePair.Value] = path;
                     }
@@ -145,10 +145,10 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, GuidReference> dictionary = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 string? reference = building2D?.Reference;
-                if(reference == null)
+                if (reference == null)
                 {
                     continue;
                 }
@@ -157,13 +157,13 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, OrtoDatas>? ortoDatasDictionary = OrtoDatasDictionary(directory, dictionary.Keys);
-            if(ortoDatasDictionary == null)
+            if (ortoDatasDictionary == null)
             {
                 return null;
             }
 
             Dictionary<GuidReference, OrtoDatas> result = [];
-            if(ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
+            if (ortoDatasDictionary != null && ortoDatasDictionary.Count != 0)
             {
                 foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
                 {
@@ -226,4 +226,3 @@ namespace DiGi.GIS
         }
     }
 }
-

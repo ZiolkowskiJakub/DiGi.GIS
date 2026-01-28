@@ -1,7 +1,7 @@
 ﻿using DiGi.GIS.Classes;
-using System.IO.Compression;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 
 namespace DiGi.GIS
 {
@@ -9,7 +9,7 @@ namespace DiGi.GIS
     {
         public static List<string>? ToDiGi(this string? path_Input, string? directory_Output)
         {
-            if(string.IsNullOrWhiteSpace(path_Input) || !File.Exists(path_Input) || string.IsNullOrWhiteSpace(directory_Output))
+            if (string.IsNullOrWhiteSpace(path_Input) || !File.Exists(path_Input) || string.IsNullOrWhiteSpace(directory_Output))
             {
                 return null;
             }
@@ -25,7 +25,7 @@ namespace DiGi.GIS
                         continue;
                     }
 
-                    using ZipArchive zipArchive_ZipArchieve = new (deflateStream);
+                    using ZipArchive zipArchive_ZipArchieve = new(deflateStream);
 
                     foreach (ZipArchiveEntry zipArchiveEntry_Zip in zipArchive_ZipArchieve.Entries)
                     {

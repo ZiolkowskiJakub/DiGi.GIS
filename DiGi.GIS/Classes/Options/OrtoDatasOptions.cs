@@ -30,7 +30,6 @@ namespace DiGi.GIS.Classes
         public OrtoDatasOptions()
             : base()
         {
-
         }
 
         public OrtoDatasOptions(OrtoDatasOptions ortoDatasOptions)
@@ -47,8 +46,6 @@ namespace DiGi.GIS.Classes
         public OrtoDatasOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }
-

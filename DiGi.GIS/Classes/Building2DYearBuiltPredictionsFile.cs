@@ -13,7 +13,7 @@ namespace DiGi.GIS.Classes
 
         public static UniqueReference? GetUniqueReference(string? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return null;
             }
@@ -24,19 +24,16 @@ namespace DiGi.GIS.Classes
         public Building2DYearBuiltPredictionsFile(Building2DYearBuiltPredictionsFile? building2DYearBuiltPredictionsFile)
             : base(building2DYearBuiltPredictionsFile)
         {
-
         }
 
         public Building2DYearBuiltPredictionsFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public Building2DYearBuiltPredictionsFile(string? path)
-            : base(path) 
+            : base(path)
         {
-            
         }
     }
 }

@@ -23,13 +23,9 @@ namespace DiGi.GIS
                 fileInfo = new FileInfo(Path.Combine(directory, string.Format("{0}{1}", result, extension)));
 
                 index++;
-
             } while (fileInfo.Exists && fileInfo.Length > maxFileSize);
 
             return result;
         }
     }
 }
-
-
-

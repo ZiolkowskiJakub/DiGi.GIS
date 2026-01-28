@@ -9,7 +9,7 @@ namespace DiGi.GIS
         public static AdministrativeAreal2DGeometryCalculationResult? AdministrativeAreal2DGeometryCalculationResult(this AdministrativeAreal2D? administrativeAreal2D, double tolerance = Core.Constans.Tolerance.Distance)
         {
             PolygonalFace2D? polygonalFace2D = administrativeAreal2D?.PolygonalFace2D;
-            if(polygonalFace2D == null)
+            if (polygonalFace2D == null)
             {
                 return null;
             }
@@ -24,7 +24,7 @@ namespace DiGi.GIS
             Rectangle2D? rectangle = Geometry.Planar.Create.Rectangle2D(polygonalFace2D, tolerance);
             Point2D? centroid = Geometry.Planar.Query.Centroid(polygonalFace2D);
             Point2D? internalPoint = polygonalFace2D.GetInternalPoint(tolerance);
-            
+
             double thinnessRatio = Geometry.Planar.Query.ThinnessRatio(polygonal2D);
             double rectangularity = Geometry.Planar.Query.Rectangularity(polygonal2D);
 
@@ -34,4 +34,3 @@ namespace DiGi.GIS
         }
     }
 }
-

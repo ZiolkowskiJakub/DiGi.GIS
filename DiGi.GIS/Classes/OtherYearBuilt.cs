@@ -9,13 +9,11 @@ namespace DiGi.GIS.Classes
         public OtherYearBuilt(short year)
             : base(year)
         {
-
         }
 
         public OtherYearBuilt(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

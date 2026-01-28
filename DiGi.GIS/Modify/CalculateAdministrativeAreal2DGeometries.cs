@@ -8,7 +8,7 @@ namespace DiGi.GIS
         public static void CalculateAdministrativeAreal2DGeometries(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
             List<AdministrativeAreal2D>? administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
-            if(administrativeAreal2Ds == null)
+            if (administrativeAreal2Ds == null)
             {
                 return;
             }
@@ -24,9 +24,7 @@ namespace DiGi.GIS
                 }
 
                 gISModel!.Update(administrativeAreal2D, administrativeAreal2DGeometryCalculationResult);
-
             }
         }
     }
 }
-

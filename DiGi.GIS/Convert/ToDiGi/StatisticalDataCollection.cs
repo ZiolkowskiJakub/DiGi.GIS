@@ -8,7 +8,7 @@ namespace DiGi.GIS
         public static StatisticalDataCollection? ToDiGi(this UnitYearlyValues? unitYearlyValues)
         {
             UnitCode? unitCode = Create.UnitCode(unitYearlyValues?.unitId);
-            if(unitCode == null)
+            if (unitCode == null)
             {
                 return null;
             }

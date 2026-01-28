@@ -33,7 +33,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            using Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new (path);
+            using Building2DYearBuiltPredictionsFile building2DYearBuiltPredictionsFile = new(path);
 
             return Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
         }
@@ -80,7 +80,7 @@ namespace DiGi.GIS
                 UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
 
                 string? uniqueId = uniqueReference?.UniqueId;
-                if(uniqueId is not null)
+                if (uniqueId is not null)
                 {
                     result[uniqueId] = building2DYearBuiltPredictions[i]!;
                 }
@@ -153,10 +153,10 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, GuidReference> dictionary = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 string? reference = building2D?.Reference;
-                if(reference == null)
+                if (reference == null)
                 {
                     continue;
                 }
@@ -165,17 +165,17 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, Building2DYearBuiltPredictions>? building2DYearBuiltPredictionsDictionary = Building2DYearBuiltPredictionsDictionary(directory, dictionary.Keys);
-            if(building2DYearBuiltPredictionsDictionary == null)
+            if (building2DYearBuiltPredictionsDictionary == null)
             {
                 return null;
             }
 
             Dictionary<GuidReference, Building2DYearBuiltPredictions> result = [];
-            foreach(KeyValuePair<string, GuidReference> keyValuePair in dictionary)
+            foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
             {
                 string reference = keyValuePair.Key;
 
-                if(building2DYearBuiltPredictionsDictionary.TryGetValue(reference, out Building2DYearBuiltPredictions building2DYearBuiltPredictions))
+                if (building2DYearBuiltPredictionsDictionary.TryGetValue(reference, out Building2DYearBuiltPredictions building2DYearBuiltPredictions))
                 {
                     result[dictionary[reference]] = building2DYearBuiltPredictions;
                 }
@@ -185,4 +185,3 @@ namespace DiGi.GIS
         }
     }
 }
-

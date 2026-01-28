@@ -1,11 +1,11 @@
-﻿using System;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core;
+﻿using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Planar.Interfaces;
 using DiGi.GIS.Interfaces;
+using System;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -45,7 +45,6 @@ namespace DiGi.GIS.Classes
         public OrtoData(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -86,7 +85,7 @@ namespace DiGi.GIS.Classes
 
         public Point2D? ToOrto(Point2D? point2D)
         {
-            if(point2D == null)
+            if (point2D == null)
             {
                 return null;
             }
@@ -95,7 +94,7 @@ namespace DiGi.GIS.Classes
 
             vector2D.Scale(scale);
 
-            return new Point2D(vector2D.X, - vector2D.Y);
+            return new Point2D(vector2D.X, -vector2D.Y);
         }
 
         public IPolygonal2D? ToOrto(IPolygonal2D? polygonal2D)
@@ -110,7 +109,7 @@ namespace DiGi.GIS.Classes
 
         public PolygonalFace2D? ToOrto(PolygonalFace2D? polygonalFace2D)
         {
-            if(polygonalFace2D == null)
+            if (polygonalFace2D == null)
             {
                 return null;
             }
@@ -125,7 +124,7 @@ namespace DiGi.GIS.Classes
                 return null;
             }
 
-            Vector2D vector2D = new(point2D.X, - point2D.Y);
+            Vector2D vector2D = new(point2D.X, -point2D.Y);
             vector2D.Scale(1 / scale);
 
             return point2D.GetMoved(vector2D);

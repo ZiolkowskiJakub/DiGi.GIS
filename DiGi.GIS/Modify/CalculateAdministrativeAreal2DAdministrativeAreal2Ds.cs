@@ -9,7 +9,7 @@ namespace DiGi.GIS
         public static void CalculateAdministrativeAreal2DAdministrativeAreal2Ds(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
-            if(building2Ds == null)
+            if (building2Ds == null)
             {
                 return;
             }
@@ -26,7 +26,7 @@ namespace DiGi.GIS
                 AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult = gISModel!.GetRelatedObject<AdministrativeAreal2DGeometryCalculationResult>(administrativeAreal2D);
                 administrativeAreal2DGeometryCalculationResult ??= Create.AdministrativeAreal2DGeometryCalculationResult(administrativeAreal2D);
 
-                if(administrativeAreal2DGeometryCalculationResult is null)
+                if (administrativeAreal2DGeometryCalculationResult is null)
                 {
                     continue;
                 }
@@ -39,20 +39,19 @@ namespace DiGi.GIS
             List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_All = [.. tuples];
 
             Dictionary<AdministrativeAreal2D, List<AdministrativeAreal2D>> dictionary = [];
-            while(tuples.Count > 0)
+            while (tuples.Count > 0)
             {
                 Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple = tuples[0];
                 tuples.Remove(tuple);
 
-                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox!.InRange( x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D!.InRange(x.Item2.InternalPoint, tolerance));
+                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox!.InRange(x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D!.InRange(x.Item2.InternalPoint, tolerance));
                 dictionary[tuple.Item1] = tuples_Temp.ConvertAll(x => x.Item1);
             }
 
-            foreach(KeyValuePair<AdministrativeAreal2D, List<AdministrativeAreal2D>> keyValuePair in dictionary)
+            foreach (KeyValuePair<AdministrativeAreal2D, List<AdministrativeAreal2D>> keyValuePair in dictionary)
             {
                 gISModel!.Update(keyValuePair.Key, keyValuePair.Value);
             }
         }
     }
 }
-

@@ -8,7 +8,7 @@ namespace DiGi.GIS
     {
         public static UniqueReference? UpdateUserYearBuilt(this GISModelFile? gISModelFile, Building2D? builidng2D, short? yearBuilt)
         {
-            if(gISModelFile == null || builidng2D == null)
+            if (gISModelFile == null || builidng2D == null)
             {
                 return null;
             }
@@ -19,13 +19,13 @@ namespace DiGi.GIS
             }
 
             string? path = gISModelFile.Path;
-            if(string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 return null;
             }
 
             string directory = System.IO.Path.GetDirectoryName(path);
-            if(!System.IO.Directory.Exists(directory))
+            if (!System.IO.Directory.Exists(directory))
             {
                 return null;
             }

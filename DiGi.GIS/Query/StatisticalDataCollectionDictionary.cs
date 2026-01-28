@@ -48,12 +48,12 @@ namespace DiGi.GIS
 
                 UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
 
-                if(uniqueReference.UniqueId is string uniqueId)
+                if (uniqueReference.UniqueId is string uniqueId)
                 {
                     result[uniqueId] = statisticalDataCollectionList[i]!;
                 }
 
-                if(uniqueReference is not null)
+                if (uniqueReference is not null)
                 {
                     uniqueReferences.Remove(uniqueReference);
                 }
@@ -124,10 +124,10 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, GuidReference> dictionary = [];
-            foreach(Building2D building2D in building2Ds)
+            foreach (Building2D building2D in building2Ds)
             {
                 string? reference = building2D?.Reference;
-                if(reference == null)
+                if (reference == null)
                 {
                     continue;
                 }
@@ -136,17 +136,17 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, StatisticalDataCollection>? statisticalDataCollectionDictionary = StatisticalDataCollectionDictionary(directory, dictionary.Keys);
-            if(statisticalDataCollectionDictionary == null)
+            if (statisticalDataCollectionDictionary == null)
             {
                 return null;
             }
 
             Dictionary<GuidReference, StatisticalDataCollection> result = [];
-            foreach(KeyValuePair<string, GuidReference> keyValuePair in dictionary)
+            foreach (KeyValuePair<string, GuidReference> keyValuePair in dictionary)
             {
                 string reference = keyValuePair.Key;
 
-                if(statisticalDataCollectionDictionary.TryGetValue(reference, out StatisticalDataCollection statisticalDataCollection))
+                if (statisticalDataCollectionDictionary.TryGetValue(reference, out StatisticalDataCollection statisticalDataCollection))
                 {
                     result[dictionary[reference]] = statisticalDataCollection;
                 }
@@ -156,4 +156,3 @@ namespace DiGi.GIS
         }
     }
 }
-

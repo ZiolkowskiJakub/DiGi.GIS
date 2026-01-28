@@ -1,8 +1,8 @@
-﻿using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
+﻿using DiGi.Core.Classes;
 using DiGi.GIS.Enums;
 using DiGi.GIS.Interfaces;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
@@ -17,9 +17,9 @@ namespace DiGi.GIS.Classes
         }
 
         public YearBuilt(YearBuilt? yearBuilt)
-            :base(yearBuilt)
+            : base(yearBuilt)
         {
-            if(yearBuilt != null)
+            if (yearBuilt != null)
             {
                 year = yearBuilt.year;
             }
@@ -28,7 +28,6 @@ namespace DiGi.GIS.Classes
         public YearBuilt(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

@@ -56,7 +56,7 @@ namespace DiGi.GIS.Classes
         {
             output = BuildingShape.Undefined;
 
-            if(input?.PolygonalFace2D?.ExternalEdge is not IPolygonal2D externalEdge)
+            if (input?.PolygonalFace2D?.ExternalEdge is not IPolygonal2D externalEdge)
             {
                 return false;
             }
@@ -64,7 +64,7 @@ namespace DiGi.GIS.Classes
             List<IPolygonal2D>? internalEdges = input?.PolygonalFace2D?.InternalEdges;
 
             double area = externalEdge.GetArea();
-            if(area <= microTolerance)
+            if (area <= microTolerance)
             {
                 return false;
             }
@@ -78,7 +78,7 @@ namespace DiGi.GIS.Classes
 
             double isoperimetricRatio = Geometry.Core.Query.IsoperimetricRatio(area, perimeter);
 
-            if(isoperimetricRatio >= thinnessRatio)
+            if (isoperimetricRatio >= thinnessRatio)
             {
                 output = BuildingShape.Circural;
                 return true;
@@ -92,9 +92,9 @@ namespace DiGi.GIS.Classes
 
             double squareThinnesRatio = Geometry.Core.Query.SquareThinnessRatio(area, length * length);
 
-            if(internalEdges is null || internalEdges.Count == 0)
+            if (internalEdges is null || internalEdges.Count == 0)
             {
-                if(squareThinnesRatio >= thinnessRatio)
+                if (squareThinnesRatio >= thinnessRatio)
                 {
                     output = BuildingShape.Square;
                     return true;
@@ -108,7 +108,7 @@ namespace DiGi.GIS.Classes
             }
 
             List<IPolygonal2D>? polygonal2Ds = Geometry.Planar.Query.Difference(rectangle2D.Offset(-macroTolerance), externalEdge);
-            if(polygonal2Ds is not null)
+            if (polygonal2Ds is not null)
             {
                 for (int i = polygonal2Ds.Count - 1; i >= 0; i--)
                 {
@@ -121,7 +121,7 @@ namespace DiGi.GIS.Classes
 
                     for (int j = polygon2Ds.Count - 1; j >= 0; j--)
                     {
-                         polygonal2Ds.Add(polygon2Ds[j]);
+                        polygonal2Ds.Add(polygon2Ds[j]);
                     }
                 }
 
@@ -135,10 +135,10 @@ namespace DiGi.GIS.Classes
                         continue;
                     }
 
-                    tuples_Polygonal2D.Add(new Tuple<double, IPolygonal2D>(area_Temp, polygonal2Ds[i]));                   
+                    tuples_Polygonal2D.Add(new Tuple<double, IPolygonal2D>(area_Temp, polygonal2Ds[i]));
                 }
 
-                if(tuples_Polygonal2D.Count != 0)
+                if (tuples_Polygonal2D.Count != 0)
                 {
                     double maxArea = tuples_Polygonal2D.Max(x => x.Item1);
 
@@ -179,7 +179,7 @@ namespace DiGi.GIS.Classes
                 }
             }
 
-            if(polygonal2Ds is null || polygonal2Ds.Count == 0)
+            if (polygonal2Ds is null || polygonal2Ds.Count == 0)
             {
                 if (squareThinnesRatio >= thinnessRatio)
                 {
@@ -198,7 +198,7 @@ namespace DiGi.GIS.Classes
             }
 
             Rectangle2D? rectangle2D_Offset = rectangle2D.Offset(-offset);
-            if(rectangle2D_Offset is null)
+            if (rectangle2D_Offset is null)
             {
                 output = BuildingShape.Undefined;
                 return false;
@@ -233,8 +233,7 @@ namespace DiGi.GIS.Classes
                 return true;
             }
 
-
-            if(rectangle2D_Offset.GetSegments() is not List<Segment2D> segment2Ds)
+            if (rectangle2D_Offset.GetSegments() is not List<Segment2D> segment2Ds)
             {
                 output = BuildingShape.Undefined;
                 return false;
@@ -246,7 +245,7 @@ namespace DiGi.GIS.Classes
                 tuples.Add(new Tuple<int, Segment2D>(i, segment2Ds[i]));
             }
 
-            if(polygonal2Ds.Count > 1)
+            if (polygonal2Ds.Count > 1)
             {
                 polygonal2Ds = Geometry.Planar.Query.Union(polygonal2Ds)?.ConvertAll(x => (IPolygonal2D)x);
             }
@@ -258,20 +257,20 @@ namespace DiGi.GIS.Classes
             }
 
             Dictionary<int, HashSet<int>> dictionary = [];
-            for(int i =0; i < polygonal2Ds.Count; i++)
+            for (int i = 0; i < polygonal2Ds.Count; i++)
             {
                 IPolygonal2D polygonal2D = polygonal2Ds[i];
                 foreach (Tuple<int, Segment2D> tuple in tuples)
                 {
-                    if(tuple.Item2.Intersect(polygonal2D, microTolerance))
+                    if (tuple.Item2.Intersect(polygonal2D, microTolerance))
                     {
-                        if(!dictionary.TryGetValue(tuple.Item1, out HashSet<int> polygonal2Ds_Index))
+                        if (!dictionary.TryGetValue(tuple.Item1, out HashSet<int> polygonal2Ds_Index))
                         {
                             polygonal2Ds_Index = [];
                             dictionary[tuple.Item1] = polygonal2Ds_Index;
                         }
 
-                        if(polygonal2Ds_Index.Count > 1)
+                        if (polygonal2Ds_Index.Count > 1)
                         {
                             output = BuildingShape.Other;
                             return true;
@@ -282,7 +281,7 @@ namespace DiGi.GIS.Classes
                 }
             }
 
-            if(dictionary.Count == 0)
+            if (dictionary.Count == 0)
             {
                 output = BuildingShape.O;
                 return true;
@@ -308,7 +307,7 @@ namespace DiGi.GIS.Classes
             }
 
             List<int> counts = [];
-            foreach(HashSet<int> polygonal2Ds_Index in dictionary.Values)
+            foreach (HashSet<int> polygonal2Ds_Index in dictionary.Values)
             {
                 counts.Add(polygonal2Ds_Index.Count);
             }

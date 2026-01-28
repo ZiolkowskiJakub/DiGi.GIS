@@ -9,7 +9,7 @@ namespace DiGi.GIS
     {
         public static bool Extract(this DirectoryExtractOptions? directoryExtractOptions)
         {
-            if(directoryExtractOptions == null)
+            if (directoryExtractOptions == null)
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                using ZipArchive zipArchive_ZipArchieve = new (deflateStream);
+                using ZipArchive zipArchive_ZipArchieve = new(deflateStream);
 
                 foreach (ZipArchiveEntry zipArchiveEntry_Zip in zipArchive_ZipArchieve.Entries)
                 {

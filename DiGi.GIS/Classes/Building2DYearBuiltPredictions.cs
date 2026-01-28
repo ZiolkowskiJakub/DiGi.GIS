@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using DiGi.Core.Classes;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -17,46 +17,43 @@ namespace DiGi.GIS.Classes
         public Building2DYearBuiltPredictions(string? reference, IEnumerable<YearBuiltPrediction>? yearBuiltPredictions)
         {
             this.reference = reference;
-            if(yearBuiltPredictions != null)
+            if (yearBuiltPredictions != null)
             {
                 this.yearBuiltPredictions = [];
                 foreach (YearBuiltPrediction yearBuiltPrediction in yearBuiltPredictions)
                 {
-                    if(Core.Query.Clone(yearBuiltPrediction) is YearBuiltPrediction yearBuiltPrediction_Temp)
+                    if (Core.Query.Clone(yearBuiltPrediction) is YearBuiltPrediction yearBuiltPrediction_Temp)
                     {
                         this.yearBuiltPredictions[yearBuiltPrediction.Year] = yearBuiltPrediction_Temp;
                     }
                 }
-
             }
         }
 
         public Building2DYearBuiltPredictions(Building2DYearBuiltPredictions? building2DYearBuiltPredictions)
             : base(building2DYearBuiltPredictions)
         {
-            if(building2DYearBuiltPredictions != null)
+            if (building2DYearBuiltPredictions != null)
             {
                 reference = building2DYearBuiltPredictions.reference;
 
-                if(building2DYearBuiltPredictions.yearBuiltPredictions != null)
+                if (building2DYearBuiltPredictions.yearBuiltPredictions != null)
                 {
                     yearBuiltPredictions = [];
                     foreach (KeyValuePair<ushort, YearBuiltPrediction> keyValuePair in building2DYearBuiltPredictions.yearBuiltPredictions)
                     {
-                        if(Core.Query.Clone(keyValuePair.Value) is YearBuiltPrediction yearBuiltPrediction)
+                        if (Core.Query.Clone(keyValuePair.Value) is YearBuiltPrediction yearBuiltPrediction)
                         {
                             yearBuiltPredictions[keyValuePair.Key] = yearBuiltPrediction;
                         }
                     }
                 }
-
             }
         }
 
         public Building2DYearBuiltPredictions(JsonObject? jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -81,12 +78,12 @@ namespace DiGi.GIS.Classes
         {
             get
             {
-                if(yearBuiltPredictions == null)
+                if (yearBuiltPredictions == null)
                 {
                     return null;
                 }
 
-                if(!yearBuiltPredictions.TryGetValue(year, out YearBuiltPrediction yearBuiltPrediction) || yearBuiltPrediction == null)
+                if (!yearBuiltPredictions.TryGetValue(year, out YearBuiltPrediction yearBuiltPrediction) || yearBuiltPrediction == null)
                 {
                     return null;
                 }

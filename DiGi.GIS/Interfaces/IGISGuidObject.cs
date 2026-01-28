@@ -2,8 +2,7 @@
 
 namespace DiGi.GIS.Interfaces
 {
-    public interface IGISGuidObject: IGISUniqueObject, IGuidObject
+    public interface IGISGuidObject : IGISUniqueObject, IGuidObject
     {
-
     }
 }

@@ -49,4 +49,3 @@ namespace DiGi.GIS
         }
     }
 }
-

@@ -10,6 +10,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-
-

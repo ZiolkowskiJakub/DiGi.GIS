@@ -8,19 +8,16 @@ namespace DiGi.GIS.Classes
         public StatisticalUnitFile(StatisticalUnitFile? statisticalUnitFile)
             : base(statisticalUnitFile)
         {
-
         }
 
         public StatisticalUnitFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public StatisticalUnitFile(string? path)
-            : base(path) 
+            : base(path)
         {
-            
         }
     }
 }

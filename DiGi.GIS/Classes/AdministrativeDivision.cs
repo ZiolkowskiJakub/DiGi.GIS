@@ -1,14 +1,13 @@
-﻿using System;
+﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.GIS.Enums;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Geometry.Planar.Classes;
-using DiGi.GIS.Enums;
 
 namespace DiGi.GIS.Classes
 {
     public class AdministrativeDivision : AdministrativeAreal2D
     {
-
         [JsonInclude, JsonPropertyName("AdministrativeDivisionType")]
         private readonly AdministrativeDivisionType administrativeDivisionType;
 
@@ -21,16 +20,15 @@ namespace DiGi.GIS.Classes
         public AdministrativeDivision(AdministrativeDivision? administrativeDivision)
             : base(administrativeDivision)
         {
-            if(administrativeDivision != null)
+            if (administrativeDivision != null)
             {
                 administrativeDivisionType = administrativeDivision.administrativeDivisionType;
             }
         }
 
         public AdministrativeDivision(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]
@@ -41,6 +39,5 @@ namespace DiGi.GIS.Classes
                 return administrativeDivisionType;
             }
         }
-
     }
 }

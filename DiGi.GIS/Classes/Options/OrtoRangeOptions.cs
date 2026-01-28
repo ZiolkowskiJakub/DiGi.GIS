@@ -22,7 +22,6 @@ namespace DiGi.GIS.Classes
         public OrtoRangeOptions()
             : base()
         {
-
         }
 
         public OrtoRangeOptions(OrtoRangeOptions ortoRangeOptions)
@@ -38,8 +37,6 @@ namespace DiGi.GIS.Classes
         public OrtoRangeOptions(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
     }
 }
-

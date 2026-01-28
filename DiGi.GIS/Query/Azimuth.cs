@@ -11,13 +11,13 @@ namespace DiGi.GIS
     {
         public static double Azimuth(this Building2D? builidng2D, Vector2D? referenceDirection = null, double tolerance = Core.Constans.Tolerance.Distance)
         {
-            if(builidng2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)
+            if (builidng2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)
             {
                 return double.NaN;
             }
 
             Rectangle2D? rectangle2D = Geometry.Planar.Create.Rectangle2D(polygonalFace2D, tolerance);
-            if(rectangle2D is null)
+            if (rectangle2D is null)
             {
                 return double.NaN;
             }
@@ -25,7 +25,7 @@ namespace DiGi.GIS
             referenceDirection ??= Geometry.Planar.Constans.Vector2D.WorldY;
 
             Vector2D? direction = rectangle2D.Height > rectangle2D.Width ? rectangle2D.WidthDirection : rectangle2D.HeightDirection;
-            if(direction is null)
+            if (direction is null)
             {
                 return double.NaN;
             }
@@ -62,20 +62,19 @@ namespace DiGi.GIS
                     }
                 }
 
-                if(sum > 0 || sum_Inversed > 0)
+                if (sum > 0 || sum_Inversed > 0)
                 {
                     signedAngle = sum >= sum_Inversed ? direction.SignedAngle(referenceDirection) : direction_Inversed.SignedAngle(referenceDirection);
                 }
-
             }
 
-            if(double.IsNaN(signedAngle))
+            if (double.IsNaN(signedAngle))
             {
                 signedAngle = Math.Min(direction.Angle(referenceDirection), direction.GetInversed().Angle(referenceDirection));
             }
 
             double result = signedAngle * 180.0 / Math.PI;
-            if(result < 0)
+            if (result < 0)
             {
                 result += 360;
             }
@@ -84,10 +83,3 @@ namespace DiGi.GIS
         }
     }
 }
-
-
-
-
-
-
-

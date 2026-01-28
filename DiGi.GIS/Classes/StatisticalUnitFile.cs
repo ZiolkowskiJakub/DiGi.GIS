@@ -9,19 +9,16 @@ namespace DiGi.GIS.Classes
         public GISModelFile(GISModelFile? gISModelFile)
             : base(gISModelFile)
         {
-
         }
 
         public GISModelFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public GISModelFile(string? path)
-            : base(path) 
+            : base(path)
         {
-            
         }
 
         public GuidExternalReference? GuidExternalReference

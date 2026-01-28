@@ -8,13 +8,13 @@ namespace DiGi.GIS
     {
         public static GISModelFileGuidObjectReference? GISModelFileUniqueObjectReference(this GISModelFile? gISModelFile, IGISGuidObject? gISGuidObject)
         {
-            if(gISModelFile == null || gISGuidObject == null)
+            if (gISModelFile == null || gISGuidObject == null)
             {
                 return null;
             }
 
             GuidExternalReference? guidExternalReference = gISModelFile.GuidExternalReference;
-            if(guidExternalReference is null)
+            if (guidExternalReference is null)
             {
                 return null;
             }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DiGi.Core.Interfaces;
+using DiGi.Geometry.Planar.Classes;
+using DiGi.GIS.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using DiGi.Core.Interfaces;
-using DiGi.GIS.Enums;
-using DiGi.Geometry.Planar.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -29,13 +29,12 @@ namespace DiGi.GIS.Classes
             this.buildingPhase = buildingPhase;
             this.buildingGeneralFunction = buildingGeneralFunction;
             this.buildingSpecificFunctions = [.. buildingSpecificFunctions];
-
         }
 
         public Building2D(Building2D building2D)
             : base(building2D)
         {
-            if(building2D != null)
+            if (building2D != null)
             {
                 storeys = building2D.storeys;
                 buildingPhase = building2D.buildingPhase;
@@ -45,9 +44,8 @@ namespace DiGi.GIS.Classes
         }
 
         public Building2D(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public override ISerializableObject? Clone()

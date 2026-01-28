@@ -13,7 +13,7 @@ namespace DiGi.GIS.Classes
 
         public static UniqueReference? GetUniqueReference(string? reference)
         {
-            if(reference == null)
+            if (reference == null)
             {
                 return null;
             }
@@ -24,19 +24,16 @@ namespace DiGi.GIS.Classes
         public StatisticalDataCollectionFile(StatisticalDataCollectionFile? statisticalDataCollectionFile)
             : base(statisticalDataCollectionFile)
         {
-
         }
 
         public StatisticalDataCollectionFile(JsonObject? jsonObject)
-            :base(jsonObject)
+            : base(jsonObject)
         {
-
         }
 
         public StatisticalDataCollectionFile(string? path)
-            : base(path) 
+            : base(path)
         {
-            
         }
     }
 }

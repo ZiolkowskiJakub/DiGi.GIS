@@ -26,13 +26,11 @@ namespace DiGi.GIS
             string? reference = Query.Reference(oT_ADJA_A);
 
             return new AdministrativeDivision(
-                guid.Value, 
-                reference, 
-                polygonalFace2D, 
-                administrativeDivisionType.Value, 
+                guid.Value,
+                reference,
+                polygonalFace2D,
+                administrativeDivisionType.Value,
                 name);
         }
     }
 }
-
-

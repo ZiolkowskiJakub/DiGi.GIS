@@ -12,13 +12,13 @@ namespace DiGi.GIS
     {
         public static async Task<OrtoDatas?> OrtoDatas(this Building2D? building2D, Range<int>? years, double offset = 5, double width = 320, bool reduce = true, bool squared = false)
         {
-            if(building2D == null || years == null)
+            if (building2D == null || years == null)
             {
                 return null;
             }
 
             BoundingBox2D? boundingBox2D = building2D.PolygonalFace2D?.GetBoundingBox();
-            if(boundingBox2D is null)
+            if (boundingBox2D is null)
             {
                 return null;
             }
@@ -32,7 +32,7 @@ namespace DiGi.GIS
                 boundingBox2D = Geometry.Planar.Create.BoundingBox2D(boundingBox2D.GetCentroid(), max_Temp, max_Temp);
             }
 
-            if(boundingBox2D is null)
+            if (boundingBox2D is null)
             {
                 return null;
             }
@@ -44,7 +44,7 @@ namespace DiGi.GIS
 
         public static async Task<OrtoDatas?> OrtoDatas(this OrtoRange? ortoRange, Range<int>? years, double scale, bool reduce = true, bool squared = false)
         {
-            if(double.IsNaN(scale))
+            if (double.IsNaN(scale))
             {
                 return null;
             }
@@ -65,9 +65,9 @@ namespace DiGi.GIS
             return await OrtoDatas(boundingBox2D, ortoRange?.UniqueId, years, scale, reduce);
         }
 
-        public static async Task<OrtoDatas?> OrtoDatas(this BoundingBox2D? boundingBox2D, string? reference, Range<int>?years, double scale, bool reduce = true)
+        public static async Task<OrtoDatas?> OrtoDatas(this BoundingBox2D? boundingBox2D, string? reference, Range<int>? years, double scale, bool reduce = true)
         {
-            if(boundingBox2D is null)
+            if (boundingBox2D is null)
             {
                 return null;
             }
@@ -75,7 +75,7 @@ namespace DiGi.GIS
             List<OrtoData> values = [];
 
             List<int>? yearsList = years.ToSystem(1);
-            if(yearsList is null)
+            if (yearsList is null)
             {
                 return null;
             }

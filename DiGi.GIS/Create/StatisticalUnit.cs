@@ -1,5 +1,5 @@
-﻿using DiGi.GIS.Classes;
-using DiGi.BDL.Classes;
+﻿using DiGi.BDL.Classes;
+using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
 

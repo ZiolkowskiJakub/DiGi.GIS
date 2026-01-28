@@ -31,7 +31,7 @@ namespace DiGi.GIS
                 point2Ds.Add(new Point2D(values[i], values[i + 1]));
             }
 
-            if(point2Ds == null || point2Ds.Count < 3)
+            if (point2Ds == null || point2Ds.Count < 3)
             {
                 return null;
             }

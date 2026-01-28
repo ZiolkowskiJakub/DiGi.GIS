@@ -9,7 +9,7 @@ namespace DiGi.GIS.Classes
     {
         [JsonInclude, JsonPropertyName("DateTime")]
         private readonly DateTime dateTime;
-        
+
         public PredictedYearBuilt(DateTime dateTime, short year)
             : base(year)
         {
@@ -17,9 +17,9 @@ namespace DiGi.GIS.Classes
         }
 
         public PredictedYearBuilt(PredictedYearBuilt predictedYearBuilt)
-            :base(predictedYearBuilt)
+            : base(predictedYearBuilt)
         {
-            if(predictedYearBuilt != null)
+            if (predictedYearBuilt != null)
             {
                 dateTime = predictedYearBuilt.dateTime;
             }
@@ -28,7 +28,6 @@ namespace DiGi.GIS.Classes
         public PredictedYearBuilt(JsonObject jsonObject)
             : base(jsonObject)
         {
-
         }
 
         [JsonIgnore]

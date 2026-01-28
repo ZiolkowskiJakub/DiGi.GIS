@@ -11,7 +11,6 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-
         public static async Task<Dictionary<int, byte[]>?> BytesDictionary(this Building2D? building2D, IEnumerable<int>? years, double offset = 5, double width = 320, bool squared = false)
         {
             if (building2D == null || years == null)
@@ -41,7 +40,7 @@ namespace DiGi.GIS
 
         public static async Task<Dictionary<int, byte[]>?> BytesDictionary(this Dictionary<int, string>? ortoDataUrlDictionary)
         {
-            if(ortoDataUrlDictionary == null || ortoDataUrlDictionary.Count == 0)
+            if (ortoDataUrlDictionary == null || ortoDataUrlDictionary.Count == 0)
             {
                 return null;
             }
@@ -112,4 +111,3 @@ namespace DiGi.GIS
         }
     }
 }
-
