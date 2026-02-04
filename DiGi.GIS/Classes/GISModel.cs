@@ -5,28 +5,53 @@ using DiGi.GIS.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
     public class GISModel : UniqueObjectRelationClusterModel<IGISUniqueObject, IGISRelation>, IGISUniqueObject
     {
+        [JsonInclude, JsonPropertyName("Reference")]
+        private readonly string? reference;
+
         public GISModel()
         {
         }
 
-        public GISModel(ISource? source)
+        public GISModel(string? reference, ISource? source)
         {
+            this.reference = reference;
+
             Update(source);
         }
 
         public GISModel(GISModel? gISModel)
             : base(gISModel)
         {
+            if (gISModel is not null)
+            {
+                reference = gISModel.reference;
+            }
+        }
+
+        public GISModel(string? reference, GISModel? gISModel)
+            : base(gISModel)
+        {
+            this.reference = reference;
         }
 
         public GISModel(JsonObject? jsonObject)
             : base(jsonObject)
         {
+        }
+
+        [JsonIgnore]
+        public string? Reference
+        {
+            get
+            {
+                return reference;
+            }
         }
 
         public bool Contains(Building2D? building2D)

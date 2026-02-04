@@ -2,7 +2,7 @@
 
 namespace DiGi.GIS.Interfaces
 {
-    public interface IGISUniqueObject : IGISObject, IUniqueObject
+    public interface IGISUniqueObject : IGISSerializableObject, IUniqueObject
     {
     }
 }

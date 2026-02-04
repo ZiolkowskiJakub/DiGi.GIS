@@ -57,7 +57,7 @@ namespace DiGi.GIS
 
                     ZipArchive zipArchive_Files = new(deflateStream_Zip);
 
-                    GISModel gISModel = new(new DirectorySource(zipArchiveEntry_Zip.FullName));
+                    GISModel gISModel = new(Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), new DirectorySource(zipArchiveEntry_Zip.FullName));
 
                     foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                     {

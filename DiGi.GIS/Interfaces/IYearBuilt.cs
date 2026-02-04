@@ -1,9 +1,8 @@
-﻿using DiGi.Core.Interfaces;
-using DiGi.GIS.Enums;
+﻿using DiGi.GIS.Enums;
 
 namespace DiGi.GIS.Interfaces
 {
-    public interface IYearBuilt : IGISObject, ISerializableObject
+    public interface IYearBuilt : IGISSerializableObject
     {
         public string? Source { get; }
 

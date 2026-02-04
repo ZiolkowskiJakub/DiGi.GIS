@@ -1,8 +1,6 @@
-﻿using DiGi.Core.Interfaces;
-
-namespace DiGi.GIS.Interfaces
+﻿namespace DiGi.GIS.Interfaces
 {
-    public interface IStatisticalData : IGISObject, ISerializableObject
+    public interface IStatisticalData : IGISSerializableObject
     {
         string? Name { get; }
 

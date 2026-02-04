@@ -1,8 +1,6 @@
-﻿using DiGi.Core.Interfaces;
-
-namespace DiGi.GIS.Interfaces
+﻿namespace DiGi.GIS.Interfaces
 {
-    public interface IYearBuiltData : IGISObject, ISerializableObject
+    public interface IYearBuiltData : IGISSerializableObject
     {
         public string? Reference { get; }
 
