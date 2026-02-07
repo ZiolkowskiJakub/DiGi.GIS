@@ -6,7 +6,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void CalculateAdministrativeAreal2DAdministrativeAreal2Ds(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
+        public static void CalculateAdministrativeAreal2DAdministrativeAreal2Ds(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
             if (building2Ds == null)
@@ -44,7 +44,7 @@ namespace DiGi.GIS
                 Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult> tuple = tuples[0];
                 tuples.Remove(tuple);
 
-                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constans.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox!.InRange(x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D!.InRange(x.Item2.InternalPoint, tolerance));
+                List<Tuple<AdministrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult>> tuples_Temp = tuples_All.FindAll(x => x != tuple && tuple.Item2.Area >= x.Item2.Area - Core.Constants.Tolerance.Distance).FindAll(x => tuple.Item2.BoundingBox!.InRange(x.Item2.InternalPoint, tolerance) && tuple.Item1.PolygonalFace2D!.InRange(x.Item2.InternalPoint, tolerance));
                 dictionary[tuple.Item1] = tuples_Temp.ConvertAll(x => x.Item1);
             }
 

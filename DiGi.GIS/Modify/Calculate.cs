@@ -4,7 +4,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void Calculate(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
+        public static void Calculate(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             if (gISModel == null)
             {

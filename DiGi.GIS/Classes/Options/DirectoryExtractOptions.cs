@@ -15,16 +15,16 @@ namespace DiGi.GIS.Classes
         public bool UpdateExisting { get; set; } = true;
 
         [JsonInclude, JsonPropertyName("Building2DFileName")]
-        public string Building2DFileName { get; set; } = Constans.FileName.Building2D;
+        public string Building2DFileName { get; set; } = Constants.FileName.Building2D;
 
         [JsonInclude, JsonPropertyName("BuildingsDirectoryName")]
-        public string BuildingsDirectoryName { get; set; } = Constans.DirectoryName.Buildings;
+        public string BuildingsDirectoryName { get; set; } = Constants.DirectoryName.Buildings;
 
         [JsonInclude, JsonPropertyName("AdministrativeAreal2DFileName")]
-        public string AdministrativeAreal2DFileName { get; set; } = Constans.FileName.AdministrativeAreal2D;
+        public string AdministrativeAreal2DFileName { get; set; } = Constants.FileName.AdministrativeAreal2D;
 
         [JsonInclude, JsonPropertyName("AdministrativeArealsDirectoryName")]
-        public string AdministrativeArealsDirectoryName { get; set; } = Constans.DirectoryName.AdministrativeAreals;
+        public string AdministrativeArealsDirectoryName { get; set; } = Constants.DirectoryName.AdministrativeAreals;
 
         public DirectoryExtractOptions(string? sourcePath, string? destionationDirectory)
             : base()

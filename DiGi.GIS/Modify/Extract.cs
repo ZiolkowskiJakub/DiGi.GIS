@@ -61,7 +61,7 @@ namespace DiGi.GIS
 
                     foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                     {
-                        if (zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_BUBD_A))
+                        if (zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_BUBD_A))
                         {
                             gISModel.AddRange(zipArchiveEntry_File.Open());
                         }

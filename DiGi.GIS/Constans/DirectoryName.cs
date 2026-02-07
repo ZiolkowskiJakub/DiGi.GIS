@@ -1,4 +1,4 @@
-﻿namespace DiGi.GIS.Constans
+﻿namespace DiGi.GIS.Constants
 {
     public static class DirectoryName
     {

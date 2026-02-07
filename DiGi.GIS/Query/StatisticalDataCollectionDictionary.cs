@@ -93,7 +93,7 @@ namespace DiGi.GIS
                 return result;
             }
 
-            string[] paths = System.IO.Directory.GetFiles(directory, string.Format("*.{0}", Constans.FileExtension.StatisticalDataCollectionFile));
+            string[] paths = System.IO.Directory.GetFiles(directory, string.Format("*.{0}", Constants.FileExtension.StatisticalDataCollectionFile));
             if (paths == null || paths.Length == 0)
             {
                 return result;

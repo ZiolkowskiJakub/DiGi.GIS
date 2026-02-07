@@ -46,13 +46,13 @@ namespace DiGi.GIS
 
                         foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                         {
-                            if (zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_ADJA_A) || zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constans.FileNamePrefix.OT_BUBD_A))
+                            if (zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_ADJA_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_BUBD_A))
                             {
                                 gISModel.AddRange(zipArchiveEntry_File.Open());
                             }
                         }
 
-                        string path_Output = Path.Combine(directory_Region, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), Constans.FileExtension.GISModelFile));
+                        string path_Output = Path.Combine(directory_Region, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), Constants.FileExtension.GISModelFile));
                         using (GISModelFile gISModelFile = new(path_Output))
                         {
                             gISModelFile.Value = gISModel;
