@@ -10,10 +10,14 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Name")]
         private readonly string? name;
 
-        public AdministrativeAreal2D(Guid guid, string? reference, PolygonalFace2D? polygonalFace2D, string? name)
+        [JsonInclude, JsonPropertyName("Code")]
+        private readonly string? code;
+
+        public AdministrativeAreal2D(Guid guid, string? reference, string? code, PolygonalFace2D? polygonalFace2D, string? name)
             : base(guid, reference, polygonalFace2D)
         {
             this.name = name;
+            this.code = code;
         }
 
         public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D)
@@ -22,7 +26,14 @@ namespace DiGi.GIS.Classes
             if (administrativeArea2D != null)
             {
                 name = administrativeArea2D.name;
+                code = administrativeArea2D.code;
             }
+        }
+
+        public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D, string? code)
+            : this(administrativeArea2D)
+        {
+            this.code = code;
         }
 
         public AdministrativeAreal2D(JsonObject? jsonObject)
@@ -36,6 +47,15 @@ namespace DiGi.GIS.Classes
             get
             {
                 return name;
+            }
+        }
+
+        [JsonIgnore]
+        public string? Code
+        {
+            get
+            {
+                return code;
             }
         }
     }

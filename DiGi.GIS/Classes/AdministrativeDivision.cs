@@ -11,14 +11,23 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("AdministrativeDivisionType")]
         private readonly AdministrativeDivisionType administrativeDivisionType;
 
-        public AdministrativeDivision(Guid guid, string? reference, PolygonalFace2D? polygonalFace2D, AdministrativeDivisionType administrativeDivisionType, string name)
-            : base(guid, reference, polygonalFace2D, name)
+        public AdministrativeDivision(Guid guid, string? reference, string? code, PolygonalFace2D? polygonalFace2D, AdministrativeDivisionType administrativeDivisionType, string name)
+            : base(guid, reference, code, polygonalFace2D, name)
         {
             this.administrativeDivisionType = administrativeDivisionType;
         }
 
         public AdministrativeDivision(AdministrativeDivision? administrativeDivision)
             : base(administrativeDivision)
+        {
+            if (administrativeDivision != null)
+            {
+                administrativeDivisionType = administrativeDivision.administrativeDivisionType;
+            }
+        }
+
+        public AdministrativeDivision(AdministrativeDivision? administrativeDivision, string? code)
+            : base(administrativeDivision, code)
         {
             if (administrativeDivision != null)
             {

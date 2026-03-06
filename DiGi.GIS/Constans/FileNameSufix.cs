@@ -1,6 +1,6 @@
 ﻿namespace DiGi.GIS.Constants
 {
-    public static class FileNamePrefix
+    public static class FileNameSufix
     {
         public const string OT_ADJA_A = "__OT_ADJA_A.xml";
         public const string OT_ADMS_A = "__OT_ADMS_A.xml";

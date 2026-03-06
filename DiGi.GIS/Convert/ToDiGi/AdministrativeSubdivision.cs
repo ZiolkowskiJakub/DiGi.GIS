@@ -23,12 +23,13 @@ namespace DiGi.GIS
             string name = oT_ADMS_A.nazwa;
             uint? occupancy = oT_ADMS_A.liczbaMieszkancow;
             AdministrativeSubdivisionType? administrativeSubdivisionType = ToDiGi(oT_ADMS_A.rodzaj);
-
             string? reference = Query.Reference(oT_ADMS_A);
+            string code = oT_ADMS_A.identyfikatorTERC;
 
             return new AdministrativeSubdivision(
                 guid.Value,
                 reference,
+                code,
                 polygonalFace2D,
                 administrativeSubdivisionType == null || !administrativeSubdivisionType.HasValue ? AdministrativeSubdivisionType.other : administrativeSubdivisionType.Value,
                 name,

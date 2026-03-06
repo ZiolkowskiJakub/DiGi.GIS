@@ -7,9 +7,39 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
-        public static List<string>? ToDiGi(this string? path_Input, string? directory_Output)
+        /// <summary>
+        /// Converts from geoportal zip GML file to DiGi.GIS objects
+        /// </summary>
+        /// <param name="path_Input">path to zip GML file</param>
+        /// <param name="directory_Output">directory where files will be saved</param>
+        /// <param name="oT_ADJA_A">Converts OT_ADJA_A.xml file (AdministrativeSubdivision)</param>
+        /// <param name="oT_ADMS_A">Converts OT_ADMS_A.xml file (AdministrativeDivision)</param>
+        /// <param name="oT_BUBD_A">Converts OT_BUBD_A.xml file (Building2D)</param>
+        /// <returns>Output paths</returns>
+        public static List<string>? ToDiGi(this string? path_Input, string? directory_Output, bool oT_ADJA_A = true, bool oT_ADMS_A = true, bool oT_BUBD_A = true)
         {
             if (string.IsNullOrWhiteSpace(path_Input) || !File.Exists(path_Input) || string.IsNullOrWhiteSpace(directory_Output))
+            {
+                return null;
+            }
+
+            List<string> sufixes = [];
+            if (oT_ADJA_A)
+            {
+                sufixes.Add(Constants.FileNameSufix.OT_ADJA_A);
+            }
+
+            if (oT_ADMS_A)
+            {
+                sufixes.Add(Constants.FileNameSufix.OT_ADMS_A);
+            }
+
+            if (oT_BUBD_A)
+            {
+                sufixes.Add(Constants.FileNameSufix.OT_BUBD_A);
+            }
+
+            if (sufixes.Count == 0)
             {
                 return null;
             }
@@ -46,7 +76,8 @@ namespace DiGi.GIS
 
                         foreach (ZipArchiveEntry zipArchiveEntry_File in zipArchive_Files.Entries)
                         {
-                            if (zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_ADJA_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNamePrefix.OT_BUBD_A))
+                            //if (zipArchiveEntry_File.Name.EndsWith(Constants.FileNameSufix.OT_ADJA_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNameSufix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNameSufix.OT_BUBD_A))
+                            if (sufixes.FindIndex(x => zipArchiveEntry_File.Name.EndsWith(x)) != -1)
                             {
                                 gISModel.AddRange(zipArchiveEntry_File.Open());
                             }

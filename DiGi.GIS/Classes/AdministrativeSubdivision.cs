@@ -14,8 +14,8 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Occupancy")]
         private readonly uint? occupancy = 0;
 
-        public AdministrativeSubdivision(Guid guid, string? reference, PolygonalFace2D? polygonalFace2D, AdministrativeSubdivisionType administrativeSubdivisionType, string? name, uint? occupancy)
-            : base(guid, reference, polygonalFace2D, name)
+        public AdministrativeSubdivision(Guid guid, string? reference, string code, PolygonalFace2D? polygonalFace2D, AdministrativeSubdivisionType administrativeSubdivisionType, string? name, uint? occupancy)
+            : base(guid, reference, code, polygonalFace2D, name)
         {
             this.administrativeSubdivisionType = administrativeSubdivisionType;
             this.occupancy = occupancy;
@@ -23,6 +23,16 @@ namespace DiGi.GIS.Classes
 
         public AdministrativeSubdivision(AdministrativeSubdivision? administrativeSubdivision)
             : base(administrativeSubdivision)
+        {
+            if (administrativeSubdivision != null)
+            {
+                administrativeSubdivisionType = administrativeSubdivision.administrativeSubdivisionType;
+                occupancy = administrativeSubdivision.occupancy;
+            }
+        }
+
+        public AdministrativeSubdivision(AdministrativeSubdivision? administrativeSubdivision, string? code)
+            : base(administrativeSubdivision, code)
         {
             if (administrativeSubdivision != null)
             {

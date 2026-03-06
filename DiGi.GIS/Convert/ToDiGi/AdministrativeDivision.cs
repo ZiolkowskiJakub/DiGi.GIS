@@ -22,12 +22,13 @@ namespace DiGi.GIS
             PolygonalFace2D? polygonalFace2D = oT_ADJA_A.geometria?.ToDiGi();
             string name = oT_ADJA_A.nazwa;
             AdministrativeDivisionType? administrativeDivisionType = ToDiGi(oT_ADJA_A.rodzaj);
-
             string? reference = Query.Reference(oT_ADJA_A);
+            string code = oT_ADJA_A.identyfikatorTERYTjednostki;
 
             return new AdministrativeDivision(
                 guid.Value,
                 reference,
+                code,
                 polygonalFace2D,
                 administrativeDivisionType.Value,
                 name);
