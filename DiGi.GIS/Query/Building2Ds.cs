@@ -6,7 +6,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static List<Building2D>? Building2Ds<UAdministrativeAreal2D>(this GISModel? gISModel, Point2D? point2D, out List<UAdministrativeAreal2D>? administrativeAreal2Ds, double distance = 0, double tolerance = Core.Constants.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
+        public static List<Building2D>? Building2Ds<UAdministrativeAreal2D>(this GISModel? gISModel, Point2D? point2D, out List<UAdministrativeAreal2D>? administrativeAreal2Ds, double distance = 0, double tolerance = Core.Constans.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             administrativeAreal2Ds = null;
 

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Constants;
+﻿using DiGi.Core.Constans;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar;
 using DiGi.Geometry.Planar.Classes;

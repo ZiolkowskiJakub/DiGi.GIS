@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void CalculateBuilding2DGeometries(this GISModel? gISModel, double tolerance = Core.Constants.Tolerance.Distance)
+        public static void CalculateBuilding2DGeometries(this GISModel? gISModel, double tolerance = Core.Constans.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();
             if (building2Ds == null)
