@@ -9,7 +9,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static double Azimuth(this Building2D? builidng2D, Vector2D? referenceDirection = null, double tolerance = Core.Constans.Tolerance.Distance)
+        public static double Azimuth(this Building2D? builidng2D, Vector2D? referenceDirection = null, double tolerance = Core.Constants.Tolerance.Distance)
         {
             if (builidng2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)
             {
@@ -22,7 +22,7 @@ namespace DiGi.GIS
                 return double.NaN;
             }
 
-            referenceDirection ??= Geometry.Planar.Constans.Vector2D.WorldY;
+            referenceDirection ??= Geometry.Planar.Constants.Vector2D.WorldY;
 
             Vector2D? direction = rectangle2D.Height > rectangle2D.Width ? rectangle2D.WidthDirection : rectangle2D.HeightDirection;
             if (direction is null)

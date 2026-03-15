@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Constans;
+﻿using DiGi.Core.Constants;
 using DiGi.Core.Interfaces;
 using DiGi.Geometry.Planar;
 using DiGi.Geometry.Planar.Classes;
@@ -20,9 +20,9 @@ namespace DiGi.GIS.Classes
         private Building2D? input = null;
         private BuildingShape output = BuildingShape.Undefined;
 
-        private double areaFactor = 0.5;
-        private double aspectRatioFactor = 0.3;
-        private double rectangleThinnessRatioFactor = 0.2;
+        private readonly double areaFactor = 0.5;
+        private readonly double aspectRatioFactor = 0.3;
+        private readonly double rectangleThinnessRatioFactor = 0.2;
 
         private double scoreFactor = 0.7;
 

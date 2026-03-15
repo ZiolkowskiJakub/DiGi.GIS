@@ -6,7 +6,7 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
-        public static Building2DGeometryCalculationResult? Building2DGeometryCalculationResult(this Building2D? building2D, double tolerance = Core.Constans.Tolerance.Distance)
+        public static Building2DGeometryCalculationResult? Building2DGeometryCalculationResult(this Building2D? building2D, double tolerance = Core.Constants.Tolerance.Distance)
         {
             PolygonalFace2D? polygonalFace2D = building2D?.PolygonalFace2D;
             if (polygonalFace2D == null)

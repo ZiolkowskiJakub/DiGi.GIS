@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
-        public static void CalculateAdministrativeAreal2DGeometries(this GISModel gISModel, double tolerance = Core.Constans.Tolerance.Distance)
+        public static void CalculateAdministrativeAreal2DGeometries(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             List<AdministrativeAreal2D>? administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();
             if (administrativeAreal2Ds == null)
