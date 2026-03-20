@@ -84,6 +84,16 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
+        public List<TGISGuidObject2D>? GetObjects<TGISGuidObject2D>(IEnumerable<string?>? references) where TGISGuidObject2D : GISGuidObject2D
+        {
+            if (!TryGetObjects(references, out List<TGISGuidObject2D>? result))
+            {
+                return null;
+            }
+
+            return result;
+        }
+
         public HashSet<string>? GetReferences<TGISGuidObject2D>() where TGISGuidObject2D : GISGuidObject2D
         {
             if (uniqueObjectRelationCluster == null)
@@ -111,33 +121,55 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        public virtual bool TryGetObject<TGISGuidObject2D>(string? reference, out TGISGuidObject2D? gISGuidObject2D) where TGISGuidObject2D : GISGuidObject2D
+        public bool TryGetObject<TGISGuidObject2D>(string? reference, out TGISGuidObject2D? gISGuidObject2D) where TGISGuidObject2D : GISGuidObject2D
         {
             gISGuidObject2D = null;
 
-            if (string.IsNullOrWhiteSpace(reference))
+            bool result = TryGetObjects([reference], out List<TGISGuidObject2D>? gISGuidObject2Ds, 1);
+            if (!result || gISGuidObject2Ds is null || gISGuidObject2Ds.Count == 0)
+            {
+                return false;
+            }
+            gISGuidObject2D = gISGuidObject2Ds[0];
+            return true;
+        }
+
+        public virtual bool TryGetObjects<TGISGuidObject2D>(IEnumerable<string?>? references, out List<TGISGuidObject2D>? gISGuidObject2Ds, int maxCount = int.MaxValue) where TGISGuidObject2D : GISGuidObject2D
+        {
+            gISGuidObject2Ds = null;
+
+            if (references is null || !references.Any())
             {
                 return false;
             }
 
-            if (!uniqueObjectRelationCluster.TryGetValues(out List<TGISGuidObject2D>? gISGuidObject2Ds, null) || gISGuidObject2Ds == null)
+            if (maxCount <= 0)
             {
                 return false;
             }
 
-            foreach (TGISGuidObject2D gISGuidObject2D_Temp in gISGuidObject2Ds)
+            if (!uniqueObjectRelationCluster.TryGetValues(out List<TGISGuidObject2D>? gISGuidObject2Ds_Temp, null) || gISGuidObject2Ds_Temp == null)
             {
-                if (gISGuidObject2D_Temp?.Reference == reference)
+                return false;
+            }
+
+            int i = 0;
+            gISGuidObject2Ds = [];
+            foreach (TGISGuidObject2D gISGuidObject2D_Temp in gISGuidObject2Ds_Temp)
+            {
+                if (references.Contains(gISGuidObject2D_Temp?.Reference) && gISGuidObject2D_Temp.Clone<TGISGuidObject2D>() is TGISGuidObject2D gISGuidObject2D_Clone)
                 {
-                    gISGuidObject2D = gISGuidObject2D_Temp.Clone<TGISGuidObject2D>();
-                    if (gISGuidObject2D is not null)
+                    gISGuidObject2Ds.Add(gISGuidObject2D_Clone);
+                    i++;
+
+                    if (i >= maxCount)
                     {
-                        return true;
+                        break;
                     }
                 }
             }
 
-            return false;
+            return gISGuidObject2Ds.Count != 0;
         }
 
         public bool Update(ISource? source)
