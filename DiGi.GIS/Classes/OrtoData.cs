@@ -23,6 +23,7 @@ namespace DiGi.GIS.Classes
 
         [JsonInclude, JsonPropertyName("Scale")]
         private readonly double scale;
+
         public OrtoData(DateTime dateTime, byte[]? bytes, double scale, Point2D? location)
         {
             this.dateTime = dateTime;
@@ -141,7 +142,7 @@ namespace DiGi.GIS.Classes
                 return new BoundingBox2D(new Point2D(0, -size.Height), new Point2D(size.Width, 0));
             }
 
-            // Global: Top-Left is 'location'. 
+            // Global: Top-Left is 'location'.
             // Bottom-Right is location moved by (Width, -Height)
             Point2D minPoint = new Point2D(location.X, location.Y - size.Height);
             Point2D maxPoint = new Point2D(location.X + size.Width, location.Y);
@@ -151,25 +152,25 @@ namespace DiGi.GIS.Classes
 
         public Size? GetSize(GeometryContext geometryContext)
         {
-            if(geometryContext == GeometryContext.Undefined)
+            if (geometryContext == GeometryContext.Undefined)
             {
                 return null;
             }
 
             Size? size = Query.Size(bytes);
-            if(size is null)
+            if (size is null)
             {
                 return null;
             }
 
-            if(geometryContext == GeometryContext.Local)
+            if (geometryContext == GeometryContext.Local)
             {
                 return size;
             }
 
             return size.GetScaled(1 / scale);
         }
-        
+
         public Point2D? ToOrto(Point2D? point2D)
         {
             if (point2D == null)

@@ -1,4 +1,6 @@
 ﻿using DiGi.Core.Classes;
+using DiGi.Geometry.Planar.Classes;
+using DiGi.GIS.Enums;
 using DiGi.GIS.Interfaces;
 using System;
 using System.Collections;
@@ -81,6 +83,24 @@ namespace DiGi.GIS.Classes
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public BoundingBox2D? GetBoundingBox(GeometryContext geometryContext)
+        {
+            if (geometryContext == GeometryContext.Undefined || sortedDictionary is null || sortedDictionary.Count == 0)
+            {
+                return null;
+            }
+
+            List<BoundingBox2D?> boundingBox2Ds = sortedDictionary.Values.ToList().ConvertAll(x => x?.GetBoundingBox(geometryContext));
+            boundingBox2Ds.RemoveAll(x => x is null);
+
+            if (boundingBox2Ds.Count == 0)
+            {
+                return null;
+            }
+
+            return new BoundingBox2D(boundingBox2Ds);
         }
 
         public void Reduce()

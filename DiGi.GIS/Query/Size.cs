@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DiGi.Core.Classes;
+using System;
 using System.IO;
-using DiGi.Core.Classes;
 
 namespace DiGi.GIS
 {
@@ -13,9 +13,9 @@ namespace DiGi.GIS
                 return null;
             }
 
-            using MemoryStream memoryStream = new (bytes);
+            using MemoryStream memoryStream = new(bytes);
 
-            using BinaryReader binaryReader = new (memoryStream);
+            using BinaryReader binaryReader = new(memoryStream);
 
             try
             {
