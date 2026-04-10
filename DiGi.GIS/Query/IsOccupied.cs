@@ -5,7 +5,7 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
-        public static bool IsOccupied(this Building2D building2D)
+        public static bool IsOccupied(this Building2D? building2D)
         {
             if (building2D == null)
             {
