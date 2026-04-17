@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
-    public class YearBuiltData : SerializableObject, IYearBuiltData
+    public class YearBuiltData : GuidObject, IYearBuiltData
     {
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly string? reference;

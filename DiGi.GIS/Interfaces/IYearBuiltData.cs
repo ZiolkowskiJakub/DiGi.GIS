@@ -1,6 +1,6 @@
 ﻿namespace DiGi.GIS.Interfaces
 {
-    public interface IYearBuiltData : IGISSerializableObject
+    public interface IYearBuiltData : IGISGuidObject
     {
         public string? Reference { get; }
 
