@@ -2,7 +2,6 @@
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

@@ -12,7 +12,7 @@ namespace DiGi.GIS.Classes
 
         [JsonInclude, JsonPropertyName("OccupancyArea")]
         private readonly double? occupancyArea = null;
-        
+
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly string? reference = null;
 
