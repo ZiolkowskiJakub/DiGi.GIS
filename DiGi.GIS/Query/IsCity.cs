@@ -7,7 +7,7 @@ namespace DiGi.GIS
     {
         public static bool IsCity(this AdministrativeSubdivisionType administrativeSubdivisionType)
         {
-            return administrativeSubdivisionType == AdministrativeSubdivisionType.city || administrativeSubdivisionType == AdministrativeSubdivisionType.part_of_city;
+            return SettlementType(administrativeSubdivisionType) == Enums.SettlementType.Urban;
         }
 
         public static bool IsCity(this AdministrativeSubdivision administrativeSubdivision)
