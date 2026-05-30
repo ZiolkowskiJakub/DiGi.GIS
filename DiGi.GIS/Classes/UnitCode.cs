@@ -9,16 +9,25 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents a statistical unit code with hierarchical location identification
+    /// </summary>
     public class UnitCode : SerializableObject, IGISObject
     {
         [JsonInclude, JsonPropertyName("Code")]
         private readonly string? code;
 
+        /// <summary>
+        /// Initializes a new instance of the UnitCode class with the specified code
+        /// </summary>
         public UnitCode(string? code)
         {
             this.code = code;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the UnitCode class by copying another instance
+        /// </summary>
         public UnitCode(UnitCode? unitCode)
         {
             if (unitCode != null)
@@ -27,11 +36,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the UnitCode class from a JSON object
+        /// </summary>
         public UnitCode(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the code value
+        /// </summary>
         [JsonIgnore]
         public string? Code
         {
@@ -41,16 +56,25 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Creates a shallow copy of this unit code
+        /// </summary>
         public override ISerializableObject Clone()
         {
             return new UnitCode(code);
         }
 
+        /// <summary>
+        /// Determines whether the specified object equals this unit code
+        /// </summary>
         public override bool Equals(object? obj)
         {
             return obj?.ToString() == code;
         }
 
+        /// <summary>
+        /// Returns the hash code for this unit code
+        /// </summary>
         public override int GetHashCode()
         {
             if (code == null)
@@ -61,6 +85,9 @@ namespace DiGi.GIS.Classes
             return code.GetHashCode();
         }
 
+        /// <summary>
+        /// Gets the parent unit code based on the hierarchical structure
+        /// </summary>
         public UnitCode? GetParent()
         {
             StatisticalUnitType? statisticalUnitType = GetStatisticalUnitType();
@@ -77,6 +104,9 @@ namespace DiGi.GIS.Classes
             return GetUnitCode(Core.Query.Previous(statisticalUnitType.Value));
         }
 
+        /// <summary>
+        /// Gets the prefix of the code by removing trailing zeros
+        /// </summary>
         public string? GetPrefix()
         {
             if (string.IsNullOrWhiteSpace(code))
@@ -103,6 +133,9 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
+        /// <summary>
+        /// Gets the statistical unit type represented by this code
+        /// </summary>
         public StatisticalUnitType? GetStatisticalUnitType()
         {
             Array array = Enum.GetValues(typeof(StatisticalUnitType));
@@ -121,6 +154,9 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets the unit code for the specified statistical unit type
+        /// </summary>
         public UnitCode? GetUnitCode(StatisticalUnitType statisticalUnitType)
         {
             if (statisticalUnitType == StatisticalUnitType.statistical_towns)
@@ -161,6 +197,9 @@ namespace DiGi.GIS.Classes
             return Create.UnitCode(code?.Substring(0, length));
         }
 
+        /// <summary>
+        /// Determines whether this code is valid (12 digits)
+        /// </summary>
         public bool IsValid()
         {
             if (code == null || code.Length != 12)
@@ -171,6 +210,9 @@ namespace DiGi.GIS.Classes
             return code.All(char.IsDigit);
         }
 
+        /// <summary>
+        /// Returns the code as a string
+        /// </summary>
         public override string? ToString()
         {
             return code?.ToString();

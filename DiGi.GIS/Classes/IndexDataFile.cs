@@ -3,13 +3,22 @@ using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents an index data file that stores mappings of index values to references and names
+    /// </summary>
     public class IndexDataFile : List<IndexData>, IGISObject
     {
+        /// <summary>
+        /// Initializes a new instance of the IndexDataFile class
+        /// </summary>
         public IndexDataFile()
             : base()
         {
         }
 
+        /// <summary>
+        /// Reads index data from the specified file path
+        /// </summary>
         public bool Read(string? path)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
@@ -66,6 +75,9 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        /// <summary>
+        /// Writes index data to the specified file path
+        /// </summary>
         public bool Write(string? path)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -77,6 +89,9 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        /// <summary>
+        /// Tries to get the index value associated with the given reference
+        /// </summary>
         public bool TryGetIndex(string? reference, out int index)
         {
             index = -1;
@@ -96,6 +111,9 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        /// <summary>
+        /// Returns a string representation of all index data entries
+        /// </summary>
         public override string ToString()
         {
             List<string> values = [];

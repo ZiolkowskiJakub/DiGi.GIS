@@ -7,17 +7,26 @@ namespace DiGi.GIS.Classes
 {
     public class GISModelAreal2DReference : Core.Classes.SerializableObject, IGISSerializableObject, ISerializableReference
     {
+        /// <summary>
+        /// Initializes a new instance of the GISModelAreal2DReference class
+        /// </summary>
         public GISModelAreal2DReference(string? gISModelReference, string? areal2DReference)
         {
             GISModelReference = string.IsNullOrWhiteSpace(gISModelReference) ? null : gISModelReference;
             Areal2DReference = string.IsNullOrWhiteSpace(areal2DReference) ? null : areal2DReference;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the GISModelAreal2DReference class from a JSON object
+        /// </summary>
         public GISModelAreal2DReference(JsonObject jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the GISModelAreal2DReference class as a copy
+        /// </summary>
         public GISModelAreal2DReference(GISModelAreal2DReference gISModelAreal2DReference)
             : base(gISModelAreal2DReference)
         {
@@ -28,9 +37,15 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Reference to the areal 2D object
+        /// </summary>
         [JsonInclude, JsonPropertyName("Areal2DReference")]
         public string? Areal2DReference { get; }
 
+        /// <summary>
+        /// Reference to the GIS model
+        /// </summary>
         [JsonInclude, JsonPropertyName("GISModelReference")]
         public string? GISModelReference { get; }
 
@@ -74,11 +89,17 @@ namespace DiGi.GIS.Classes
             return gISModelAreal2DReference_1?.GetHashCode() == gISModelAreal2DReference_2?.GetHashCode();
         }
 
+        /// <summary>
+        /// Creates a clone of this instance
+        /// </summary>
         public override ISerializableObject? Clone()
         {
             return new GISModelAreal2DReference(this);
         }
 
+        /// <summary>
+        /// Indicates whether this instance equals a given reference
+        /// </summary>
         public bool Equals(IReference? reference)
         {
             if (reference is null)
@@ -94,16 +115,25 @@ namespace DiGi.GIS.Classes
             return ToString() == reference.ToString();
         }
 
+        /// <summary>
+        /// Indicates whether this instance equals a given object
+        /// </summary>
         public override bool Equals(object? obj)
         {
             return Equals(obj as IReference);
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance
+        /// </summary>
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
         public override string ToString()
         {
             return Convert.ToSystem_String(GISModelReference, Areal2DReference) ?? string.Empty;

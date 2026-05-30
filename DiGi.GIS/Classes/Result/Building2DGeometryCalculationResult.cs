@@ -39,6 +39,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("IsoperimetricRatio")]
         private readonly double isoperimetricRatio = double.NaN;
 
+        /// <summary>
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class
+        /// </summary>
         public Building2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area, double perimeter, double rectangularThinnessRatio, double isoperimetricRatio)
             : base()
         {
@@ -54,6 +57,9 @@ namespace DiGi.GIS.Classes
             this.isoperimetricRatio = isoperimetricRatio;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class as a copy
+        /// </summary>
         public Building2DGeometryCalculationResult(Building2DGeometryCalculationResult? building2DGeometryCalculationResult)
             : base(building2DGeometryCalculationResult)
         {
@@ -72,11 +78,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class from a JSON object
+        /// </summary>
         public Building2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Bounding box of the building
+        /// </summary>
         [JsonIgnore]
         public BoundingBox2D? BoundingBox
         {
@@ -86,6 +98,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Rectangle representation of the building
+        /// </summary>
         [JsonIgnore]
         public Rectangle2D? Rectangle2D
         {
@@ -95,6 +110,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Centroid point of the building
+        /// </summary>
         [JsonIgnore]
         public Point2D? Centroid
         {
@@ -104,6 +122,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Internal point within the building
+        /// </summary>
         [JsonIgnore]
         public Point2D? InternalPoint
         {
@@ -113,6 +134,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Thinness ratio of the building
+        /// </summary>
         [JsonIgnore]
         public double ThinnessRatio
         {
@@ -122,6 +146,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Rectangularity measure of the building
+        /// </summary>
         [JsonIgnore]
         public double Rectangularity
         {
@@ -131,6 +158,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Area of the building
+        /// </summary>
         [JsonIgnore]
         public double Area
         {
@@ -140,6 +170,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Perimeter of the building
+        /// </summary>
         [JsonIgnore]
         public double Perimeter
         {
@@ -149,6 +182,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Rectangular thinness ratio of the building
+        /// </summary>
         [JsonIgnore]
         public double RectangularThinnessRatio
         {
@@ -158,6 +194,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Isoperimetric ratio of the building
+        /// </summary>
         [JsonIgnore]
         public double IsoperimetricRatio
         {

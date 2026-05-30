@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents index data with an index value, reference, and name
+    /// </summary>
     public class IndexData : UniqueObject, IGISUniqueObject
     {
         [JsonInclude, JsonPropertyName("Index")]
@@ -16,6 +19,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Name")]
         private readonly string? name;
 
+        /// <summary>
+        /// Initializes a new instance of the IndexData class with the specified index, reference, and name
+        /// </summary>
         public IndexData(int index, string? reference, string? name)
             : base()
         {
@@ -24,6 +30,9 @@ namespace DiGi.GIS.Classes
             this.name = name;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the IndexData class by copying another instance
+        /// </summary>
         public IndexData(IndexData? indexData)
             : base(indexData)
         {
@@ -35,11 +44,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the IndexData class from a JSON object
+        /// </summary>
         public IndexData(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the index value
+        /// </summary>
         [JsonIgnore]
         public int Index
         {
@@ -49,6 +64,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the reference string
+        /// </summary>
         [JsonIgnore]
         public string? Reference
         {
@@ -58,6 +76,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the name string
+        /// </summary>
         [JsonIgnore]
         public string? Name
         {
@@ -67,6 +88,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unique identifier for this instance (the index value as a string)
+        /// </summary>
         [JsonIgnore]
         public override string? UniqueId
         {
@@ -76,6 +100,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
         public override string? ToString()
         {
             return string.Join("\t", index.ToString(), reference ?? string.Empty, name ?? string.Empty);

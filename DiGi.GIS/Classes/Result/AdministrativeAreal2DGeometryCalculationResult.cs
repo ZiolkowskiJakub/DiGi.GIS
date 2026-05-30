@@ -30,6 +30,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Area")]
         private readonly double area = double.NaN;
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class
+        /// </summary>
         public AdministrativeAreal2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area)
             : base()
         {
@@ -42,6 +45,9 @@ namespace DiGi.GIS.Classes
             this.area = area;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class as a copy
+        /// </summary>
         public AdministrativeAreal2DGeometryCalculationResult(AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult)
             : base(administrativeAreal2DGeometryCalculationResult)
         {
@@ -57,11 +63,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class from a JSON object
+        /// </summary>
         public AdministrativeAreal2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Bounding box of the administrative area
+        /// </summary>
         [JsonIgnore]
         public BoundingBox2D? BoundingBox
         {
@@ -71,6 +83,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Rectangle representation of the administrative area
+        /// </summary>
         [JsonIgnore]
         public Rectangle2D? Rectangle2D
         {
@@ -80,6 +95,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Centroid point of the administrative area
+        /// </summary>
         [JsonIgnore]
         public Point2D? Centroid
         {
@@ -89,6 +107,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Internal point within the administrative area
+        /// </summary>
         [JsonIgnore]
         public Point2D? InternalPoint
         {
@@ -98,6 +119,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Thinness ratio of the administrative area
+        /// </summary>
         [JsonIgnore]
         public double ThinnessRatio
         {
@@ -107,6 +131,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Rectangularity measure of the administrative area
+        /// </summary>
         [JsonIgnore]
         public double Rectangularity
         {
@@ -116,6 +143,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Area of the administrative area
+        /// </summary>
         [JsonIgnore]
         public double Area
         {

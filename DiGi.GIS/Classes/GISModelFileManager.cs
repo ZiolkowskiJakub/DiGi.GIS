@@ -8,10 +8,16 @@ namespace DiGi.GIS.Classes
     {
         private readonly Dictionary<GuidExternalReference, GISModelFile> dictionary = [];
 
+        /// <summary>
+        /// Initializes a new instance of the GISModelFileManager class
+        /// </summary>
         public GISModelFileManager()
         {
         }
 
+        /// <summary>
+        /// Gets the GIS model associated with the given external reference
+        /// </summary>
         public GISModel? GetGISModel(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null)
@@ -27,6 +33,9 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Value;
         }
 
+        /// <summary>
+        /// Gets the external reference associated with the given path
+        /// </summary>
         public GuidExternalReference? GetGuidExternalReference(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -50,6 +59,9 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets the external reference associated with the given GIS model
+        /// </summary>
         public GuidExternalReference? GetGuidExternalReference(GISModel? gISModel)
         {
             if (gISModel is null)
@@ -77,11 +89,17 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
+        /// <summary>
+        /// Gets all external references
+        /// </summary>
         public HashSet<GuidExternalReference>? GetGuidExternalReferences()
         {
             return [.. dictionary.Keys];
         }
 
+        /// <summary>
+        /// Gets the path associated with the given GIS model
+        /// </summary>
         public string? GetPath(GISModel? gISModel)
         {
             if (GetGuidExternalReference(gISModel) is not GuidExternalReference guidExternalReference)
@@ -97,6 +115,9 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Path;
         }
 
+        /// <summary>
+        /// Opens a GIS model file from the given path
+        /// </summary>
         public GuidExternalReference? Open(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -118,6 +139,9 @@ namespace DiGi.GIS.Classes
             return null;
         }
 
+        /// <summary>
+        /// Removes the GIS model file associated with the given external reference
+        /// </summary>
         public bool Remove(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out _))
@@ -128,6 +152,9 @@ namespace DiGi.GIS.Classes
             return dictionary.Remove(guidExternalReference);
         }
 
+        /// <summary>
+        /// Removes all GIS model files
+        /// </summary>
         public bool RemoveAll()
         {
             bool result = false;
@@ -143,6 +170,9 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
+        /// <summary>
+        /// Saves the GIS model file associated with the given external reference
+        /// </summary>
         public bool Save(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
@@ -153,6 +183,9 @@ namespace DiGi.GIS.Classes
             return gISModelFile.Save();
         }
 
+        /// <summary>
+        /// Saves the GIS model file associated with the given external reference to the specified path
+        /// </summary>
         public GuidExternalReference? SaveAs(GuidExternalReference? guidExternalReference, string path)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
@@ -177,6 +210,9 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
+        /// <summary>
+        /// Tries to get a GIS unique object from the specified file and object reference
+        /// </summary>
         public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -189,6 +225,9 @@ namespace DiGi.GIS.Classes
             return TryGetObject(gISModelFileUniqueObjectReference.GuidExternalReference, gISModelFileUniqueObjectReference.GuidReference, out gISUniqueObject);
         }
 
+        /// <summary>
+        /// Tries to get a GIS unique object from the specified file and object reference, along with its parent GIS model
+        /// </summary>
         public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -202,11 +241,17 @@ namespace DiGi.GIS.Classes
             return TryGetObject(gISModelFileUniqueObjectReference.GuidExternalReference, gISModelFileUniqueObjectReference.GuidReference, out gISUniqueObject, out gISModel);
         }
 
+        /// <summary>
+        /// Tries to get a GIS unique object from the given external and GUID references
+        /// </summary>
         public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             return TryGetObject(guidExternalReference, guidReference, out gISUniqueObject, out _);
         }
 
+        /// <summary>
+        /// Tries to get a GIS unique object from the given external and GUID references, along with its parent GIS model
+        /// </summary>
         public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -231,6 +276,9 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        /// <summary>
+        /// Tries to get a GIS GuidObject2D of the specified type from the given external reference and reference string
+        /// </summary>
         public bool TryGetObject<TGISGuidObject2D>(GuidExternalReference? guidExternalReference, string reference, out TGISGuidObject2D? gISUniqueObject, out GISModel? gISModel) where TGISGuidObject2D : GISGuidObject2D
         {
             gISUniqueObject = default;

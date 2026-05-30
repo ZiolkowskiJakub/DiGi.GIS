@@ -13,6 +13,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Occupancy")]
         private readonly uint? occupancy = null;
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyCalculationResult class
+        /// </summary>
         public OccupancyCalculationResult(double? occupancyArea, uint? occupancy)
             : base()
         {
@@ -20,6 +23,9 @@ namespace DiGi.GIS.Classes
             this.occupancy = occupancy;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyCalculationResult class as a copy
+        /// </summary>
         public OccupancyCalculationResult(OccupancyCalculationResult occupancyCalculationResult)
             : base(occupancyCalculationResult)
         {
@@ -30,11 +36,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyCalculationResult class from a JSON object
+        /// </summary>
         public OccupancyCalculationResult(JsonObject jsonObject)
         : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Occupancy count
+        /// </summary>
         [JsonIgnore]
         public uint? Occupancy
         {
@@ -44,6 +56,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Occupancy area
+        /// </summary>
         [JsonIgnore]
         public double? OccupancyArea
         {

@@ -13,6 +13,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Code")]
         private readonly string? code;
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2D class
+        /// </summary>
         public AdministrativeAreal2D(Guid guid, string? reference, string? code, PolygonalFace2D? polygonalFace2D, string? name)
             : base(guid, reference, polygonalFace2D)
         {
@@ -20,6 +23,9 @@ namespace DiGi.GIS.Classes
             this.code = code;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2D class as a copy of another AdministrativeAreal2D
+        /// </summary>
         public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D)
             : base(administrativeArea2D)
         {
@@ -30,17 +36,26 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2D class as a copy of another AdministrativeAreal2D with a new code
+        /// </summary>
         public AdministrativeAreal2D(AdministrativeAreal2D? administrativeArea2D, string? code)
             : this(administrativeArea2D)
         {
             this.code = code;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AdministrativeAreal2D class from a JSON object
+        /// </summary>
         public AdministrativeAreal2D(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Name of the administrative area
+        /// </summary>
         [JsonIgnore]
         public string? Name
         {
@@ -50,6 +65,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Code of the administrative area
+        /// </summary>
         [JsonIgnore]
         public string? Code
         {

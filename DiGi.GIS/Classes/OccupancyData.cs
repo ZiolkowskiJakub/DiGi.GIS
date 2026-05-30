@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents occupancy data with occupancy count, area, and reference information
+    /// </summary>
     public class OccupancyData : GuidObject, IOccupancyData
     {
         [JsonInclude, JsonPropertyName("Occupancy")]
@@ -16,6 +19,9 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Reference")]
         private readonly string? reference = null;
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyData class with the specified reference, occupancy area, and occupancy
+        /// </summary>
         public OccupancyData(string? reference, double? occupancyArea, uint? occupancy)
             : base()
         {
@@ -24,6 +30,9 @@ namespace DiGi.GIS.Classes
             this.occupancy = occupancy;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyData class by copying another instance
+        /// </summary>
         public OccupancyData(OccupancyData occupancyData)
             : base(occupancyData)
         {
@@ -34,11 +43,17 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the OccupancyData class from a JSON object
+        /// </summary>
         public OccupancyData(JsonObject jsonObject)
         : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets the occupancy count
+        /// </summary>
         [JsonIgnore]
         public uint? Occupancy
         {
@@ -48,6 +63,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the occupancy area
+        /// </summary>
         [JsonIgnore]
         public double? OccupancyArea
         {
@@ -57,6 +75,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the reference string
+        /// </summary>
         [JsonIgnore]
         public string? Reference
         {
