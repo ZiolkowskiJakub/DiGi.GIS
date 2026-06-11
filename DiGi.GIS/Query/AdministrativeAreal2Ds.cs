@@ -6,6 +6,13 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a list of administrative areal objects associated with the specified building within the GIS model.
+        /// </summary>
+        /// <typeparam name="UAdministrativeAreal2D">The type of the administrative areal object, which must derive from <see cref="AdministrativeAreal2D"/>.</typeparam>
+        /// <param name="gISModel">The GIS model instance used to query relations and objects.</param>
+        /// <param name="building2D">The building object for which associated administrative areals are retrieved.</param>
+        /// <returns>A list of <typeparamref name="UAdministrativeAreal2D"/> objects if associations exist; otherwise, null.</returns>
         public static List<UAdministrativeAreal2D>? AdministrativeAreal2Ds<UAdministrativeAreal2D>(this GISModel? gISModel, Building2D? building2D) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             if (gISModel == null || building2D == null)

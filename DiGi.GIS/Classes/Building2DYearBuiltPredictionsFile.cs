@@ -13,6 +13,7 @@ namespace DiGi.GIS.Classes
         /// Gets the unique reference for the specified building year built predictions
         /// </summary>
         /// <param name="building2DYearBuiltPredictions">The building year built predictions to get the reference for</param>
+        /// <returns>The unique reference associated with the provided object, or null if the object is null.</returns>
         public override UniqueReference? GetUniqueReference(Building2DYearBuiltPredictions? building2DYearBuiltPredictions)
         {
             return GetUniqueReference(building2DYearBuiltPredictions?.Reference);
@@ -22,6 +23,7 @@ namespace DiGi.GIS.Classes
         /// Gets the unique reference for the specified reference string
         /// </summary>
         /// <param name="reference">The reference string</param>
+        /// <returns>The unique reference created from the reference string, or null if the reference is null.</returns>
         public static UniqueReference? GetUniqueReference(string? reference)
         {
             if (reference == null)

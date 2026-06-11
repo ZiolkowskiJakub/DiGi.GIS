@@ -8,6 +8,13 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a dictionary of year built data associated with the provided references, based on the GIS model file's location.
+        /// </summary>
+        /// <typeparam name="TYearBuiltData">The type of year built data, which must implement <see cref="IYearBuiltData"/>.</typeparam>
+        /// <param name="gISModelFile">The GIS model file used to determine the path for the year built data file.</param>
+        /// <param name="references">A collection of reference strings to look up.</param>
+        /// <returns>A dictionary mapping references to their corresponding year built data, or null if inputs are invalid or the associated data file is missing.</returns>
         public static Dictionary<string, TYearBuiltData>? YearBuiltDataDictionary<TYearBuiltData>(GISModelFile? gISModelFile, IEnumerable<string>? references) where TYearBuiltData : IYearBuiltData
         {
             if (gISModelFile == null || references == null || references.Count() == 0)
@@ -39,6 +46,13 @@ namespace DiGi.GIS
             return YearBuiltDataDictionary<TYearBuiltData>(yearBuiltDataFile, references);
         }
 
+        /// <summary>
+        /// Retrieves a dictionary of year built data from a specific year built data file for the provided references.
+        /// </summary>
+        /// <typeparam name="TYearBuiltData">The type of year built data, which must implement <see cref="IYearBuiltData"/>.</typeparam>
+        /// <param name="yearBuiltDataFile">The year built data file to query.</param>
+        /// <param name="references">A collection of reference strings to look up.</param>
+        /// <returns>A dictionary mapping references to their corresponding year built data, or null if inputs are invalid.</returns>
         public static Dictionary<string, TYearBuiltData>? YearBuiltDataDictionary<TYearBuiltData>(YearBuiltDataFile? yearBuiltDataFile, IEnumerable<string>? references) where TYearBuiltData : IYearBuiltData
         {
             if (yearBuiltDataFile == null || references == null)
@@ -98,12 +112,12 @@ namespace DiGi.GIS
         }
 
         /// <summary>
-        ///
+        /// Retrieves a dictionary of year built data by searching all compatible files within the specified directory for the provided references.
         /// </summary>
-        /// <typeparam name="TYearBuiltData">Type of YesrBuiltData</typeparam>
+        /// <typeparam name="TYearBuiltData">The type of year built data, which must implement <see cref="IYearBuiltData"/>.</typeparam>
         /// <param name="directory">Directory where YearBuiltDataFile (*.ybdf) is located</param>
         /// <param name="references">Building2D references</param>
-        /// <returns></returns>
+        /// <returns>A dictionary mapping references to their corresponding year built data, or null if the directory is invalid or references are null.</returns>
         public static Dictionary<string, TYearBuiltData>? YearBuiltDataDictionary<TYearBuiltData>(string? directory, IEnumerable<string>? references) where TYearBuiltData : IYearBuiltData
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
@@ -153,6 +167,13 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a dictionary of year built data keyed by GuidReference for the provided collection of Building2D objects within the specified directory.
+        /// </summary>
+        /// <typeparam name="TYearBuiltData">The type of year built data, which must implement <see cref="IYearBuiltData"/>.</typeparam>
+        /// <param name="directory">The directory where YearBuiltDataFile (*.ybdf) files are located.</param>
+        /// <param name="building2Ds">A collection of Building2D objects to retrieve data for.</param>
+        /// <returns>A dictionary mapping GuidReferences to their corresponding year built data, or null if inputs are invalid.</returns>
         public static Dictionary<GuidReference, TYearBuiltData>? YearBuiltDataDictionary<TYearBuiltData>(string? directory, IEnumerable<Building2D>? building2Ds) where TYearBuiltData : IYearBuiltData
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)

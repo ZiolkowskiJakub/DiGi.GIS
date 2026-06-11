@@ -5,6 +5,12 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts the specified typology into an array of strings, where each string represents a row 
+        /// in a tab-separated format containing the hierarchy path and associated metadata.
+        /// </summary>
+        /// <param name="typology">The typology instance to convert.</param>
+        /// <returns>An array of tab-separated strings representing the typology structure, or an empty array if no data is found.</returns>
         public static string[]? ToSystem_Strings(this Typology.Classes.Typology? typology)
         {
             List<TypologyPath>? typologyPaths = typology?.GetTypologyPaths(true);

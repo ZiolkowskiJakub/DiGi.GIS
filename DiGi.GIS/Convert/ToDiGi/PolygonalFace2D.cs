@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a GML Surface to a DiGi PolygonalFace2D representation.
+        /// </summary>
+        /// <param name="surface">The surface instance to be converted.</param>
+        /// <returns>A <see cref="PolygonalFace2D"/> object if the conversion is successful; otherwise, null.</returns>
         public static PolygonalFace2D? ToDiGi(this Surface? surface)
         {
             if (surface == null)

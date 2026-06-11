@@ -5,6 +5,11 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines whether a building is occupied based on its phase, general function, and specific functions.
+        /// </summary>
+        /// <param name="building2D">The building object to evaluate.</param>
+        /// <returns>True if the building meets all occupancy criteria; otherwise, false.</returns>
         public static bool IsOccupied(this Building2D? building2D)
         {
             if (building2D == null)

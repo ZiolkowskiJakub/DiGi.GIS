@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_RodzajMiejscowosci"/> enumeration value to its corresponding <see cref="AdministrativeSubdivisionType"/>.
+        /// </summary>
+        /// <param name="oT_RodzajMiejscowosci">The source locality type from the BDOT10k system.</param>
+        /// <returns>The equivalent administrative subdivision type in the DiGi GIS system.</returns>
         public static AdministrativeSubdivisionType ToDiGi(this OT_RodzajMiejscowosci oT_RodzajMiejscowosci)
         {
             return oT_RodzajMiejscowosci switch

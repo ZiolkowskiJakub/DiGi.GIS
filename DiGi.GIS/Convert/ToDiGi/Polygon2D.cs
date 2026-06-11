@@ -5,6 +5,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a GML LinearRing to a DiGi Polygon2D object.
+        /// </summary>
+        /// <param name="linearRing">The linear ring instance to convert.</param>
+        /// <returns>A <see cref="Polygon2D"/> object if the conversion is successful; otherwise, null.</returns>
         public static Polygon2D? ToDiGi(this GML.Classes.LinearRing? linearRing)
         {
             if (linearRing == null)

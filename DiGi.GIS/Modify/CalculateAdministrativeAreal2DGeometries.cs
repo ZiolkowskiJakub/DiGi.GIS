@@ -5,6 +5,11 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates the 2D geometries for administrative areal objects within the provided GIS model.
+        /// </summary>
+        /// <param name="gISModel">The GIS model containing the administrative areal objects to be processed.</param>
+        /// <param name="tolerance">The distance tolerance used during the geometry calculation process.</param>
         public static void CalculateAdministrativeAreal2DGeometries(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             List<AdministrativeAreal2D>? administrativeAreal2Ds = gISModel?.GetObjects<AdministrativeAreal2D>();

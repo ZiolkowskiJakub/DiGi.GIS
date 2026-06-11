@@ -22,6 +22,9 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the OccupancyData class with the specified reference, occupancy area, and occupancy
         /// </summary>
+        /// <param name="reference">The reference identifier for the occupancy data.</param>
+        /// <param name="occupancyArea">The total area associated with the occupancy.</param>
+        /// <param name="occupancy">The count of occupants.</param>
         public OccupancyData(string? reference, double? occupancyArea, uint? occupancy)
             : base()
         {
@@ -33,6 +36,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the OccupancyData class by copying another instance
         /// </summary>
+        /// <param name="occupancyData">The source instance to copy data from.</param>
         public OccupancyData(OccupancyData occupancyData)
             : base(occupancyData)
         {
@@ -46,6 +50,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the OccupancyData class from a JSON object
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the data to initialize the instance.</param>
         public OccupancyData(JsonObject jsonObject)
         : base(jsonObject)
         {

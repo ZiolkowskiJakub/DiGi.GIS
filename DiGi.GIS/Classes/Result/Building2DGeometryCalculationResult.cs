@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents the result of geometry calculations for a 2D building.
+    /// </summary>
     public class Building2DGeometryCalculationResult : GuidResult<Building2D>, IGISGuidResult
     {
         [JsonInclude, JsonPropertyName("BoundingBox")]
@@ -40,8 +43,18 @@ namespace DiGi.GIS.Classes
         private readonly double isoperimetricRatio = double.NaN;
 
         /// <summary>
-        /// Initializes a new instance of the Building2DGeometryCalculationResult class
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class.
         /// </summary>
+        /// <param name="boundingBox">The bounding box of the building.</param>
+        /// <param name="rectangle">The rectangle representation of the building.</param>
+        /// <param name="centroid">The centroid point of the building.</param>
+        /// <param name="internalPoint">The internal point within the building.</param>
+        /// <param name="thinnessRatio">The thinness ratio of the building.</param>
+        /// <param name="rectangularity">The rectangularity measure of the building.</param>
+        /// <param name="area">The area of the building.</param>
+        /// <param name="perimeter">The perimeter of the building.</param>
+        /// <param name="rectangularThinnessRatio">The rectangular thinness ratio of the building.</param>
+        /// <param name="isoperimetricRatio">The isoperimetric ratio of the building.</param>
         public Building2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area, double perimeter, double rectangularThinnessRatio, double isoperimetricRatio)
             : base()
         {
@@ -58,8 +71,9 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Building2DGeometryCalculationResult class as a copy
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class as a copy.
         /// </summary>
+        /// <param name="building2DGeometryCalculationResult">The source result object to copy from.</param>
         public Building2DGeometryCalculationResult(Building2DGeometryCalculationResult? building2DGeometryCalculationResult)
             : base(building2DGeometryCalculationResult)
         {
@@ -79,15 +93,16 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the Building2DGeometryCalculationResult class from a JSON object
+        /// Initializes a new instance of the Building2DGeometryCalculationResult class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the calculation result data.</param>
         public Building2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
         /// <summary>
-        /// Bounding box of the building
+        /// Gets the bounding box of the building.
         /// </summary>
         [JsonIgnore]
         public BoundingBox2D? BoundingBox
@@ -99,7 +114,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Rectangle representation of the building
+        /// Gets the rectangle representation of the building.
         /// </summary>
         [JsonIgnore]
         public Rectangle2D? Rectangle2D
@@ -111,7 +126,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Centroid point of the building
+        /// Gets the centroid point of the building.
         /// </summary>
         [JsonIgnore]
         public Point2D? Centroid
@@ -123,7 +138,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Internal point within the building
+        /// Gets the internal point within the building.
         /// </summary>
         [JsonIgnore]
         public Point2D? InternalPoint
@@ -135,7 +150,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Thinness ratio of the building
+        /// Gets the thinness ratio of the building.
         /// </summary>
         [JsonIgnore]
         public double ThinnessRatio
@@ -147,7 +162,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Rectangularity measure of the building
+        /// Gets the rectangularity measure of the building.
         /// </summary>
         [JsonIgnore]
         public double Rectangularity
@@ -159,7 +174,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Area of the building
+        /// Gets the area of the building.
         /// </summary>
         [JsonIgnore]
         public double Area
@@ -171,7 +186,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Perimeter of the building
+        /// Gets the perimeter of the building.
         /// </summary>
         [JsonIgnore]
         public double Perimeter
@@ -183,7 +198,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Rectangular thinness ratio of the building
+        /// Gets the rectangular thinness ratio of the building.
         /// </summary>
         [JsonIgnore]
         public double RectangularThinnessRatio
@@ -195,7 +210,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Isoperimetric ratio of the building
+        /// Gets the isoperimetric ratio of the building.
         /// </summary>
         [JsonIgnore]
         public double IsoperimetricRatio

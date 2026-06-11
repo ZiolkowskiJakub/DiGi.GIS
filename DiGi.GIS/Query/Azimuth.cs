@@ -9,6 +9,13 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the azimuth of a building relative to a reference direction.
+        /// </summary>
+        /// <param name="builidng2D">The building for which the azimuth is calculated.</param>
+        /// <param name="referenceDirection">The reference direction vector used as the baseline for the angle calculation. Defaults to WorldY if not provided.</param>
+        /// <param name="tolerance">The distance tolerance used when creating the bounding rectangle of the polygonal face.</param>
+        /// <returns>The azimuth angle in degrees, ranging from 0 to 360. Returns double.NaN if calculations cannot be performed.</returns>
         public static double Azimuth(this Building2D? builidng2D, Vector2D? referenceDirection = null, double tolerance = Core.Constants.Tolerance.Distance)
         {
             if (builidng2D?.PolygonalFace2D is not PolygonalFace2D polygonalFace2D)

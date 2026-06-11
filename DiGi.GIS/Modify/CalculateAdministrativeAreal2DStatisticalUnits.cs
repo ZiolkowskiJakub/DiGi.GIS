@@ -8,6 +8,12 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates the administrative areal 2D statistical units for a specified statistical unit using the provided GIS model.
+        /// </summary>
+        /// <param name="gISModel">The <see cref="GISModel"/> instance used to perform the calculations.</param>
+        /// <param name="statisticalUnit">The <see cref="StatisticalUnit"/> for which the administrative areal 2D units are calculated.</param>
+        /// <param name="invalidAdministrativeAreal2Ds">When this method returns, contains a <see cref="List{AdministrativeAreal2D}"/> of invalid administrative areal 2D units identified during the calculation; otherwise, null.</param>
         public static void CalculateAdministrativeAreal2DStatisticalUnits(this GISModel? gISModel, StatisticalUnit? statisticalUnit, out List<AdministrativeAreal2D>? invalidAdministrativeAreal2Ds)
         {
             invalidAdministrativeAreal2Ds = null;

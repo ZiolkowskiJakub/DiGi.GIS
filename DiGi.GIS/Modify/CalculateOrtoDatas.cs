@@ -8,6 +8,14 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates orthodata for the specified collection of building 2D objects and saves them to the provided path.
+        /// </summary>
+        /// <param name="building2Ds">The collection of Building2D objects to process.</param>
+        /// <param name="path">The file path where the orthodata should be stored.</param>
+        /// <param name="ortoDatasBuilding2DOptions">The options used for calculating orthodata for building 2D objects.</param>
+        /// <param name="overrideExisting">A value indicating whether to override existing data in the target files.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a set of <see cref="GuidReference"/> for the processed buildings, or null if the input parameters are invalid.</returns>
         public static async Task<HashSet<GuidReference>?> CalculateOrtoDatas(this IEnumerable<Building2D>? building2Ds, string? path, OrtoDatasBuilding2DOptions? ortoDatasBuilding2DOptions, bool overrideExisting = false)
         {
             if (building2Ds == null)
@@ -153,6 +161,14 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Calculates orthodata for the specified collection of ortho range objects and saves them to the provided path.
+        /// </summary>
+        /// <param name="ortoRanges">The collection of OrtoRange objects to process.</param>
+        /// <param name="path">The file path where the orthodata should be stored.</param>
+        /// <param name="ortoDatasOrtoRangeOptions">The options used for calculating orthodata for ortho range objects.</param>
+        /// <param name="overrideExisting">A value indicating whether to override existing data in the target files.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a set of <see cref="GuidReference"/> for the processed ranges, or null if the input parameters are invalid.</returns>
         public static async Task<HashSet<GuidReference>?> CalculateOrtoDatas(this IEnumerable<OrtoRange>? ortoRanges, string? path, OrtoDatasOrtoRangeOptions? ortoDatasOrtoRangeOptions, bool overrideExisting = false)
         {
             if (ortoRanges == null)

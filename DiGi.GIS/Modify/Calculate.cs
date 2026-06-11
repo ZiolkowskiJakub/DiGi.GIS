@@ -4,6 +4,11 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates various 2D geometries and occupancy for the provided GIS model based on a specified tolerance.
+        /// </summary>
+        /// <param name="gISModel">The GIS model instance to perform calculations on.</param>
+        /// <param name="tolerance">The distance tolerance used during geometry calculations. Defaults to Core.Constants.Tolerance.Distance.</param>
         public static void Calculate(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             if (gISModel == null)

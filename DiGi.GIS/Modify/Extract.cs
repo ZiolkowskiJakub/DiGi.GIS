@@ -7,6 +7,11 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Extracts GIS data from a zip archive and organizes it into directories based on the provided options.
+        /// </summary>
+        /// <param name="directoryExtractOptions">The options specifying the source path, destination directory, and extraction behavior.</param>
+        /// <returns>True if the extraction process was successful; otherwise, false.</returns>
         public static bool Extract(this DirectoryExtractOptions? directoryExtractOptions)
         {
             if (directoryExtractOptions == null)

@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a reference identifier for the specified OT_ADJA_A object.
+        /// </summary>
+        /// <param name="oT_ADJA_A">The OT_ADJA_A object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this OT_ADJA_A? oT_ADJA_A)
         {
             if (oT_ADJA_A == null)
@@ -36,6 +41,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a reference identifier for the specified OT_ADMS_A object.
+        /// </summary>
+        /// <param name="oT_ADMS_A">The OT_ADMS_A object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this OT_ADMS_A? oT_ADMS_A)
         {
             if (oT_ADMS_A == null)
@@ -66,6 +76,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a reference identifier for the specified OT_BUBD_A object.
+        /// </summary>
+        /// <param name="oT_BUBD_A">The OT_BUBD_A object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this OT_BUBD_A? oT_BUBD_A)
         {
             if (oT_BUBD_A == null)
@@ -128,6 +143,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a reference identifier for the specified geometry object.
+        /// </summary>
+        /// <param name="geometry">The geometry object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this GML.Classes.Geometry? geometry)
         {
             if (geometry == null)
@@ -156,6 +176,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a reference identifier for the specified polygon.
+        /// </summary>
+        /// <param name="polygon">The polygon object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this Polygon? polygon)
         {
             if (polygon == null)
@@ -180,6 +205,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Retrieves a reference identifier for the specified linear ring.
+        /// </summary>
+        /// <param name="linearRing">The linear ring object to retrieve the reference from.</param>
+        /// <returns>A string containing the reference identifier, or null if no valid reference could be determined.</returns>
         public static string? Reference(this LinearRing? linearRing)
         {
             if (linearRing == null)

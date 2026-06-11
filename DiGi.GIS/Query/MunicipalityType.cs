@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the municipality type based on the provided unit code.
+        /// </summary>
+        /// <param name="unitCode">The unit code to evaluate.</param>
+        /// <returns>The corresponding <see cref="DiGi.GIS.Enums.MunicipalityType"/> if applicable; otherwise, null.</returns>
         public static MunicipalityType? MunicipalityType(this UnitCode? unitCode)
         {
             if (unitCode == null || unitCode.GetStatisticalUnitType() != StatisticalUnitType.municipalities)
@@ -40,6 +45,11 @@ namespace DiGi.GIS
             return null;
         }
 
+        /// <summary>
+        /// Determines the municipality type based on the provided statistical unit.
+        /// </summary>
+        /// <param name="statisticalUnit">The statistical unit to evaluate.</param>
+        /// <returns>The corresponding <see cref="DiGi.GIS.Enums.MunicipalityType"/> if applicable; otherwise, null.</returns>
         public static MunicipalityType? MunicipalityType(this StatisticalUnit statisticalUnit)
         {
             return MunicipalityType(statisticalUnit?.UnitCode);

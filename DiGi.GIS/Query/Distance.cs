@@ -4,6 +4,14 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Calculates the great-circle distance between two points on the Earth's surface using their latitude and longitude coordinates.
+        /// </summary>
+        /// <param name="latitude_1">The latitude of the first point in decimal degrees.</param>
+        /// <param name="longitude_1">The longitude of the first point in decimal degrees.</param>
+        /// <param name="latitude_2">The latitude of the second point in decimal degrees.</param>
+        /// <param name="longitude_2">The longitude of the second point in decimal degrees.</param>
+        /// <returns>The distance between the two points in meters, or <see cref="System.Double.NaN"/> if any of the input coordinates are NaN.</returns>
         public static double Distance(double latitude_1, double longitude_1, double latitude_2, double longitude_2)
         {
             if (double.IsNaN(latitude_1) || double.IsNaN(latitude_2) || double.IsNaN(longitude_1) || double.IsNaN(longitude_2))

@@ -6,6 +6,12 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Calculates the 2D geometry results for a given building.
+        /// </summary>
+        /// <param name="building2D">The building object to calculate geometry for.</param>
+        /// <param name="tolerance">The tolerance value used in geometric calculations.</param>
+        /// <returns>A <see cref="Building2DGeometryCalculationResult"/> containing the calculated values, or null if calculation is not possible.</returns>
         public static Building2DGeometryCalculationResult? Building2DGeometryCalculationResult(this Building2D? building2D, double tolerance = Core.Constants.Tolerance.Distance)
         {
             PolygonalFace2D? polygonalFace2D = building2D?.PolygonalFace2D;

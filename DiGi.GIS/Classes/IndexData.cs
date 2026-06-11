@@ -22,6 +22,9 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the IndexData class with the specified index, reference, and name
         /// </summary>
+        /// <param name="index">The numeric index value.</param>
+        /// <param name="reference">The reference identifier string.</param>
+        /// <param name="name">The descriptive name string.</param>
         public IndexData(int index, string? reference, string? name)
             : base()
         {
@@ -33,6 +36,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the IndexData class by copying another instance
         /// </summary>
+        /// <param name="indexData">The source IndexData instance to copy from.</param>
         public IndexData(IndexData? indexData)
             : base(indexData)
         {
@@ -47,6 +51,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the IndexData class from a JSON object
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the data to initialize this instance.</param>
         public IndexData(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -103,6 +108,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Returns the string representation of this instance
         /// </summary>
+        /// <returns>A tab-separated string containing the index, reference, and name.</returns>
         public override string? ToString()
         {
             return string.Join("\t", index.ToString(), reference ?? string.Empty, name ?? string.Empty);

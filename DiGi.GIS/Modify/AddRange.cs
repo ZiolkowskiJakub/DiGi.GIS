@@ -15,6 +15,12 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Adds a range of features from the specified stream to the GIS model by converting the stream content to GML.
+        /// </summary>
+        /// <param name="gISModel">The GIS model instance to which the features should be added.</param>
+        /// <param name="stream">The input stream containing the feature data in GML format.</param>
+        /// <returns>A list of <see cref="GuidReference"/> for the successfully added features, or null if the stream is null or no valid feature collection was found.</returns>
         public static List<GuidReference>? AddRange(this GISModel? gISModel, Stream? stream)
         {
             if (stream == null)
@@ -31,6 +37,12 @@ namespace DiGi.GIS
             return gISModel.AddRange(featureCollection);
         }
 
+        /// <summary>
+        /// Adds a range of features from the specified feature collection to the GIS model, filtering for specific geometry types.
+        /// </summary>
+        /// <param name="gISModel">The GIS model instance to which the features should be added.</param>
+        /// <param name="featureCollection">The collection of GML features to process.</param>
+        /// <returns>A list of <see cref="GuidReference"/> for the successfully updated features, or null if the model or feature collection is null or contains no valid members.</returns>
         public static List<GuidReference>? AddRange(this GISModel? gISModel, FeatureCollection? featureCollection)
         {
             if (gISModel == null || featureCollection == null)
@@ -80,6 +92,12 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Adds a range of yearly statistical values from the provided unit yearly values to the specified statistical data collection.
+        /// </summary>
+        /// <param name="statisticalDataCollection">The collection where the processed statistical data will be stored.</param>
+        /// <param name="unitYearlyValues">The source object containing results and yearly values for units.</param>
+        /// <returns>A list of <see cref="StatisticalYearlyDoubleData"/> that were processed, or null if either parameter is null.</returns>
         public static List<StatisticalYearlyDoubleData>? AddRange(this StatisticalDataCollection? statisticalDataCollection, UnitYearlyValues? unitYearlyValues)
         {
             if (statisticalDataCollection == null || unitYearlyValues == null)

@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_FunOgolnaBudynku"/> enumeration value to its corresponding <see cref="BuildingGeneralFunction"/> equivalent.
+        /// </summary>
+        /// <param name="oT_FunOgolnaBudynku">The source building general function value from the OT domain.</param>
+        /// <returns>The mapped <see cref="BuildingGeneralFunction"/> value.</returns>
         public static BuildingGeneralFunction ToDiGi(this OT_FunOgolnaBudynku oT_FunOgolnaBudynku)
         {
             return oT_FunOgolnaBudynku switch

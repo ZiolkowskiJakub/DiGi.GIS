@@ -5,10 +5,10 @@ namespace DiGi.GIS
     public static partial class Query
     {
         /// <summary>
-        /// Gets CardinalDirection for given azimuth
+        /// Gets the cardinal direction for a given azimuth angle.
         /// </summary>
-        /// <param name="azimuth">Angle in degrees [0-360]</param>
-        /// <returns>CardinalDirection</returns>
+        /// <param name="azimuth">The azimuth angle in degrees, typically ranging from 0 to 360.</param>
+        /// <returns>The corresponding <see cref="Enums.CardinalDirection"/> based on the provided azimuth.</returns>
         public static CardinalDirection CardinalDirection(this double azimuth)
         {
             if (double.IsNaN(azimuth))

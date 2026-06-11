@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_KatIstnienia"/> enumeration value to its corresponding <see cref="BuildingPhase"/> value.
+        /// </summary>
+        /// <param name="oT_KatIstnienia">The source <see cref="OT_KatIstnienia"/> value to convert.</param>
+        /// <returns>The equivalent <see cref="BuildingPhase"/> value.</returns>
         public static BuildingPhase ToDiGi(this OT_KatIstnienia oT_KatIstnienia)
         {
             return oT_KatIstnienia switch

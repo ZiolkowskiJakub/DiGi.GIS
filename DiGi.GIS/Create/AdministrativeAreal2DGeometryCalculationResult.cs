@@ -6,6 +6,12 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Calculates the geometry calculation results for the specified administrative areal 2D object.
+        /// </summary>
+        /// <param name="administrativeAreal2D">The administrative areal 2D object to calculate results for.</param>
+        /// <param name="tolerance">The distance tolerance used in the geometric calculations.</param>
+        /// <returns>An <see cref="AdministrativeAreal2DGeometryCalculationResult"/> containing the calculated geometry data, or null if the input is null or does not have a valid polygonal face.</returns>
         public static AdministrativeAreal2DGeometryCalculationResult? AdministrativeAreal2DGeometryCalculationResult(this AdministrativeAreal2D? administrativeAreal2D, double tolerance = Core.Constants.Tolerance.Distance)
         {
             PolygonalFace2D? polygonalFace2D = administrativeAreal2D?.PolygonalFace2D;

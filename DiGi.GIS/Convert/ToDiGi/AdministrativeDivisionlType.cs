@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_RodzajJednostkiAdministracyjnej"/> value to its corresponding <see cref="AdministrativeDivisionType"/>.
+        /// </summary>
+        /// <param name="oT_RodzajJednostkiAdministracyjnej">The administrative unit type from the OT source.</param>
+        /// <returns>The equivalent <see cref="AdministrativeDivisionType"/>.</returns>
         public static AdministrativeDivisionType ToDiGi(this OT_RodzajJednostkiAdministracyjnej oT_RodzajJednostkiAdministracyjnej)
         {
             return oT_RodzajJednostkiAdministracyjnej switch
@@ -20,6 +25,11 @@ namespace DiGi.GIS
             };
         }
 
+        /// <summary>
+        /// Converts a <see cref="StatisticalUnitType"/> value to its corresponding <see cref="AdministrativeDivisionType"/>, or null if no mapping exists.
+        /// </summary>
+        /// <param name="statisticalUnitType">The statistical unit type to convert.</param>
+        /// <returns>The equivalent <see cref="AdministrativeDivisionType"/> if found; otherwise, null.</returns>
         public static AdministrativeDivisionType? ToDiGi(this StatisticalUnitType statisticalUnitType)
         {
             return statisticalUnitType switch

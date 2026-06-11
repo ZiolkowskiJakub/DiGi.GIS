@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Determines the dimensions of an image from its byte array representation, supporting PNG and JPEG formats.
+        /// </summary>
+        /// <param name="bytes">The byte array containing the raw image data.</param>
+        /// <returns>A <see cref="Size"/> object containing the width and height if the format is supported and valid; otherwise, <c>null</c>.</returns>
         public static Size? Size(byte[]? bytes)
         {
             if (bytes == null || bytes.Length < 30)

@@ -9,6 +9,10 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates the occupancy for the specified <see cref="GISModel"/>.
+        /// </summary>
+        /// <param name="gISModel">The <see cref="GISModel"/> instance to calculate occupancy for.</param>
         public static void CalculateOccupancy(this GISModel gISModel)
         {
             if (gISModel == null)

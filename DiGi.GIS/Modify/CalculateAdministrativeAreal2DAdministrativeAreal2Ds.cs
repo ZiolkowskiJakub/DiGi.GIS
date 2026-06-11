@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Calculates and updates the relationships between administrative areal 2D objects based on their geometric properties, area sizes, and a specified tolerance.
+        /// </summary>
+        /// <param name="gISModel">The GIS model instance containing the administrative areal 2D objects to be processed.</param>
+        /// <param name="tolerance">The distance tolerance used for spatial range calculations.</param>
         public static void CalculateAdministrativeAreal2DAdministrativeAreal2Ds(this GISModel gISModel, double tolerance = Core.Constants.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();

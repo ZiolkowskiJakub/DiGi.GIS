@@ -7,6 +7,11 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Processes a collection of units to determine and create the most appropriate statistical unit based on hierarchy levels and codes.
+        /// </summary>
+        /// <param name="units">The collection of units to be processed.</param>
+        /// <returns>The resulting <see cref="StatisticalUnit"/> if found; otherwise, null.</returns>
         public static StatisticalUnit? StatisticalUnit(this IEnumerable<Unit>? units)
         {
             if (units == null)

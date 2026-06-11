@@ -6,6 +6,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_FunSzczegolowaBudynku"/> instance to a <see cref="BuildingSpecificFunction"/>.
+        /// </summary>
+        /// <param name="oT_FunSzczegolowaBudynku">The <see cref="OT_FunSzczegolowaBudynku"/> instance to convert.</param>
+        /// <returns>A <see cref="BuildingSpecificFunction"/> object converted from the source <see cref="OT_FunSzczegolowaBudynku"/>.</returns>
         public static BuildingSpecificFunction ToDiGi(this OT_FunSzczegolowaBudynku oT_FunSzczegolowaBudynku)
         {
             return oT_FunSzczegolowaBudynku switch

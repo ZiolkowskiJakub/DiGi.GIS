@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Provides functionality for managing GIS model files and implements the <see cref="IGISObject"/> interface.
+    /// </summary>
     public class GISModelFileManager : IGISObject
     {
         private readonly Dictionary<GuidExternalReference, GISModelFile> dictionary = [];

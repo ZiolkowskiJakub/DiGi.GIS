@@ -9,6 +9,14 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Generates a list of ortho ranges based on the provided GIS model and options.
+        /// </summary>
+        /// <param name="gISModel">The GIS model from which building data is retrieved.</param>
+        /// <param name="references">An optional collection of references to filter the buildings included in the calculation.</param>
+        /// <param name="ortoRangeOptions">Options specifying the dimensions for the ortho ranges.</param>
+        /// <param name="tolerance">The distance tolerance used for range and intersection checks.</param>
+        /// <returns>A list of <see cref="OrtoRange"/> objects if successful; otherwise, null.</returns>
         public static List<OrtoRange>? OrtoRanges(GISModel? gISModel, IEnumerable<string>? references = null, OrtoRangeOptions? ortoRangeOptions = null, double tolerance = Core.Constants.Tolerance.Distance)
         {
             List<Building2D>? building2Ds = gISModel?.GetObjects<Building2D>();

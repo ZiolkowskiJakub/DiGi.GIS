@@ -9,6 +9,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts a 3D point from geographic coordinates (WGS 84) to the Polish coordinate system EPSG:2180.
+        /// </summary>
+        /// <param name="point3D">The source 3D point to be converted.</param>
+        /// <returns>A 2D point in the EPSG:2180 coordinate system, or null if the input point is null or conversion fails.</returns>
         public static Point2D? ToEPSG2180(this Point3D? point3D)
         {
             if (point3D == null)

@@ -7,6 +7,12 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Creates a dictionary of statistical data collections based on the provided file and a collection of references.
+        /// </summary>
+        /// <param name="statisticalDataCollectionFile">The statistical data collection file to retrieve data from.</param>
+        /// <param name="references">A collection of string references used to look up the statistical data.</param>
+        /// <returns>A dictionary mapping reference strings to their corresponding <see cref="StatisticalDataCollection"/>, or null if inputs are invalid.</returns>
         public static Dictionary<string, StatisticalDataCollection>? StatisticalDataCollectionDictionary(StatisticalDataCollectionFile? statisticalDataCollectionFile, IEnumerable<string>? references)
         {
             if (statisticalDataCollectionFile == null || references == null)
@@ -67,6 +73,12 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Creates a dictionary of statistical data collections by searching for relevant files within a specified directory using the provided references.
+        /// </summary>
+        /// <param name="directory">The path to the directory containing statistical data collection files.</param>
+        /// <param name="references">A collection of string references used to look up the statistical data.</param>
+        /// <returns>A dictionary mapping reference strings to their corresponding <see cref="StatisticalDataCollection"/>, or null if the directory is invalid or references are null.</returns>
         public static Dictionary<string, StatisticalDataCollection>? StatisticalDataCollectionDictionary(string? directory, IEnumerable<string>? references)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
@@ -116,6 +128,12 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Creates a dictionary of statistical data collections mapped to <see cref="GuidReference"/> objects derived from the provided building entities.
+        /// </summary>
+        /// <param name="directory">The path to the directory containing statistical data collection files.</param>
+        /// <param name="building2Ds">A collection of <see cref="Building2D"/> objects used to generate references for lookup.</param>
+        /// <returns>A dictionary mapping <see cref="GuidReference"/> to their corresponding <see cref="StatisticalDataCollection"/>, or null if the directory is invalid or building list is null.</returns>
         public static Dictionary<GuidReference, StatisticalDataCollection>? StatisticalDataCollectionDictionary(string? directory, IEnumerable<Building2D>? building2Ds)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)

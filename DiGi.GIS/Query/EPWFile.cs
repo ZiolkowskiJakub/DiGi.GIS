@@ -8,6 +8,13 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Finds the nearest EPW file based on a given 2D point.
+        /// </summary>
+        /// <param name="point2D">The source 2D coordinate to search from.</param>
+        /// <param name="ePWFiles">A collection of available EPW files to evaluate.</param>
+        /// <param name="distance">When this method returns, contains the distance between the input point and the nearest EPW file; otherwise, NaN.</param>
+        /// <returns>The closest <see cref="EPWFile"/> found in the provided collection, or null if no suitable file is found or inputs are invalid.</returns>
         public static EPWFile? EPWFile(this Point2D? point2D, IEnumerable<EPWFile>? ePWFiles, out double distance)
         {
             distance = double.NaN;

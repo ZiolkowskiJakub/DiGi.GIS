@@ -6,6 +6,13 @@ namespace DiGi.GIS
 {
     public static partial class Modify
     {
+        /// <summary>
+        /// Updates the user-defined year built for a specific building within a GIS model file.
+        /// </summary>
+        /// <param name="gISModelFile">The GIS model file containing the data path.</param>
+        /// <param name="builidng2D">The 2D building object whose reference is used to identify the record.</param>
+        /// <param name="yearBuilt">The new year built value to set; if null, the user-defined year built is removed.</param>
+        /// <returns>A <see cref="UniqueReference"/> identifying the updated or removed record, or <c>null</c> if the operation could not be performed.</returns>
         public static UniqueReference? UpdateUserYearBuilt(this GISModelFile? gISModelFile, Building2D? builidng2D, short? yearBuilt)
         {
             if (gISModelFile == null || builidng2D == null)

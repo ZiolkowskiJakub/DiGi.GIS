@@ -10,6 +10,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents orthophoto data, containing the image bytes, timestamp, location, and scale factor.
+    /// </summary>
     public class OrtoData : SerializableObject, IGISObject
     {
         [JsonInclude, JsonPropertyName("Bytes")]
@@ -24,6 +27,13 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("Scale")]
         private readonly double scale;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrtoData"/> class.
+        /// </summary>
+        /// <param name="dateTime">The date and time associated with the orthophoto data.</param>
+        /// <param name="bytes">The bitmap image stored as bytes.</param>
+        /// <param name="scale">The scale factor of the image.</param>
+        /// <param name="location">The top-left corner coordinates of the picture.</param>
         public OrtoData(DateTime dateTime, byte[]? bytes, double scale, Point2D? location)
         {
             this.dateTime = dateTime;
@@ -32,6 +42,10 @@ namespace DiGi.GIS.Classes
             this.location = location;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrtoData"/> class by copying an existing instance.
+        /// </summary>
+        /// <param name="ortoData">The source orthophoto data to copy from.</param>
         public OrtoData(OrtoData? ortoData)
         {
             if (ortoData != null)
@@ -43,6 +57,10 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrtoData"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing orthophoto data.</param>
         public OrtoData(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -60,6 +78,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the date and time associated with the orthophoto data.
+        /// </summary>
         [JsonIgnore]
         public DateTime DateTime
         {
@@ -81,6 +102,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the scale factor of the orthophoto.
+        /// </summary>
         [JsonIgnore]
         public double Scale
         {
@@ -90,6 +114,11 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Transforms a point from orthophoto coordinates to world/GIS coordinates.
+        /// </summary>
+        /// <param name="point2D">The point in orthophoto coordinates.</param>
+        /// <returns>The transformed point in world/GIS coordinates, or null if the input is null.</returns>
         public Point2D? FromOrto(Point2D? point2D)
         {
             if (point2D == null)
@@ -103,6 +132,11 @@ namespace DiGi.GIS.Classes
             return point2D.GetMoved(vector2D);
         }
 
+        /// <summary>
+        /// Transforms a polygonal face from orthophoto coordinates to world/GIS coordinates.
+        /// </summary>
+        /// <param name="polygonalFace2D">The polygonal face in orthophoto coordinates.</param>
+        /// <returns>The transformed polygonal face in world/GIS coordinates, or null if the input is null.</returns>
         public PolygonalFace2D? FromOrto(PolygonalFace2D? polygonalFace2D)
         {
             if (polygonalFace2D == null)
@@ -113,6 +147,11 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonalFace2D, x => FromOrto(x));
         }
 
+        /// <summary>
+        /// Transforms a polygonal object from orthophoto coordinates to world/GIS coordinates.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal object in orthophoto coordinates.</param>
+        /// <returns>The transformed polygonal object in world/GIS coordinates, or null if the input is null.</returns>
         public IPolygonal2D? FromOrto(IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)
@@ -123,6 +162,11 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonal2D, x => FromOrto(x));
         }
 
+        /// <summary>
+        /// Calculates the bounding box of the orthophoto data based on the specified geometry context.
+        /// </summary>
+        /// <param name="geometryContext">The coordinate system context (Local or Global) for the bounding box.</param>
+        /// <returns>A <see cref="BoundingBox2D"/> representing the area, or null if location is missing or context is undefined.</returns>
         public BoundingBox2D? GetBoundingBox(GeometryContext geometryContext)
         {
             if (location is null || geometryContext == GeometryContext.Undefined)
@@ -150,6 +194,11 @@ namespace DiGi.GIS.Classes
             return new BoundingBox2D(minPoint, maxPoint);
         }
 
+        /// <summary>
+        /// Retrieves the dimensions of the orthophoto image, adjusted for the specified geometry context.
+        /// </summary>
+        /// <param name="geometryContext">The coordinate system context (Local or Global) to determine scaling.</param>
+        /// <returns>A <see cref="Size"/> object containing width and height, or null if undefined or bytes are missing.</returns>
         public Size? GetSize(GeometryContext geometryContext)
         {
             if (geometryContext == GeometryContext.Undefined)
@@ -171,6 +220,11 @@ namespace DiGi.GIS.Classes
             return size.GetScaled(1 / scale);
         }
 
+        /// <summary>
+        /// Transforms a point from world/GIS coordinates to orthophoto coordinates.
+        /// </summary>
+        /// <param name="point2D">The point in world/GIS coordinates.</param>
+        /// <returns>The transformed point in orthophoto coordinates, or null if the input is null.</returns>
         public Point2D? ToOrto(Point2D? point2D)
         {
             if (point2D == null)
@@ -185,6 +239,11 @@ namespace DiGi.GIS.Classes
             return new Point2D(vector2D.X, -vector2D.Y);
         }
 
+        /// <summary>
+        /// Transforms a polygonal object from world/GIS coordinates to orthophoto coordinates.
+        /// </summary>
+        /// <param name="polygonal2D">The polygonal object in world/GIS coordinates.</param>
+        /// <returns>The transformed polygonal object in orthophoto coordinates, or null if the input is null.</returns>
         public IPolygonal2D? ToOrto(IPolygonal2D? polygonal2D)
         {
             if (polygonal2D == null)
@@ -195,6 +254,11 @@ namespace DiGi.GIS.Classes
             return Geometry.Planar.Query.Transform(polygonal2D, x => ToOrto(x));
         }
 
+        /// <summary>
+        /// Transforms a polygonal face from world/GIS coordinates to orthophoto coordinates.
+        /// </summary>
+        /// <param name="polygonalFace2D">The polygonal face in world/GIS coordinates.</param>
+        /// <returns>The transformed polygonal face in orthophoto coordinates, or null if the input is null.</returns>
         public PolygonalFace2D? ToOrto(PolygonalFace2D? polygonalFace2D)
         {
             if (polygonalFace2D == null)

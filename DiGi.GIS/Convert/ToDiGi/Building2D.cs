@@ -10,6 +10,11 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_BUBD_A"/> object to a <see cref="Building2D"/> object.
+        /// </summary>
+        /// <param name="oT_BUBD_A">The source <see cref="OT_BUBD_A"/> object to convert.</param>
+        /// <returns>A <see cref="Building2D"/> instance if the input is not null; otherwise, null.</returns>
         public static Building2D? ToDiGi(this OT_BUBD_A? oT_BUBD_A)
         {
             if (oT_BUBD_A is null)

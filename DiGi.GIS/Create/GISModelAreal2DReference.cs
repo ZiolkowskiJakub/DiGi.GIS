@@ -4,6 +4,11 @@ namespace DiGi.GIS
 {
     public static partial class Create
     {
+        /// <summary>
+        /// Parses a string reference to create a <see cref="GISModelAreal2DReference"/> instance.
+        /// </summary>
+        /// <param name="reference">The string representation of the reference to be parsed.</param>
+        /// <returns>A <see cref="GISModelAreal2DReference"/> object if the input is valid; otherwise, null.</returns>
         public static GISModelAreal2DReference? GISModelAreal2DReference(this string reference)
         {
             if (string.IsNullOrWhiteSpace(reference))

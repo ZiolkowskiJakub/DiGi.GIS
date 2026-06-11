@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Provides functionality to solve and determine the geometric shape of a building based on its 2D representation.
+    /// </summary>
     public class BuildingShapeSolver : IOneToOneSolver<Building2D, BuildingShape>
     {
         private readonly double microTolerance = Tolerance.Distance;
@@ -28,6 +31,13 @@ namespace DiGi.GIS.Classes
 
         //private double minRectangleThinnessRatio = 0.5;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BuildingShapeSolver"/> class.
+        /// </summary>
+        /// <param name="offset">The offset value used during geometry calculations.</param>
+        /// <param name="thinnessRatio">The ratio threshold used to determine thinness and shape classification.</param>
+        /// <param name="microTolerance">The micro-level distance tolerance for geometric operations.</param>
+        /// <param name="macroTolerance">The macro-level distance tolerance for geometric operations.</param>
         public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double microTolerance = Tolerance.Distance, double macroTolerance = Tolerance.MacroDistance)
         {
             this.offset = offset;
@@ -36,6 +46,9 @@ namespace DiGi.GIS.Classes
             this.macroTolerance = macroTolerance;
         }
 
+        /// <summary>
+        /// Gets or sets the input building geometry to be analyzed.
+        /// </summary>
         public Building2D? Input
         {
             set
@@ -44,6 +57,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the determined shape of the building after solving.
+        /// </summary>
         public BuildingShape Output
         {
             get
@@ -52,6 +68,10 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Analyzes the input building geometry and determines its corresponding <see cref="BuildingShape"/>.
+        /// </summary>
+        /// <returns>True if a shape was successfully determined; otherwise, false.</returns>
         public bool Solve()
         {
             output = BuildingShape.Undefined;

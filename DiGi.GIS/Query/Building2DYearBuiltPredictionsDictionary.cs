@@ -7,6 +7,12 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a dictionary of building 2D year built predictions based on the provided GIS model file and references.
+        /// </summary>
+        /// <param name="gISModelFile">The GIS model file used to determine the location of the prediction data.</param>
+        /// <param name="references">A collection of reference strings to look up.</param>
+        /// <returns>A dictionary mapping unique IDs to building 2D year built predictions, or null if inputs are invalid or files are missing.</returns>
         public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(GISModelFile? gISModelFile, IEnumerable<string>? references)
         {
             if (gISModelFile == null || references == null || references.Count() == 0)
@@ -38,6 +44,12 @@ namespace DiGi.GIS
             return Building2DYearBuiltPredictionsDictionary(building2DYearBuiltPredictionsFile, references);
         }
 
+        /// <summary>
+        /// Retrieves a dictionary of building 2D year built predictions from a specific prediction file for the given references.
+        /// </summary>
+        /// <param name="building2DYearBuiltPredictionsFile">The prediction file instance to read data from.</param>
+        /// <param name="references">A collection of reference strings to look up.</param>
+        /// <returns>A dictionary mapping unique IDs to building 2D year built predictions, or null if inputs are invalid.</returns>
         public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(Building2DYearBuiltPredictionsFile? building2DYearBuiltPredictionsFile, IEnumerable<string>? references)
         {
             if (building2DYearBuiltPredictionsFile == null || references == null)
@@ -96,6 +108,12 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a dictionary of building 2D year built predictions by searching all prediction files within a specified directory for the given references.
+        /// </summary>
+        /// <param name="directory">The directory path containing the prediction files.</param>
+        /// <param name="references">A collection of reference strings to look up.</param>
+        /// <returns>A dictionary mapping unique IDs to building 2D year built predictions, or null if inputs are invalid.</returns>
         public static Dictionary<string, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(string? directory, IEnumerable<string>? references)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || references == null)
@@ -145,6 +163,12 @@ namespace DiGi.GIS
             return result;
         }
 
+        /// <summary>
+        /// Retrieves a dictionary of building 2D year built predictions for a set of building objects by searching the specified directory.
+        /// </summary>
+        /// <param name="directory">The directory path containing the prediction files.</param>
+        /// <param name="building2Ds">A collection of Building2D objects to retrieve predictions for.</param>
+        /// <returns>A dictionary mapping GuidReferences to building 2D year built predictions, or null if inputs are invalid.</returns>
         public static Dictionary<GuidReference, Building2DYearBuiltPredictions>? Building2DYearBuiltPredictionsDictionary(string? directory, IEnumerable<Building2D>? building2Ds)
         {
             if (string.IsNullOrWhiteSpace(directory) || !System.IO.Directory.Exists(directory) || building2Ds == null)

@@ -5,6 +5,12 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves the user-defined year built for the specified building using the provided GIS model file.
+        /// </summary>
+        /// <param name="gISModelFile">The GIS model file containing the data.</param>
+        /// <param name="builidng2D">The 2D building object to retrieve the year built for.</param>
+        /// <returns>The user-defined year built if found; otherwise, null.</returns>
         public static short? UserYearBuilt(this GISModelFile? gISModelFile, Building2D? builidng2D)
         {
             if (gISModelFile == null || builidng2D == null)
@@ -26,6 +32,12 @@ namespace DiGi.GIS
             return yearBuiltData.GetUserYearBuilt()?.Year;
         }
 
+        /// <summary>
+        /// Retrieves the user-defined year built for the specified building using the provided directory path.
+        /// </summary>
+        /// <param name="directory">The directory path where the data is located.</param>
+        /// <param name="builidng2D">The 2D building object to retrieve the year built for.</param>
+        /// <returns>The user-defined year built if found; otherwise, null.</returns>
         public static short? UserYearBuilt(string? directory, Building2D? builidng2D)
         {
             if (directory == null || builidng2D == null || string.IsNullOrWhiteSpace(directory))

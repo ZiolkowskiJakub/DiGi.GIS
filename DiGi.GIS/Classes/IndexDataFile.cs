@@ -19,6 +19,8 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Reads index data from the specified file path
         /// </summary>
+        /// <param name="path">The path to the file containing index data.</param>
+        /// <returns>True if the file was read successfully; otherwise, false.</returns>
         public bool Read(string? path)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
@@ -78,6 +80,8 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Writes index data to the specified file path
         /// </summary>
+        /// <param name="path">The path where the index data should be written.</param>
+        /// <returns>True if the file was written successfully; otherwise, false.</returns>
         public bool Write(string? path)
         {
             if (string.IsNullOrWhiteSpace(path) || !System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(path)))
@@ -92,6 +96,9 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Tries to get the index value associated with the given reference
         /// </summary>
+        /// <param name="reference">The reference string to search for.</param>
+        /// <param name="index">When this method returns, contains the index value if found; otherwise, -1.</param>
+        /// <returns>True if the index was successfully retrieved; otherwise, false.</returns>
         public bool TryGetIndex(string? reference, out int index)
         {
             index = -1;
@@ -114,6 +121,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Returns a string representation of all index data entries
         /// </summary>
+        /// <returns>A newline-separated string containing the string representations of each IndexData entry.</returns>
         public override string ToString()
         {
             List<string> values = [];

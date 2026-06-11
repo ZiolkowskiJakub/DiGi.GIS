@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents a collection of statistical data associated with a specific unit code and identifier.
+    /// </summary>
     public class StatisticalDataCollection : GuidObject, IGISGuidObject2D
     {
         [JsonIgnore]
@@ -15,6 +18,12 @@ namespace DiGi.GIS.Classes
         [JsonIgnore]
         private UnitCode? unitCode = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatisticalDataCollection"/> class with a specified identifier, unit code, and initial statistical data.
+        /// </summary>
+        /// <param name="guid">The unique identifier for the collection.</param>
+        /// <param name="unitCode">The unit code associated with this collection.</param>
+        /// <param name="statisticalDatas">An optional sequence of statistical data items to populate the collection.</param>
         public StatisticalDataCollection(Guid guid, UnitCode? unitCode, IEnumerable<IStatisticalData>? statisticalDatas)
             : base(guid)
         {
@@ -22,12 +31,21 @@ namespace DiGi.GIS.Classes
             StatisticalDatas = statisticalDatas;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatisticalDataCollection"/> class with a specified identifier and unit code.
+        /// </summary>
+        /// <param name="guid">The unique identifier for the collection.</param>
+        /// <param name="unitCode">The unit code associated with this collection.</param>
         public StatisticalDataCollection(Guid guid, UnitCode? unitCode)
             : base(guid)
         {
             this.unitCode = Core.Query.Clone(unitCode);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatisticalDataCollection"/> class by copying another collection.
+        /// </summary>
+        /// <param name="statisticalDataCollection">The source collection to copy from.</param>
         public StatisticalDataCollection(StatisticalDataCollection? statisticalDataCollection)
             : base(statisticalDataCollection == null ? Guid.Empty : statisticalDataCollection.Guid)
         {
@@ -38,11 +56,18 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatisticalDataCollection"/> class from a JSON object.
+        /// </summary>
+        /// <param name="jsonObject">The JSON object containing the collection data.</param>
         public StatisticalDataCollection(JsonObject jsonObject)
             : base(jsonObject)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the code associated with the unit code of this collection.
+        /// </summary>
         [JsonInclude, JsonPropertyName("Code")]
         public string? Code
         {
@@ -57,6 +82,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the names of all statistical data items currently stored in the collection.
+        /// </summary>
         [JsonIgnore]
         public IEnumerable<string> Names
         {
@@ -66,6 +94,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets or sets the sequence of statistical data items contained in this collection.
+        /// </summary>
         [JsonInclude, JsonPropertyName("StatisticalDatas")]
         public IEnumerable<IStatisticalData>? StatisticalDatas
         {
@@ -94,6 +125,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the unit code associated with this collection.
+        /// </summary>
         [JsonIgnore]
         public UnitCode? UnitCode
         {
@@ -103,6 +137,11 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the statistical data item associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the statistical data item to retrieve.</param>
+        /// <returns>The matching <see cref="IStatisticalData"/> if found; otherwise, null.</returns>
         [JsonIgnore]
         public IStatisticalData? this[string name]
         {
@@ -117,6 +156,11 @@ namespace DiGi.GIS.Classes
             }
         }
 
+        /// <summary>
+        /// Adds a statistical data item to the collection.
+        /// </summary>
+        /// <param name="statisticalData">The statistical data item to add.</param>
+        /// <returns>True if the item was successfully added; false if the item is null or has no name.</returns>
         public bool Add(IStatisticalData? statisticalData)
         {
             if (statisticalData?.Name == null)
@@ -128,11 +172,22 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the collection contains a statistical data item with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the item to locate.</param>
+        /// <returns>True if an item with the specified name exists; otherwise, false.</returns>
         public bool Contains(string name)
         {
             return dictionary.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Searches for a statistical data item of a specific type that satisfies the provided predicate.
+        /// </summary>
+        /// <typeparam name="TStatisticalData">The type of statistical data to search for.</typeparam>
+        /// <param name="func">A predicate function used to test each element for a match.</param>
+        /// <returns>The first item that matches the criteria, or the default value if no match is found or the predicate is null.</returns>
         public TStatisticalData? Find<TStatisticalData>(Func<TStatisticalData?, bool>? func) where TStatisticalData : IStatisticalData
         {
             if (func == null)
@@ -154,6 +209,11 @@ namespace DiGi.GIS.Classes
             return default;
         }
 
+        /// <summary>
+        /// Retrieves the statistical data item associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the statistical data item to retrieve.</param>
+        /// <returns>The matching <see cref="IStatisticalData"/> if found; otherwise, null.</returns>
         public IStatisticalData? GetStatisticalData(string? name)
         {
             if (!TryGetStatisticalData(name, out IStatisticalData? statisticalData))
@@ -164,6 +224,11 @@ namespace DiGi.GIS.Classes
             return statisticalData;
         }
 
+        /// <summary>
+        /// Retrieves all statistical data items in the collection that are of a specific type.
+        /// </summary>
+        /// <typeparam name="UStatisticalData">The type of statistical data to filter by.</typeparam>
+        /// <returns>A sequence containing all items of the specified type.</returns>
         public IEnumerable<UStatisticalData> GetStatisticalDatas<UStatisticalData>() where UStatisticalData : IStatisticalData
         {
             List<UStatisticalData> result = [];
@@ -178,6 +243,11 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
+        /// <summary>
+        /// Removes the statistical data item with the specified name from the collection.
+        /// </summary>
+        /// <param name="name">The name of the item to remove.</param>
+        /// <returns>True if the item was successfully removed; false if the name is null or the item does not exist.</returns>
         public bool Remove(string? name)
         {
             if (name is null)
@@ -188,6 +258,12 @@ namespace DiGi.GIS.Classes
             return dictionary.Remove(name);
         }
 
+        /// <summary>
+        /// Attempts to retrieve a statistical data item by its name.
+        /// </summary>
+        /// <param name="name">The name of the item to search for.</param>
+        /// <param name="statisticalData">When this method returns, contains the found item if successful; otherwise, null.</param>
+        /// <returns>True if the item was found; otherwise, false.</returns>
         public bool TryGetStatisticalData(string? name, out IStatisticalData? statisticalData)
         {
             statisticalData = null;

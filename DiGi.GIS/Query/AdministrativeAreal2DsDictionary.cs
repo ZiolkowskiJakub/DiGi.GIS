@@ -9,6 +9,13 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a dictionary mapping building references to their associated administrative areal objects based on the provided GIS model and buildings collection.
+        /// </summary>
+        /// <typeparam name="UAdministrativeAreal2D">The type of administrative areal object, which must derive from AdministrativeAreal2D.</typeparam>
+        /// <param name="gISModel">The GIS model instance used to retrieve relations and objects.</param>
+        /// <param name="building2Ds">The collection of building objects for which the administrative areals are being queried.</param>
+        /// <returns>A dictionary mapping each building's unique reference to a list of its associated administrative areal objects, or null if the model or buildings collection is null or empty.</returns>
         public static Dictionary<GuidReference, List<UAdministrativeAreal2D>?>? AdministrativeAreal2DsDictionary<UAdministrativeAreal2D>(this GISModel? gISModel, IEnumerable<Building2D>? building2Ds) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             if (gISModel == null || building2Ds == null || building2Ds.Count() == 0)

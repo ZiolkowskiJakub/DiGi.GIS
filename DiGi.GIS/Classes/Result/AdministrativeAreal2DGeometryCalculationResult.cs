@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents the result of a geometry calculation for an administrative areal 2D object.
+    /// </summary>
     public class AdministrativeAreal2DGeometryCalculationResult : GuidResult<AdministrativeAreal2D>, IGISUniqueResult
     {
         [JsonInclude, JsonPropertyName("BoundingBox")]
@@ -33,6 +36,13 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class
         /// </summary>
+        /// <param name="boundingBox">The bounding box of the administrative area.</param>
+        /// <param name="rectangle">The rectangle representation of the administrative area.</param>
+        /// <param name="centroid">The centroid point of the administrative area.</param>
+        /// <param name="internalPoint">The internal point within the administrative area.</param>
+        /// <param name="thinnessRatio">The thinness ratio of the administrative area.</param>
+        /// <param name="rectangularity">The rectangularity measure of the administrative area.</param>
+        /// <param name="area">The area of the administrative area.</param>
         public AdministrativeAreal2DGeometryCalculationResult(BoundingBox2D? boundingBox, Rectangle2D? rectangle, Point2D? centroid, Point2D? internalPoint, double thinnessRatio, double rectangularity, double area)
             : base()
         {
@@ -48,6 +58,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class as a copy
         /// </summary>
+        /// <param name="administrativeAreal2DGeometryCalculationResult">The source result object to copy from.</param>
         public AdministrativeAreal2DGeometryCalculationResult(AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult)
             : base(administrativeAreal2DGeometryCalculationResult)
         {
@@ -66,13 +77,14 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the AdministrativeAreal2DGeometryCalculationResult class from a JSON object
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the result data.</param>
         public AdministrativeAreal2DGeometryCalculationResult(JsonObject? jsonObject)
             : base(jsonObject)
         {
         }
 
         /// <summary>
-        /// Bounding box of the administrative area
+        /// Gets the bounding box of the administrative area
         /// </summary>
         [JsonIgnore]
         public BoundingBox2D? BoundingBox
@@ -84,7 +96,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Rectangle representation of the administrative area
+        /// Gets the rectangle representation of the administrative area
         /// </summary>
         [JsonIgnore]
         public Rectangle2D? Rectangle2D
@@ -96,7 +108,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Centroid point of the administrative area
+        /// Gets the centroid point of the administrative area
         /// </summary>
         [JsonIgnore]
         public Point2D? Centroid
@@ -108,7 +120,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Internal point within the administrative area
+        /// Gets the internal point within the administrative area
         /// </summary>
         [JsonIgnore]
         public Point2D? InternalPoint
@@ -120,7 +132,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Thinness ratio of the administrative area
+        /// Gets the thinness ratio of the administrative area
         /// </summary>
         [JsonIgnore]
         public double ThinnessRatio
@@ -132,7 +144,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Rectangularity measure of the administrative area
+        /// Gets the rectangularity measure of the administrative area
         /// </summary>
         [JsonIgnore]
         public double Rectangularity
@@ -144,7 +156,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Area of the administrative area
+        /// Gets the area of the administrative area
         /// </summary>
         [JsonIgnore]
         public double Area

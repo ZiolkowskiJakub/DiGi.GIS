@@ -20,6 +20,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the UnitCode class with the specified code
         /// </summary>
+        /// <param name="code">The unit code string to assign.</param>
         public UnitCode(string? code)
         {
             this.code = code;
@@ -28,6 +29,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the UnitCode class by copying another instance
         /// </summary>
+        /// <param name="unitCode">The source unit code instance to copy from.</param>
         public UnitCode(UnitCode? unitCode)
         {
             if (unitCode != null)
@@ -39,6 +41,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Initializes a new instance of the UnitCode class from a JSON object
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the unit code data.</param>
         public UnitCode(JsonObject? jsonObject)
             : base(jsonObject)
         {
@@ -59,6 +62,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Creates a shallow copy of this unit code
         /// </summary>
+        /// <returns>A new ISerializableObject instance that is a clone of the current object.</returns>
         public override ISerializableObject Clone()
         {
             return new UnitCode(code);
@@ -67,6 +71,8 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Determines whether the specified object equals this unit code
         /// </summary>
+        /// <param name="obj">The object to compare with the current unit code.</param>
+        /// <returns>True if the specified object is equal to the current unit code; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
             return obj?.ToString() == code;
@@ -75,6 +81,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Returns the hash code for this unit code
         /// </summary>
+        /// <returns>A 32-bit signed integer hash code for the current object.</returns>
         public override int GetHashCode()
         {
             if (code == null)
@@ -88,6 +95,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Gets the parent unit code based on the hierarchical structure
         /// </summary>
+        /// <returns>The UnitCode of the parent entity if it exists; otherwise, null.</returns>
         public UnitCode? GetParent()
         {
             StatisticalUnitType? statisticalUnitType = GetStatisticalUnitType();
@@ -107,6 +115,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Gets the prefix of the code by removing trailing zeros
         /// </summary>
+        /// <returns>The processed prefix string, or null if the original code is null or whitespace.</returns>
         public string? GetPrefix()
         {
             if (string.IsNullOrWhiteSpace(code))
@@ -136,6 +145,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Gets the statistical unit type represented by this code
         /// </summary>
+        /// <returns>The StatisticalUnitType associated with the current code, or null if no matching type is found.</returns>
         public StatisticalUnitType? GetStatisticalUnitType()
         {
             Array array = Enum.GetValues(typeof(StatisticalUnitType));
@@ -157,6 +167,8 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Gets the unit code for the specified statistical unit type
         /// </summary>
+        /// <param name="statisticalUnitType">The target statistical unit type.</param>
+        /// <returns>A UnitCode instance corresponding to the requested type, or null if it cannot be determined.</returns>
         public UnitCode? GetUnitCode(StatisticalUnitType statisticalUnitType)
         {
             if (statisticalUnitType == StatisticalUnitType.statistical_towns)
@@ -200,6 +212,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Determines whether this code is valid (12 digits)
         /// </summary>
+        /// <returns>True if the code consists of exactly 12 numeric digits; otherwise, false.</returns>
         public bool IsValid()
         {
             if (code == null || code.Length != 12)
@@ -213,6 +226,7 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Returns the code as a string
         /// </summary>
+        /// <returns>The string representation of the unit code.</returns>
         public override string? ToString()
         {
             return code?.ToString();

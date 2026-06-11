@@ -8,14 +8,14 @@ namespace DiGi.GIS
     public static partial class Convert
     {
         /// <summary>
-        /// Converts from geoportal zip GML file to DiGi.GIS objects
+        /// Converts from geoportal zip GML file to DiGi.GIS objects.
         /// </summary>
-        /// <param name="path_Input">path to zip GML file</param>
-        /// <param name="directory_Output">directory where files will be saved</param>
-        /// <param name="oT_ADJA_A">Converts OT_ADJA_A.xml file (AdministrativeSubdivision)</param>
-        /// <param name="oT_ADMS_A">Converts OT_ADMS_A.xml file (AdministrativeDivision)</param>
-        /// <param name="oT_BUBD_A">Converts OT_BUBD_A.xml file (Building2D)</param>
-        /// <returns>Output paths</returns>
+        /// <param name="path_Input">The path to the source zip GML file.</param>
+        /// <param name="directory_Output">The directory where the converted files will be saved.</param>
+        /// <param name="oT_ADJA_A">Indicates whether to convert OT_ADJA_A.xml files (AdministrativeSubdivision).</param>
+        /// <param name="oT_ADMS_A">Indicates whether to convert OT_ADMS_A.xml files (AdministrativeDivision).</param>
+        /// <param name="oT_BUBD_A">Indicates whether to convert OT_BUBD_A.xml files (Building2D).</param>
+        /// <returns>A list of paths to the created output files, or null if the input is invalid or no files were processed.</returns>
         public static List<string>? ToDiGi(this string? path_Input, string? directory_Output, bool oT_ADJA_A = true, bool oT_ADMS_A = true, bool oT_BUBD_A = true)
         {
             if (string.IsNullOrWhiteSpace(path_Input) || !File.Exists(path_Input) || string.IsNullOrWhiteSpace(directory_Output))

@@ -6,6 +6,16 @@ namespace DiGi.GIS
 {
     public static partial class Query
     {
+        /// <summary>
+        /// Retrieves a list of building objects located within administrative areas that encompass the specified point, optionally filtered by distance.
+        /// </summary>
+        /// <typeparam name="UAdministrativeAreal2D">The type of administrative areal object, which must derive from <see cref="AdministrativeAreal2D"/>.</typeparam>
+        /// <param name="gISModel">The GIS model used to perform the query.</param>
+        /// <param name="point2D">The point used as the center for the spatial query.</param>
+        /// <param name="administrativeAreal2Ds">When this method returns, contains a list of administrative areal objects that contain the specified point.</param>
+        /// <param name="distance">The distance from the point to consider for building inclusion. If 0, only buildings containing the point are considered.</param>
+        /// <param name="tolerance">The tolerance value used for spatial range calculations.</param>
+        /// <returns>A list of <see cref="Building2D"/> objects found within the matching administrative areas and meeting the distance criteria; otherwise, null if the model or point is null or no administrative areas are found.</returns>
         public static List<Building2D>? Building2Ds<UAdministrativeAreal2D>(this GISModel? gISModel, Point2D? point2D, out List<UAdministrativeAreal2D>? administrativeAreal2Ds, double distance = 0, double tolerance = Core.Constants.Tolerance.Distance) where UAdministrativeAreal2D : AdministrativeAreal2D
         {
             administrativeAreal2Ds = null;

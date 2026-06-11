@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace DiGi.GIS.Classes
 {
+    /// <summary>
+    /// Represents the result of an occupancy calculation, containing area and count information.
+    /// </summary>
     public class OccupancyCalculationResult : GuidResult<Areal2D>, IGISGuidResult
     {
         [JsonInclude, JsonPropertyName("OccupancyArea")]
@@ -14,8 +17,10 @@ namespace DiGi.GIS.Classes
         private readonly uint? occupancy = null;
 
         /// <summary>
-        /// Initializes a new instance of the OccupancyCalculationResult class
+        /// Initializes a new instance of the OccupancyCalculationResult class.
         /// </summary>
+        /// <param name="occupancyArea">The calculated occupancy area.</param>
+        /// <param name="occupancy">The calculated occupancy count.</param>
         public OccupancyCalculationResult(double? occupancyArea, uint? occupancy)
             : base()
         {
@@ -24,8 +29,9 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the OccupancyCalculationResult class as a copy
+        /// Initializes a new instance of the OccupancyCalculationResult class as a copy.
         /// </summary>
+        /// <param name="occupancyCalculationResult">The source result object to copy from.</param>
         public OccupancyCalculationResult(OccupancyCalculationResult occupancyCalculationResult)
             : base(occupancyCalculationResult)
         {
@@ -37,15 +43,16 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Initializes a new instance of the OccupancyCalculationResult class from a JSON object
+        /// Initializes a new instance of the OccupancyCalculationResult class from a JSON object.
         /// </summary>
+        /// <param name="jsonObject">The JSON object containing the result data.</param>
         public OccupancyCalculationResult(JsonObject jsonObject)
         : base(jsonObject)
         {
         }
 
         /// <summary>
-        /// Occupancy count
+        /// Gets the occupancy count.
         /// </summary>
         [JsonIgnore]
         public uint? Occupancy
@@ -57,7 +64,7 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Occupancy area
+        /// Gets the occupancy area.
         /// </summary>
         [JsonIgnore]
         public double? OccupancyArea
