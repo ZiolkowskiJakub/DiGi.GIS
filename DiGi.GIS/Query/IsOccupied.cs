@@ -1,5 +1,6 @@
 ﻿using DiGi.GIS.Classes;
 using DiGi.GIS.Enums;
+using System.Linq;
 
 namespace DiGi.GIS
 {
@@ -27,14 +28,12 @@ namespace DiGi.GIS
                 return false;
             }
 
-            if (building2D.BuildingSpecificFunctions == null)
+            if (building2D.BuildingSpecificFunctions != null && building2D.BuildingSpecificFunctions.Any())
             {
-                return false;
-            }
-
-            if (!building2D.BuildingSpecificFunctions.Contains(BuildingSpecificFunction.single_family_building) && !building2D.BuildingSpecificFunctions.Contains(BuildingSpecificFunction.multi_family_building))
-            {
-                return false;
+                if (!building2D.BuildingSpecificFunctions.Contains(BuildingSpecificFunction.single_family_building) && !building2D.BuildingSpecificFunctions.Contains(BuildingSpecificFunction.multi_family_building))
+                {
+                    return false;
+                }
             }
 
             return true;
