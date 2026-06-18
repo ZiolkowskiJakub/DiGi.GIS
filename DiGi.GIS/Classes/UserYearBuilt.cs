@@ -1,4 +1,4 @@
-﻿using DiGi.GIS.Enums;
+using DiGi.GIS.Enums;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
@@ -36,17 +36,11 @@ namespace DiGi.GIS.Classes
         {
         }
 
-        /// <summary>
-        /// Gets the description of the source for this year built value.
-        /// </summary>
-        /// <returns>The descriptive string of the source.</returns>
+        /// <summary> Gets the description of the source for this year built value. </summary>
         [JsonIgnore]
         public override string? Source => Core.Query.Description(YearBuiltSource);
 
-        /// <summary>
-        /// Gets the source type for this year built value, which is always <see cref="YearBuiltSource.User"/>.
-        /// </summary>
-        /// <returns>The <see cref="YearBuiltSource"/> indicating that the user is the source.</returns>
+        /// <summary> Gets the source type for this year built value, which is always <see cref="YearBuiltSource.User" />. </summary>
         [JsonIgnore]
         public override YearBuiltSource YearBuiltSource => YearBuiltSource.User;
     }

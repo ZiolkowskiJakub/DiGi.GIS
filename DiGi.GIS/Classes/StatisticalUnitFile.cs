@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 
@@ -36,10 +36,7 @@ namespace DiGi.GIS.Classes
         {
         }
 
-        /// <summary>
-        /// Gets the external reference for this GIS model file
-        /// </summary>
-        /// <returns>The external reference associated with this GIS model file, or null if not available.</returns>
+        /// <summary> Gets the external reference for this GIS model file </summary>
         public GuidExternalReference? GuidExternalReference
         {
             get

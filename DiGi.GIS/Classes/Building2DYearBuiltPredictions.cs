@@ -97,9 +97,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets the exact year built prediction for the specified year
+        /// Gets the year built prediction for the specified year.
         /// </summary>
-        /// <param name="year">The year to look up</param>
+        /// <param name="year">The year to look up.</param>
+        /// <returns>A <see cref="YearBuiltPrediction"/> object if a prediction for the exact year exists; otherwise, null.</returns>
         public YearBuiltPrediction? this[ushort year]
         {
             get
@@ -119,9 +120,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets the year built prediction for the specified year, or the nearest lower year prediction if an exact match is not found
+        /// Gets the year built prediction for the specified year, or the nearest lower year prediction if an exact match is not found.
         /// </summary>
-        /// <param name="year">The year to look up</param>
+        /// <param name="year">The year to look up.</param>
+        /// <returns>A <see cref="YearBuiltPrediction"/> object if a matching or lower value is found; otherwise, null.</returns>
         public YearBuiltPrediction? GetYearBuiltPrediction(ushort year)
         {
             if (!Core.Query.TryGetLowerValue(yearBuiltPredictions, year, out YearBuiltPrediction? result))

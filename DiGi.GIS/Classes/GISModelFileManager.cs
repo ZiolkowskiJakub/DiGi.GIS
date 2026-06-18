@@ -19,8 +19,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets the GIS model associated with the given external reference
+        /// Retrieves the GIS model associated with the specified external reference.
         /// </summary>
+        /// <param name="guidExternalReference">The external reference used to identify the GIS model.</param>
+        /// <returns>The matching <see cref="GISModel"/> if found; otherwise, <see langword="null"/>.</returns>
         public GISModel? GetGISModel(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null)
@@ -37,8 +39,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets the external reference associated with the given path
+        /// Retrieves the external reference associated with the specified file path.
         /// </summary>
+        /// <param name="path">The file path to search for.</param>
+        /// <returns>The matching <see cref="GuidExternalReference"/> if found; otherwise, <see langword="null"/>.</returns>
         public GuidExternalReference? GetGuidExternalReference(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -63,8 +67,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets the external reference associated with the given GIS model
+        /// Retrieves the external reference associated with the specified GIS model.
         /// </summary>
+        /// <param name="gISModel">The <see cref="GISModel"/> for which the external reference is being retrieved.</param>
+        /// <returns>The matching <see cref="GuidExternalReference"/> if found; otherwise, <see langword="null"/>.</returns>
         public GuidExternalReference? GetGuidExternalReference(GISModel? gISModel)
         {
             if (gISModel is null)
@@ -93,16 +99,19 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Gets all external references
+        /// Retrieves all external reference identifiers currently managed by the GIS model file manager.
         /// </summary>
+        /// <returns>A <see cref="HashSet{T}"/> containing all <see cref="GuidExternalReference"/> keys, or <see langword="null"/> if no references are available.</returns>
         public HashSet<GuidExternalReference>? GetGuidExternalReferences()
         {
             return [.. dictionary.Keys];
         }
 
         /// <summary>
-        /// Gets the path associated with the given GIS model
+        /// Retrieves the file path associated with the specified GIS model.
         /// </summary>
+        /// <param name="gISModel">The <see cref="GISModel"/> for which to retrieve the file path.</param>
+        /// <returns>The file path of the GIS model if it exists in the manager; otherwise, <see langword="null"/>.</returns>
         public string? GetPath(GISModel? gISModel)
         {
             if (GetGuidExternalReference(gISModel) is not GuidExternalReference guidExternalReference)
@@ -119,8 +128,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Opens a GIS model file from the given path
+        /// Opens a GIS model file from the specified path and adds it to the manager's collection.
         /// </summary>
+        /// <param name="path">The file path of the GIS model file to open.</param>
+        /// <returns>The <see cref="GuidExternalReference"/> of the opened GIS model file if successful; otherwise, <see langword="null"/>.</returns>
         public GuidExternalReference? Open(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -143,8 +154,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Removes the GIS model file associated with the given external reference
+        /// Removes the GIS model file associated with the specified external reference.
         /// </summary>
+        /// <param name="guidExternalReference">The external reference of the GIS model file to remove.</param>
+        /// <returns><see langword="true"/> if the GIS model file was successfully removed; otherwise, <see langword="false"/>.</returns>
         public bool Remove(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out _))
@@ -156,8 +169,9 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Removes all GIS model files
+        /// Removes all GIS model files from the manager.
         /// </summary>
+        /// <returns><see langword="true"/> if one or more GIS model files were successfully removed; otherwise, <see langword="false"/>.</returns>
         public bool RemoveAll()
         {
             bool result = false;
@@ -174,8 +188,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Saves the GIS model file associated with the given external reference
+        /// Saves the GIS model file associated with the specified external reference.
         /// </summary>
+        /// <param name="guidExternalReference">The external reference of the GIS model file to save.</param>
+        /// <returns><see langword="true"/> if the GIS model file was successfully saved; otherwise, <see langword="false"/>.</returns>
         public bool Save(GuidExternalReference? guidExternalReference)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
@@ -187,8 +203,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Saves the GIS model file associated with the given external reference to the specified path
+        /// Saves the GIS model file associated with the specified external reference to the given path and updates its reference in the manager.
         /// </summary>
+        /// <param name="guidExternalReference">The external reference of the GIS model file to save.</param>
+        /// <param name="path">The destination file path where the GIS model file will be saved.</param>
+        /// <returns>The new <see cref="GuidExternalReference"/> if the operation was successful; otherwise, <see langword="null"/>.</returns>
         public GuidExternalReference? SaveAs(GuidExternalReference? guidExternalReference, string path)
         {
             if (guidExternalReference is null || !dictionary.TryGetValue(guidExternalReference, out GISModelFile gISModelFile))
@@ -214,8 +233,12 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Tries to get a GIS unique object from the specified file and object reference
+        /// Tries to retrieve a GIS unique object of the specified type using the provided file and object reference.
         /// </summary>
+        /// <typeparam name="YIGISUniqueObject">The type of the GIS unique object to retrieve, which must implement <see cref="IGISUniqueObject"/>.</typeparam>
+        /// <param name="gISModelFileUniqueObjectReference">The reference containing the external and internal GUIDs used to locate the object.</param>
+        /// <param name="gISUniqueObject">When this method returns, contains the retrieved GIS unique object if successful; otherwise, the default value.</param>
+        /// <returns><see langword="true"/> if the object was successfully found; otherwise, <see langword="false"/>.</returns>
         public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -229,8 +252,13 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Tries to get a GIS unique object from the specified file and object reference, along with its parent GIS model
+        /// Tries to retrieve a GIS unique object of the specified type and its associated GIS model using the provided file and object reference.
         /// </summary>
+        /// <typeparam name="YIGISUniqueObject">The type of the GIS unique object to retrieve, which must implement <see cref="IGISUniqueObject"/>.</typeparam>
+        /// <param name="gISModelFileUniqueObjectReference">The reference containing the external and internal GUIDs used to locate the object.</param>
+        /// <param name="gISUniqueObject">When this method returns, contains the retrieved GIS unique object if successful; otherwise, the default value.</param>
+        /// <param name="gISModel">When this method returns, contains the retrieved GIS model if successful; otherwise, null.</param>
+        /// <returns><see langword="true"/> if the object and its associated model were successfully found; otherwise, <see langword="false"/>.</returns>
         public bool TryGetObject<YIGISUniqueObject>(GISModelFileGuidObjectReference? gISModelFileUniqueObjectReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -245,16 +273,27 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Tries to get a GIS unique object from the given external and GUID references
+        /// Tries to retrieve a GIS unique object of the specified type using the provided external reference and internal reference GUIDs.
         /// </summary>
+        /// <typeparam name="YIGISUniqueObject">The type of the GIS unique object to retrieve, which must implement <see cref="IGISUniqueObject"/>.</typeparam>
+        /// <param name="guidExternalReference">The external reference GUID used to locate the GIS model containing the object.</param>
+        /// <param name="guidReference">The internal reference GUID used to identify the specific object within the model.</param>
+        /// <param name="gISUniqueObject">When this method returns, contains the retrieved GIS unique object if successful; otherwise, the default value.</param>
+        /// <returns><see langword="true"/> if the object was successfully found; otherwise, <see langword="false"/>.</returns>
         public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject) where YIGISUniqueObject : IGISUniqueObject
         {
             return TryGetObject(guidExternalReference, guidReference, out gISUniqueObject, out _);
         }
 
         /// <summary>
-        /// Tries to get a GIS unique object from the given external and GUID references, along with its parent GIS model
+        /// Tries to retrieve a GIS unique object of the specified type and its associated GIS model using the provided external reference and internal reference GUIDs.
         /// </summary>
+        /// <typeparam name="YIGISUniqueObject">The type of the GIS unique object to retrieve, which must implement <see cref="IGISUniqueObject"/>.</typeparam>
+        /// <param name="guidExternalReference">The external reference GUID used to locate the GIS model.</param>
+        /// <param name="guidReference">The internal reference GUID used to identify the specific object within the model.</param>
+        /// <param name="gISUniqueObject">When this method returns, contains the retrieved GIS unique object if successful; otherwise, the default value.</param>
+        /// <param name="gISModel">When this method returns, contains the retrieved GIS model if successful; otherwise, null.</param>
+        /// <returns><see langword="true"/> if the object and its associated model were successfully found; otherwise, <see langword="false"/>.</returns>
         public bool TryGetObject<YIGISUniqueObject>(GuidExternalReference? guidExternalReference, GuidReference? guidReference, out YIGISUniqueObject? gISUniqueObject, out GISModel? gISModel) where YIGISUniqueObject : IGISUniqueObject
         {
             gISUniqueObject = default;
@@ -280,8 +319,14 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Tries to get a GIS GuidObject2D of the specified type from the given external reference and reference string
+        /// Tries to retrieve a GIS unique object of the specified type and its associated GIS model using the provided external reference and reference string.
         /// </summary>
+        /// <typeparam name="TGISGuidObject2D">The type of the GIS unique object to retrieve, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <param name="guidExternalReference">The external reference GUID used to locate the GIS model.</param>
+        /// <param name="reference">The reference string used to identify the specific object within the model.</param>
+        /// <param name="gISUniqueObject">When this method returns, contains the retrieved GIS unique object if successful; otherwise, the default value.</param>
+        /// <param name="gISModel">When this method returns, contains the retrieved GIS model if successful; otherwise, null.</param>
+        /// <returns><see langword="true"/> if the object and its associated model were successfully found; otherwise, <see langword="false"/>.</returns>
         public bool TryGetObject<TGISGuidObject2D>(GuidExternalReference? guidExternalReference, string reference, out TGISGuidObject2D? gISUniqueObject, out GISModel? gISModel) where TGISGuidObject2D : GISGuidObject2D
         {
             gISUniqueObject = default;

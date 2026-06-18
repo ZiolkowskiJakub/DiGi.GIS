@@ -7,6 +7,12 @@ namespace DiGi.GIS
 {
     public static partial class Convert
     {
+        /// <summary>
+        /// Converts an <see cref="OT_ADMS_A"/> instance to a <see cref="AdministrativeSubdivision"/> instance.
+        /// </summary>
+        /// <param name="oT_ADMS_A">The source <see cref="OT_ADMS_A"/> object to convert.</param>
+        /// <param name="guid">An optional unique identifier for the resulting <see cref="AdministrativeSubdivision"/>. If not provided, a new <see cref="System.Guid"/> will be generated.</param>
+        /// <returns>A <see cref="AdministrativeSubdivision"/> instance if the source object is not null; otherwise, null.</returns>
         public static AdministrativeSubdivision? ToDiGi(this OT_ADMS_A? oT_ADMS_A, System.Guid? guid = null)
         {
             if (oT_ADMS_A == null)

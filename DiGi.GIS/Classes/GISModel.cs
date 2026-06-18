@@ -1,4 +1,4 @@
-﻿using DiGi.Core;
+using DiGi.Core;
 using DiGi.Core.Classes;
 using DiGi.Core.Relation.Classes;
 using DiGi.GIS.Interfaces;
@@ -81,10 +81,9 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        /// <summary>
-        /// Determines whether the model contains the specified building
-        /// </summary>
-        /// <param name="building2D">The building to check</param>
+        /// <summary>Determines whether the GIS model contains the specified building.</summary>
+        /// <param name="building2D">The building to check for existence within the model.</param>
+        /// <returns><see langword="true"/> if the building is found in the model; otherwise, <see langword="false"/>.</returns>
         public bool Contains(Building2D? building2D)
         {
             if (building2D != null)
@@ -95,10 +94,9 @@ namespace DiGi.GIS.Classes
             return uniqueObjectRelationCluster.Contains(new GuidReference(building2D));
         }
 
-        /// <summary>
-        /// Determines whether the model contains the specified administrative area
-        /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to check</param>
+        /// <summary>Determines whether the GIS model contains the specified administrative area.</summary>
+        /// <param name="administrativeAreal2D">The administrative area to check for existence within the model.</param>
+        /// <returns><see langword="true"/> if the administrative area is found in the model; otherwise, <see langword="false"/>.</returns>
         public bool Contains(AdministrativeAreal2D? administrativeAreal2D)
         {
             if (administrativeAreal2D != null)
@@ -109,11 +107,10 @@ namespace DiGi.GIS.Classes
             return uniqueObjectRelationCluster.Contains(new GuidReference(administrativeAreal2D));
         }
 
-        /// <summary>
-        /// Gets an object of the specified type by its reference
-        /// </summary>
-        /// <typeparam name="TGISGuidObject2D">The type of GIS object to retrieve</typeparam>
-        /// <param name="reference">The reference of the object to retrieve</param>
+        /// <summary>Retrieves a GIS object of the specified type by its reference string.</summary>
+        /// <typeparam name="TGISGuidObject2D">The type of GIS object to retrieve, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <param name="reference">The reference string of the object to be retrieved.</param>
+        /// <returns>The matching GIS object if found; otherwise, null.</returns>
         public TGISGuidObject2D? GetObject<TGISGuidObject2D>(string? reference) where TGISGuidObject2D : GISGuidObject2D
         {
             if (!TryGetObject(reference, out TGISGuidObject2D? result))
@@ -124,11 +121,10 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        /// <summary>
-        /// Gets a list of objects of the specified type by their references
-        /// </summary>
-        /// <typeparam name="TGISGuidObject2D">The type of GIS objects to retrieve</typeparam>
-        /// <param name="references">The references of the objects to retrieve</param>
+        /// <summary>Retrieves a list of GIS objects of the specified type that match the provided references.</summary>
+        /// <typeparam name="TGISGuidObject2D">The type of GIS object to retrieve, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <param name="references">An enumerable collection of reference strings for the objects to be retrieved.</param>
+        /// <returns>A <see cref="List{T}"/> containing the matching GIS objects if found; otherwise, null.</returns>
         public List<TGISGuidObject2D>? GetObjects<TGISGuidObject2D>(IEnumerable<string?>? references) where TGISGuidObject2D : GISGuidObject2D
         {
             if (!TryGetObjects(references, out List<TGISGuidObject2D>? result))
@@ -139,10 +135,9 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        /// <summary>
-        /// Gets the references of all objects of the specified type in the model
-        /// </summary>
-        /// <typeparam name="TGISGuidObject2D">The type of GIS objects to get references for</typeparam>
+        /// <summary>Gets the references of all GIS objects of the specified type within the model.</summary>
+        /// <typeparam name="TGISGuidObject2D">The type of GIS object to retrieve references for, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <returns>A <see cref="HashSet{T}"/> containing the reference strings of the objects if they exist; otherwise, null.</returns>
         public HashSet<string>? GetReferences<TGISGuidObject2D>() where TGISGuidObject2D : GISGuidObject2D
         {
             if (uniqueObjectRelationCluster == null)
@@ -170,12 +165,11 @@ namespace DiGi.GIS.Classes
             return result;
         }
 
-        /// <summary>
-        /// Tries to get an object of the specified type by its reference
-        /// </summary>
-        /// <typeparam name="TGISGuidObject2D">The type of GIS object to retrieve</typeparam>
-        /// <param name="reference">The reference of the object to retrieve</param>
-        /// <param name="gISGuidObject2D">When this method returns, contains the retrieved object, or null if not found</param>
+        /// <summary>Tries to retrieve a single GIS object of the specified type using its reference.</summary>
+        /// <typeparam name="TGISGuidObject2D">The type of the GIS object to retrieve, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <param name="reference">The reference string used to identify the object to be retrieved.</param>
+        /// <param name="gISGuidObject2D">When this method returns, contains the retrieved object if successful; otherwise, null.</param>
+        /// <returns>True if the object was successfully found and assigned to <paramref name="gISGuidObject2D"/>; otherwise, false.</returns>
         public bool TryGetObject<TGISGuidObject2D>(string? reference, out TGISGuidObject2D? gISGuidObject2D) where TGISGuidObject2D : GISGuidObject2D
         {
             gISGuidObject2D = null;
@@ -189,13 +183,12 @@ namespace DiGi.GIS.Classes
             return true;
         }
 
-        /// <summary>
-        /// Tries to get a list of objects of the specified type by their references
-        /// </summary>
-        /// <typeparam name="TGISGuidObject2D">The type of GIS objects to retrieve</typeparam>
-        /// <param name="references">The references of the objects to retrieve</param>
-        /// <param name="gISGuidObject2Ds">When this method returns, contains the retrieved objects, or null if not found</param>
-        /// <param name="maxCount">The maximum number of objects to retrieve</param>
+        /// <summary>Tries to retrieve a list of GIS objects of the specified type that match the provided references.</summary>
+        /// <typeparam name="TGISGuidObject2D">The type of GIS objects to retrieve, which must derive from <see cref="GISGuidObject2D"/>.</typeparam>
+        /// <param name="references">A collection of reference strings used to identify the objects to be retrieved.</param>
+        /// <param name="gISGuidObject2Ds">When this method returns, contains a list of the retrieved objects if successful; otherwise, null.</param>
+        /// <param name="maxCount">The maximum number of objects to retrieve from the model.</param>
+        /// <returns>True if one or more objects were successfully retrieved and assigned to <paramref name="gISGuidObject2Ds"/>; otherwise, false.</returns>
         public virtual bool TryGetObjects<TGISGuidObject2D>(IEnumerable<string?>? references, out List<TGISGuidObject2D>? gISGuidObject2Ds, int maxCount = int.MaxValue) where TGISGuidObject2D : GISGuidObject2D
         {
             gISGuidObject2Ds = null;
@@ -235,9 +228,10 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model from a source
+        /// Updates the GIS model using the specified source.
         /// </summary>
-        /// <param name="source">The source to update from</param>
+        /// <param name="source">The <see cref="ISource"/> object to be updated in the model.</param>
+        /// <returns><c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
         public bool Update(ISource? source)
         {
             if (source == null)
@@ -255,28 +249,31 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified building
+        /// Updates the GIS model with the specified building.
         /// </summary>
-        /// <param name="building2D">The building to update with</param>
+        /// <param name="building2D">The <see cref="Building2D"/> object to be updated.</param>
+        /// <returns><c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
         public bool Update(Building2D? building2D)
         {
             return Update((IGISUniqueObject?)building2D);
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area
+        /// Updates the GIS model with the specified administrative area.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
+        /// <param name="administrativeAreal2D">The <see cref="AdministrativeAreal2D"/> object to be updated.</param>
+        /// <returns><c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D? administrativeAreal2D)
         {
             return Update((IGISUniqueObject?)administrativeAreal2D);
         }
 
         /// <summary>
-        /// Updates the model with the specified building and its geometry calculation result
+        /// Updates the GIS model with the specified building and its geometry calculation result, establishing a relationship between them in the relation cluster.
         /// </summary>
-        /// <param name="building2D">The building to update with</param>
-        /// <param name="building2DGeometryCalculationResult">The geometry calculation result to update with</param>
+        /// <param name="building2D">The <see cref="Building2D"/> object to be updated.</param>
+        /// <param name="building2DGeometryCalculationResult">The <see cref="Building2DGeometryCalculationResult"/> object to be associated with the building.</param>
+        /// <returns><c>true</c> if the update and relationship establishment were successful; otherwise, <c>false</c>.</returns>
         public bool Update(Building2D? building2D, Building2DGeometryCalculationResult? building2DGeometryCalculationResult)
         {
             if (building2D == null || building2DGeometryCalculationResult == null)
@@ -298,10 +295,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area and its geometry calculation result
+        /// Updates the GIS model with the specified administrative area and its geometry calculation result, establishing a relationship between them in the relation cluster.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
-        /// <param name="administrativeAreal2DGeometryCalculationResult">The geometry calculation result to update with</param>
+        /// <param name="administrativeAreal2D">The <see cref="AdministrativeAreal2D"/> object to be updated.</param>
+        /// <param name="administrativeAreal2DGeometryCalculationResult">The <see cref="AdministrativeAreal2DGeometryCalculationResult"/> object to be associated with the administrative area.</param>
+        /// <returns><c>true</c> if the update and relationship establishment were successful; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D? administrativeAreal2D, AdministrativeAreal2DGeometryCalculationResult? administrativeAreal2DGeometryCalculationResult)
         {
             if (administrativeAreal2D == null || administrativeAreal2DGeometryCalculationResult == null)
@@ -323,10 +321,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area and its occupancy calculation result
+        /// Updates the GIS model with the specified administrative area and its occupancy calculation result, establishing a relationship between them in the relation cluster.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
-        /// <param name="occupancyCalculationResult">The occupancy calculation result to update with</param>
+        /// <param name="administrativeAreal2D">The <c>AdministrativeAreal2D</c> object to be updated.</param>
+        /// <param name="occupancyCalculationResult">The <c>OccupancyCalculationResult</c> object to be associated with the administrative area.</param>
+        /// <returns><c>true</c> if the update and relationship establishment were successful; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D? administrativeAreal2D, OccupancyCalculationResult? occupancyCalculationResult)
         {
             if (administrativeAreal2D == null || occupancyCalculationResult == null)
@@ -348,10 +347,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area and its statistical units calculation result
+        /// Updates the GIS model with the specified administrative area and its corresponding statistical units calculation result, establishing a relationship between them in the relation cluster.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
-        /// <param name="administrativeAreal2DStatisticalUnitCalculcationResult">The statistical units calculation result to update with</param>
+        /// <param name="administrativeAreal2D">The <c>AdministrativeAreal2D</c> object to be updated.</param>
+        /// <param name="administrativeAreal2DStatisticalUnitCalculcationResult">The <c>AdministrativeAreal2DStatisticalUnitsCalculcationResult</c> object to be associated with the administrative area.</param>
+        /// <returns><c>true</c> if the update and relationship establishment were successful; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D? administrativeAreal2D, AdministrativeAreal2DStatisticalUnitsCalculcationResult? administrativeAreal2DStatisticalUnitCalculcationResult)
         {
             if (administrativeAreal2D == null || administrativeAreal2DStatisticalUnitCalculcationResult == null)
@@ -373,10 +373,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified building and its occupancy calculation result
+        /// Updates the GIS model with the specified building and its corresponding occupancy calculation result, establishing a relationship between them in the relation cluster.
         /// </summary>
-        /// <param name="building2D">The building to update with</param>
-        /// <param name="occupancyCalculationResult">The occupancy calculation result to update with</param>
+        /// <param name="building2D">The <c>Building2D</c> object to be updated.</param>
+        /// <param name="occupancyCalculationResult">The <c>OccupancyCalculationResult</c> object to be associated with the building.</param>
+        /// <returns><c>true</c> if the update and relationship establishment were successful; otherwise, <c>false</c>.</returns>
         public bool Update(Building2D? building2D, OccupancyCalculationResult? occupancyCalculationResult)
         {
             if (building2D == null || occupancyCalculationResult == null)
@@ -398,10 +399,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area and its related administrative areas
+        /// Updates the relationship between a specific administrative area and its associated collection of related administrative areas within the GIS model's relation cluster.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
-        /// <param name="administrativeAreal2Ds">The related administrative areas</param>
+        /// <param name="administrativeAreal2D">The primary administrative area object to be updated.</param>
+        /// <param name="administrativeAreal2Ds">The collection of related administrative area objects to associate with the primary area.</param>
+        /// <returns><c>true</c> if the relationship was successfully updated or removed; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D administrativeAreal2D, IEnumerable<AdministrativeAreal2D> administrativeAreal2Ds)
         {
             if (administrativeAreal2D == null || administrativeAreal2Ds == null)
@@ -427,10 +429,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified administrative area and its related buildings
+        /// Updates the relationship between a specific administrative area and its associated collection of 2D buildings within the GIS model's relation cluster.
         /// </summary>
-        /// <param name="administrativeAreal2D">The administrative area to update with</param>
-        /// <param name="building2Ds">The related buildings</param>
+        /// <param name="administrativeAreal2D">The administrative area object to be updated or used as the primary entity in the relation.</param>
+        /// <param name="building2Ds">A collection of 2D building objects associated with the specified administrative area.</param>
+        /// <returns><c>true</c> if the relationship was successfully updated or removed; otherwise, <c>false</c>.</returns>
         public bool Update(AdministrativeAreal2D? administrativeAreal2D, IEnumerable<Building2D>? building2Ds)
         {
             if (administrativeAreal2D == null || building2Ds == null)
@@ -454,10 +457,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified building and its external reference GUID result
+        /// Updates the GIS model with the specified building and its external reference GUID result, establishing or updating the relationship between them within the relation cluster.
         /// </summary>
-        /// <param name="building2D">The building to update with</param>
-        /// <param name="building2DExternalReferenceUniqueResult">The external reference GUID result to update with</param>
+        /// <param name="building2D">The 2D building object to be updated.</param>
+        /// <param name="building2DExternalReferenceUniqueResult">The unique external reference GUID result associated with the building.</param>
+        /// <returns><c>true</c> if the update was successful; otherwise, <c>false</c>.</returns>
         public bool Update(Building2D? building2D, Building2DExternalReferenceGuidResult? building2DExternalReferenceUniqueResult)
         {
             if (building2D == null || building2DExternalReferenceUniqueResult == null)
@@ -492,10 +496,11 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Updates the model with the specified building and its construction date calculation result
+        /// Updates the GIS model with the specified building and its associated construction date calculation result, establishing or updating the relation between them.
         /// </summary>
-        /// <param name="building2D">The building to update with</param>
-        /// <param name="building2DConstructionDateCalculationResult">The construction date calculation result to update with</param>
+        /// <param name="building2D">The 2D building object to be updated in the model.</param>
+        /// <param name="building2DConstructionDateCalculationResult">The construction date calculation result to be associated with the building.</param>
+        /// <returns><c>true</c> if the update was successful; otherwise, <c>false</c> if either provided parameter is null.</returns>
         public bool Update(Building2D? building2D, Building2DConstructionDateCalculationResult? building2DConstructionDateCalculationResult)
         {
             if (building2D == null || building2DConstructionDateCalculationResult == null)
