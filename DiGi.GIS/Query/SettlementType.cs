@@ -9,10 +9,10 @@ namespace DiGi.GIS
         /// Maps an administrative subdivision type to a settlement type.
         /// </summary>
         /// <param name="administrativeSubdivisionType">The administrative subdivision type to convert.</param>
-        /// <returns>The corresponding <see cref="DiGi.GIS.Enums.SettlementType"/>.</returns>
+        /// <returns>The corresponding <see cref="Enums.SettlementType"/>.</returns>
         public static SettlementType SettlementType(this AdministrativeSubdivisionType administrativeSubdivisionType)
         {
-            switch(administrativeSubdivisionType)
+            switch (administrativeSubdivisionType)
             {
                 case AdministrativeSubdivisionType.city:
                 case AdministrativeSubdivisionType.part_of_city:
@@ -30,7 +30,7 @@ namespace DiGi.GIS
         /// Maps an administrative subdivision object to a settlement type based on its type property.
         /// </summary>
         /// <param name="administrativeSubdivision">The administrative subdivision instance.</param>
-        /// <returns>The corresponding <see cref="DiGi.GIS.Enums.SettlementType"/>.</returns>
+        /// <returns>The corresponding <see cref="Enums.SettlementType"/>.</returns>
         public static SettlementType SettlementType(this AdministrativeSubdivision administrativeSubdivision)
         {
             if (administrativeSubdivision is null)

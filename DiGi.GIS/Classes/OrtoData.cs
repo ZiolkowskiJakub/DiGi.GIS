@@ -188,8 +188,8 @@ namespace DiGi.GIS.Classes
 
             // Global: Top-Left is 'location'.
             // Bottom-Right is location moved by (Width, -Height)
-            Point2D minPoint = new (location.X, location.Y - size.Height);
-            Point2D maxPoint = new (location.X + size.Width, location.Y);
+            Point2D minPoint = new(location.X, location.Y - size.Height);
+            Point2D maxPoint = new(location.X + size.Width, location.Y);
 
             return new BoundingBox2D(minPoint, maxPoint);
         }

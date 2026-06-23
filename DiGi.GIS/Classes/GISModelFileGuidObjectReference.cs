@@ -3,13 +3,15 @@ using DiGi.Core.Interfaces;
 
 namespace DiGi.GIS.Classes
 {
-    /// <summary> Represents a reference to a GUID object within a GIS model file </summary>
+    /// <summary> Represents a reference to a GUID object within a GIS model file </summary>
+
     public class GISModelFileGuidObjectReference(GuidExternalReference? guidExternalReference, GuidReference? guidReference) : SerializableReference, IComplexReference
     {
         private readonly GuidExternalReference? guidExternalReference = guidExternalReference;
         private readonly GuidReference? guidReference = guidReference;
 
-        /// <summary> External GUID reference </summary>
+        /// <summary> External GUID reference </summary>
+
         public GuidExternalReference? GuidExternalReference
         {
             get
@@ -18,7 +20,8 @@ namespace DiGi.GIS.Classes
             }
         }
 
-        /// <summary> Internal GUID reference within the GIS model </summary>
+        /// <summary> Internal GUID reference within the GIS model </summary>
+
         public GuidReference? GuidReference
         {
             get
