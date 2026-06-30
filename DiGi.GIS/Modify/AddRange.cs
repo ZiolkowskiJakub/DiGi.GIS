@@ -150,6 +150,8 @@ namespace DiGi.GIS
 
                         statisticalYearlyDoubleData[year] = yearlyValue.val;
                     }
+
+                    result.Add(statisticalYearlyDoubleData);
                 }
             }
 

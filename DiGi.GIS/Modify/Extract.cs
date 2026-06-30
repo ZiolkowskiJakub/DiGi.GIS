@@ -60,7 +60,7 @@ namespace DiGi.GIS
                         continue;
                     }
 
-                    ZipArchive zipArchive_Files = new(deflateStream_Zip);
+                    using ZipArchive zipArchive_Files = new(deflateStream_Zip);
 
                     GISModel gISModel = new(Path.GetFileNameWithoutExtension(zipArchiveEntry_Zip.Name), new DirectorySource(zipArchiveEntry_Zip.FullName));
 
@@ -68,7 +68,9 @@ namespace DiGi.GIS
                     {
                         if (zipArchiveEntry_File.Name.EndsWith(Constants.FileNameSufix.OT_ADMS_A) || zipArchiveEntry_File.Name.EndsWith(Constants.FileNameSufix.OT_BUBD_A))
                         {
-                            gISModel.AddRange(zipArchiveEntry_File.Open());
+                            using Stream stream_File = zipArchiveEntry_File.Open();
+
+                            gISModel.AddRange(stream_File);
                         }
                     }
 

@@ -52,23 +52,18 @@ namespace DiGi.GIS
                 Dictionary<GuidReference, OrtoDatas>? dictionary = Query.OrtoDatasDictionary(directory, building2Ds_Temp);
                 if (dictionary != null && dictionary.Count != 0)
                 {
-                    List<Building2D> building2Ds_Temp_Temp = [.. building2Ds_Temp];
+                    List<Building2D> building2Ds_Temp_Temp = [];
                     foreach (Building2D building2D in building2Ds_Temp)
                     {
                         if (building2D is null)
                         {
+                            building2Ds_Temp_Temp.Add(building2D!);
                             continue;
                         }
 
-                        GuidReference guidReference = new(building2D);
-                        //if (dictionary.ContainsKey(guidReference))
-                        //{
-                        //    building2Ds_Temp_Temp.Remove(building2D);
-                        //}
-
-                        if (dictionary.TryGetValue(guidReference, out OrtoDatas ortoDatas) && ortoDatas != null)
+                        if (!dictionary.TryGetValue(new GuidReference(building2D), out OrtoDatas ortoDatas) || ortoDatas == null)
                         {
-                            building2Ds_Temp_Temp.Remove(building2D);
+                            building2Ds_Temp_Temp.Add(building2D);
                         }
                     }
 
@@ -205,18 +200,18 @@ namespace DiGi.GIS
                 Dictionary<GuidReference, OrtoDatas>? dictionary = Query.OrtoDatasDictionary(directory, ortoRanges_Temp);
                 if (dictionary != null && dictionary.Count != 0)
                 {
-                    List<OrtoRange> ortoRanges_Temp_Temp = [.. ortoRanges_Temp];
+                    List<OrtoRange> ortoRanges_Temp_Temp = [];
                     foreach (OrtoRange ortoRange in ortoRanges_Temp)
                     {
                         if (ortoRange is null)
                         {
+                            ortoRanges_Temp_Temp.Add(ortoRange!);
                             continue;
                         }
 
-                        GuidReference? guidReference = new(ortoRange);
-                        if (dictionary.ContainsKey(guidReference))
+                        if (!dictionary.ContainsKey(new GuidReference(ortoRange)))
                         {
-                            ortoRanges_Temp_Temp.Remove(ortoRange);
+                            ortoRanges_Temp_Temp.Add(ortoRange);
                         }
                     }
 

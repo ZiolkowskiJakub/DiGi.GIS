@@ -176,7 +176,8 @@ namespace DiGi.GIS.Classes
         {
             bool result = false;
 
-            foreach (GuidExternalReference guidExternalReference in dictionary.Keys)
+            List<GuidExternalReference> guidExternalReferences = [.. dictionary.Keys];
+            foreach (GuidExternalReference guidExternalReference in guidExternalReferences)
             {
                 if (Remove(guidExternalReference))
                 {

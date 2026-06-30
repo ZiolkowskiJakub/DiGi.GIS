@@ -86,7 +86,7 @@ namespace DiGi.GIS.Classes
         /// <returns><see langword="true"/> if the building is found in the model; otherwise, <see langword="false"/>.</returns>
         public bool Contains(Building2D? building2D)
         {
-            if (building2D != null)
+            if (building2D == null)
             {
                 return false;
             }
@@ -99,7 +99,7 @@ namespace DiGi.GIS.Classes
         /// <returns><see langword="true"/> if the administrative area is found in the model; otherwise, <see langword="false"/>.</returns>
         public bool Contains(AdministrativeAreal2D? administrativeAreal2D)
         {
-            if (administrativeAreal2D != null)
+            if (administrativeAreal2D == null)
             {
                 return false;
             }
@@ -208,11 +208,13 @@ namespace DiGi.GIS.Classes
                 return false;
             }
 
+            HashSet<string?> references_Temp = [.. references];
+
             int i = 0;
             gISGuidObject2Ds = [];
             foreach (TGISGuidObject2D gISGuidObject2D_Temp in gISGuidObject2Ds_Temp)
             {
-                if (references.Contains(gISGuidObject2D_Temp?.Reference) && gISGuidObject2D_Temp.Clone<TGISGuidObject2D>() is TGISGuidObject2D gISGuidObject2D_Clone)
+                if (references_Temp.Contains(gISGuidObject2D_Temp?.Reference) && gISGuidObject2D_Temp.Clone<TGISGuidObject2D>() is TGISGuidObject2D gISGuidObject2D_Clone)
                 {
                     gISGuidObject2Ds.Add(gISGuidObject2D_Clone);
                     i++;

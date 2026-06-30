@@ -60,7 +60,8 @@ namespace DiGi.GIS
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = [];
+            HashSet<UniqueReference> uniqueReferences_HashSet = [];
+            List<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
                 UniqueReference? uniqueReference = YearBuiltDataFile.GetUniqueReference<TYearBuiltData>(reference);
@@ -69,7 +70,10 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                uniqueReferences.Add(uniqueReference);
+                if (uniqueReferences_HashSet.Add(uniqueReference))
+                {
+                    uniqueReferences.Add(uniqueReference);
+                }
             }
 
             Dictionary<string, TYearBuiltData> result = [];
@@ -92,19 +96,11 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                if (uniqueReferences.ElementAt(i) is UniqueReference uniqueReference)
-                {
-                    if (uniqueReference.UniqueId is string uniqueId)
-                    {
-                        result[uniqueId] = yearBuiltData;
-                    }
+                UniqueReference uniqueReference = uniqueReferences[i];
 
-                    uniqueReferences.Remove(uniqueReference);
-                }
-
-                if (uniqueReferences.Count == 0)
+                if (uniqueReference.UniqueId is string uniqueId)
                 {
-                    return result;
+                    result[uniqueId] = yearBuiltData;
                 }
             }
 

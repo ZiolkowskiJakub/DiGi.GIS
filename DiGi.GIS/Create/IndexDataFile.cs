@@ -1,6 +1,5 @@
 ﻿using DiGi.GIS.Classes;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DiGi.GIS
 {
@@ -20,15 +19,14 @@ namespace DiGi.GIS
             }
 
             Dictionary<string, TAdministrativeAreal2D> dictionary = [];
-            for (int i = 0; i < administrativeAreal2Ds.Count(); i++)
+            foreach (TAdministrativeAreal2D administrativeAreal2D in administrativeAreal2Ds)
             {
-                TAdministrativeAreal2D administrativeAreal2D = administrativeAreal2Ds.ElementAt(i);
                 if (administrativeAreal2D?.Reference == null)
                 {
                     continue;
                 }
 
-                dictionary[administrativeAreal2D?.Reference!] = administrativeAreal2D!;
+                dictionary[administrativeAreal2D.Reference] = administrativeAreal2D;
             }
 
             List<TAdministrativeAreal2D> administrativeAreal2Ds_Temp = [.. dictionary.Values];

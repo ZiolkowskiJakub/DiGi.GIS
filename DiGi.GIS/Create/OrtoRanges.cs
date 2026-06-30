@@ -35,7 +35,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            List<Tuple<Building2D, BoundingBox2D>> tuples = [];
+            LinkedList<Tuple<Building2D, BoundingBox2D>> tuples = [];
             foreach (Building2D building2D in building2Ds)
             {
                 BoundingBox2D? boundingBox2D = null;
@@ -51,7 +51,7 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                tuples.Add(new Tuple<Building2D, BoundingBox2D>(building2D, boundingBox2D));
+                tuples.AddLast(new Tuple<Building2D, BoundingBox2D>(building2D, boundingBox2D));
             }
 
             ortoRangeOptions ??= new OrtoRangeOptions();
@@ -60,10 +60,10 @@ namespace DiGi.GIS
 
             while (tuples.Count > 0)
             {
-                Building2D building2D = tuples[0].Item1;
-                BoundingBox2D boundingBox2D_Building2D = tuples[0].Item2;
+                Building2D building2D = tuples.First!.Value.Item1;
+                BoundingBox2D boundingBox2D_Building2D = tuples.First!.Value.Item2;
 
-                tuples.RemoveAt(0);
+                tuples.RemoveFirst();
 
                 if (building2D == null)
                 {
@@ -83,29 +83,37 @@ namespace DiGi.GIS
                 HashSet<string> references_Intersect = [];
                 HashSet<string> references_Inside = [];
 
-                for (int i = tuples.Count - 1; i >= 0; i--)
+                LinkedListNode<Tuple<Building2D, BoundingBox2D>>? node = tuples.Last;
+                while (node != null)
                 {
-                    string? reference = tuples[i].Item1.Reference;
+                    LinkedListNode<Tuple<Building2D, BoundingBox2D>>? node_Previous = node.Previous;
+
+                    string? reference = node.Value.Item1.Reference;
                     if (string.IsNullOrWhiteSpace(reference))
                     {
+                        node = node_Previous;
                         continue;
                     }
 
-                    BoundingBox2D boundingBox2D_Temp = tuples[i].Item2;
+                    BoundingBox2D boundingBox2D_Temp = node.Value.Item2;
 
                     if (!boundingBox2D.InRange(boundingBox2D_Temp, tolerance))
                     {
+                        node = node_Previous;
                         continue;
                     }
 
                     if (!boundingBox2D.Inside(boundingBox2D_Temp, tolerance))
                     {
                         references_Intersect.Add(reference!);
+                        node = node_Previous;
                         continue;
                     }
 
                     references_Inside.Add(reference!);
-                    tuples.Remove(tuples[i]);
+                    tuples.Remove(node);
+
+                    node = node_Previous;
                 }
 
                 result.Add(new OrtoRange(boundingBox2D, references_Inside, references_Intersect));

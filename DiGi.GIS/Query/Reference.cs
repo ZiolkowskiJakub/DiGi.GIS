@@ -121,7 +121,7 @@ namespace DiGi.GIS
                     }
 
                     result = Create.Reference(identyfikatorEGiB);
-                    if (string.IsNullOrWhiteSpace(result))
+                    if (!string.IsNullOrWhiteSpace(result))
                     {
                         return result;
                     }

@@ -57,7 +57,8 @@ namespace DiGi.GIS
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = [];
+            HashSet<UniqueReference> uniqueReferences_HashSet = [];
+            List<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
                 UniqueReference? uniqueReference = Building2DYearBuiltPredictionsFile.GetUniqueReference(reference);
@@ -66,7 +67,10 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                uniqueReferences.Add(uniqueReference);
+                if (uniqueReferences_HashSet.Add(uniqueReference))
+                {
+                    uniqueReferences.Add(uniqueReference);
+                }
             }
 
             Dictionary<string, Building2DYearBuiltPredictions> result = [];
@@ -89,19 +93,12 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
+                UniqueReference uniqueReference = uniqueReferences[i];
 
                 string? uniqueId = uniqueReference?.UniqueId;
                 if (uniqueId is not null)
                 {
                     result[uniqueId] = building2DYearBuiltPredictions[i]!;
-                }
-
-                uniqueReferences.Remove(uniqueReference!);
-
-                if (uniqueReferences.Count == 0)
-                {
-                    return result;
                 }
             }
 

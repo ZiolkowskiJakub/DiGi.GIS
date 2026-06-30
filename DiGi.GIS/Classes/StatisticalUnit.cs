@@ -197,7 +197,7 @@ namespace DiGi.GIS.Classes
 
             string? prefix = unitCode.GetPrefix();
 
-            if (this.unitCode == unitCode)
+            if (this.unitCode is not null && this.unitCode.Equals(unitCode))
             {
                 return this;
             }

@@ -52,7 +52,9 @@ namespace DiGi.GIS
             {
                 using OrtoDatasFile ortoDatasFile = new(path);
 
-                List<OrtoDatas?>? ortoDatasList = ortoDatasFile.GetValues(uniqueReferences)?.ToList();
+                List<UniqueReference> uniqueReferences_Temp = [.. uniqueReferences];
+
+                List<OrtoDatas?>? ortoDatasList = ortoDatasFile.GetValues(uniqueReferences_Temp)?.ToList();
                 if (ortoDatasList == null || ortoDatasList.Count == 0)
                 {
                     continue;
@@ -65,7 +67,7 @@ namespace DiGi.GIS
                         continue;
                     }
 
-                    UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
+                    UniqueReference uniqueReference = uniqueReferences_Temp[i];
 
                     if (uniqueReference?.UniqueId is string uniqueId)
                     {

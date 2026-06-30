@@ -263,7 +263,8 @@ namespace DiGi.GIS
 
                 AdministrativeSubdivision administrativeSubdivision = keyValuePair.Key;
 
-                OccupancyCalculationResult occupancyCalculationResult_AdministrativeSubdivision = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision.Guid).Item2;
+                Tuple<AdministrativeSubdivision, OccupancyCalculationResult>? tuple_OccupancyCalculationResult_AdministrativeSubdivision = tuples_OccupancyCalculationResult.Find(x => x.Item1.Guid == administrativeSubdivision.Guid);
+                OccupancyCalculationResult? occupancyCalculationResult_AdministrativeSubdivision = tuple_OccupancyCalculationResult_AdministrativeSubdivision?.Item2;
                 if (occupancyCalculationResult_AdministrativeSubdivision == null || occupancyCalculationResult_AdministrativeSubdivision.Occupancy == null || occupancyCalculationResult_AdministrativeSubdivision.OccupancyArea == null)
                 {
                     continue;

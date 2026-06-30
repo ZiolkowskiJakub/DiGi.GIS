@@ -20,7 +20,8 @@ namespace DiGi.GIS
                 return null;
             }
 
-            HashSet<UniqueReference> uniqueReferences = [];
+            HashSet<UniqueReference> uniqueReferences_HashSet = [];
+            List<UniqueReference> uniqueReferences = [];
             foreach (string reference in references)
             {
                 UniqueReference? uniqueReference = StatisticalDataCollectionFile.GetUniqueReference(reference);
@@ -29,7 +30,10 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                uniqueReferences.Add(uniqueReference);
+                if (uniqueReferences_HashSet.Add(uniqueReference))
+                {
+                    uniqueReferences.Add(uniqueReference);
+                }
             }
 
             Dictionary<string, StatisticalDataCollection> result = [];
@@ -52,21 +56,11 @@ namespace DiGi.GIS
                     continue;
                 }
 
-                UniqueReference uniqueReference = uniqueReferences.ElementAt(i);
+                UniqueReference uniqueReference = uniqueReferences[i];
 
                 if (uniqueReference.UniqueId is string uniqueId)
                 {
                     result[uniqueId] = statisticalDataCollectionList[i]!;
-                }
-
-                if (uniqueReference is not null)
-                {
-                    uniqueReferences.Remove(uniqueReference);
-                }
-
-                if (uniqueReferences.Count == 0)
-                {
-                    return result;
                 }
             }
 
