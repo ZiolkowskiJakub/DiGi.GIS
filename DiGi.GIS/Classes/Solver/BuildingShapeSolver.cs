@@ -27,23 +27,77 @@ namespace DiGi.GIS.Classes
         private readonly double aspectRatioFactor = 0.3;
         private readonly double rectangleThinnessRatioFactor = 0.2;
 
-        private double scoreFactor = 0.7;
+        private readonly double scoreFactor = 0.7;
 
         //private double minRectangleThinnessRatio = 0.5;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuildingShapeSolver"/> class.
         /// </summary>
-        /// <param name="offset">The offset value used during geometry calculations.</param>
-        /// <param name="thinnessRatio">The ratio threshold used to determine thinness and shape classification.</param>
-        /// <param name="microTolerance">The micro-level distance tolerance for geometric operations.</param>
-        /// <param name="macroTolerance">The macro-level distance tolerance for geometric operations.</param>
-        public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double microTolerance = Tolerance.Distance, double macroTolerance = Tolerance.MacroDistance)
+        /// <param name="offset">The offset value used during geometry calculations. Must be greater than zero.</param>
+        /// <param name="thinnessRatio">The ratio threshold used to determine thinness and shape classification. Must be within the range (0, 1].</param>
+        /// <param name="microTolerance">The micro-level distance tolerance for geometric operations. Must be greater than zero.</param>
+        /// <param name="macroTolerance">The macro-level distance tolerance for geometric operations. Must be greater than zero.</param>
+        /// <param name="areaFactor">The weight applied to a candidate notch's normalized area when scoring notch significance. Must be finite and non-negative.</param>
+        /// <param name="aspectRatioFactor">The weight applied to a candidate notch's aspect ratio when scoring notch significance. Must be finite and non-negative.</param>
+        /// <param name="rectangleThinnessRatioFactor">The weight applied to a candidate notch's rectangular thinness ratio when scoring notch significance. Must be finite and non-negative.</param>
+        /// <param name="scoreFactor">The fraction of the highest notch score used as the cut-off for retaining notches. Must be within the range (0, 1].</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any argument falls outside its permitted range.</exception>
+        public BuildingShapeSolver(double offset = 1, double thinnessRatio = 0.9, double microTolerance = Tolerance.Distance, double macroTolerance = Tolerance.MacroDistance, double areaFactor = 0.5, double aspectRatioFactor = 0.3, double rectangleThinnessRatioFactor = 0.2, double scoreFactor = 0.7)
         {
+            if (double.IsNaN(offset) || offset <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(offset), offset, "The offset must be greater than zero.");
+            }
+
+            if (double.IsNaN(thinnessRatio) || thinnessRatio <= 0 || thinnessRatio > 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(thinnessRatio), thinnessRatio, "The thinness ratio must be within the range (0, 1].");
+            }
+
+            if (double.IsNaN(microTolerance) || microTolerance <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(microTolerance), microTolerance, "The micro tolerance must be greater than zero.");
+            }
+
+            if (double.IsNaN(macroTolerance) || macroTolerance <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(macroTolerance), macroTolerance, "The macro tolerance must be greater than zero.");
+            }
+
+            if (double.IsNaN(areaFactor) || areaFactor < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(areaFactor), areaFactor, "The area factor must be finite and non-negative.");
+            }
+
+            if (double.IsNaN(aspectRatioFactor) || aspectRatioFactor < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(aspectRatioFactor), aspectRatioFactor, "The aspect ratio factor must be finite and non-negative.");
+            }
+
+            if (double.IsNaN(rectangleThinnessRatioFactor) || rectangleThinnessRatioFactor < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rectangleThinnessRatioFactor), rectangleThinnessRatioFactor, "The rectangle thinness ratio factor must be finite and non-negative.");
+            }
+
+            if (areaFactor + aspectRatioFactor + rectangleThinnessRatioFactor <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(areaFactor), "At least one of the notch scoring factors must be greater than zero.");
+            }
+
+            if (double.IsNaN(scoreFactor) || scoreFactor <= 0 || scoreFactor > 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(scoreFactor), scoreFactor, "The score factor must be within the range (0, 1].");
+            }
+
             this.offset = offset;
             this.thinnessRatio = thinnessRatio;
             this.microTolerance = microTolerance;
             this.macroTolerance = macroTolerance;
+            this.areaFactor = areaFactor;
+            this.aspectRatioFactor = aspectRatioFactor;
+            this.rectangleThinnessRatioFactor = rectangleThinnessRatioFactor;
+            this.scoreFactor = scoreFactor;
         }
 
         /// <summary>
@@ -82,6 +136,7 @@ namespace DiGi.GIS.Classes
             }
 
             List<IPolygonal2D>? internalEdges = input?.PolygonalFace2D?.InternalEdges;
+            bool hasHoles = internalEdges is not null && internalEdges.Count != 0;
 
             double area = externalEdge.GetArea();
             if (area <= microTolerance)
@@ -201,19 +256,7 @@ namespace DiGi.GIS.Classes
 
             if (polygonal2Ds is null || polygonal2Ds.Count == 0)
             {
-                if (squareThinnesRatio >= thinnessRatio)
-                {
-                    output = BuildingShape.Square;
-                    return true;
-                }
-
-                if (rectangleThinnesRatio >= thinnessRatio)
-                {
-                    output = BuildingShape.Rectangular;
-                    return true;
-                }
-
-                output = BuildingShape.Other;
+                output = FallbackShape(hasHoles, squareThinnesRatio, rectangleThinnesRatio);
                 return true;
             }
 
@@ -237,19 +280,7 @@ namespace DiGi.GIS.Classes
 
             if (polygonal2Ds.Count == 0)
             {
-                if (squareThinnesRatio >= thinnessRatio)
-                {
-                    output = BuildingShape.Square;
-                    return true;
-                }
-
-                if (rectangleThinnesRatio >= thinnessRatio)
-                {
-                    output = BuildingShape.Rectangular;
-                    return true;
-                }
-
-                output = BuildingShape.Other;
+                output = FallbackShape(hasHoles, squareThinnesRatio, rectangleThinnesRatio);
                 return true;
             }
 
@@ -334,6 +365,12 @@ namespace DiGi.GIS.Classes
 
             if (dictionary.Count == 2)
             {
+                // The two touched segments sit on opposite sides of the bounding rectangle when their
+                // indices differ by 2 (segments are ordered 0-1-2-3, so pairs {0,2} and {1,3} are opposite).
+                // Use Min/Max rather than First/Last because dictionary key order follows insertion, not value,
+                // so a raw Last()-First() subtraction can be negative and miss the opposite-side case.
+                bool oppositeSides = dictionary.Keys.Max() - dictionary.Keys.Min() == 2;
+
                 if (counts.Contains(2))
                 {
                     if (!counts.Contains(1))
@@ -342,11 +379,11 @@ namespace DiGi.GIS.Classes
                         return true;
                     }
 
-                    output = dictionary.Keys.Last() - dictionary.Keys.First() == 2 ? BuildingShape.Other : BuildingShape.F;
+                    output = oppositeSides ? BuildingShape.Other : BuildingShape.F;
                     return true;
                 }
 
-                output = dictionary.Keys.Last() - dictionary.Keys.First() == 2 ? BuildingShape.H : BuildingShape.L;
+                output = oppositeSides ? BuildingShape.H : BuildingShape.L;
                 return true;
             }
 
@@ -373,6 +410,37 @@ namespace DiGi.GIS.Classes
 
             output = BuildingShape.Other;
             return true;
+        }
+
+        /// <summary>
+        /// Resolves the shape for a footprint whose external edge fills its bounding rectangle and produced no significant notches.
+        /// </summary>
+        /// <param name="hasHoles">Indicates whether the footprint encloses one or more internal edges (courtyards).</param>
+        /// <param name="squareThinnessRatio">The square thinness ratio of the external edge.</param>
+        /// <param name="rectangleThinnessRatio">The rectangular thinness ratio of the external edge.</param>
+        /// <returns>The resolved <see cref="BuildingShape"/>.</returns>
+        private BuildingShape FallbackShape(bool hasHoles, double squareThinnessRatio, double rectangleThinnessRatio)
+        {
+            bool boxLike = squareThinnessRatio >= thinnessRatio || rectangleThinnessRatio >= thinnessRatio;
+
+            // A box-filling footprint that also encloses a courtyard (hole) is a ring, i.e. an O-shape;
+            // the same footprint without a hole is a plain Square or Rectangular.
+            if (boxLike && hasHoles)
+            {
+                return BuildingShape.O;
+            }
+
+            if (squareThinnessRatio >= thinnessRatio)
+            {
+                return BuildingShape.Square;
+            }
+
+            if (rectangleThinnessRatio >= thinnessRatio)
+            {
+                return BuildingShape.Rectangular;
+            }
+
+            return BuildingShape.Other;
         }
     }
 }
