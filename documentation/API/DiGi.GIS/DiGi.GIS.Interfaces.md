@@ -1,4 +1,4 @@
-#### [DiGi\.GIS](index.md 'index')
+#### [DiGi\.GIS](DiGi.GIS.Overview.md 'DiGi\.GIS\.Overview')
 
 ## DiGi\.GIS\.Interfaces Namespace
 ### Interfaces
