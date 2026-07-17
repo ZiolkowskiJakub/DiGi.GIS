@@ -500,11 +500,32 @@ The tolerance value used in geometric calculations\.
 [Building2DGeometryCalculationResult](DiGi.GIS.Classes.md#DiGi.GIS.Classes.Building2DGeometryCalculationResult 'DiGi\.GIS\.Classes\.Building2DGeometryCalculationResult')  
 A [Building2DGeometryCalculationResult\(this Building2D, double\)](DiGi.GIS.md#DiGi.GIS.Create.Building2DGeometryCalculationResult(thisDiGi.GIS.Classes.Building2D,double) 'DiGi\.GIS\.Create\.Building2DGeometryCalculationResult\(this DiGi\.GIS\.Classes\.Building2D, double\)') containing the calculated values, or null if calculation is not possible\.
 
+<a name='DiGi.GIS.Create.GISModelAreal2DReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.GISModelAreal2DReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [GISModelAreal2DReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference 'DiGi\.GIS\.Classes\.GISModelAreal2DReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? GISModelAreal2DReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Create.GISModelAreal2DReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the GIS model reference, then the areal 2D reference\.
+
+#### Returns
+[DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
+
 <a name='DiGi.GIS.Create.GISModelAreal2DReference(thisstring)'></a>
 
 ## Create\.GISModelAreal2DReference\(this string\) Method
 
-Parses a string reference to create a [GISModelAreal2DReference\(this string\)](DiGi.GIS.md#DiGi.GIS.Create.GISModelAreal2DReference(thisstring) 'DiGi\.GIS\.Create\.GISModelAreal2DReference\(this string\)') instance\.
+Parses the `[gISModelReference]areal2DReference` shorthand into a [GISModelAreal2DReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference 'DiGi\.GIS\.Classes\.GISModelAreal2DReference')\.
 
 ```csharp
 public static DiGi.GIS.Classes.GISModelAreal2DReference? GISModelAreal2DReference(this string reference);
@@ -515,11 +536,39 @@ public static DiGi.GIS.Classes.GISModelAreal2DReference? GISModelAreal2DReferenc
 
 `reference` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
-The string representation of the reference to be parsed\.
+The shorthand to parse\.
 
 #### Returns
 [GISModelAreal2DReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference 'DiGi\.GIS\.Classes\.GISModelAreal2DReference')  
-A [GISModelAreal2DReference\(this string\)](DiGi.GIS.md#DiGi.GIS.Create.GISModelAreal2DReference(thisstring) 'DiGi\.GIS\.Create\.GISModelAreal2DReference\(this string\)') object if the input is valid; otherwise, null\.
+A [GISModelAreal2DReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference 'DiGi\.GIS\.Classes\.GISModelAreal2DReference') object if the input is valid; otherwise, null\.
+
+### Remarks
+This is a convenience for hand\-written input and is NOT the inverse of
+[ToString\(\)](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference.ToString() 'DiGi\.GIS\.Classes\.GISModelAreal2DReference\.ToString\(\)') \- that round trip goes through
+[DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.query.tryparse#digi-core-query-tryparse(system-string-digi-core-interfaces-ireference@) 'DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)') and the segment overload below\. The shorthand
+escapes nothing, so it cannot express a reference containing brackets; prefer the round\-trip form when
+the string is machine\-generated\.
+
+<a name='DiGi.GIS.Create.GISModelFileGuidObjectReference(System.Collections.Generic.IReadOnlyList_string_)'></a>
+
+## Create\.GISModelFileGuidObjectReference\(IReadOnlyList\<string\>\) Method
+
+Rebuilds a [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference') from the segments of its string form\.
+
+```csharp
+public static DiGi.Core.Interfaces.IReference? GISModelFileGuidObjectReference(System.Collections.Generic.IReadOnlyList<string?>? segments);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Create.GISModelFileGuidObjectReference(System.Collections.Generic.IReadOnlyList_string_).segments'></a>
+
+`segments` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The segments: the nested GIS model file reference, then the nested object reference\.
+
+#### Returns
+[DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference')  
+The reference, or `null` if the segments do not describe one\.
 
 <a name='DiGi.GIS.Create.GISModelFileUniqueObjectReference(thisDiGi.GIS.Classes.GISModelFile,DiGi.GIS.Interfaces.IGISGuidObject)'></a>
 
@@ -546,7 +595,7 @@ The GUID object to be used as a reference\.
 
 #### Returns
 [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference')  
-A [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference') if both inputs and the external reference are valid; otherwise, null\.
+A [GISModelFileGuidObjectReference\(IReadOnlyList&lt;string&gt;\)](DiGi.GIS.md#DiGi.GIS.Create.GISModelFileGuidObjectReference(System.Collections.Generic.IReadOnlyList_string_) 'DiGi\.GIS\.Create\.GISModelFileGuidObjectReference\(System\.Collections\.Generic\.IReadOnlyList\<string\>\)') if both inputs and the external reference are valid; otherwise, null\.
 
 <a name='DiGi.GIS.Create.Hash(DiGi.GML.Classes.LinearRing)'></a>
 

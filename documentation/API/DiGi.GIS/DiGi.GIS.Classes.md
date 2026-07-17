@@ -3829,6 +3829,14 @@ public class GISModelAreal2DReference : DiGi.Core.Classes.SerializableObject, Di
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → GISModelAreal2DReference
 
 Implements [IGISSerializableObject](DiGi.GIS.Interfaces.md#DiGi.GIS.Interfaces.IGISSerializableObject 'DiGi\.GIS\.Interfaces\.IGISSerializableObject'), [IGISObject](DiGi.GIS.Interfaces.md#DiGi.GIS.Interfaces.IGISObject 'DiGi\.GIS\.Interfaces\.IGISObject'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject'), [DiGi\.Core\.Interfaces\.ICloneableObject&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1')[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1 'DiGi\.Core\.Interfaces\.ICloneableObject\`1'), [DiGi\.Core\.Interfaces\.ICloneableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject 'DiGi\.Core\.Interfaces\.ICloneableObject'), [DiGi\.Core\.Interfaces\.ISerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializablereference 'DiGi\.Core\.Interfaces\.ISerializableReference'), [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
+
+### Example
+Renders and parses \(via [DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.query.tryparse#digi-core-query-tryparse(system-string-digi-core-interfaces-ireference@) 'DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)')\) as the discriminator, the
+GIS model reference, then the areal 2D reference:
+
+```csharp
+GISModelAreal2D::SomeModel::SomeAreal
+```
 ### Constructors
 
 <a name='DiGi.GIS.Classes.GISModelAreal2DReference.GISModelAreal2DReference(DiGi.GIS.Classes.GISModelAreal2DReference)'></a>
@@ -3992,7 +4000,7 @@ A 32\-bit signed integer hash code\.
 
 ## GISModelAreal2DReference\.ToString\(\) Method
 
-Returns the string representation of this instance\.
+Returns the reference string: this type's discriminator, the GIS model reference, then the areal 2D reference\.
 
 ```csharp
 public override string ToString();
@@ -4001,6 +4009,16 @@ public override string ToString();
 #### Returns
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 A string representing the GIS model and areal 2D references\.
+
+### Remarks
+TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+[DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') and implements [DiGi\.Core\.Interfaces\.ISerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializablereference 'DiGi\.Core\.Interfaces\.ISerializableReference')
+directly, rather than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not
+inherit the sealed ToString that guarantees the grammar\. Keep this in step with
+[DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.convert.tosystem_string#digi-core-convert-tosystem_string(system-type-system-collections-generic-ienumerable{system-string}) 'DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)')
+and with its factory in Create/GISModelAreal2DReference\.cs; the ReferenceKind facts assert it still
+round\-trips\. The previous form was `[gisModelReference]areal2DReference`, which escaped nothing and
+could not survive an areal reference containing brackets\.
 ### Operators
 
 <a name='DiGi.GIS.Classes.GISModelAreal2DReference.op_Equality(DiGi.GIS.Classes.GISModelAreal2DReference,DiGi.Core.Interfaces.ISerializableReference)'></a>
@@ -4312,13 +4330,27 @@ public class GISModelFileGuidObjectReference : DiGi.Core.Classes.SerializableRef
 Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Core\.Classes\.Object](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.object 'DiGi\.Core\.Classes\.Object') → [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') → [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference') → GISModelFileGuidObjectReference
 
 Implements [DiGi\.Core\.Interfaces\.IComplexReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icomplexreference 'DiGi\.Core\.Interfaces\.IComplexReference'), [DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference'), [DiGi\.Core\.Interfaces\.IObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iobject 'DiGi\.Core\.Interfaces\.IObject'), [System\.IEquatable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')[DiGi\.Core\.Interfaces\.IReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.ireference 'DiGi\.Core\.Interfaces\.IReference')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.iequatable-1 'System\.IEquatable\`1')
+
+### Example
+Renders and parses \(via [DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.query.tryparse#digi-core-query-tryparse(system-string-digi-core-interfaces-ireference@) 'DiGi\.Core\.Query\.TryParse\(System\.String,DiGi\.Core\.Interfaces\.IReference@\)')\) as the discriminator, the
+nested GIS model file reference, then the nested object reference:
+
+```csharp
+GISModelFileGuidObject::(GuidExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e))::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::a63dd7bf98e344deb0070e326ea0384c)
+```
+
+### Remarks
+TODO \[ReferenceFormat\]: This type previously had no ToString override at all, so it rendered as its type name\.
+Because equality and hashing are built on the rendered string, EVERY instance compared equal to every other
+regardless of its GUIDs\. It also declared no serialization members, so it did not round\-trip\. Both are fixed
+here, and there is no earlier rendered form to stay compatible with\.
 ### Constructors
 
 <a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(DiGi.Core.Classes.GuidExternalReference,DiGi.Core.Classes.GuidReference)'></a>
 
 ## GISModelFileGuidObjectReference\(GuidExternalReference, GuidReference\) Constructor
 
-Represents a reference to a GUID object within a GIS model file
+Initializes a new instance of the [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference') class\.
 
 ```csharp
 public GISModelFileGuidObjectReference(DiGi.Core.Classes.GuidExternalReference? guidExternalReference, DiGi.Core.Classes.GuidReference? guidReference);
@@ -4329,9 +4361,47 @@ public GISModelFileGuidObjectReference(DiGi.Core.Classes.GuidExternalReference? 
 
 `guidExternalReference` [DiGi\.Core\.Classes\.GuidExternalReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.guidexternalreference 'DiGi\.Core\.Classes\.GuidExternalReference')
 
+The reference to the GIS model file\.
+
 <a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(DiGi.Core.Classes.GuidExternalReference,DiGi.Core.Classes.GuidReference).guidReference'></a>
 
 `guidReference` [DiGi\.Core\.Classes\.GuidReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.guidreference 'DiGi\.Core\.Classes\.GuidReference')
+
+The reference to the object within that file\.
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(DiGi.GIS.Classes.GISModelFileGuidObjectReference)'></a>
+
+## GISModelFileGuidObjectReference\(GISModelFileGuidObjectReference\) Constructor
+
+Initializes a new instance of the [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference') class by copying an existing reference\.
+
+```csharp
+public GISModelFileGuidObjectReference(DiGi.GIS.Classes.GISModelFileGuidObjectReference? gISModelFileGuidObjectReference);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(DiGi.GIS.Classes.GISModelFileGuidObjectReference).gISModelFileGuidObjectReference'></a>
+
+`gISModelFileGuidObjectReference` [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference')
+
+The existing reference to copy\.
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(System.Text.Json.Nodes.JsonObject)'></a>
+
+## GISModelFileGuidObjectReference\(JsonObject\) Constructor
+
+Initializes a new instance of the [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference') class from a JSON object\.
+
+```csharp
+public GISModelFileGuidObjectReference(System.Text.Json.Nodes.JsonObject? jsonObject);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(System.Text.Json.Nodes.JsonObject).jsonObject'></a>
+
+`jsonObject` [System\.Text\.Json\.Nodes\.JsonObject](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.nodes.jsonobject 'System\.Text\.Json\.Nodes\.JsonObject')
+
+The JSON object to initialize from\.
 ### Properties
 
 <a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GuidExternalReference'></a>
@@ -4359,6 +4429,36 @@ public DiGi.Core.Classes.GuidReference? GuidReference { get; }
 
 #### Property Value
 [DiGi\.Core\.Classes\.GuidReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.guidreference 'DiGi\.Core\.Classes\.GuidReference')
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.Segments'></a>
+
+## GISModelFileGuidObjectReference\.Segments Property
+
+Gets the segments of this reference's string form: the file reference, then the object reference\.
+
+```csharp
+protected override System.Collections.Generic.IEnumerable<string?> Segments { protected get; }
+```
+
+#### Property Value
+[System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+### Methods
+
+<a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.Clone()'></a>
+
+## GISModelFileGuidObjectReference\.Clone\(\) Method
+
+Creates a deep copy of the current object\.
+
+```csharp
+public override DiGi.Core.Interfaces.ISerializableObject? Clone();
+```
+
+Implements [Clone\(\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.icloneableobject-1.clone 'DiGi\.Core\.Interfaces\.ICloneableObject\`1\.Clone')
+
+#### Returns
+[DiGi\.Core\.Interfaces\.ISerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializableobject 'DiGi\.Core\.Interfaces\.ISerializableObject')  
+A deep copy of the current object\.
 
 <a name='DiGi.GIS.Classes.GISModelFileManager'></a>
 

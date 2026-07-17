@@ -8,6 +8,11 @@ namespace DiGi.GIS.Classes
     /// <summary>
     /// Represents a reference to an areal 2D object within a GIS model.
     /// </summary>
+    /// <example>
+    /// Renders and parses (via <see cref="Core.Query.TryParse(string?, out IReference?)"/>) as the discriminator, the
+    /// GIS model reference, then the areal 2D reference:
+    /// <code>GISModelAreal2D::SomeModel::SomeAreal</code>
+    /// </example>
     public class GISModelAreal2DReference : Core.Classes.SerializableObject, IGISSerializableObject, ISerializableReference
     {
         /// <summary>
@@ -193,12 +198,24 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
-        /// Returns the string representation of this instance.
+        /// Returns the reference string: this type's discriminator, the GIS model reference, then the areal 2D reference.
         /// </summary>
         /// <returns>A string representing the GIS model and areal 2D references.</returns>
+        /// <remarks>
+        /// TODO [ReferenceFormat]: This type renders its own string by hand. It derives from
+        /// <see cref="Core.Classes.SerializableObject"/> and implements <see cref="ISerializableReference"/>
+        /// directly, rather than deriving from <see cref="Core.Classes.SerializableReference"/>, so it does not
+        /// inherit the sealed ToString that guarantees the grammar. Keep this in step with
+        /// <see cref="Core.Convert.ToSystem_String(System.Type?, System.Collections.Generic.IEnumerable{string?})"/>
+        /// and with its factory in Create/GISModelAreal2DReference.cs; the ReferenceKind facts assert it still
+        /// round-trips. The previous form was <c>[gisModelReference]areal2DReference</c>, which escaped nothing and
+        /// could not survive an areal reference containing brackets.
+        /// </remarks>
         public override string ToString()
         {
-            return Convert.ToSystem_String(GISModelReference, Areal2DReference) ?? string.Empty;
+            return Core.Convert.ToSystem_String(
+                GetType(),
+                [Core.Query.Segment(GISModelReference), Core.Query.Segment(Areal2DReference)]) ?? string.Empty;
         }
     }
 }

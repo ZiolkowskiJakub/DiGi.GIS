@@ -470,3 +470,51 @@ public const string YearBuiltDatasFile = "Year Built Datas File";
 
 #### Field Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.GIS.Constants.ReferenceKind'></a>
+
+## ReferenceKind Class
+
+Discriminator tokens for the reference types defined in DiGi\.GIS\.
+
+These values are a persisted contract: they are written into stored reference strings, so they are
+            append-only. Renaming one silently invalidates every string already stored in that format. A token must be
+            unique across every repository, and must contain neither a comma (which would make it parse as a full type
+            name) nor a colon.
+
+This class is deliberately NOT named Reference. A local Constants.Reference would win
+            innermost-namespace lookup over DiGi.Core.Constants.Reference and silently shadow the shared grammar
+            constants - a bug this codebase has already had once, in DiGi.PostgreSQL.
+
+```csharp
+public static class ReferenceKind
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → ReferenceKind
+### Fields
+
+<a name='DiGi.GIS.Constants.ReferenceKind.GISModelAreal2D'></a>
+
+## ReferenceKind\.GISModelAreal2D Field
+
+Discriminator for [GISModelAreal2DReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelAreal2DReference 'DiGi\.GIS\.Classes\.GISModelAreal2DReference')\.
+
+```csharp
+public const string GISModelAreal2D = "GISModelAreal2D";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.GIS.Constants.ReferenceKind.GISModelFileGuidObject'></a>
+
+## ReferenceKind\.GISModelFileGuidObject Field
+
+Discriminator for [GISModelFileGuidObjectReference](DiGi.GIS.Classes.md#DiGi.GIS.Classes.GISModelFileGuidObjectReference 'DiGi\.GIS\.Classes\.GISModelFileGuidObjectReference')\.
+
+```csharp
+public const string GISModelFileGuidObject = "GISModelFileGuidObject";
+```
+
+#### Field Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
