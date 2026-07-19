@@ -1,4 +1,4 @@
-﻿using DiGi.GIS.Classes;
+using DiGi.GIS.Classes;
 using DiGi.GIS.Enums;
 
 namespace DiGi.GIS
@@ -12,18 +12,12 @@ namespace DiGi.GIS
         /// <returns>The corresponding <see cref="Enums.SettlementType"/>.</returns>
         public static SettlementType SettlementType(this AdministrativeSubdivisionType administrativeSubdivisionType)
         {
-            switch (administrativeSubdivisionType)
+            return administrativeSubdivisionType switch
             {
-                case AdministrativeSubdivisionType.city:
-                case AdministrativeSubdivisionType.part_of_city:
-                    return Enums.SettlementType.Urban;
-
-                case AdministrativeSubdivisionType.other:
-                    return Enums.SettlementType.Undefined;
-
-                default:
-                    return Enums.SettlementType.Rural;
-            }
+                AdministrativeSubdivisionType.city or AdministrativeSubdivisionType.part_of_city => Enums.SettlementType.Urban,
+                AdministrativeSubdivisionType.other => Enums.SettlementType.Undefined,
+                _ => Enums.SettlementType.Rural,
+            };
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using System;
 using System.IO;
 
@@ -56,7 +56,7 @@ namespace DiGi.GIS
             return null;
 
             // --- LOCAL FUNCTION ---
-            Size? GetSize(BinaryReader reader)
+            static Size? GetSize(BinaryReader reader)
             {
                 while (reader.BaseStream.Position < reader.BaseStream.Length)
                 {

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using System;
@@ -186,8 +186,7 @@ namespace DiGi.GIS
             // Semaphore limits the number of concurrent network requests
             using SemaphoreSlim semaphoreSlim = new(initialRequestCount);
 
-            List<Task<KeyValuePair<int, byte[]>?>> tasks = [.. ortoDataUrlDictionary.Select(async (KeyValuePair<int, string> entry) =>
-                {
+            List<Task<KeyValuePair<int, byte[]>?>> tasks = [.. ortoDataUrlDictionary.Select(async entry => {
                     await semaphoreSlim.WaitAsync();
                     try
                     {
