@@ -14,7 +14,7 @@ namespace DiGi.GIS
         /// <returns>A <see cref="Classes.GISModelAreal2DReference"/> object if the input is valid; otherwise, null.</returns>
         /// <remarks>
         /// This is a convenience for hand-written input and is NOT the inverse of
-        /// <see cref="Classes.GISModelAreal2DReference.ToString"/> - that round trip goes through
+        /// <see cref="GISModelAreal2DReference.ToString"/> - that round trip goes through
         /// <see cref="Core.Query.TryParse(string?, out IReference?)"/> and the segment overload below. The shorthand
         /// escapes nothing, so it cannot express a reference containing brackets; prefer the round-trip form when
         /// the string is machine-generated.
