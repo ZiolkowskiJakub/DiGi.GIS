@@ -64,8 +64,18 @@ namespace DiGi.GIS
                 return null;
             }
 
-            string string_X = point2D.X.ToString(CultureInfo.InvariantCulture);
-            string string_Y = point2D.Y.ToString(CultureInfo.InvariantCulture);
+            double easting = point2D.X;
+            double northing = point2D.Y;
+
+            // In EPSG:2180 (PL-1992), if X represents Northing (e.g. > 550,000 while Y < 550,000), swap them so parameter x receives Easting and parameter y receives Northing.
+            if (point2D.X > 550000 && point2D.Y < 550000)
+            {
+                easting = point2D.Y;
+                northing = point2D.X;
+            }
+
+            string string_X = easting.ToString(CultureInfo.InvariantCulture);
+            string string_Y = northing.ToString(CultureInfo.InvariantCulture);
 
             return $"https://services.gugik.gov.pl/nmt/?request=GetHByXY&x={string_X}&y={string_Y}";
         }
