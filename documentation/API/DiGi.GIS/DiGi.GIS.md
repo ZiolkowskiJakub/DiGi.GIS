@@ -2374,6 +2374,66 @@ The longitude of the second point in decimal degrees\.
 [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')  
 The distance between the two points in meters, or [System\.Double\.NaN](https://learn.microsoft.com/en-us/dotnet/api/system.double.nan 'System\.Double\.NaN') if any of the input coordinates are NaN\.
 
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Query\.ElevationAsync\(this HttpClient, Point2D\) Method
+
+Asynchronously fetches the elevation for a 2D point using an HTTP client\.
+
+```csharp
+public static System.Threading.Tasks.Task<DiGi.Geometry.Spatial.Classes.Point3D?> ElevationAsync(this System.Net.Http.HttpClient? httpClient, DiGi.Geometry.Planar.Classes.Point2D? point2D);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D).httpClient'></a>
+
+`httpClient` [System\.Net\.Http\.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient 'System\.Net\.Http\.HttpClient')
+
+The HTTP client used to send the request\.
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D).point2D'></a>
+
+`point2D` [DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The 2D point for which to retrieve the elevation\.
+
+#### Returns
+[System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
+A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int)'></a>
+
+## Query\.ElevationsAsync\(this HttpClient, IEnumerable\<Point2D\>, int\) Method
+
+Asynchronously retrieves elevation data for a collection of 2D points with concurrency throttling\.
+
+```csharp
+public static System.Threading.Tasks.Task<System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Point3D>?> ElevationsAsync(this System.Net.Http.HttpClient? httpClient, System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, int maxConcurrentRequests=10);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int).httpClient'></a>
+
+`httpClient` [System\.Net\.Http\.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient 'System\.Net\.Http\.HttpClient')
+
+The HTTP client instance used for sending requests\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The collection of 2D points to query elevation for\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int).maxConcurrentRequests'></a>
+
+`maxConcurrentRequests` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+Maximum number of concurrent HTTP requests allowed\.
+
+#### Returns
+[System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
+A list of 3D points containing elevation data, or null if input parameters are null\.
+
 <a name='DiGi.GIS.Query.EPWFile(thisDiGi.Geometry.Planar.Classes.Point2D,System.Collections.Generic.IEnumerable_DiGi.EPW.Classes.EPWFile_,double)'></a>
 
 ## Query\.EPWFile\(this Point2D, IEnumerable\<EPWFile\>, double\) Method
@@ -2930,78 +2990,6 @@ A value indicating whether to check if the directory exists\.
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
 The full path to the Orto Range Orto data directory, or null if not found\.
 
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double)'></a>
-
-## Query\.OrtoDataUrl\(this BoundingBox2D, int, double\) Method
-
-Generates a URL for orthophoto data based on a bounding box, year, and scale factor\.
-
-```csharp
-public static string? OrtoDataUrl(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, int year, double scale);
-```
-#### Parameters
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).boundingBox2D'></a>
-
-`boundingBox2D` [DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.boundingbox2d 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
-
-The bounding box defining the geographic area\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).year'></a>
-
-`year` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The year of the orthophoto data to retrieve\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).scale'></a>
-
-`scale` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
-
-The scale used to calculate the pixel dimensions of the image\.
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string containing the constructed URL, or null if the bounding box is null\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int)'></a>
-
-## Query\.OrtoDataUrl\(this BoundingBox2D, int, int, int\) Method
-
-Generates a URL for orthophoto data based on a bounding box, year, and specific pixel dimensions\.
-
-```csharp
-public static string? OrtoDataUrl(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, int year, int width, int height);
-```
-#### Parameters
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).boundingBox2D'></a>
-
-`boundingBox2D` [DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.boundingbox2d 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
-
-The bounding box defining the geographic area\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).year'></a>
-
-`year` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The year of the orthophoto data to retrieve\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).width'></a>
-
-`width` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The width of the requested image in pixels\.
-
-<a name='DiGi.GIS.Query.OrtoDataUrl(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).height'></a>
-
-`height` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
-
-The height of the requested image in pixels\.
-
-#### Returns
-[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
-A string containing the constructed URL, or null if the bounding box is null\.
-
 <a name='DiGi.GIS.Query.OrtoDataUrlDictionary(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,System.Collections.Generic.IEnumerable_int_,double)'></a>
 
 ## Query\.OrtoDataUrlDictionary\(this BoundingBox2D, IEnumerable\<int\>, double\) Method
@@ -3384,6 +3372,99 @@ A collection of string references used to look up the statistical data\.
 #### Returns
 [System\.Collections\.Generic\.Dictionary&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[,](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[StatisticalDataCollection](DiGi.GIS.Classes.md#DiGi.GIS.Classes.StatisticalDataCollection 'DiGi\.GIS\.Classes\.StatisticalDataCollection')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')  
 A dictionary mapping reference strings to their corresponding [StatisticalDataCollection](DiGi.GIS.Classes.md#DiGi.GIS.Classes.StatisticalDataCollection 'DiGi\.GIS\.Classes\.StatisticalDataCollection'), or null if the directory is invalid or references are null\.
+
+<a name='DiGi.GIS.Query.Url_Elevation(thisDiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Query\.Url\_Elevation\(this Point2D\) Method
+
+Generates a URL for querying elevation data for a given 2D point from the GUGiK API\.
+
+```csharp
+public static string? Url_Elevation(this DiGi.Geometry.Planar.Classes.Point2D? point2D);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.Url_Elevation(thisDiGi.Geometry.Planar.Classes.Point2D).point2D'></a>
+
+`point2D` [DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The 2D point for which to retrieve elevation\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string containing the constructed elevation query URL, or null if the point is null\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double)'></a>
+
+## Query\.Url\_OrtoData\(this BoundingBox2D, int, double\) Method
+
+Generates a URL for orthophoto data based on a bounding box, year, and scale factor\.
+
+```csharp
+public static string? Url_OrtoData(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, int year, double scale);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).boundingBox2D'></a>
+
+`boundingBox2D` [DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.boundingbox2d 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
+
+The bounding box defining the geographic area\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).year'></a>
+
+`year` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The year of the orthophoto data to retrieve\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,double).scale'></a>
+
+`scale` [System\.Double](https://learn.microsoft.com/en-us/dotnet/api/system.double 'System\.Double')
+
+The scale used to calculate the pixel dimensions of the image\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string containing the constructed URL, or null if the bounding box is null\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int)'></a>
+
+## Query\.Url\_OrtoData\(this BoundingBox2D, int, int, int\) Method
+
+Generates a URL for orthophoto data based on a bounding box, year, and specific pixel dimensions\.
+
+```csharp
+public static string? Url_OrtoData(this DiGi.Geometry.Planar.Classes.BoundingBox2D? boundingBox2D, int year, int width, int height);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).boundingBox2D'></a>
+
+`boundingBox2D` [DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.boundingbox2d 'DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D')
+
+The bounding box defining the geographic area\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).year'></a>
+
+`year` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The year of the orthophoto data to retrieve\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).width'></a>
+
+`width` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The width of the requested image in pixels\.
+
+<a name='DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int).height'></a>
+
+`height` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The height of the requested image in pixels\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+A string containing the constructed URL, or null if the bounding box is null\.
 
 <a name='DiGi.GIS.Query.UserYearBuilt(string,DiGi.GIS.Classes.Building2D)'></a>
 

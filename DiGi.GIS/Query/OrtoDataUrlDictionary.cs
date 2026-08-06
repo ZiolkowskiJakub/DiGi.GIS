@@ -1,4 +1,4 @@
-﻿using DiGi.Geometry.Planar.Classes;
+using DiGi.Geometry.Planar.Classes;
 using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace DiGi.GIS
             Dictionary<int, string> result = [];
             foreach (int year in years)
             {
-                if (OrtoDataUrl(boundingBox2D, year, width_Int, height_Int) is string url)
+                if (Url_OrtoData(boundingBox2D, year, width_Int, height_Int) is string url)
                 {
                     result[year] = url;
                 }
