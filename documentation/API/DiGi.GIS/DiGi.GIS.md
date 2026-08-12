@@ -3379,6 +3379,10 @@ A dictionary mapping reference strings to their corresponding [StatisticalDataCo
 
 Generates a URL for querying elevation data for a given 2D point from the GUGiK API\.
 
+The two services read the EPSG:2180 (PL-1992) axes the opposite way round. A [DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D') holds easting in `X` and northing in `Y`, which is what [Url\_OrtoData\(this BoundingBox2D, int, int, int\)](DiGi.GIS.md#DiGi.GIS.Query.Url_OrtoData(thisDiGi.Geometry.Planar.Classes.BoundingBox2D,int,int,int) 'DiGi\.GIS\.Query\.Url\_OrtoData\(this DiGi\.Geometry\.Planar\.Classes\.BoundingBox2D, int, int, int\)') writes into a WMS bounding box; the `GetHByXY` service of the terrain model instead follows the official PL-1992 axis order and expects `x` to carry the northing and `y` the easting. The two are therefore swapped here.
+
+Passing them the other way round does not fail loudly: outside the coverage of the terrain model the service answers `0`, which parses as a valid elevation and places the building at sea level, and a swapped pair that happens to stay inside the country returns the elevation of a different place altogether.
+
 ```csharp
 public static string? Url_Elevation(this DiGi.Geometry.Planar.Classes.Point2D? point2D);
 ```

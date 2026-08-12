@@ -54,6 +54,8 @@ namespace DiGi.GIS
 
         /// <summary>
         /// Generates a URL for querying elevation data for a given 2D point from the GUGiK API.
+        /// <para>The two services read the EPSG:2180 (PL-1992) axes the opposite way round. A <see cref="Point2D"/> holds easting in <c>X</c> and northing in <c>Y</c>, which is what <see cref="Url_OrtoData(BoundingBox2D, int, int, int)"/> writes into a WMS bounding box; the <c>GetHByXY</c> service of the terrain model instead follows the official PL-1992 axis order and expects <c>x</c> to carry the northing and <c>y</c> the easting. The two are therefore swapped here.</para>
+        /// <para>Passing them the other way round does not fail loudly: outside the coverage of the terrain model the service answers <c>0</c>, which parses as a valid elevation and places the building at sea level, and a swapped pair that happens to stay inside the country returns the elevation of a different place altogether.</para>
         /// </summary>
         /// <param name="point2D">The 2D point for which to retrieve elevation.</param>
         /// <returns>A string containing the constructed elevation query URL, or null if the point is null.</returns>
@@ -64,20 +66,10 @@ namespace DiGi.GIS
                 return null;
             }
 
-            double easting = point2D.X;
-            double northing = point2D.Y;
+            string string_Easting = point2D.X.ToString(CultureInfo.InvariantCulture);
+            string string_Northing = point2D.Y.ToString(CultureInfo.InvariantCulture);
 
-            // In EPSG:2180 (PL-1992), if X represents Northing (e.g. > 550,000 while Y < 550,000), swap them so parameter x receives Easting and parameter y receives Northing.
-            if (point2D.X > 550000 && point2D.Y < 550000)
-            {
-                easting = point2D.Y;
-                northing = point2D.X;
-            }
-
-            string string_X = easting.ToString(CultureInfo.InvariantCulture);
-            string string_Y = northing.ToString(CultureInfo.InvariantCulture);
-
-            return $"https://services.gugik.gov.pl/nmt/?request=GetHByXY&x={string_X}&y={string_Y}";
+            return $"https://services.gugik.gov.pl/nmt/?request=GetHByXY&x={string_Northing}&y={string_Easting}";
         }
     }
 }
