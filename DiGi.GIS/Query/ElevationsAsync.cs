@@ -1,7 +1,6 @@
 using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Classes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            Point2D[] point2Ds_Array = point2Ds.ToArray();
+            Point2D[] point2Ds_Array = [.. point2Ds];
             if (point2Ds_Array.Length == 0)
             {
                 return [];
