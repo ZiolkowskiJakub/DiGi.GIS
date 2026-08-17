@@ -2401,11 +2401,62 @@ The 2D point for which to retrieve the elevation\.
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
 A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null\.
 
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken)'></a>
+
+## Query\.ElevationAsync\(this HttpClient, Point2D, int, TimeSpan, CancellationToken\) Method
+
+Asynchronously fetches the elevation for a 2D point, retrying conditions that are worth retrying\.
+
+Unlike [ElevationAsync\(this HttpClient, Point2D\)](DiGi.GIS.md#DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D) 'DiGi\.GIS\.Query\.ElevationAsync\(this System\.Net\.Http\.HttpClient, DiGi\.Geometry\.Planar\.Classes\.Point2D\)'), which gives up on the first failure of any kind, this tells a transient condition apart from a genuine one through [IsTransient\(this HttpStatusCode\)](DiGi.GIS.md#DiGi.GIS.Query.IsTransient(thisSystem.Net.HttpStatusCode) 'DiGi\.GIS\.Query\.IsTransient\(this System\.Net\.HttpStatusCode\)') and sends the request again. That matters when many points are fetched at once: a service answering 429 to a burst would otherwise be recorded as a run of points that have no elevation, and nothing would go back for them.
+
+The delay doubles after each attempt, and a `Retry-After` the server sends takes the place of the delay for the attempt that follows it. Failures that are not transient - an unreachable host aside - and answers that cannot be read as a number are not retried.
+
+```csharp
+public static System.Threading.Tasks.Task<DiGi.Geometry.Spatial.Classes.Point3D?> ElevationAsync(this System.Net.Http.HttpClient? httpClient, DiGi.Geometry.Planar.Classes.Point2D? point2D, int retryCount, System.TimeSpan retryDelay, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken).httpClient'></a>
+
+`httpClient` [System\.Net\.Http\.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient 'System\.Net\.Http\.HttpClient')
+
+The HTTP client used to send the request\.
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken).point2D'></a>
+
+`point2D` [DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The 2D point for which to retrieve the elevation\.
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken).retryCount'></a>
+
+`retryCount` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of times a transient failure is retried; zero sends the request once\.
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken).retryDelay'></a>
+
+`retryDelay` [System\.TimeSpan](https://learn.microsoft.com/en-us/dotnet/api/system.timespan 'System\.TimeSpan')
+
+The delay before the first retry, doubling for each attempt after that\.
+
+<a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System\.Threading\.CancellationToken](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken 'System\.Threading\.CancellationToken')
+
+The token to monitor for cancellation requests\.
+
+#### Returns
+[System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
+A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null\.
+
 <a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int)'></a>
 
 ## Query\.ElevationsAsync\(this HttpClient, IEnumerable\<Point2D\>, int\) Method
 
 Asynchronously retrieves elevation data for a collection of 2D points with concurrency throttling\.
+
+Points that could not be resolved are left out of the result, so it does not line up with the input. Prefer [ElevationsAsync\(this HttpClient, IReadOnlyList&lt;Point2D&gt;, int, int, TimeSpan, CancellationToken\)](DiGi.GIS.md#DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken) 'DiGi\.GIS\.Query\.ElevationsAsync\(this System\.Net\.Http\.HttpClient, System\.Collections\.Generic\.IReadOnlyList\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, int, int, System\.TimeSpan, System\.Threading\.CancellationToken\)') where each answer has to be matched back to the point it was asked for, or where a failing service should be retried rather than reported as points that have no elevation.
 
 ```csharp
 public static System.Threading.Tasks.Task<System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Point3D>?> ElevationsAsync(this System.Net.Http.HttpClient? httpClient, System.Collections.Generic.IEnumerable<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, int maxConcurrentRequests=10);
@@ -2433,6 +2484,63 @@ Maximum number of concurrent HTTP requests allowed\.
 #### Returns
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
 A list of 3D points containing elevation data, or null if input parameters are null\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken)'></a>
+
+## Query\.ElevationsAsync\(this HttpClient, IReadOnlyList\<Point2D\>, int, int, TimeSpan, CancellationToken\) Method
+
+Asynchronously retrieves elevation data for a list of 2D points, keeping the answers in step with the points they were asked for\.
+
+The result has one entry per input point, at the same position, and holds null wherever the elevation could not be retrieved. A caller can therefore act on the points that failed - count them, report them, come back for them - instead of only seeing that fewer answers arrived than were asked for.
+
+Transient failures are retried through [ElevationAsync\(this HttpClient, Point2D, int, TimeSpan, CancellationToken\)](DiGi.GIS.md#DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken) 'DiGi\.GIS\.Query\.ElevationAsync\(this System\.Net\.Http\.HttpClient, DiGi\.Geometry\.Planar\.Classes\.Point2D, int, System\.TimeSpan, System\.Threading\.CancellationToken\)'), with the delay of each request staggered so that a burst rejected all at once does not retry all at once.
+
+Every point is one request, so this holds the whole list in flight against [maxConcurrentRequests](DiGi.GIS.md#DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).maxConcurrentRequests 'DiGi\.GIS\.Query\.ElevationsAsync\(this System\.Net\.Http\.HttpClient, System\.Collections\.Generic\.IReadOnlyList\<DiGi\.Geometry\.Planar\.Classes\.Point2D\>, int, int, System\.TimeSpan, System\.Threading\.CancellationToken\)\.maxConcurrentRequests') and does not divide it up. A caller working through a large area should pass it a batch at a time.
+
+```csharp
+public static System.Threading.Tasks.Task<System.Collections.Generic.List<DiGi.Geometry.Spatial.Classes.Point3D?>?> ElevationsAsync(this System.Net.Http.HttpClient? httpClient, System.Collections.Generic.IReadOnlyList<DiGi.Geometry.Planar.Classes.Point2D>? point2Ds, int maxConcurrentRequests, int retryCount, System.TimeSpan retryDelay, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).httpClient'></a>
+
+`httpClient` [System\.Net\.Http\.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient 'System\.Net\.Http\.HttpClient')
+
+The HTTP client instance used for sending requests\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).point2Ds'></a>
+
+`point2Ds` [System\.Collections\.Generic\.IReadOnlyList&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')[DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlylist-1 'System\.Collections\.Generic\.IReadOnlyList\`1')
+
+The list of 2D points to query elevation for\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).maxConcurrentRequests'></a>
+
+`maxConcurrentRequests` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+Maximum number of concurrent HTTP requests allowed; values below one are treated as one\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).retryCount'></a>
+
+`retryCount` [System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')
+
+The number of times a transient failure is retried for each point; zero sends each request once\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).retryDelay'></a>
+
+`retryDelay` [System\.TimeSpan](https://learn.microsoft.com/en-us/dotnet/api/system.timespan 'System\.TimeSpan')
+
+The delay before the first retry, doubling for each attempt after that\.
+
+<a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IReadOnlyList_DiGi.Geometry.Planar.Classes.Point2D_,int,int,System.TimeSpan,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System\.Threading\.CancellationToken](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken 'System\.Threading\.CancellationToken')
+
+The token to monitor for cancellation requests\.
+
+#### Returns
+[System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
+A list of 3D points the same length as the input, holding null at the position of every point that could not be resolved, or null if input parameters are null\.
 
 <a name='DiGi.GIS.Query.EPWFile(thisDiGi.Geometry.Planar.Classes.Point2D,System.Collections.Generic.IEnumerable_DiGi.EPW.Classes.EPWFile_,double)'></a>
 
@@ -2589,6 +2697,33 @@ The building object to evaluate\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the building is identified as residential; otherwise, false\.
+
+<a name='DiGi.GIS.Query.IsTransient(thisSystem.Net.HttpStatusCode)'></a>
+
+## Query\.IsTransient\(this HttpStatusCode\) Method
+
+Determines whether a response status represents a transient condition that is worth retrying\.
+
+Transient means the request may well succeed if sent again unchanged: the gateway lost its upstream (502), the service is unavailable or restarting (503), the gateway timed out waiting (504), the server asked the client to retry (408, 429).
+
+Everything else is treated as a genuine fault and fails on the first attempt. In particular [System\.Net\.HttpStatusCode\.InternalServerError](https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode.internalservererror 'System\.Net\.HttpStatusCode\.InternalServerError') is NOT transient - retrying only repeats whatever the server already failed at.
+
+This deliberately duplicates `DiGi.WebAPI.Query.IsTransient` rather than calling it. That assembly targets a current .NET and this one targets netstandard2.0, so it cannot be referenced from here. Keep the two in step if either is extended.
+
+```csharp
+public static bool IsTransient(this System.Net.HttpStatusCode httpStatusCode);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.IsTransient(thisSystem.Net.HttpStatusCode).httpStatusCode'></a>
+
+`httpStatusCode` [System\.Net\.HttpStatusCode](https://learn.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode 'System\.Net\.HttpStatusCode')
+
+The status returned by the server\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the request should be retried; otherwise, false\.
 
 <a name='DiGi.GIS.Query.IsUrban(thisDiGi.GIS.Enums.MunicipalityType)'></a>
 
