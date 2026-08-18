@@ -35,13 +35,15 @@ namespace DiGi.GIS.Classes
 
         /// <summary>
         /// Initializes a new instance of the OccupancyData class by copying another instance
+        /// <para>The reference is copied along with the values. A stored occupancy row is addressed by the reference of the building it describes together with the unique identifier this object carries, so a copy that dropped the reference could no longer be matched to the row it came from.</para>
         /// </summary>
         /// <param name="occupancyData">The source instance to copy data from.</param>
-        public OccupancyData(OccupancyData occupancyData)
+        public OccupancyData(OccupancyData? occupancyData)
             : base(occupancyData)
         {
             if (occupancyData != null)
             {
+                reference = occupancyData.reference;
                 occupancyArea = occupancyData.occupancyArea;
                 occupancy = occupancyData.occupancy;
             }

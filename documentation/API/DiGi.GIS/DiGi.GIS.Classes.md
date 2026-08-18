@@ -5276,8 +5276,10 @@ Implements [IOccupancyData](DiGi.GIS.Interfaces.md#DiGi.GIS.Interfaces.IOccupanc
 
 Initializes a new instance of the OccupancyData class by copying another instance
 
+The reference is copied along with the values. A stored occupancy row is addressed by the reference of the building it describes together with the unique identifier this object carries, so a copy that dropped the reference could no longer be matched to the row it came from.
+
 ```csharp
-public OccupancyData(DiGi.GIS.Classes.OccupancyData occupancyData);
+public OccupancyData(DiGi.GIS.Classes.OccupancyData? occupancyData);
 ```
 #### Parameters
 
@@ -8920,6 +8922,8 @@ Implements [IYearBuiltData](DiGi.GIS.Interfaces.md#DiGi.GIS.Interfaces.IYearBuil
 ## YearBuiltData\(YearBuiltData\) Constructor
 
 Initializes a new instance of the [YearBuiltData](DiGi.GIS.Classes.md#DiGi.GIS.Classes.YearBuiltData 'DiGi\.GIS\.Classes\.YearBuiltData') class by copying values from an existing instance\.
+
+The copy chains to the base constructor so it keeps the guid of the source. Without that it would fall through to the parameterless [DiGi\.Core\.Classes\.GuidObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.guidobject 'DiGi\.Core\.Classes\.GuidObject') constructor and mint a new one, and since a stored row is addressed by the reference of the building together with the unique identifier this object carries, the copy could no longer be matched to the row it came from.
 
 ```csharp
 public YearBuiltData(DiGi.GIS.Classes.YearBuiltData? yearBuiltData);

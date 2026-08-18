@@ -33,9 +33,11 @@ namespace DiGi.GIS.Classes
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YearBuiltData"/> class by copying values from an existing instance.
+        /// <para>The copy chains to the base constructor so it keeps the guid of the source. Without that it would fall through to the parameterless <see cref="Core.Classes.GuidObject"/> constructor and mint a new one, and since a stored row is addressed by the reference of the building together with the unique identifier this object carries, the copy could no longer be matched to the row it came from.</para>
         /// </summary>
         /// <param name="yearBuiltData">The source <see cref="YearBuiltData"/> object to copy data from.</param>
         public YearBuiltData(YearBuiltData? yearBuiltData)
+            : base(yearBuiltData)
         {
             if (yearBuiltData != null)
             {
