@@ -2,6 +2,7 @@ using DiGi.Geometry.Planar.Classes;
 using DiGi.Geometry.Spatial.Classes;
 using System;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,7 +54,8 @@ namespace DiGi.GIS
         /// <summary>
         /// Asynchronously fetches the elevation for a 2D point, retrying conditions that are worth retrying.
         /// <para>Unlike <see cref="ElevationAsync(HttpClient, Point2D)"/>, which gives up on the first failure of any kind, this tells a transient condition apart from a genuine one through <see cref="IsTransient(System.Net.HttpStatusCode)"/> and sends the request again. That matters when many points are fetched at once: a service answering 429 to a burst would otherwise be recorded as a run of points that have no elevation, and nothing would go back for them.</para>
-        /// <para>The delay doubles after each attempt, and a <c>Retry-After</c> the server sends takes the place of the delay for the attempt that follows it. Failures that are not transient - an unreachable host aside - and answers that cannot be read as a number are not retried.</para>
+        /// <para>The delay doubles after each attempt, and a <c>Retry-After</c> the server sends takes the place of the delay for the attempt that follows it. An answer carrying content that is not a number is a considered answer and is not retried; an empty one is not an answer at all and is.</para>
+        /// <para>This path treats <see cref="HttpStatusCode.InternalServerError"/> as worth retrying, which the shared <see cref="IsTransient(HttpStatusCode)"/> policy deliberately does not. A public elevation service asked for hundreds of thousands of single points answers 500 to load and answers correctly moments later, and points really were lost to giving up on it.</para>
         /// </summary>
         /// <param name="httpClient">The HTTP client used to send the request.</param>
         /// <param name="point2D">The 2D point for which to retrieve the elevation.</param>
@@ -95,18 +97,25 @@ namespace DiGi.GIS
                                 return new Point3D(point2D.X, point2D.Y, elevation);
                             }
 
-                            // An answer that arrived but cannot be read is not going to read differently next time.
-                            return null;
+                            // An answer with something in it that cannot be read is not going to read differently
+                            // next time. An empty one is not an answer at all - a body cut short, or a success with
+                            // nothing behind it - and asking again is exactly what recovers it.
+                            if (!string.IsNullOrWhiteSpace(responseContent) || attempt >= retryCount)
+                            {
+                                return null;
+                            }
                         }
-
-                        if (attempt >= retryCount || !httpResponseMessage.StatusCode.IsTransient())
+                        else
                         {
-                            return null;
-                        }
+                            if (attempt >= retryCount || !(httpResponseMessage.StatusCode.IsTransient() || httpResponseMessage.StatusCode == HttpStatusCode.InternalServerError))
+                            {
+                                return null;
+                            }
 
-                        if (httpResponseMessage.Headers.RetryAfter?.Delta is TimeSpan delta && delta > TimeSpan.Zero)
-                        {
-                            delay = delta;
+                            if (httpResponseMessage.Headers.RetryAfter?.Delta is TimeSpan delta && delta > TimeSpan.Zero)
+                            {
+                                delay = delta;
+                            }
                         }
                     }
                 }
