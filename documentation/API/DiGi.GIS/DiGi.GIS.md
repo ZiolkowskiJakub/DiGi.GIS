@@ -2380,6 +2380,8 @@ The distance between the two points in meters, or [System\.Double\.NaN](https://
 
 Asynchronously fetches the elevation for a 2D point using an HTTP client\.
 
+The public GUGiK elevation service answers `0` (or `-0`) with HTTP 200 for coordinates outside its terrain model coverage (e.g. over the sea or across national borders) or over water bodies. This is treated as a no-data sentinel and resolved to null rather than a valid sea-level measurement.
+
 ```csharp
 public static System.Threading.Tasks.Task<DiGi.Geometry.Spatial.Classes.Point3D?> ElevationAsync(this System.Net.Http.HttpClient? httpClient, DiGi.Geometry.Planar.Classes.Point2D? point2D);
 ```
@@ -2399,7 +2401,7 @@ The 2D point for which to retrieve the elevation\.
 
 #### Returns
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
-A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null\.
+A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails, parameters are null, or the service answers with the zero no\-data sentinel\.
 
 <a name='DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D,int,System.TimeSpan,System.Threading.CancellationToken)'></a>
 
@@ -2408,6 +2410,8 @@ A 3D point containing the original 2D coordinates and the fetched elevation, or 
 Asynchronously fetches the elevation for a 2D point, retrying conditions that are worth retrying\.
 
 Unlike [ElevationAsync\(this HttpClient, Point2D\)](DiGi.GIS.md#DiGi.GIS.Query.ElevationAsync(thisSystem.Net.Http.HttpClient,DiGi.Geometry.Planar.Classes.Point2D) 'DiGi\.GIS\.Query\.ElevationAsync\(this System\.Net\.Http\.HttpClient, DiGi\.Geometry\.Planar\.Classes\.Point2D\)'), which gives up on the first failure of any kind, this tells a transient condition apart from a genuine one through [IsTransient\(this HttpStatusCode\)](DiGi.GIS.md#DiGi.GIS.Query.IsTransient(thisSystem.Net.HttpStatusCode) 'DiGi\.GIS\.Query\.IsTransient\(this System\.Net\.HttpStatusCode\)') and sends the request again. That matters when many points are fetched at once: a service answering 429 to a burst would otherwise be recorded as a run of points that have no elevation, and nothing would go back for them.
+
+The public GUGiK elevation service answers `0` (or `-0`) with HTTP 200 for coordinates outside its terrain model coverage or over water bodies. This is treated as a no-data sentinel and resolved to null rather than a valid measurement.
 
 The delay doubles after each attempt, and a `Retry-After` the server sends takes the place of the delay for the attempt that follows it. An answer carrying content that is not a number is a considered answer and is not retried; an empty one is not an answer at all and is.
 
@@ -2450,7 +2454,7 @@ The token to monitor for cancellation requests\.
 
 #### Returns
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[DiGi\.Geometry\.Spatial\.Classes\.Point3D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.spatial.classes.point3d 'DiGi\.Geometry\.Spatial\.Classes\.Point3D')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
-A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null\.
+A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails, parameters are null, or the service answers with the zero no\-data sentinel\.
 
 <a name='DiGi.GIS.Query.ElevationsAsync(thisSystem.Net.Http.HttpClient,System.Collections.Generic.IEnumerable_DiGi.Geometry.Planar.Classes.Point2D_,int)'></a>
 

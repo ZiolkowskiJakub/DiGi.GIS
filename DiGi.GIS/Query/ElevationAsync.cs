@@ -13,10 +13,11 @@ namespace DiGi.GIS
     {
         /// <summary>
         /// Asynchronously fetches the elevation for a 2D point using an HTTP client.
+        /// <para>The public GUGiK elevation service answers <c>0</c> (or <c>-0</c>) with HTTP 200 for coordinates outside its terrain model coverage (e.g. over the sea or across national borders) or over water bodies. This is treated as a no-data sentinel and resolved to null rather than a valid sea-level measurement.</para>
         /// </summary>
         /// <param name="httpClient">The HTTP client used to send the request.</param>
         /// <param name="point2D">The 2D point for which to retrieve the elevation.</param>
-        /// <returns>A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null.</returns>
+        /// <returns>A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails, parameters are null, or the service answers with the zero no-data sentinel.</returns>
         public static async Task<Point3D?> ElevationAsync(this HttpClient? httpClient, Point2D? point2D)
         {
             if (point2D == null || httpClient is null)
@@ -40,6 +41,11 @@ namespace DiGi.GIS
                 // The API returns a simple string representing the number (e.g., "115.4")
                 if (double.TryParse(responseContent, NumberStyles.Any, CultureInfo.InvariantCulture, out double elevation))
                 {
+                    if (elevation == 0)
+                    {
+                        return null;
+                    }
+
                     return new Point3D(point2D.X, point2D.Y, elevation);
                 }
 
@@ -54,6 +60,7 @@ namespace DiGi.GIS
         /// <summary>
         /// Asynchronously fetches the elevation for a 2D point, retrying conditions that are worth retrying.
         /// <para>Unlike <see cref="ElevationAsync(HttpClient, Point2D)"/>, which gives up on the first failure of any kind, this tells a transient condition apart from a genuine one through <see cref="IsTransient(System.Net.HttpStatusCode)"/> and sends the request again. That matters when many points are fetched at once: a service answering 429 to a burst would otherwise be recorded as a run of points that have no elevation, and nothing would go back for them.</para>
+        /// <para>The public GUGiK elevation service answers <c>0</c> (or <c>-0</c>) with HTTP 200 for coordinates outside its terrain model coverage or over water bodies. This is treated as a no-data sentinel and resolved to null rather than a valid measurement.</para>
         /// <para>The delay doubles after each attempt, and a <c>Retry-After</c> the server sends takes the place of the delay for the attempt that follows it. An answer carrying content that is not a number is a considered answer and is not retried; an empty one is not an answer at all and is.</para>
         /// <para>This path treats <see cref="HttpStatusCode.InternalServerError"/> as worth retrying, which the shared <see cref="IsTransient(HttpStatusCode)"/> policy deliberately does not. A public elevation service asked for hundreds of thousands of single points answers 500 to load and answers correctly moments later, and points really were lost to giving up on it.</para>
         /// </summary>
@@ -62,7 +69,7 @@ namespace DiGi.GIS
         /// <param name="retryCount">The number of times a transient failure is retried; zero sends the request once.</param>
         /// <param name="retryDelay">The delay before the first retry, doubling for each attempt after that.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails or parameters are null.</returns>
+        /// <returns>A 3D point containing the original 2D coordinates and the fetched elevation, or null if the query fails, parameters are null, or the service answers with the zero no-data sentinel.</returns>
         public static async Task<Point3D?> ElevationAsync(this HttpClient? httpClient, Point2D? point2D, int retryCount, TimeSpan retryDelay, CancellationToken cancellationToken = default)
         {
             if (point2D == null || httpClient is null)
@@ -94,6 +101,11 @@ namespace DiGi.GIS
                             // The API returns a simple string representing the number (e.g., "115.4")
                             if (double.TryParse(responseContent, NumberStyles.Any, CultureInfo.InvariantCulture, out double elevation))
                             {
+                                if (elevation == 0)
+                                {
+                                    return null;
+                                }
+
                                 return new Point3D(point2D.X, point2D.Y, elevation);
                             }
 
