@@ -56,13 +56,7 @@ namespace DiGi.GIS
         /// <param name="retryDelay">The delay before the first retry, doubling for each attempt after that.</param>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A list of 3D points the same length as the input, holding null at the position of every point that could not be resolved, or null if input parameters are null.</returns>
-        public static async Task<List<Point3D?>?> ElevationsAsync(
-            this HttpClient? httpClient,
-            IReadOnlyList<Point2D>? point2Ds,
-            int maxConcurrentRequests,
-            int retryCount,
-            TimeSpan retryDelay,
-            CancellationToken cancellationToken = default)
+        public static async Task<List<Point3D?>?> ElevationsAsync(this HttpClient? httpClient, IReadOnlyList<Point2D>? point2Ds, int maxConcurrentRequests, int retryCount, TimeSpan retryDelay, CancellationToken cancellationToken = default)
         {
             if (point2Ds == null || httpClient == null)
             {
