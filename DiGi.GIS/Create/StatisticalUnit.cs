@@ -1,4 +1,4 @@
-﻿using DiGi.BDL.Classes;
+using DiGi.BDL.Classes;
 using DiGi.GIS.Classes;
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace DiGi.GIS
                         id = id.Substring(0, id.Length - 1);
                     }
 
-                    Core.Query.Filter(statisticalUnits, x => string.IsNullOrWhiteSpace(x?.Code) && x!.Code!.StartsWith(id), out List<StatisticalUnit>? statisticalUnits_Unit, out statisticalUnits);
+                    Core.Query.Filter(statisticalUnits, x => !string.IsNullOrWhiteSpace(x?.Code) && x!.Code!.StartsWith(id), out List<StatisticalUnit>? statisticalUnits_Unit, out statisticalUnits);
 
                     statisticalUnits?.Add(new StatisticalUnit(Guid.NewGuid(), UnitCode(unit_Level.id), unit_Level.name, statisticalUnits_Unit));
                 }
@@ -55,7 +55,7 @@ namespace DiGi.GIS
                 return null;
             }
 
-            statisticalUnits.Sort((x, y) => ((int)x.GetStatisticalUnitType()!).CompareTo((int)y.GetStatisticalUnitType()!));
+            statisticalUnits.Sort((x, y) => ((int)(x.GetStatisticalUnitType() ?? Enums.StatisticalUnitType.country)).CompareTo((int)(y.GetStatisticalUnitType() ?? Enums.StatisticalUnitType.country)));
 
             return statisticalUnits[0];
         }

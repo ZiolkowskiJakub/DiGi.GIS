@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Classes;
+using DiGi.Core.Classes;
 using DiGi.Core.Interfaces;
 using DiGi.GIS.Enums;
 using DiGi.GIS.Interfaces;
@@ -150,7 +150,7 @@ namespace DiGi.GIS.Classes
         {
             Array array = Enum.GetValues(typeof(StatisticalUnitType));
 
-            for (int i = array.Length - 1; i >= 1; i--)
+            for (int i = array.Length - 1; i >= 0; i--)
             {
                 StatisticalUnitType statisticalUnitType = (StatisticalUnitType)array.GetValue(i);
 
@@ -191,7 +191,7 @@ namespace DiGi.GIS.Classes
                 int index = i - 1;
                 length = counts[index];
 
-                int start = index == 0 ? 0 : counts[index - 1] - 1;
+                int start = index == 0 ? 0 : counts[index - 1];
 
                 string? substring = code?.Substring(start, length - start);
 
