@@ -97,10 +97,13 @@ namespace DiGi.GIS.Classes
         /// <summary>
         /// Returns an enumerator that iterates through the collection of <see cref="OrtoData"/>.
         /// </summary>
+        /// <remarks>
+        /// Enumerates the live collection in sorted-key order. Mutating the collection while enumeration is active throws <see cref="InvalidOperationException"/>.
+        /// </remarks>
         /// <returns>An enumerator for the orthophoto data collection.</returns>
         public IEnumerator<OrtoData> GetEnumerator()
         {
-            return sortedDictionary?.Values == null ? new List<OrtoData>().GetEnumerator() : new List<OrtoData>(sortedDictionary.Values).GetEnumerator();
+            return sortedDictionary.Values.GetEnumerator();
         }
 
         /// <summary>

@@ -5828,6 +5828,9 @@ Implements [GetEnumerator\(\)](https://learn.microsoft.com/en-us/dotnet/api/syst
 [System\.Collections\.Generic\.IEnumerator&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')[OrtoData](DiGi.GIS.Classes.md#DiGi.GIS.Classes.OrtoData 'DiGi\.GIS\.Classes\.OrtoData')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerator-1 'System\.Collections\.Generic\.IEnumerator\`1')  
 An enumerator for the orthophoto data collection\.
 
+### Remarks
+Enumerates the live collection in sorted\-key order\. Mutating the collection while enumeration is active throws [System\.InvalidOperationException](https://learn.microsoft.com/en-us/dotnet/api/system.invalidoperationexception 'System\.InvalidOperationException')\.
+
 <a name='DiGi.GIS.Classes.OrtoDatas.GetOrtoData(System.DateTime)'></a>
 
 ## OrtoDatas\.GetOrtoData\(DateTime\) Method
