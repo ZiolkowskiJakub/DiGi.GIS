@@ -32,6 +32,12 @@ namespace DiGi.GIS.Classes
                 {
                     if (Core.Query.Clone(yearBuiltPrediction) is YearBuiltPrediction yearBuiltPrediction_Temp)
                     {
+                        if (this.yearBuiltPredictions.TryGetValue(yearBuiltPrediction.Year, out YearBuiltPrediction? yearBuiltPrediction_Stored)
+                            && yearBuiltPrediction_Stored.Confidence >= yearBuiltPrediction_Temp.Confidence)
+                        {
+                            continue;
+                        }
+
                         this.yearBuiltPredictions[yearBuiltPrediction.Year] = yearBuiltPrediction_Temp;
                     }
                 }
