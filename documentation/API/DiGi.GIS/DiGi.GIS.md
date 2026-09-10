@@ -1102,6 +1102,59 @@ The collection of units to be processed\.
 [StatisticalUnit](DiGi.GIS.Classes.md#DiGi.GIS.Classes.StatisticalUnit 'DiGi\.GIS\.Classes\.StatisticalUnit')  
 The resulting [StatisticalUnit\(this IEnumerable&lt;Unit&gt;\)](DiGi.GIS.md#DiGi.GIS.Create.StatisticalUnit(thisSystem.Collections.Generic.IEnumerable_DiGi.BDL.Classes.Unit_) 'DiGi\.GIS\.Create\.StatisticalUnit\(this System\.Collections\.Generic\.IEnumerable\<DiGi\.BDL\.Classes\.Unit\>\)') if found; otherwise, null\.
 
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool)'></a>
+
+## Create\.Typology\(this Table, ColumnTypologyFilter\<Column\>, Column, TypologyItem, bool\) Method
+
+Classifies the rows of a table into a typology tree, grouping them by the chained columns of a column typology filter\.
+
+Each level of the chain resolves its column against the table by unique id, so a chain may be declared from the shared column constants: a constant carries no table index, and an index belongs to the table a column was added to rather than to the column itself. The caller's chain is never modified - a new chain is built over the table's own column instances, reusing the rule of each level rather than copying it.
+
+A row whose value resolves to no bucket at a level is excluded from that level's subtree, and from every level below it. A range rule resolves nothing for a null value, a value it cannot convert, and a value outside every declared range, so rows with no value in a range column are absent below that point. A unique value rule buckets nulls instead, under the name "null". There is no catch-all bucket.
+
+With [includeReferences](DiGi.GIS.md#DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).includeReferences 'DiGi\.GIS\.Create\.Typology\(this DiGi\.Core\.IO\.Table\.Classes\.Table, DiGi\.Typology\.Classes\.ColumnTypologyFilter\<DiGi\.Core\.IO\.Table\.Classes\.Column\>, DiGi\.Core\.IO\.Table\.Classes\.Column, DiGi\.Typology\.Classes\.TypologyItem, bool\)\.includeReferences') set, every node from the matched one up to the root stores the reference, so an ancestor's references are those of its whole subtree. Clear it to solve structure and node metadata only, for a tree whose node to object association is held elsewhere.
+
+A chain this cannot honour in full is refused rather than solved in part: a level naming a column the table does not hold, a level carrying no rule, and a chain linking back on itself all return null, because each would otherwise answer with a tree ending above the level that was asked for.
+
+```csharp
+public static DiGi.Typology.Classes.Typology? Typology(this DiGi.Core.IO.Table.Classes.Table? table, DiGi.Typology.Classes.ColumnTypologyFilter<DiGi.Core.IO.Table.Classes.Column>? columnTypologyFilter, DiGi.Core.IO.Table.Classes.Column? column_Reference, DiGi.Typology.Classes.TypologyItem? typologyItem_Root=null, bool includeReferences=true);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).table'></a>
+
+`table` [DiGi\.Core\.IO\.Table\.Classes\.Table](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.table 'DiGi\.Core\.IO\.Table\.Classes\.Table')
+
+The table whose rows are classified\.
+
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).columnTypologyFilter'></a>
+
+`columnTypologyFilter` [DiGi\.Typology\.Classes\.ColumnTypologyFilter&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')[DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')
+
+The root of the filter chain describing the grouping levels\.
+
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).column_Reference'></a>
+
+`column_Reference` [DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')
+
+The column identifying a row\. Resolved against the table by unique id, and required unless [includeReferences](DiGi.GIS.md#DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).includeReferences 'DiGi\.GIS\.Create\.Typology\(this DiGi\.Core\.IO\.Table\.Classes\.Table, DiGi\.Typology\.Classes\.ColumnTypologyFilter\<DiGi\.Core\.IO\.Table\.Classes\.Column\>, DiGi\.Core\.IO\.Table\.Classes\.Column, DiGi\.Typology\.Classes\.TypologyItem, bool\)\.includeReferences') is cleared\.
+
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).typologyItem_Root'></a>
+
+`typologyItem_Root` [DiGi\.Typology\.Classes\.TypologyItem](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.typologyitem 'DiGi\.Typology\.Classes\.TypologyItem')
+
+The item naming the root node\. When null the root is left unnamed\.
+
+<a name='DiGi.GIS.Create.Typology(thisDiGi.Core.IO.Table.Classes.Table,DiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_,DiGi.Core.IO.Table.Classes.Column,DiGi.Typology.Classes.TypologyItem,bool).includeReferences'></a>
+
+`includeReferences` [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
+
+A value indicating whether the identified references are stored on the nodes\.
+
+#### Returns
+[DiGi\.Typology\.Classes\.Typology](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.typology 'DiGi\.Typology\.Classes\.Typology')  
+The solved typology, or null when the table or the chain is null, when the chain names no column, when a column named by the chain is absent from the table, when a level of the chain carries no rule, when the chain links back on itself, when a required reference column is absent or unresolvable, or when the solver produces nothing\.
+
 <a name='DiGi.GIS.Create.UnitCode(string)'></a>
 
 ## Create\.UnitCode\(string\) Method
@@ -2241,6 +2294,31 @@ The azimuth angle in degrees, typically ranging from 0 to 360\.
 #### Returns
 [CardinalDirection](DiGi.GIS.Enums.md#DiGi.GIS.Enums.CardinalDirection 'DiGi\.GIS\.Enums\.CardinalDirection')  
 The corresponding [CardinalDirection](DiGi.GIS.Enums.md#DiGi.GIS.Enums.CardinalDirection 'DiGi\.GIS\.Enums\.CardinalDirection') based on the provided azimuth\.
+
+<a name='DiGi.GIS.Query.ColumnUniqueIds(thisDiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_)'></a>
+
+## Query\.ColumnUniqueIds\(this ColumnTypologyFilter\<Column\>\) Method
+
+Returns the unique ids of the columns a column typology filter chain groups by, root level first\.
+
+Use it to request exactly the columns a chain needs from a data source, rather than every column the source holds.
+
+A level naming no column contributes nothing, a unique id already collected is not repeated, and a chain that links back to a level it already visited stops there rather than looping.
+
+```csharp
+public static System.Collections.Generic.List<string>? ColumnUniqueIds(this DiGi.Typology.Classes.ColumnTypologyFilter<DiGi.Core.IO.Table.Classes.Column>? columnTypologyFilter);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.ColumnUniqueIds(thisDiGi.Typology.Classes.ColumnTypologyFilter_DiGi.Core.IO.Table.Classes.Column_).columnTypologyFilter'></a>
+
+`columnTypologyFilter` [DiGi\.Typology\.Classes\.ColumnTypologyFilter&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')[DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')
+
+The root of the filter chain\.
+
+#### Returns
+[System\.Collections\.Generic\.List&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1 'System\.Collections\.Generic\.List\`1')  
+The column unique ids in chain order, or null when the chain is null or names no column at all\.
 
 <a name='DiGi.GIS.Query.Contains(thisDiGi.GIS.Classes.StatisticalDataCollection,DiGi.BDL.Enums.Variable)'></a>
 

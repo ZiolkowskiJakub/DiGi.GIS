@@ -7123,6 +7123,60 @@ public bool IncludeYearBuiltPredictions { get; set; }
 #### Property Value
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')
 
+<a name='DiGi.GIS.Classes.ReferenceColumnTypologyFilterSolver'></a>
+
+## ReferenceColumnTypologyFilterSolver Class
+
+Column typology filter solver that identifies each solved row by the value of a designated reference column\.
+
+The inherited identification returns the object's IUniqueObject.UniqueId, falling back to ToString(). A table row is neither, so the inherited form returns the same type name for every row and, because a node stores its references in a set, every node collapses to one meaningless reference. Setting [ReferenceColumn](DiGi.GIS.Classes.md#DiGi.GIS.Classes.ReferenceColumnTypologyFilterSolver.ReferenceColumn 'DiGi\.GIS\.Classes\.ReferenceColumnTypologyFilterSolver\.ReferenceColumn') is what makes a solved tree address real objects.
+
+```csharp
+public class ReferenceColumnTypologyFilterSolver : DiGi.Typology.Classes.ColumnTypologyFilterSolver<DiGi.Core.IO.Table.Classes.Column, DiGi.Core.IO.Table.Classes.Row>
+```
+
+Inheritance [System\.Object](https://learn.microsoft.com/en-us/dotnet/api/system.object 'System\.Object') → [DiGi\.Typology\.Classes\.TypologyFilterSolver&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.typologyfiltersolver-2 'DiGi\.Typology\.Classes\.TypologyFilterSolver\`2')[DiGi\.Typology\.Classes\.ColumnTypologyFilter&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')[DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfilter-1 'DiGi\.Typology\.Classes\.ColumnTypologyFilter\`1')[,](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.typologyfiltersolver-2 'DiGi\.Typology\.Classes\.TypologyFilterSolver\`2')[DiGi\.Core\.IO\.Table\.Classes\.Row](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.row 'DiGi\.Core\.IO\.Table\.Classes\.Row')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.typologyfiltersolver-2 'DiGi\.Typology\.Classes\.TypologyFilterSolver\`2') → [DiGi\.Typology\.Classes\.ColumnTypologyFilterSolver&lt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfiltersolver-2 'DiGi\.Typology\.Classes\.ColumnTypologyFilterSolver\`2')[DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')[,](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfiltersolver-2 'DiGi\.Typology\.Classes\.ColumnTypologyFilterSolver\`2')[DiGi\.Core\.IO\.Table\.Classes\.Row](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.row 'DiGi\.Core\.IO\.Table\.Classes\.Row')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/digi.typology.classes.columntypologyfiltersolver-2 'DiGi\.Typology\.Classes\.ColumnTypologyFilterSolver\`2') → ReferenceColumnTypologyFilterSolver
+### Properties
+
+<a name='DiGi.GIS.Classes.ReferenceColumnTypologyFilterSolver.ReferenceColumn'></a>
+
+## ReferenceColumnTypologyFilterSolver\.ReferenceColumn Property
+
+Gets or sets the column whose cell value identifies a row on the typology nodes that row is filed under\.
+
+This must be the column instance held by the table being solved, because the value is read by its Index and an index belongs to the table a column was added to rather than to the column itself.
+
+Left null, the inherited identification applies - see the remarks on this class for why that is rarely what a caller wants.
+
+```csharp
+public DiGi.Core.IO.Table.Classes.Column? ReferenceColumn { get; set; }
+```
+
+#### Property Value
+[DiGi\.Core\.IO\.Table\.Classes\.Column](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.column 'DiGi\.Core\.IO\.Table\.Classes\.Column')
+### Methods
+
+<a name='DiGi.GIS.Classes.ReferenceColumnTypologyFilterSolver.GetReference(DiGi.Core.IO.Table.Classes.Row)'></a>
+
+## ReferenceColumnTypologyFilterSolver\.GetReference\(Row\) Method
+
+Returns the reference identifying the given row\.
+
+```csharp
+protected override string? GetReference(DiGi.Core.IO.Table.Classes.Row? row);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Classes.ReferenceColumnTypologyFilterSolver.GetReference(DiGi.Core.IO.Table.Classes.Row).row'></a>
+
+`row` [DiGi\.Core\.IO\.Table\.Classes\.Row](https://learn.microsoft.com/en-us/dotnet/api/digi.core.io.table.classes.row 'DiGi\.Core\.IO\.Table\.Classes\.Row')
+
+The row to identify\.
+
+#### Returns
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')  
+The reference column's value as a string, null when the row holds no value in that column or holds a blank one, or the inherited identification when no reference column is set\.
+
 <a name='DiGi.GIS.Classes.Source'></a>
 
 ## Source Class
