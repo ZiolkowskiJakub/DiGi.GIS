@@ -13,7 +13,7 @@ namespace DiGi.GIS
         /// <returns>An array of tab-separated strings representing the typology structure, or an empty array if no data is found.</returns>
         public static string[]? ToSystem_Strings(this Typology.Classes.Typology? typology)
         {
-            List<TypologyPath>? typologyPaths = typology?.GetTypologyPaths(true);
+            List<TypologyPath>? typologyPaths = Typology.Query.TypologyPaths(typology, true);
             if (typologyPaths is null || typologyPaths.Count == 0)
             {
                 return [];
@@ -23,7 +23,7 @@ namespace DiGi.GIS
 
             foreach (TypologyPath typologyPath in typologyPaths)
             {
-                Typology.Classes.Typology? subTypology = typology!.GetTypology(typologyPath);
+                Typology.Classes.Typology? subTypology = Typology.Query.SubTypology(typology, typologyPath);
 
                 if (subTypology?.References is null || subTypology.References.Count == 0)
                 {
@@ -53,7 +53,7 @@ namespace DiGi.GIS
                 {
                     TypologyPath typologyPath_Parent = typologyPaths_Parent[i];
 
-                    Typology.Classes.Typology? typology_Parent = typology!.GetTypology(typologyPath_Parent);
+                    Typology.Classes.Typology? typology_Parent = Typology.Query.SubTypology(typology, typologyPath_Parent);
                     if (typology_Parent is null)
                     {
                         continue;
@@ -82,7 +82,7 @@ namespace DiGi.GIS
                 {
                     TypologyPath typologyPath_Parent = typologyPaths_Parent[i];
 
-                    Typology.Classes.Typology? typology_Parent = typology!.GetTypology(typologyPath_Parent);
+                    Typology.Classes.Typology? typology_Parent = Typology.Query.SubTypology(typology, typologyPath_Parent);
                     if (typology_Parent is null)
                     {
                         continue;
