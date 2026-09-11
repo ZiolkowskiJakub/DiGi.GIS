@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.Table.Classes;
+using DiGi.Core.IO.Table.Classes;
 
 namespace DiGi.GIS.Classes
 {
@@ -6,7 +6,7 @@ namespace DiGi.GIS.Classes
     /// Column typology filter solver that identifies each solved row by the value of a designated reference column.
     /// <para>The inherited identification returns the object's IUniqueObject.UniqueId, falling back to ToString(). A table row is neither, so the inherited form returns the same type name for every row and, because a node stores its references in a set, every node collapses to one meaningless reference. Setting <see cref="ReferenceColumn"/> is what makes a solved tree address real objects.</para>
     /// </summary>
-    public class ReferenceColumnTypologyFilterSolver : DiGi.Typology.Classes.ColumnTypologyFilterSolver<Column, Row>
+    public class ReferenceColumnTypologyFilterSolver : Typology.Classes.ColumnTypologyFilterSolver<Column, Row>
     {
         /// <summary>
         /// Gets or sets the column whose cell value identifies a row on the typology nodes that row is filed under.

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.Table.Classes;
+using DiGi.Core.IO.Table.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.GIS
@@ -12,7 +12,7 @@ namespace DiGi.GIS
         /// </summary>
         /// <param name="columnTypologyFilter">The root of the filter chain.</param>
         /// <returns>The column unique ids in chain order, or null when the chain is null or names no column at all.</returns>
-        public static List<string>? ColumnUniqueIds(this DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter)
+        public static List<string>? ColumnUniqueIds(this Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter)
         {
             if (columnTypologyFilter is null)
             {
@@ -21,9 +21,9 @@ namespace DiGi.GIS
 
             List<string> result = [];
             HashSet<string> uniqueIds = [];
-            HashSet<DiGi.Typology.Classes.ColumnTypologyFilter<Column>> columnTypologyFilters_Visited = [];
+            HashSet<Typology.Classes.ColumnTypologyFilter<Column>> columnTypologyFilters_Visited = [];
 
-            DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Current = columnTypologyFilter;
+            Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Current = columnTypologyFilter;
 
             while (columnTypologyFilter_Current is not null && columnTypologyFilters_Visited.Add(columnTypologyFilter_Current))
             {

@@ -1,4 +1,4 @@
-﻿using DiGi.Core.IO.Table.Classes;
+using DiGi.Core.IO.Table.Classes;
 using System.Collections.Generic;
 
 namespace DiGi.GIS
@@ -18,7 +18,7 @@ namespace DiGi.GIS
         /// <param name="typologyItem_Root">The item naming the root node. When null the root is left unnamed.</param>
         /// <param name="includeReferences">A value indicating whether the identified references are stored on the nodes.</param>
         /// <returns>The solved typology, or null when the table or the chain is null, when the chain names no column, when a column named by the chain is absent from the table, when a level of the chain carries no rule, when the chain links back on itself, when a required reference column is absent or unresolvable, or when the solver produces nothing.</returns>
-        public static DiGi.Typology.Classes.Typology? Typology(this Table? table, DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter, Column? column_Reference, DiGi.Typology.Classes.TypologyItem? typologyItem_Root = null, bool includeReferences = true)
+        public static Typology.Classes.Typology? Typology(this Table? table, Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter, Column? column_Reference, Typology.Classes.TypologyItem? typologyItem_Root = null, bool includeReferences = true)
         {
             if (table is null || columnTypologyFilter is null)
             {
@@ -40,11 +40,11 @@ namespace DiGi.GIS
                 columns[uniqueId_Column!] = column;
             }
 
-            DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Result = null;
-            DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Last = null;
+            Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Result = null;
+            Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Last = null;
 
-            HashSet<DiGi.Typology.Classes.ColumnTypologyFilter<Column>> columnTypologyFilters_Visited = [];
-            DiGi.Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Current = columnTypologyFilter;
+            HashSet<Typology.Classes.ColumnTypologyFilter<Column>> columnTypologyFilters_Visited = [];
+            Typology.Classes.ColumnTypologyFilter<Column>? columnTypologyFilter_Current = columnTypologyFilter;
 
             while (columnTypologyFilter_Current is not null)
             {
@@ -67,7 +67,7 @@ namespace DiGi.GIS
                     return null;
                 }
 
-                DiGi.Typology.Classes.ColumnTypologyFilter<Column> columnTypologyFilter_Temp = new()
+                Typology.Classes.ColumnTypologyFilter<Column> columnTypologyFilter_Temp = new()
                 {
                     Value = column_Level,
                     Rule = columnTypologyFilter_Current.Rule
