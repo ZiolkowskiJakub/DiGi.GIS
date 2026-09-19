@@ -1570,6 +1570,35 @@ Represents a municipality level statistical unit\.
 
 Represents a statistical town level statistical unit\.
 
+<a name='DiGi.GIS.Enums.YearBuiltRelation'></a>
+
+## YearBuiltRelation Enum
+
+Specifies how a stored year relates to the true construction year\.
+
+```csharp
+public enum YearBuiltRelation
+```
+### Fields
+
+<a name='DiGi.GIS.Enums.YearBuiltRelation.Exact'></a>
+
+`Exact` 0
+
+Built exactly in the stored year\.
+
+<a name='DiGi.GIS.Enums.YearBuiltRelation.AtOrBefore'></a>
+
+`AtOrBefore` 1
+
+Already present in the oldest photo; the construction year is at or before the stored year\.
+
+<a name='DiGi.GIS.Enums.YearBuiltRelation.After'></a>
+
+`After` 2
+
+Not yet present in the newest photo; the construction year is after the stored year\.
+
 <a name='DiGi.GIS.Enums.YearBuiltSource'></a>
 
 ## YearBuiltSource Enum

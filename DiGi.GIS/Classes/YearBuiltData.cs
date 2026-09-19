@@ -301,6 +301,16 @@ namespace DiGi.GIS.Classes
         }
 
         /// <summary>
+        /// Sets a new user-provided year built entry, preserving its relation and provenance, in the collection.
+        /// </summary>
+        /// <param name="userYearBuilt">The <see cref="UserYearBuilt"/> entry to store.</param>
+        /// <returns>True if the entry was successfully added; otherwise, false.</returns>
+        public bool SetUserYearBuilt(UserYearBuilt userYearBuilt)
+        {
+            return Add(userYearBuilt);
+        }
+
+        /// <summary>
         /// Attempts to retrieve a year built entry of a specific type from a given source.
         /// </summary>
         /// <typeparam name="TYearBuilt">The expected type of the year built entry.</typeparam>

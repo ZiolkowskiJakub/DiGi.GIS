@@ -8777,22 +8777,40 @@ public UserYearBuilt(DiGi.GIS.Classes.UserYearBuilt? userYearBuilt);
 
 The source [UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt') instance to copy from\.
 
-<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short)'></a>
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string)'></a>
 
-## UserYearBuilt\(short\) Constructor
+## UserYearBuilt\(short, YearBuiltRelation, Nullable\<DateTimeOffset\>, string\) Constructor
 
-Initializes a new instance of the [UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt') class using a specified year\.
+Initializes a new instance of the [UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt') class with a year, an optional relation, and optional provenance\.
 
 ```csharp
-public UserYearBuilt(short year);
+public UserYearBuilt(short year, DiGi.GIS.Enums.YearBuiltRelation yearBuiltRelation=DiGi.GIS.Enums.YearBuiltRelation.Exact, System.Nullable<System.DateTimeOffset> dateTime=null, string? userName=null);
 ```
 #### Parameters
 
-<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short).year'></a>
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string).year'></a>
 
 `year` [System\.Int16](https://learn.microsoft.com/en-us/dotnet/api/system.int16 'System\.Int16')
 
-The year value to initialize with\.
+The construction year, or the bound year, recorded by the user\.
+
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string).yearBuiltRelation'></a>
+
+`yearBuiltRelation` [YearBuiltRelation](DiGi.GIS.Enums.md#DiGi.GIS.Enums.YearBuiltRelation 'DiGi\.GIS\.Enums\.YearBuiltRelation')
+
+How [year](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string).year 'DiGi\.GIS\.Classes\.UserYearBuilt\.UserYearBuilt\(short, DiGi\.GIS\.Enums\.YearBuiltRelation, System\.Nullable\<System\.DateTimeOffset\>, string\)\.year') relates to the true construction year\. Defaults to [Exact](DiGi.GIS.Enums.md#DiGi.GIS.Enums.YearBuiltRelation.Exact 'DiGi\.GIS\.Enums\.YearBuiltRelation\.Exact')\.
+
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string).dateTime'></a>
+
+`dateTime` [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
+When the entry was recorded \(UTC\)\. Defaults to null for legacy entries\.
+
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(short,DiGi.GIS.Enums.YearBuiltRelation,System.Nullable_System.DateTimeOffset_,string).userName'></a>
+
+`userName` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+Who recorded the entry\. Defaults to null for legacy entries\.
 
 <a name='DiGi.GIS.Classes.UserYearBuilt.UserYearBuilt(System.Text.Json.Nodes.JsonObject)'></a>
 
@@ -8812,6 +8830,19 @@ public UserYearBuilt(System.Text.Json.Nodes.JsonObject? jsonObject);
 The JSON object containing the year built data\.
 ### Properties
 
+<a name='DiGi.GIS.Classes.UserYearBuilt.DateTime'></a>
+
+## UserYearBuilt\.DateTime Property
+
+Gets when the entry was recorded \(UTC\), or null for legacy entries written before this member existed\.
+
+```csharp
+public System.Nullable<System.DateTimeOffset> DateTime { get; }
+```
+
+#### Property Value
+[System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.DateTimeOffset](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset 'System\.DateTimeOffset')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')
+
 <a name='DiGi.GIS.Classes.UserYearBuilt.Source'></a>
 
 ## UserYearBuilt\.Source Property
@@ -8826,6 +8857,32 @@ Implements [Source](DiGi.GIS.Interfaces.md#DiGi.GIS.Interfaces.IYearBuilt.Source
 
 #### Property Value
 [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.GIS.Classes.UserYearBuilt.UserName'></a>
+
+## UserYearBuilt\.UserName Property
+
+Gets who recorded the entry, or null for legacy entries written before this member existed\.
+
+```csharp
+public string? UserName { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+<a name='DiGi.GIS.Classes.UserYearBuilt.YearBuiltRelation'></a>
+
+## UserYearBuilt\.YearBuiltRelation Property
+
+Gets how the stored [Year](DiGi.GIS.Classes.md#DiGi.GIS.Classes.YearBuilt.Year 'DiGi\.GIS\.Classes\.YearBuilt\.Year') relates to the true construction year\. Defaults to [Exact](DiGi.GIS.Enums.md#DiGi.GIS.Enums.YearBuiltRelation.Exact 'DiGi\.GIS\.Enums\.YearBuiltRelation\.Exact') for legacy entries\.
+
+```csharp
+public DiGi.GIS.Enums.YearBuiltRelation YearBuiltRelation { get; }
+```
+
+#### Property Value
+[YearBuiltRelation](DiGi.GIS.Enums.md#DiGi.GIS.Enums.YearBuiltRelation 'DiGi\.GIS\.Enums\.YearBuiltRelation')
 
 <a name='DiGi.GIS.Classes.UserYearBuilt.YearBuiltSource'></a>
 
@@ -9238,6 +9295,27 @@ The predicted construction year\.
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the prediction was successfully added; otherwise, false\.
+
+<a name='DiGi.GIS.Classes.YearBuiltData.SetUserYearBuilt(DiGi.GIS.Classes.UserYearBuilt)'></a>
+
+## YearBuiltData\.SetUserYearBuilt\(UserYearBuilt\) Method
+
+Sets a new user\-provided year built entry, preserving its relation and provenance, in the collection\.
+
+```csharp
+public bool SetUserYearBuilt(DiGi.GIS.Classes.UserYearBuilt userYearBuilt);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Classes.YearBuiltData.SetUserYearBuilt(DiGi.GIS.Classes.UserYearBuilt).userYearBuilt'></a>
+
+`userYearBuilt` [UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt')
+
+The [UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt') entry to store\.
+
+#### Returns
+[System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
+True if the entry was successfully added; otherwise, false\.
 
 <a name='DiGi.GIS.Classes.YearBuiltData.SetUserYearBuilt(short)'></a>
 
