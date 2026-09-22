@@ -2274,6 +2274,29 @@ The maximum number of concurrent network requests allowed\.
 [System\.Threading\.Tasks\.Task&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')[System\.Collections\.Generic\.Dictionary&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[System\.Int32](https://learn.microsoft.com/en-us/dotnet/api/system.int32 'System\.Int32')[,](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[System\.Byte](https://learn.microsoft.com/en-us/dotnet/api/system.byte 'System\.Byte')[\[\]](https://learn.microsoft.com/en-us/dotnet/api/system.array 'System\.Array')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2 'System\.Collections\.Generic\.Dictionary\`2')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1 'System\.Threading\.Tasks\.Task\`1')  
 A task that represents the asynchronous operation\. The task result contains a dictionary mapping years to the downloaded byte arrays, or null if inputs are invalid\.
 
+<a name='DiGi.GIS.Query.CalculatedYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_)'></a>
+
+## Query\.CalculatedYearBuilt\(this IEnumerable\<YearBuiltData\>\) Method
+
+Returns the year built to use for a building: the user\-entered year when one exists, otherwise the predicted year\.
+
+The user year takes part only when one was recorded as an exact year, so a building whose user entries are bounds alone falls through to the prediction. Neither holding a value answers null, so a caller leaves the column it would write as it stood.
+
+```csharp
+public static System.Nullable<short> CalculatedYearBuilt(this System.Collections.Generic.IEnumerable<DiGi.GIS.Classes.YearBuiltData>? yearBuiltDatas);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.CalculatedYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_).yearBuiltDatas'></a>
+
+`yearBuiltDatas` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[YearBuiltData](DiGi.GIS.Classes.md#DiGi.GIS.Classes.YearBuiltData 'DiGi\.GIS\.Classes\.YearBuiltData')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The stored year built data of one building, or null\.
+
+#### Returns
+[System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Int16](https://learn.microsoft.com/en-us/dotnet/api/system.int16 'System\.Int16')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')  
+The user year when one exists, otherwise the predicted year, otherwise null\.
+
 <a name='DiGi.GIS.Query.CardinalDirection(thisdouble)'></a>
 
 ## Query\.CardinalDirection\(this double\) Method
@@ -2883,6 +2906,54 @@ The building object to query\.
 #### Returns
 [System\.Nullable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')[System\.Int16](https://learn.microsoft.com/en-us/dotnet/api/system.int16 'System\.Int16')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1 'System\.Nullable\`1')  
 The latest predicted year built as a short, or null if not found or inputs are invalid\.
+
+<a name='DiGi.GIS.Query.MostFrequentPredictedYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_)'></a>
+
+## Query\.MostFrequentPredictedYearBuilt\(this IEnumerable\<YearBuiltData\>\) Method
+
+Returns the most frequent predicted year built across every prediction stored in the given year built data\.
+
+A building may hold several stored records, each carrying several predictions, so the count spans every prediction of every record. The year with the greatest count wins; a count tie goes to the year whose newest prediction is the most recent, and two years sharing both count and recency to the greater year, so a re-run that stores one more prediction is answered deterministically.
+
+Two stored records are two votes by design, so a re-run that stores a second record for the building is a second opinion rather than a duplicate.
+
+```csharp
+public static DiGi.GIS.Classes.PredictedYearBuilt? MostFrequentPredictedYearBuilt(this System.Collections.Generic.IEnumerable<DiGi.GIS.Classes.YearBuiltData>? yearBuiltDatas);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.MostFrequentPredictedYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_).yearBuiltDatas'></a>
+
+`yearBuiltDatas` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[YearBuiltData](DiGi.GIS.Classes.md#DiGi.GIS.Classes.YearBuiltData 'DiGi\.GIS\.Classes\.YearBuiltData')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The stored year built data of one building, or null\.
+
+#### Returns
+[PredictedYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.PredictedYearBuilt 'DiGi\.GIS\.Classes\.PredictedYearBuilt')  
+The most frequent prediction, or null when no prediction is stored\.
+
+<a name='DiGi.GIS.Query.MostFrequentUserYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_)'></a>
+
+## Query\.MostFrequentUserYearBuilt\(this IEnumerable\<YearBuiltData\>\) Method
+
+Returns the most frequent user\-entered year built across every user entry stored in the given year built data\.
+
+Only entries recorded as an exact year take part in the count; entries recorded as a bound (at or before, after) are bounds rather than years and are skipped. The year with the greatest count wins; a count tie goes to the year whose newest entry is the most recent, a missing timestamp counting as the oldest, and two years sharing both count and recency to the greater year, so a re-run that stores one more entry is answered deterministically.
+
+```csharp
+public static DiGi.GIS.Classes.UserYearBuilt? MostFrequentUserYearBuilt(this System.Collections.Generic.IEnumerable<DiGi.GIS.Classes.YearBuiltData>? yearBuiltDatas);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.MostFrequentUserYearBuilt(thisSystem.Collections.Generic.IEnumerable_DiGi.GIS.Classes.YearBuiltData_).yearBuiltDatas'></a>
+
+`yearBuiltDatas` [System\.Collections\.Generic\.IEnumerable&lt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')[YearBuiltData](DiGi.GIS.Classes.md#DiGi.GIS.Classes.YearBuiltData 'DiGi\.GIS\.Classes\.YearBuiltData')[&gt;](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1 'System\.Collections\.Generic\.IEnumerable\`1')
+
+The stored year built data of one building, or null\.
+
+#### Returns
+[UserYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.UserYearBuilt 'DiGi\.GIS\.Classes\.UserYearBuilt')  
+The most frequent exact user entry, or null when none is stored\.
 
 <a name='DiGi.GIS.Query.MunicipalityType(thisDiGi.GIS.Classes.StatisticalUnit)'></a>
 
