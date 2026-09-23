@@ -1,4 +1,4 @@
-using DiGi.Core.Interfaces;
+﻿using DiGi.Core.Interfaces;
 using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
