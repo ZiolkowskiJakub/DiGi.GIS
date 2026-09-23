@@ -1,4 +1,4 @@
-﻿using DiGi.Core.Interfaces;
+using DiGi.Core.Interfaces;
 using DiGi.GIS.Interfaces;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -202,14 +202,13 @@ namespace DiGi.GIS.Classes
         /// </summary>
         /// <returns>A string representing the GIS model and areal 2D references.</returns>
         /// <remarks>
-        /// TODO [ReferenceFormat]: This type renders its own string by hand. It derives from
+        /// This type renders its own string by hand. It derives from
         /// <see cref="Core.Classes.SerializableObject"/> and implements <see cref="ISerializableReference"/>
         /// directly, rather than deriving from <see cref="Core.Classes.SerializableReference"/>, so it does not
         /// inherit the sealed ToString that guarantees the grammar. Keep this in step with
         /// <see cref="Core.Convert.ToSystem_String(System.Type?, System.Collections.Generic.IEnumerable{string?})"/>
         /// and with its factory in Create/GISModelAreal2DReference.cs; the ReferenceKind facts assert it still
-        /// round-trips. The previous form was <c>[gisModelReference]areal2DReference</c>, which escaped nothing and
-        /// could not survive an areal reference containing brackets.
+        /// round-trips.
         /// </remarks>
         public override string ToString()
         {

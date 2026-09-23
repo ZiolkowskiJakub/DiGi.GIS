@@ -12,12 +12,6 @@ namespace DiGi.GIS.Classes
     /// nested GIS model file reference, then the nested object reference:
     /// <code>GISModelFileGuidObject::(GuidExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e))::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::a63dd7bf98e344deb0070e326ea0384c)</code>
     /// </example>
-    /// <remarks>
-    /// TODO [ReferenceFormat]: This type previously had no ToString override at all, so it rendered as its type name.
-    /// Because equality and hashing are built on the rendered string, EVERY instance compared equal to every other
-    /// regardless of its GUIDs. It also declared no serialization members, so it did not round-trip. Both are fixed
-    /// here, and there is no earlier rendered form to stay compatible with.
-    /// </remarks>
     public class GISModelFileGuidObjectReference : SerializableReference, IComplexReference
     {
         [JsonInclude, JsonPropertyName(nameof(GuidExternalReference))]

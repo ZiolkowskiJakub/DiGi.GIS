@@ -4011,14 +4011,13 @@ public override string ToString();
 A string representing the GIS model and areal 2D references\.
 
 ### Remarks
-TODO \[ReferenceFormat\]: This type renders its own string by hand\. It derives from
+This type renders its own string by hand\. It derives from
 [DiGi\.Core\.Classes\.SerializableObject](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializableobject 'DiGi\.Core\.Classes\.SerializableObject') and implements [DiGi\.Core\.Interfaces\.ISerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.interfaces.iserializablereference 'DiGi\.Core\.Interfaces\.ISerializableReference')
 directly, rather than deriving from [DiGi\.Core\.Classes\.SerializableReference](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.serializablereference 'DiGi\.Core\.Classes\.SerializableReference'), so it does not
 inherit the sealed ToString that guarantees the grammar\. Keep this in step with
 [DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)](https://learn.microsoft.com/en-us/dotnet/api/digi.core.convert.tosystem_string#digi-core-convert-tosystem_string(system-type-system-collections-generic-ienumerable{system-string}) 'DiGi\.Core\.Convert\.ToSystem\_String\(System\.Type,System\.Collections\.Generic\.IEnumerable\{System\.String\}\)')
 and with its factory in Create/GISModelAreal2DReference\.cs; the ReferenceKind facts assert it still
-round\-trips\. The previous form was `[gisModelReference]areal2DReference`, which escaped nothing and
-could not survive an areal reference containing brackets\.
+round\-trips\.
 ### Operators
 
 <a name='DiGi.GIS.Classes.GISModelAreal2DReference.op_Equality(DiGi.GIS.Classes.GISModelAreal2DReference,DiGi.Core.Interfaces.ISerializableReference)'></a>
@@ -4338,12 +4337,6 @@ nested GIS model file reference, then the nested object reference:
 ```csharp
 GISModelFileGuidObject::(GuidExternal::Revit::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::0f8fad5bd9cb469fa16570867728950e))::(Guid::(Type::DiGi.GIS.Classes.Building2D,DiGi.GIS)::a63dd7bf98e344deb0070e326ea0384c)
 ```
-
-### Remarks
-TODO \[ReferenceFormat\]: This type previously had no ToString override at all, so it rendered as its type name\.
-Because equality and hashing are built on the rendered string, EVERY instance compared equal to every other
-regardless of its GUIDs\. It also declared no serialization members, so it did not round\-trip\. Both are fixed
-here, and there is no earlier rendered form to stay compatible with\.
 ### Constructors
 
 <a name='DiGi.GIS.Classes.GISModelFileGuidObjectReference.GISModelFileGuidObjectReference(DiGi.Core.Classes.GuidExternalReference,DiGi.Core.Classes.GuidReference)'></a>
