@@ -2370,6 +2370,29 @@ The variable used as a reference for searching within the collection\.
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the collection contains a record matching the variable's reference; otherwise, false\.
 
+<a name='DiGi.GIS.Query.Coordinates(thisDiGi.Geometry.Planar.Classes.Point2D)'></a>
+
+## Query\.Coordinates\(this Point2D\) Method
+
+Converts a point from EPSG:2180 to WGS 84 geographic coordinates\.
+
+The converted point carries the longitude as X and the latitude as Y, so the [Coordinates\(this Point2D\)](DiGi.GIS.md#DiGi.GIS.Query.Coordinates(thisDiGi.Geometry.Planar.Classes.Point2D) 'DiGi\.GIS\.Query\.Coordinates\(this DiGi\.Geometry\.Planar\.Classes\.Point2D\)') take the latitude first. This method exists so the latitude/longitude swap lives in one place; callers that only need the converted point call ToEPSG4326.
+
+```csharp
+public static DiGi.Core.Classes.Coordinates? Coordinates(this DiGi.Geometry.Planar.Classes.Point2D? point2D);
+```
+#### Parameters
+
+<a name='DiGi.GIS.Query.Coordinates(thisDiGi.Geometry.Planar.Classes.Point2D).point2D'></a>
+
+`point2D` [DiGi\.Geometry\.Planar\.Classes\.Point2D](https://learn.microsoft.com/en-us/dotnet/api/digi.geometry.planar.classes.point2d 'DiGi\.Geometry\.Planar\.Classes\.Point2D')
+
+The point in the EPSG:2180 coordinate system\.
+
+#### Returns
+[DiGi\.Core\.Classes\.Coordinates](https://learn.microsoft.com/en-us/dotnet/api/digi.core.classes.coordinates 'DiGi\.Core\.Classes\.Coordinates')  
+The WGS 84 coordinates of the point, or [null](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/null 'https://docs\.microsoft\.com/en\-us/dotnet/csharp/language\-reference/keywords/null') if the point is null or the conversion fails\.
+
 <a name='DiGi.GIS.Query.Directory(string,System.Collections.Generic.IEnumerable_string_,bool)'></a>
 
 ## Query\.Directory\(string, IEnumerable\<string\>, bool\) Method
