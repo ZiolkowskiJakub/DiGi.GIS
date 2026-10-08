@@ -6948,28 +6948,34 @@ public PredictedYearBuilt(DiGi.GIS.Classes.PredictedYearBuilt predictedYearBuilt
 
 The existing predicted year built instance to copy from\.
 
-<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short)'></a>
+<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short,string)'></a>
 
-## PredictedYearBuilt\(DateTime, short\) Constructor
+## PredictedYearBuilt\(DateTime, short, string\) Constructor
 
 Initializes a new instance of the [PredictedYearBuilt](DiGi.GIS.Classes.md#DiGi.GIS.Classes.PredictedYearBuilt 'DiGi\.GIS\.Classes\.PredictedYearBuilt') class with a specific date time and year\.
 
 ```csharp
-public PredictedYearBuilt(System.DateTime dateTime, short year);
+public PredictedYearBuilt(System.DateTime dateTime, short year, string? modelId=null);
 ```
 #### Parameters
 
-<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short).dateTime'></a>
+<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short,string).dateTime'></a>
 
 `dateTime` [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')
 
 The date and time when the prediction was made\.
 
-<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short).year'></a>
+<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short,string).year'></a>
 
 `year` [System\.Int16](https://learn.microsoft.com/en-us/dotnet/api/system.int16 'System\.Int16')
 
 The predicted year built\.
+
+<a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.DateTime,short,string).modelId'></a>
+
+`modelId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The identifier of the model that produced the prediction, normally the lowercase hexadecimal SHA\-256 of the regressor; `null` when it is not known \(every entry written before the identifier was recorded\)\.
 
 <a name='DiGi.GIS.Classes.PredictedYearBuilt.PredictedYearBuilt(System.Text.Json.Nodes.JsonObject)'></a>
 
@@ -7001,6 +7007,21 @@ public System.DateTime DateTime { get; }
 
 #### Property Value
 [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')
+
+<a name='DiGi.GIS.Classes.PredictedYearBuilt.ModelId'></a>
+
+## PredictedYearBuilt\.ModelId Property
+
+Gets the identifier of the model that produced the prediction, or `null` when it was not recorded\.
+
+It is provenance only and takes no part in [Source](DiGi.GIS.Classes.md#DiGi.GIS.Classes.PredictedYearBuilt.Source 'DiGi\.GIS\.Classes\.PredictedYearBuilt\.Source'): the entry stays keyed by its prediction time, so entries stored before the identifier existed keep their key.
+
+```csharp
+public string? ModelId { get; }
+```
+
+#### Property Value
+[System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
 
 <a name='DiGi.GIS.Classes.PredictedYearBuilt.Source'></a>
 
@@ -9262,28 +9283,34 @@ public bool RemoveUserYearBuilt();
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  
 True if the user entry was successfully removed; otherwise, false\.
 
-<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short)'></a>
+<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short,string)'></a>
 
-## YearBuiltData\.SetPredictedYearBuilt\(DateTime, short\) Method
+## YearBuiltData\.SetPredictedYearBuilt\(DateTime, short, string\) Method
 
 Sets a new predicted year built entry in the collection\.
 
 ```csharp
-public bool SetPredictedYearBuilt(System.DateTime dateTime, short year);
+public bool SetPredictedYearBuilt(System.DateTime dateTime, short year, string? modelId=null);
 ```
 #### Parameters
 
-<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short).dateTime'></a>
+<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short,string).dateTime'></a>
 
 `dateTime` [System\.DateTime](https://learn.microsoft.com/en-us/dotnet/api/system.datetime 'System\.DateTime')
 
 The date of the prediction\.
 
-<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short).year'></a>
+<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short,string).year'></a>
 
 `year` [System\.Int16](https://learn.microsoft.com/en-us/dotnet/api/system.int16 'System\.Int16')
 
 The predicted construction year\.
+
+<a name='DiGi.GIS.Classes.YearBuiltData.SetPredictedYearBuilt(System.DateTime,short,string).modelId'></a>
+
+`modelId` [System\.String](https://learn.microsoft.com/en-us/dotnet/api/system.string 'System\.String')
+
+The identifier of the model that produced the prediction, or `null` when it is not known\. See [ModelId](DiGi.GIS.Classes.md#DiGi.GIS.Classes.PredictedYearBuilt.ModelId 'DiGi\.GIS\.Classes\.PredictedYearBuilt\.ModelId')\.
 
 #### Returns
 [System\.Boolean](https://learn.microsoft.com/en-us/dotnet/api/system.boolean 'System\.Boolean')  

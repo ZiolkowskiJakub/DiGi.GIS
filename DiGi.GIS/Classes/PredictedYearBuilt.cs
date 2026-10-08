@@ -13,15 +13,20 @@ namespace DiGi.GIS.Classes
         [JsonInclude, JsonPropertyName("DateTime")]
         private readonly DateTime dateTime;
 
+        [JsonInclude, JsonPropertyName(nameof(ModelId))]
+        private readonly string? modelId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PredictedYearBuilt"/> class with a specific date time and year.
         /// </summary>
         /// <param name="dateTime">The date and time when the prediction was made.</param>
         /// <param name="year">The predicted year built.</param>
-        public PredictedYearBuilt(DateTime dateTime, short year)
+        /// <param name="modelId">The identifier of the model that produced the prediction, normally the lowercase hexadecimal SHA-256 of the regressor; <c>null</c> when it is not known (every entry written before the identifier was recorded).</param>
+        public PredictedYearBuilt(DateTime dateTime, short year, string? modelId = null)
             : base(year)
         {
             this.dateTime = dateTime;
+            this.modelId = modelId;
         }
 
         /// <summary>
@@ -34,6 +39,7 @@ namespace DiGi.GIS.Classes
             if (predictedYearBuilt != null)
             {
                 dateTime = predictedYearBuilt.dateTime;
+                modelId = predictedYearBuilt.modelId;
             }
         }
 
@@ -55,6 +61,19 @@ namespace DiGi.GIS.Classes
             get
             {
                 return dateTime;
+            }
+        }
+
+        /// <summary>
+        /// Gets the identifier of the model that produced the prediction, or <c>null</c> when it was not recorded.
+        /// <para>It is provenance only and takes no part in <see cref="Source"/>: the entry stays keyed by its prediction time, so entries stored before the identifier existed keep their key.</para>
+        /// </summary>
+        [JsonIgnore]
+        public string? ModelId
+        {
+            get
+            {
+                return modelId;
             }
         }
 

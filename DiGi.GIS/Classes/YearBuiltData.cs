@@ -284,10 +284,11 @@ namespace DiGi.GIS.Classes
         /// </summary>
         /// <param name="dateTime">The date of the prediction.</param>
         /// <param name="year">The predicted construction year.</param>
+        /// <param name="modelId">The identifier of the model that produced the prediction, or <c>null</c> when it is not known. See <see cref="PredictedYearBuilt.ModelId"/>.</param>
         /// <returns>True if the prediction was successfully added; otherwise, false.</returns>
-        public bool SetPredictedYearBuilt(DateTime dateTime, short year)
+        public bool SetPredictedYearBuilt(DateTime dateTime, short year, string? modelId = null)
         {
-            return Add(new PredictedYearBuilt(dateTime, year));
+            return Add(new PredictedYearBuilt(dateTime, year, modelId));
         }
 
         /// <summary>
